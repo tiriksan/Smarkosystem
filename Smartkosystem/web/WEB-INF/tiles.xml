@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+
+<tiles-definitions>
+
+    <definition name="baseLayout" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title" value="baseLayout"/>
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/index.jsp"/>
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp"/>
+            
+    </definition>
+    
+    <definition name="vare" extends="baseLayout">
+        <put-attribute name="title"  value="Vare"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/vare.jsp"/>      
+    </definition>
+    <definition name="index" extends="baseLayout">
+        <put-attribute name="title"  value="Index"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/index.jsp"/>      
+    </definition>
+    <definition name="nyvare" extends="baseLayout">
+        <put-attribute name="title"  value="Ny vare"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/nyvare.jsp"/>      
+    </definition>
+    <definition name="oversikt" extends="baseLayout">
+        <put-attribute name="title"  value="Oversikt"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/oversikt.jsp"/>      
+    </definition>
+    <definition name="svarside" extends="baseLayout">
+        <put-attribute name="title"  value="Svarside"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/svarside.jsp"/>      
+    </definition>
+
+</tiles-definitions>
