@@ -1,9 +1,9 @@
-<%-- 
+ 
     Document   : nyvare
     Created on : Oct 31, 2013, 2:52:32 PM
     Author     : Kristian
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
---%>
+
 
 
 <h3>Registrer ny Bruker</h3>
