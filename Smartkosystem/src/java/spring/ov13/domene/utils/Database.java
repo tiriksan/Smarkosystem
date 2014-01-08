@@ -62,7 +62,7 @@ public class Database {
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
             psInsertBruker.setString(1, bruker.getFornavn());
             psInsertBruker.setString(2, bruker.getEtternavn());
-            psInsertBruker.setString(3, bruker.getBrukernavn());
+            psInsertBruker.setString(3, bruker.getBrukerNavn());
             psInsertBruker.setInt(4, bruker.getBrukertype());
 
             int i = psInsertBruker.executeUpdate();
