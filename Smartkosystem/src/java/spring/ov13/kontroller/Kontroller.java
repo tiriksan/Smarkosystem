@@ -22,10 +22,13 @@ public class Kontroller {
         return "index";
     }
     @RequestMapping(value = "/bruker.htm")
-    public String visInnsetting() {
+    public String visInnsetting(Model model) {
+        Bruker bruker = new Bruker();
+        model.addAttribute("bruker", bruker);
+        
         return "bruker";
     }
-}
+
     /*
     @RequestMapping(value = "/bruker.htm")
     public String visVare(Model model) {
@@ -101,11 +104,10 @@ public class Kontroller {
             return "vare";
         }
         return "vare";
-    }
+    }*/
 
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-        binder.registerCustomEditor(Bruker.class, new VareEditor(new UtilsBean()));
+        binder.registerCustomEditor(Bruker.class, new BrukerEditor(new UtilsBean()));
     }
 }
-*/

@@ -12,9 +12,9 @@ public class UtilsBean {
     
     public UtilsBean(){
         System.out.println("starting utilbean");
-        db = new Database("jdbc:derby://localhost:1527/Oving13;user=ov13;password=ov13");
-        alleBrukere = db.getAlleBrukere();
-        System.out.println(toString());
+     //   db = new Database("jdbc:derby://localhost:1527/Oving13;user=ov13;password=ov13");
+     //   alleBrukere = db.getAlleBrukere();
+     //   System.out.println(toString());
     }
     
     public boolean registrerBruker(Bruker bruker){
@@ -35,7 +35,7 @@ public class UtilsBean {
     }
     public Bruker get(String brukernavn){
         for(Bruker b: alleBrukere){
-            if(b.getBrukerNavn().equals(brukernavn)){
+            if(b.getBrukernavn().equals(brukernavn)){
                 return b;
             }
         }
