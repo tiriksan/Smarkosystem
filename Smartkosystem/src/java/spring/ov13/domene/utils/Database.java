@@ -20,10 +20,10 @@ public class Database {
     private String dbNavn;
     private Connection forbindelse;
  //  
-   private final String sqlDeleteVare = "Delete from ov13.varer where varenr = ?";
-    private final String sqlSelectAlleVarer = "Select * from ov13.varer order by varenr";
-    private final String sqlInsertVare = "insert into ov13.varer values(?,?,?)";
-    private final String sqlUpdateVare = "update ov13.varer set varenavn=?,pris=? where varenr=?";
+ //  private final String sqlDeleteVare = "Delete from ov13.varer where varenr = ?";
+    private final String sqlSelectAlleBrukere = "Select * from ov13.bruker order by etternavn";
+   // private final String sqlInsertBruker = "insert into ov13.bruker values(?,?,?)";
+    //private final String sqlUpdateVare = "update ov13.varer set varenavn=?,pris=? where varenr=?";
  //
     //TODO Endre databasenamn
     private final String sqlInsertBruker = "insert into ov13.varer values(?,?,?,?,?)"; //(fornavn, etternavn, brukernavn(epost), passord, brukertype 
@@ -60,10 +60,11 @@ public class Database {
         try {
             åpneForbindelse();
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
-            psInsertBruker.setString(1, bruker.getFornavn());
-            psInsertBruker.setString(2, bruker.getEtternavn());
-            psInsertBruker.setString(3, bruker.getBrukerNavn());
+            psInsertBruker.setString(1, bruker.getBrukerNavn());
+            psInsertBruker.setString(2, bruker.getFornavn());
+            psInsertBruker.setString(3, bruker.getEtternavn());
             psInsertBruker.setInt(4, bruker.getBrukertype());
+            
 
             int i = psInsertBruker.executeUpdate();
             if (i > 0) {
@@ -84,34 +85,36 @@ public class Database {
     
     }
     
-    public ArrayList<Vare> getAlleVarer() {
-        System.out.println("getAlleVarer()");
+    public ArrayList<Bruker> getAlleBrukere() {
+        System.out.println("getAlleBrukere()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
-        ArrayList<Vare> vareListe = null;
+        ArrayList<Bruker> brukerListe = null;
         try {
             åpneForbindelse();
-            psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleVarer);
+            psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleBrukere);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Vare v = new Vare(res.getInt("varenr"), res.getString("varenavn"), res.getInt("pris"));
-                if (vareListe == null) {
-                    vareListe = new ArrayList<Vare>();
+                Bruker b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("brukertype"), res.getString("passord"));
+                if (brukerListe == null) {
+                    brukerListe = new ArrayList<Bruker>();
                 }
-                vareListe.add(v);
+                brukerListe.add(b);
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "getAlleVarer()");
+            Opprydder.skrivMelding(e, "getAlleBrukere()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "getAlleVarer - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "getAlleBrukere - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             Opprydder.lukkSetning(psSelectAlle);
         }
         lukkForbindelse();
-        return vareListe;
+        return brukerListe;
     }
+}
+    /*
     public synchronized boolean registrerVare(Vare v) {
         boolean ok = false;
         System.out.println("registrerVare()");
@@ -140,6 +143,7 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
+
 
     public synchronized boolean oppdaterVare(Vare v) {
         boolean ok = false;
