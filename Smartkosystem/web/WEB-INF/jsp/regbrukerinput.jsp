@@ -5,13 +5,39 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+<head>
+<style>
+.error {
+	color: #ff0000;
+}
+ 
+.errorblock {
+	color: #000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
+</style>
+</head>
+ 
+<body>
+	<h2>Fil opplastinga av brukere</h2>
+ 
+	<form:form method="POST" commandName="filopplasting"
+		enctype="multipart/form-data">
+ 
+		<form:errors path="*" cssClass="errorblock" element="div" />
+ 
+		Velg en fil å laste opp: <input type="fil" name="fil" />
+		<input type="submit" value="Last opp" />
+		<span><form:errors path="fil" cssClass="error" />
+		</span>
+ 
+	</form:form>
+ 
+</body>
 </html>
