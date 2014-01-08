@@ -15,9 +15,9 @@
             
     </definition>
     
-    <definition name="vare" extends="baseLayout">
+    <definition name="bruker" extends="baseLayout">
         <put-attribute name="title"  value="Vare"/>
-        <put-attribute name="body"   value="/WEB-INF/jsp/innsetting.jsp"/>      
+        <put-attribute name="body"   value="/WEB-INF/jsp/Bruker.jsp"/>      
     </definition>
     <definition name="index" extends="baseLayout">
         <put-attribute name="title"  value="Index"/>

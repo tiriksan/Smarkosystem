@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import spring.ov13.domene.Vare;
+import spring.ov13.domene.Bruker;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -22,29 +22,29 @@ public class Kontroller {
         return "index";
     }
 
-    @RequestMapping(value = "/vare.htm")
+    @RequestMapping(value = "/bruker.htm")
     public String visVare(Model model) {
         model.addAttribute("utilsBean", new UtilsBean());
-        return "vare";
+        return "bruker";
     }
 
     @RequestMapping(value = "/nyvare.htm")
     public String visNyVare(Model model) {
-        Vare v = new Vare();
+        Bruker v = new Bruker();
         model.addAttribute("vare", v);
 
         return "nyvare";
     }
 
     @RequestMapping(value = "svarside.htm")
-    public String svarside(@Validated @ModelAttribute("vare") Vare vare, BindingResult error, Model modell, HttpServletRequest request) {
+    public String svarside(@Validated @ModelAttribute("bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request) {
         if (error.hasErrors()) {
             modell.addAttribute("melding", "Vare ikke fylt ut riktig"); // kun ibruk v return svarside
             return "nyvare";
         }
         UtilsBean utilsBean = new UtilsBean();
-        if (utilsBean.registrerVare(vare)) {
-            modell.addAttribute("melding", "Vare " + vare + " er registrert");
+        if (utilsBean.registrerVare(bruker)) {
+            modell.addAttribute("melding", "Vare " + bruker + " er registrert");
             return "svarside";
         } else {
             return "nyvare";
@@ -63,19 +63,19 @@ public class Kontroller {
                 return "vare";
             }
         } else if (slett != null) {
-            List<Vare> vv = utilsBean.getValgteVarer();
+            List<Bruker> vv = utilsBean.getValgteVarer();
             System.out.println("Troll");
             if (vv == null) {
                 System.out.println("asdfsfdafdsafsdafsda");
             } else {
-                for (Vare v : vv) {
+                for (Bruker v : vv) {
 
                     System.out.println(v.toString());
                 }
             }
             System.out.println("*** slett vare **** ");
             if (vv != null) {
-                for (Vare v : vv) {
+                for (Bruker v : vv) {
                     System.out.println("Sletting av " + v + ": " + utilsBean.slettVare(v));
 
                 }
@@ -84,9 +84,9 @@ public class Kontroller {
             }
         } else {
 
-            List<Vare> alle = utilsBean.getAlleVarer();
+            List<Bruker> alle = utilsBean.getAlleVarer();
             if (alle != null) {
-                for (Vare v : alle) {
+                for (Bruker v : alle) {
                     System.out.println("oppdatering av " + v + ":" + utilsBean.oppdaterVare(v));
                 }
             }
@@ -98,6 +98,6 @@ public class Kontroller {
 
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-        binder.registerCustomEditor(Vare.class, new VareEditor(new UtilsBean()));
+        binder.registerCustomEditor(Bruker.class, new VareEditor(new UtilsBean()));
     }
 }
