@@ -56,7 +56,7 @@ public class Database {
         try {
             åpneForbindelse();
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
-            psInsertBruker.setString(1, bruker.getBrukerNavn());
+            psInsertBruker.setString(1, bruker.getBrukernavn());
             psInsertBruker.setString(2, bruker.getFornavn());
             psInsertBruker.setString(3, bruker.getEtternavn());
             psInsertBruker.setInt(4, bruker.getBrukertype());
@@ -118,7 +118,7 @@ public class Database {
         try{
             åpneForbindelse();
             psUpdateBruker = forbindelse.prepareStatement(sqlUpdateBruker);
-            psUpdateBruker.setString(1, bruker.getBrukerNavn());
+            psUpdateBruker.setString(1, bruker.getBrukernavn());
             psUpdateBruker.setString(2,bruker.getFornavn());
             psUpdateBruker.setString(3, bruker.getEtternavn());
             psUpdateBruker.setInt(4, bruker.getBrukertype());

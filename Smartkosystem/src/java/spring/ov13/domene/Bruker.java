@@ -52,7 +52,7 @@ public class Bruker {
         
     }
     
-     public String getBrukerNavn() {
+     public String getBrukernavn() {
         return brukernavn;
     }
     

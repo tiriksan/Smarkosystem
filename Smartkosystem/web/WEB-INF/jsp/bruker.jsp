@@ -16,12 +16,12 @@
         <tr><td><label for="brukerTyper">Brukertype: </label>
         <form:select path="brukertype" id="brukerTyper">
 
-        <form:option value="">Velg brukertype</form:option>
+        <form:option value="-1">Velg brukertype</form:option>
 
-        <form:option value="Student">Student</form:option>
-        <form:option value="Laerer">Laerer</form:option>
-        <form:option value="administrator">Admin</form:option>
-        <form:option value="studass">Studass</form:option>
+        <form:option value="0">Student</form:option>
+        <form:option value="1">Laerer</form:option>
+        <form:option value="2">Admin</form:option>
+        <form:option value="3">Studass</form:option>
 
       </form:select>
 
