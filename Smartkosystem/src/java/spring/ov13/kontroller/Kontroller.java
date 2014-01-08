@@ -21,13 +21,17 @@ public class Kontroller {
     public String visIndex() {
         return "index";
     }
-
+    @RequestMapping(value = "/bruker.htm")
+    public String visInnsetting() {
+        return "Bruker.jsp";
+    }
+    /*
     @RequestMapping(value = "/bruker.htm")
     public String visVare(Model model) {
         model.addAttribute("utilsBean", new UtilsBean());
         return "bruker";
     }
-
+*//*
     @RequestMapping(value = "/nyvare.htm")
     public String visNyVare(Model model) {
         Bruker v = new Bruker();
@@ -35,7 +39,7 @@ public class Kontroller {
 
         return "nyvare";
     }
-
+*/
     @RequestMapping(value = "svarside.htm")
     public String svarside(@Validated @ModelAttribute("bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request) {
         if (error.hasErrors()) {
@@ -43,14 +47,15 @@ public class Kontroller {
             return "nyvare";
         }
         UtilsBean utilsBean = new UtilsBean();
-        if (utilsBean.registrerVare(bruker)) {
+        if (utilsBean.registrerBruker(bruker)) {
             modell.addAttribute("melding", "Vare " + bruker + " er registrert");
             return "svarside";
         } else {
             return "nyvare";
         }
     }
-
+}
+/*
     @RequestMapping(value = "/oversikt.htm")
     public String visOversikt(@ModelAttribute(value = "utilsBean") UtilsBean utilsBean, Model modell, HttpServletRequest request, HttpServletResponse response) {
         String slett = request.getParameter("slett");
@@ -101,3 +106,4 @@ public class Kontroller {
         binder.registerCustomEditor(Bruker.class, new VareEditor(new UtilsBean()));
     }
 }
+*/

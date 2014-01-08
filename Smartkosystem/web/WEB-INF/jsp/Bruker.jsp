@@ -10,7 +10,7 @@
 <form:form action="svarinnsetting.htm" method="post" modelAttribute="bruker" >
     <table>
         <tr><td>Fornavn: </td><td><form:input path="fornavn" /></td><td><form:errors path="fornavn" /></td></tr>
-        <tr><td>Etternavn:   </td><td><form:input path="varenavn" /></td><td><form:errors path="etternavn" /></tr>
+        <tr><td>Etternavn:   </td><td><form:input path="etternavn" /></td><td><form:errors path="etternavn" /></tr>
         <tr><td>Brukernavn:       </td><td><form:input path="brukernavn" /></td><td><form:errors path="brukernavn" /></td></tr>
         <tr><td><label for="brukerTyper">Brukertype: </label>
         <form:select path="brukertype" id="brukerTyper">
