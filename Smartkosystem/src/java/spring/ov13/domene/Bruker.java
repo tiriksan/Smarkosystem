@@ -48,6 +48,10 @@ public class Bruker {
         
     }
     
+    public Bruker(){
+        
+    }
+    
      public String getBrukerNavn() {
         return brukernavn;
     }
@@ -83,8 +87,10 @@ public class Bruker {
         this.etternavn = passord;
     }
     
+ 
+    
      public String toString(){
-        return  brukernavn + " " +  fornavn + " " + etternavn + " " + brukertype+ " " + passord;
+        return  brukernavn + " " +  fornavn + " " + etternavn + " " + brukertype + " " + passord;
     }
 
     

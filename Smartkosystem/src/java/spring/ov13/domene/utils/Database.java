@@ -110,7 +110,7 @@ public class Database {
         return brukerListe;
     }
 
-    public synchronized boolean oppdaterBruker(Bruker b){
+    public synchronized boolean oppdaterBruker(Bruker bruker){
         boolean ok = false;
         System.out.println("oppdaterBruker()");
         PreparedStatement psUpdateBruker = null;
@@ -118,11 +118,11 @@ public class Database {
         try{
             åpneForbindelse();
             psUpdateBruker = forbindelse.prepareStatement(sqlUpdateBruker);
-            psUpdateBruker.setString(1, b.getBrukerNavn());
-            psUpdateBruker.setString(2,b.getFornavn());
-            psUpdateBruker.setString(3, b.getEtternavn());
-            psUpdateBruker.setInt(4, b.getBrukertype());
-            psUpdateBruker.setString(5, b.getPassord());
+            psUpdateBruker.setString(1, bruker.getBrukerNavn());
+            psUpdateBruker.setString(2,bruker.getFornavn());
+            psUpdateBruker.setString(3, bruker.getEtternavn());
+            psUpdateBruker.setInt(4, bruker.getBrukertype());
+            psUpdateBruker.setString(5, bruker.getPassord());
             int i = psUpdateBruker.executeUpdate();
             if(i>0){
                 ok = true;
