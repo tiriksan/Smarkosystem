@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Vare;
 
 public class Database {
