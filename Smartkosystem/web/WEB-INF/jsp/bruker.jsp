@@ -2,10 +2,11 @@
     Document   : nyvare
     Created on : Oct 31, 2013, 2:52:32 PM
     Author     : Kristian
---%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+--%>
 
-<h2>Registrer ny Bruker</h2>
+
+<h3>Registrer ny Bruker</h3>
 
 <form:form action="svarinnsetting.htm" method="post" modelAttribute="bruker" >
     <table>
@@ -24,7 +25,7 @@
 
       </form:select>
 
-      <br/>
+      <br>
         <tr><td colspan="2"><input type="submit" value="Registrer bruker"></td></tr>
     </table>
 </form:form>

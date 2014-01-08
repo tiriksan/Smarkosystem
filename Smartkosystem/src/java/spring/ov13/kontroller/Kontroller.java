@@ -23,7 +23,7 @@ public class Kontroller {
     }
     @RequestMapping(value = "/bruker.htm")
     public String visInnsetting() {
-        return "Bruker.jsp";
+        return "bruker";
     }
     /*
     @RequestMapping(value = "/bruker.htm")

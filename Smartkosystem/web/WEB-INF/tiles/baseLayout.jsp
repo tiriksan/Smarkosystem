@@ -15,6 +15,8 @@
                     <td id="tablehead">
                         <tiles:insertAttribute name="header" />
                     </td>
+                    <td>
+                    </td>
                 </tr>
                 <tr>
                     <td id="menu">
@@ -30,6 +32,7 @@
                             <p>Alle varer kan variere i pris.</p>
                         </footer>
                     </td>
+                    <td></td>
                 </tr>
             </table>
         </div>
