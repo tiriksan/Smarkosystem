@@ -39,9 +39,10 @@ public class Fag {
     
     public Bruker getFaglærer(Bruker bruker){
         for(Bruker b: faglærer){
-            if((b.getBrukertype()== 2) && ("select * from emne_bruker where emnekode ="+emnekode+", brukernavn="+b.getBrukernavn()+""){
+     //       if((b.getBrukertype()== 2) && ("select * from emne_bruker where emnekode ="+emnekode+", brukernavn="+b.getBrukernavn()+"")
+            
        return bruker;
-            }
+      //      }
              
     }
 
