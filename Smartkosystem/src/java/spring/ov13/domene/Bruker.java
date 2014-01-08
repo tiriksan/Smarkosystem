@@ -17,17 +17,14 @@ import javax.validation.constraints.Pattern;
  */
 
 public class Bruker {
-    @Min(1)
-    @Max(100)
+   
     @NotNull()
     private String brukernavn;
-    @Min(1)
-    @Max(100)
+    
     @NotNull()
     @Pattern(regexp="\\b[A-z]*")
     private String fornavn;
-    @Min(1)
-    @Max(100)
+    
     @NotNull()
     @Pattern(regexp="\\b[A-z]*")
     private String etternavn;
@@ -61,6 +58,7 @@ public class Bruker {
         return fornavn;
     }
     public String getEtternavn() {
+        System.out.println(etternavn);
         return etternavn;
     }
     
@@ -78,6 +76,9 @@ public class Bruker {
     
     public void setFornavn(String fornavn) {
         this.fornavn = fornavn;
+    }
+    public void setEtternavn(String etternavn) {
+        this.etternavn = etternavn;
     }
     
     public void setBrukertype(int brukertype) {

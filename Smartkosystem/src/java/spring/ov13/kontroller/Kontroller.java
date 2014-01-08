@@ -1,5 +1,6 @@
 package spring.ov13.kontroller;
 
+import java.math.BigInteger;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +29,26 @@ public class Kontroller {
         
         return "bruker";
     }
-
+    @RequestMapping(value = "/brukerinnsetning.htm")
+    public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
+        java.security.SecureRandom random = new java.security.SecureRandom();
+        
+        bruker.setPassord(new BigInteger(130,random).toString(10));
+        System.out.println(new BigInteger(130,random).toString(10));
+        System.out.println(java.util.UUID.randomUUID().toString().substring(0,10));
+        if (error.hasErrors()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
+            return "bruker";
+        }
+        UtilsBean utilsBean = new UtilsBean();
+        if (utilsBean.registrerBruker(bruker)) {
+            modell.addAttribute("melding", "Bruker " + bruker + " er registrert");
+            return "bruker";
+        }
+        
+        
+       return "bruker"; 
+    }
     /*
     @RequestMapping(value = "/bruker.htm")
     public String visVare(Model model) {
