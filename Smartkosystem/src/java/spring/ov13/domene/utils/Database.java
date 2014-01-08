@@ -19,14 +19,10 @@ public class Database {
 
     private String dbNavn;
     private Connection forbindelse;
- //  
- //  private final String sqlDeleteVare = "Delete from ov13.varer where varenr = ?";
+  
     private final String sqlSelectAlleBrukere = "Select * from ov13.bruker order by etternavn";
     private final String sqlInsertBruker = "insert into ov13.bruker values(?,?,?,?)";
     private final String sqlUpdateBruker = "update ov13.bruker set fornavn=?,etternavn=?, brukertype=?, passord=? where brukernavn=?";
- //
-    //TODO Endre databasenamn
-   // private final String sqlInsertBruker = "insert into ov13.varer values(?,?,?,?,?)"; //(fornavn, etternavn, brukernavn(epost), passord, brukertype 
     
     public Database(String dbNavn) {
         this.dbNavn = dbNavn;
