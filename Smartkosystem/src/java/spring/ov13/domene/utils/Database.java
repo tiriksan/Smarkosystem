@@ -35,7 +35,7 @@ public class Database {
     private void åpneForbindelse() throws Exception {
         try {
             
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.jdbc.Driver");
            // org.apache.derby.jdbc.
           //  Class.forName("org.apache.derby.jdbc.ClientDriver");
             forbindelse = DriverManager.getConnection(dbNavn);

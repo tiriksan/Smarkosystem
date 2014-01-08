@@ -12,7 +12,7 @@ public class UtilsBean {
     
     public UtilsBean(){
         System.out.println("starting utilbean");
-        db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5;username=14-ing2-t5;password=aXJff+6e");
+        db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306?user=14-ing2-t5&password=aXJff+6e");
      //   alleBrukere = db.getAlleBrukere();
      //   System.out.println(toString());
     }
