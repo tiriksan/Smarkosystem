@@ -28,8 +28,12 @@ a:hover {
     color: orange;
 }
 
-table, td, tr{
+table, tr {
     text-align: center;
+}
+
+td {
+    text-align: left;
 }
 
 footer {
