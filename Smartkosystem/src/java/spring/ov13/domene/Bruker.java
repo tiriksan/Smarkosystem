@@ -6,18 +6,32 @@
 
 package spring.ov13.domene;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 /**
  *
- * @author Bruker
+ * @author Rune
  */
 
-
-
 public class Bruker {
-    private int brukertype;
-    private String fornavn;
-    private String etternavn;
+    @Min(1)
+    @Max(100)
+    @NotNull()
     private String brukernavn;
+    @Min(1)
+    @Max(100)
+    @NotNull()
+    @Pattern(regexp="\\b[A-z]*")
+    private String fornavn;
+    @Min(1)
+    @Max(100)
+    @NotNull()
+    @Pattern(regexp="\\b[A-z]*")
+    private String etternavn;
+    private int brukertype;
     private String passord;
     private static int STUDENT = 0;
     private static int STUDENTASSISTENT = 1;
@@ -25,7 +39,7 @@ public class Bruker {
     private static int ADMIN= 3;
        
     
-    public Bruker(String brukernavn,String fornavn, String etternavn, int brukertype, String passord){
+    public Bruker(String brukernavn, String fornavn, String etternavn, int brukertype, String passord){
         this.brukernavn = brukernavn;
         this.fornavn = fornavn;
         this.etternavn = etternavn;
@@ -70,7 +84,7 @@ public class Bruker {
     }
     
      public String toString(){
-        return fornavn + " " + etternavn + " " + brukernavn + " " + brukertype;
+        return  brukernavn + " " +  fornavn + " " + etternavn + " " + brukertype+ " " + passord;
     }
 
     
