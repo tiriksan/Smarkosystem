@@ -13,10 +13,10 @@ import java.util.ArrayList;
 public class Fag {
     
     private String fag_navn;
-    private int emnekode;
+    private String emnekode;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
 
-    public Fag(String fag_navn, int emnekode){
+    public Fag(String fag_navn, String emnekode){
         this.fag_navn = fag_navn;
         this.emnekode = emnekode;
     }
