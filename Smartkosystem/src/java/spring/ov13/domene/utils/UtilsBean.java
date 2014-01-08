@@ -1,6 +1,7 @@
 package spring.ov13.domene.utils;
 
 import java.util.List;
+import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Vare;
 
 
@@ -14,6 +15,10 @@ public class UtilsBean {
         db = new Database("jdbc:derby://localhost:1527/Oving13;user=ov13;password=ov13");
         alleVarer = db.getAlleVarer();
         System.out.println(toString());
+    }
+    
+    public boolean registrerBruker(Bruker bruker){
+        return db.registrerBruker(bruker);
     }
     
     public void setValgteVarer(List<Vare> valgteVarer){

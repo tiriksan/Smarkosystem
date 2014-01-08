@@ -17,7 +17,7 @@
     
     <definition name="vare" extends="baseLayout">
         <put-attribute name="title"  value="Vare"/>
-        <put-attribute name="body"   value="/WEB-INF/jsp/vare.jsp"/>      
+        <put-attribute name="body"   value="/WEB-INF/jsp/innsetting.jsp"/>      
     </definition>
     <definition name="index" extends="baseLayout">
         <put-attribute name="title"  value="Index"/>
