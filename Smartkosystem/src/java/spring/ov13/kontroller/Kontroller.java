@@ -25,6 +25,7 @@ public class Kontroller {
     public String visInnsetting() {
         return "bruker";
     }
+}
     /*
     @RequestMapping(value = "/bruker.htm")
     public String visVare(Model model) {
@@ -39,7 +40,7 @@ public class Kontroller {
 
         return "nyvare";
     }
-*/
+
     @RequestMapping(value = "svarside.htm")
     public String svarside(@Validated @ModelAttribute("bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request) {
         if (error.hasErrors()) {
@@ -55,6 +56,7 @@ public class Kontroller {
         }
     }
 }
+*/
 /*
     @RequestMapping(value = "/oversikt.htm")
     public String visOversikt(@ModelAttribute(value = "utilsBean") UtilsBean utilsBean, Model modell, HttpServletRequest request, HttpServletResponse response) {
