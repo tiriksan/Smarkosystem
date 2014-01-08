@@ -11,10 +11,13 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
+import spring.ov13.domene.Bruker;
+import spring.ov13.domene.utils.Database;
 
 public class FilLeser {
 
     public void lesFil() throws Exception {
+       Database db = new Database();
        try
         {   
             
@@ -38,7 +41,7 @@ public class FilLeser {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        ArrayList<String> listeMidlertidig = new ArrayList<String>();
+        ArrayList<Bruker> listeMidlertidig = new ArrayList<Bruker>();
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fc.setMultiSelectionEnabled(false);
@@ -63,12 +66,13 @@ public class FilLeser {
                 String fornavn = oppdeling[0];
                 String etternavn = oppdeling[1];
                 String epost = oppdeling[2];
-                String nyBruker = "Fornavn: "+ fornavn + ", etternavn: "+ etternavn+", epost: "+epost;
+                Bruker nyBruker = new Bruker(epost, fornavn, etternavn, 1, "passord");
                 listeMidlertidig.add(nyBruker);
                 linje = br.readLine();
             }
             for (int i = 0; i < listeMidlertidig.size(); i++) {
-               System.out.println(listeMidlertidig.get(i));
+               
+               db.registrerBruker(listeMidlertidig.get(i));
             }
         } catch (Exception e) {
             System.out.println("En feil er oppstått, feilmelding: " + e +"\n Prøv på nytt.");
