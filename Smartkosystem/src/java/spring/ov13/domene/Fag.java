@@ -29,11 +29,11 @@ public class Fag {
         this.fag_navn = fag_navn;
     }
 
-    public int getEmnekode() {
+    public String getEmnekode() {
         return emnekode;
     }
 
-    public void setEmnekode(int emnekode) {
+    public void setEmnekode(String emnekode) {
         this.emnekode = emnekode;
     }
     
