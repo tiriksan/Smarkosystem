@@ -25,16 +25,17 @@ public class Bruker {
     private static int ADMIN= 3;
        
     
-    public Bruker(String fornavn, String etternavn, String brukernavn, int brukertype){
+    public Bruker(String brukernavn,String fornavn, String etternavn, int brukertype, String passord){
+        this.brukernavn = brukernavn;
         this.fornavn = fornavn;
         this.etternavn = etternavn;
-        this.brukernavn = brukernavn;
         this.brukertype = brukertype;
+        this.passord = passord;
         
     }
     
-    public int getBrukertype() {
-        return brukertype;
+     public String getBrukerNavn() {
+        return brukernavn;
     }
     
     public String getFornavn() {
@@ -42,6 +43,10 @@ public class Bruker {
     }
     public String getEtternavn() {
         return etternavn;
+    }
+    
+    public int getBrukertype() {
+        return brukertype;
     }
     
     public String getPassord() {
@@ -54,6 +59,10 @@ public class Bruker {
     
     public void setFornavn(String fornavn) {
         this.fornavn = fornavn;
+    }
+    
+    public void setBrukertype(int brukertype) {
+        this.brukertype= brukertype;
     }
     
     public void setPassord(String passord) {
