@@ -31,12 +31,13 @@ public class Bruker {
     @NotNull()
     @Pattern(regexp="\\b[A-z]*")
     private String etternavn;
+    @Min(1)
     private int brukertype;
     private String passord;
-    private static int STUDENT = 0;
-    private static int STUDENTASSISTENT = 1;
-    private static int FAGLÆRER = 2;
-    private static int ADMIN= 3;
+    private static int STUDENT = 1;
+    private static int STUDENTASSISTENT = 2;
+    private static int FAGLÆRER = 3;
+    private static int ADMIN= 4;
        
     
     public Bruker(String brukernavn, String fornavn, String etternavn, int brukertype, String passord){
