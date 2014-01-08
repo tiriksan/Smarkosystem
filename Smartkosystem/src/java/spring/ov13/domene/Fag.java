@@ -4,57 +4,41 @@
  */
 package spring.ov13.domene;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Undis
  */
 public class Fag {
     
-    private String navn;
-    private String etternavn;
-    private String epost;
-    private int brukertype;
+    private String fag_navn;
+    private int emnekode;
+    ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
+
+    public Fag(String fag_navn, int emnekode){
+        this.fag_navn = fag_navn;
+        this.emnekode = emnekode;
+    }
     
-    public Fag(String navn, String etternavn, String epost, int brukertype){
-        this.navn = navn;
-        this.etternavn = etternavn;
-        this.epost = epost;
-        this.brukertype = brukertype;
+    public String getFag_navn() {
+        return fag_navn;
     }
 
-    public String getNavn() {
-        return navn;
+    public void setFag_navn(String fag_navn) {
+        this.fag_navn = fag_navn;
     }
 
-    public void setNavn(String navn) {
-        this.navn = navn;
+    public int getEmnekode() {
+        return emnekode;
     }
 
-    public String getEtternavn() {
-        return etternavn;
-    }
-
-    public void setEtternavn(String etternavn) {
-        this.etternavn = etternavn;
-    }
-
-    public String getEpost() {
-        return epost;
-    }
-
-    public void setEpost(String epost) {
-        this.epost = epost;
-    }
-
-    public int getBrukertype() {
-        return brukertype;
-    }
-
-    public void setBrukertype(int brukertype) {
-        this.brukertype = brukertype;
+    public void setEmnekode(int emnekode) {
+        this.emnekode = emnekode;
     }
     
     
-    
+
+   
     
 }
