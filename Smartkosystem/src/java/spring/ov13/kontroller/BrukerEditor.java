@@ -15,7 +15,7 @@ public class BrukerEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String text) throws IllegalArgumentException{
         String[] t = text.split(" ");
-        Bruker b = utilsBean.get(Integer.parseInt((t[0])));
+        Bruker b = utilsBean.get((t[0]));
         setValue(b);   
     }
     
