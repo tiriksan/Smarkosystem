@@ -20,9 +20,9 @@ public class Database {
     private String dbNavn;
     private Connection forbindelse;
   
-    private final String sqlSelectAlleBrukere = "Select * from ov13.bruker order by etternavn";
-    private final String sqlInsertBruker = "insert into ov13.bruker values(?,?,?,?)";
-    private final String sqlUpdateBruker = "update ov13.bruker set fornavn=?,etternavn=?, brukertype=?, passord=? where brukernavn=?";
+    private final String sqlSelectAlleBrukere = "Select * from bruker order by etternavn";
+    private final String sqlInsertBruker = "insert into bruker values(?,?,?,?)";
+    private final String sqlUpdateBruker = "update bruker set fornavn=?,etternavn=?, brukertype=?, passord=? where brukernavn=?";
     
     public Database(String dbNavn) {
         this.dbNavn = dbNavn;
