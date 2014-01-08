@@ -1,0 +1,109 @@
+/* 
+    Document   : stilark
+    Created on : Aug 21, 2013, 11:17:05 AM
+    Author     : HJ
+*/
+
+root { 
+    display: block;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -box-sizing: border-box;
+}
+
+body {
+    background-color: whitesmoke;
+    font-family: 'Roboto', helvetica, arial, sans-serif;
+}
+
+a, a:link, a:visited, a:active {
+    color: #4B8ABA;
+    text-decoration: none;
+}
+
+a:hover {
+    color: orange;
+}
+
+table, td, tr{
+    text-align: center;
+}
+
+footer {
+    margin: 0 auto;
+}
+
+aside {
+    margin: 0px;
+    margin-right: 130px;
+    padding-top: 0px;
+    float: right;
+    text-align: center;
+    background: #FFFFFF;
+    border: 1px solid #D5D5D6;
+    border-top-color: #E0E1E2;
+    border-bottom-color: #C0C1C2;
+    padding: 20px 26px 19px 26px;
+}
+
+h1 {
+    font-family: 'Port Lligat Slab';
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+h5 {
+    margin: 8px;
+}
+
+article {
+    float: left;
+    text-align: left;
+    margin-left: 130px;
+    margin-right: 0px;
+    width: 56%;
+    background: #FFFFFF;
+    border: 1px solid #D5D5D6;
+    border-top-color: #E0E1E2;
+    border-bottom-color: #C0C1C2;
+    padding: 20px 26px 19px 26px;
+}
+
+img {
+    border: 1px solid #D5D5D6;
+    transition: all 1s ease-in-out;
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+}
+
+img:hover {
+    transform: scale(1.2, 1.2);
+    -webkit-transform: scale(1.2, 1.2);
+    -moz-transform: scale(1.2, 1.2);
+    -o-transform: scale(1.2, 1.2);
+}
+
+#page-wrap {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+#menu {
+    vertical-align: top;
+    height: 250px;
+}
+
+#block {
+    float: none;
+    margin: 0px auto;
+    background: #FFFFFF;
+    border: 1px solid #D5D5D6;
+    border-top-color: #E0E1E2;
+    border-bottom-color: #C0C1C2;
+    padding: 20px 26px 19px 26px;
+}
