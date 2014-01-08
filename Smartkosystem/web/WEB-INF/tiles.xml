@@ -17,7 +17,7 @@
     
     <definition name="bruker" extends="baseLayout">
         <put-attribute name="title"  value="Bruker"/>
-        <put-attribute name="body"   value="/WEB-INF/jsp/Bruker.jsp"/>      
+        <put-attribute name="body"   value="/WEB-INF/jsp/bruker.jsp"/>      
     </definition>
     <definition name="index" extends="baseLayout">
         <put-attribute name="title"  value="Index"/>
