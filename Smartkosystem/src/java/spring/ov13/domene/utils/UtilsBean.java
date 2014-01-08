@@ -33,10 +33,10 @@ public class UtilsBean {
     public List<Bruker> getValgteBrukere(){
         return valgteBrukere;
     }
-    public Bruker get(int varenr){
-        for(Bruker v: alleBrukere){
-            if(v.getBrukernr() == varenr){
-                return v;
+    public Bruker get(String brukernavn){
+        for(Bruker b: alleBrukere){
+            if(b.getBrukerNavn().equals(brukernavn)){
+                return b;
             }
         }
         return null;
