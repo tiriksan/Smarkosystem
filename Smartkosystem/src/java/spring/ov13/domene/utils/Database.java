@@ -23,7 +23,7 @@ public class Database {
  //  private final String sqlDeleteVare = "Delete from ov13.varer where varenr = ?";
     private final String sqlSelectAlleBrukere = "Select * from ov13.bruker order by etternavn";
    // private final String sqlInsertBruker = "insert into ov13.bruker values(?,?,?)";
-    //private final String sqlUpdateVare = "update ov13.varer set varenavn=?,pris=? where varenr=?";
+    private final String sqlUpdateBruker = "update ov13.bruker set fornavn=?,etternavn=?, brukertype=?, passord=? where brukernavn=?";
  //
     //TODO Endre databasenamn
     private final String sqlInsertBruker = "insert into ov13.varer values(?,?,?,?,?)"; //(fornavn, etternavn, brukernavn(epost), passord, brukertype 
@@ -113,93 +113,44 @@ public class Database {
         lukkForbindelse();
         return brukerListe;
     }
+
+    public synchronized boolean oppdaterBruker(Bruker b){
+        boolean ok = false;
+        System.out.println("oppdaterBruker()");
+        PreparedStatement psUpdateBruker = null;
+        
+        try{
+            åpneForbindelse();
+            psUpdateBruker = forbindelse.prepareStatement(sqlUpdateBruker);
+            psUpdateBruker.setString(1, b.getBrukerNavn());
+            psUpdateBruker.setString(2,b.getFornavn());
+            psUpdateBruker.setString(3, b.getEtternavn());
+            psUpdateBruker.setInt(4, b.getBrukertype());
+            psUpdateBruker.setString(5, b.getPassord());
+            int i = psUpdateBruker.executeUpdate();
+            if(i>0){
+                ok = true;
+            }
+            
+            } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "oppdaterBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "oppdaterBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateBruker);
+        }
+        lukkForbindelse();
+        return ok;
+    }
 }
-    /*
-    public synchronized boolean registrerVare(Vare v) {
-        boolean ok = false;
-        System.out.println("registrerVare()");
-        PreparedStatement psInsertVare = null;
+            
+            
+            
+        
+    
 
-        try {
-            åpneForbindelse();
-            psInsertVare = forbindelse.prepareStatement(sqlInsertVare);
-            psInsertVare.setInt(1, v.getVarenr());
-            psInsertVare.setString(2, v.getVarenavn());
-            psInsertVare.setInt(3, v.getPris());
-
-            int i = psInsertVare.executeUpdate();
-            if (i > 0) {
-                ok = true;
-            }
-        } catch (SQLException e) {
-            Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerVare()");
-        } catch (Exception e) {
-            Opprydder.skrivMelding(e, "registrerVare - ikke sqlfeil");
-        } finally {
-            Opprydder.settAutoCommit(forbindelse);
-            Opprydder.lukkSetning(psInsertVare);
-        }
-        lukkForbindelse();
-        return ok;
-    }
+    
 
 
-    public synchronized boolean oppdaterVare(Vare v) {
-        boolean ok = false;
-        System.out.println("oppdaterVare()");
-        PreparedStatement psUpdateVare = null;
-
-        try {
-            åpneForbindelse();
-            psUpdateVare = forbindelse.prepareStatement(sqlUpdateVare);
-            psUpdateVare.setInt(3, v.getVarenr());
-            psUpdateVare.setString(1, v.getVarenavn());
-            psUpdateVare.setInt(2, v.getPris());
-            System.out.println("pris: " + v.getPris());
-            int i = psUpdateVare.executeUpdate();
-            if (i > 0) {
-                ok = true;
-            }
-        } catch (SQLException e) {
-            Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "oppdaterPerson()");
-        } catch (Exception e) {
-            Opprydder.skrivMelding(e, "oppdaterPerson - ikke sqlfeil");
-        } finally {
-            Opprydder.settAutoCommit(forbindelse);
-            Opprydder.lukkSetning(psUpdateVare);
-        }
-        lukkForbindelse();
-        return ok;
-    }
-
-    public synchronized boolean slettVare(Vare v) {
-        boolean ok = false;
-        System.out.println("slettPerson()");
-        PreparedStatement psDeleteVare = null;
-
-        try {
-            åpneForbindelse();
-            psDeleteVare = forbindelse.prepareStatement(sqlDeleteVare);
-            psDeleteVare.setInt(1, v.getVarenr());
-
-            int i = psDeleteVare.executeUpdate();
-            if (i > 0) {
-                ok = true;
-            }
-        } catch (SQLException e) {
-            Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "slettVare()");
-        } catch (Exception e) {
-            Opprydder.skrivMelding(e, "slettVare - ikke sqlfeil");
-        } finally {
-            Opprydder.settAutoCommit(forbindelse);
-            Opprydder.lukkSetning(psDeleteVare);
-        }
-        lukkForbindelse();
-        return ok;
-
-    }
-
-}
