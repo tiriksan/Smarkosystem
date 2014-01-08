@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Undis
  */
 public class Fag {
-    
+  
     private String fag_navn;
     private String emnekode;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
@@ -37,8 +37,15 @@ public class Fag {
         this.emnekode = emnekode;
     }
     
-    
+    public Bruker getFaglærer(Bruker bruker){
+        for(Bruker b: faglærer){
+            if((b.getBrukertype()== 2) && ("select * from emne_bruker where emnekode ="+emnekode+", brukernavn="+b.getBrukernavn()+""){
+       return bruker;
+            }
+             
+    }
 
-   
+    return null;  
     
+}
 }

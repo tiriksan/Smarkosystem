@@ -29,6 +29,7 @@ public class Bruker {
     @Pattern(regexp="\\b[A-z]*")
     private String etternavn;
     @Min(1)
+    @Max(4)
     private int brukertype;
     private String passord;
     private static int STUDENT = 1;
