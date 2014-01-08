@@ -18,11 +18,15 @@ public class Database {
 
     private String dbNavn;
     private Connection forbindelse;
-    private final String sqlDeleteVare = "Delete from ov13.varer where varenr = ?";
+ //  
+   private final String sqlDeleteVare = "Delete from ov13.varer where varenr = ?";
     private final String sqlSelectAlleVarer = "Select * from ov13.varer order by varenr";
     private final String sqlInsertVare = "insert into ov13.varer values(?,?,?)";
     private final String sqlUpdateVare = "update ov13.varer set varenavn=?,pris=? where varenr=?";
-
+ //
+    //TODO Endre databasenamn
+    private final String sqlInsertBruker = "insert into ov13.varer values(?,?,?,?,?)"; //(fornavn, etternavn, brukernavn(epost), passord, brukertype 
+    
     public Database(String dbNavn) {
         this.dbNavn = dbNavn;
     }
@@ -46,7 +50,39 @@ public class Database {
         System.out.println("Lukker databaseforbindelsen");
         Opprydder.lukkForbindelse(forbindelse);
     }
+    
+    public synchronized boolean registrerBruker(Bruker bruker){
+        boolean ok = false;
+        System.out.println("registrerBruker()");
+        PreparedStatement psInsertBruker = null;
 
+        try {
+            åpneForbindelse();
+            psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
+            psInsertBruker.setString(1, bruker.getFornavn());
+            psInsertBruker.setString(2, bruker.getEtternavn());
+            psInsertBruker.setString(3, bruker.getBrukernavn());
+            psInsertBruker.setInt(4, bruker.getBrukertype());
+
+            int i = psInsertBruker.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psInsertBruker);
+        }
+        lukkForbindelse();
+        return ok;
+        
+    
+    }
+    
     public ArrayList<Vare> getAlleVarer() {
         System.out.println("getAlleVarer()");
         PreparedStatement psSelectAlle = null;
