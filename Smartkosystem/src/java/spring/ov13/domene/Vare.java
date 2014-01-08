@@ -6,6 +6,7 @@ public class Vare {
     private int varenr;
     private String varenavn;
     private int pris;
+    private int cheeze;
     public Vare(int varenr, String varenavn, int pris){
         this.varenr = varenr;
         this.varenavn = varenavn;
