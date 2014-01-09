@@ -15,6 +15,7 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.UIManager;
 import spring.ov13.domene.Bruker;
@@ -76,8 +77,9 @@ public class FilLeser {
                 fc.setApproveButtonText("Velg");
                 fc.setApproveButtonToolTipText("Trykk her for å velge markert fil");
                 fc.setDialogTitle("Velg filen du ønsker å lese fra");
-
-                Component forelder = null;
+                JFrame forelder = new JFrame();
+                forelder.setAlwaysOnTop(true);
+                //Component forelder = null;
                 int returVerdi = fc.showOpenDialog(forelder);
                 File fil = fc.getSelectedFile();
                 if (returVerdi == JFileChooser.APPROVE_OPTION) {
