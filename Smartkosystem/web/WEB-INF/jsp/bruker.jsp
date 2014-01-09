@@ -112,7 +112,7 @@
         
           </form:select>
         <tr><td><label for="Fag">Fag: </label></td><td>
-        <form:select path="velgfag" id="velgFag">
+        <form:select path="fagnavn" id="fagNavn">
 
         <form:option value="0">Velg fag</form:option>
 
@@ -123,7 +123,7 @@
         <script> 
             function leggTilFag{
                 if(brukerTyper.value=="1" || brukerTyper.value=="2" || brukerTyper.value=="4" ){
-                    document.getElementById(velgFag).style.display=none;
+                    document.getElementById(fagNavn).style.display=none;
                 }
             }
             </script>
