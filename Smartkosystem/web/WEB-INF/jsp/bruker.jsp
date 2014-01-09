@@ -64,7 +64,8 @@
                 <center>Velg en fil med studenter:</br></br><input type="file" name="fil" />
 		<input type="submit" value="Last opp" />
 		<span><form:errors path="fil" cssClass="error" />
-                </span></center>
+                </span></br></br>
+                </center>
  
 	</form:form>
                          
@@ -81,7 +82,7 @@
                         <table>
         <tr><td>Fagnavn: </td><td><form:input path="fagnavn" /></td><td><form:errors path="fagnavn" /></td></tr>
         <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-        <tr><td>Faglaerer:       </td><td><form:input path="faglærer" /></td><td><form:errors path="faglærer" /></td></tr>
+        <tr><td>Faglærer:       </td><td><form:input path="faglærer" /></td><td><form:errors path="faglærer" /></td></tr>
        
       <br>
         <tr><td colspan="2"><input type="submit" value="Registrer fag"></td></tr>
@@ -105,7 +106,7 @@
         <form:option value="0">Velg brukertype</form:option>
 
         <form:option value="1">Student</form:option>
-        <form:option value="2">Laerer</form:option>
+        <form:option value="2">Lærer</form:option>
         <form:option value="3">Admin</form:option>
         <form:option value="4">Studass</form:option>
 
