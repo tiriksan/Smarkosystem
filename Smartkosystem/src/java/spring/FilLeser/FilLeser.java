@@ -19,7 +19,7 @@ import javax.swing.UIManager;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.utils.Database;
 
-public class FilLeser1 {
+public class FilLeser {
 
     private boolean riktigValg = false;
     private boolean feil = false;
@@ -97,9 +97,7 @@ public class FilLeser1 {
                             }
                         }
                         if (!feil) {
-                            for (int i = 0; i < listeMidlertidig.size(); i++) {
-                                db.registrerBruker(listeMidlertidig.get(i));
-                            }
+                            db.registrerBrukere(listeMidlertidig);
                         }
                     } catch (Exception e) {
                         System.out.println("En feil er oppstått, feilmelding: " + e + "\n Prøv på nytt.");
