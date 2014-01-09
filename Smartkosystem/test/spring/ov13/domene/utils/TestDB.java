@@ -5,26 +5,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import static junit.framework.Assert.assertEquals;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.utils.Database;
-import spring.ov13.domene.utils.UtilsBean;
 
 /**
  * @author HJ
  */
 public class TestDB {
-    private final UtilsBean dbUtils = new UtilsBean();
-    private final Database db = dbUtils.getDb();
-    private final Connection con = db.getForbindelse();
-    
+    private EmbeddedDatabase db;
+
+    @Before
+    public void settOpp() {
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        db = builder.setType(EmbeddedDatabaseType.DERBY).addScript("resources/SQL/SKS2.sql").build();
+    }
+
     @Test
     public void test_registrerBruker() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
         Bruker b = new Bruker("luksky@hist.no", "Luke", "Skywalker", 3, "");
-
-        boolean erBrukerRegistrert = dbUtils.registrerBruker(b);
+        boolean erBrukerRegistrert = database.registrerBruker(b);
         assert (erBrukerRegistrert);
-
+        
+        Connection con = database.getForbindelse();
         Statement stmt = con.createStatement();
         ResultSet res = stmt.executeQuery("SELECT * FROM bruker WHERE brukernavn='luksky@hist.no'");
         String brukernavn = null;
@@ -47,21 +55,25 @@ public class TestDB {
         assertEquals(b.getBrukertype(), brukertype);
         assertEquals(b.getPassord(), passord);
     }
-    
+
     @Test
-    public void test_registrerEksisterendeBruker() throws SQLException {
+    public void test_registrerEksisterendeBruker() {
+        DatabaseForTesting database = new DatabaseForTesting(db);
         Bruker b = new Bruker("luksky@hist.no", "Luke", "Skywalker", 3, "");
-        boolean erBrukerRegistrert = dbUtils.registrerBruker(b);
+        boolean erBrukerRegistrert = database.registrerBruker(b);
         assert (!erBrukerRegistrert);
+
     }
-    
+
     @Test
     public void test_oppdaterBruker() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
         Bruker b = new Bruker("luksky@hist.no", "Darth", "Vader", 3, "");
 
-        boolean erPersonOppdatert = dbUtils.oppdaterBruker(b);
+        boolean erPersonOppdatert = database.oppdaterBruker(b);
         assert (erPersonOppdatert);
 
+        Connection con = database.getForbindelse();
         Statement stmt = con.createStatement();
         ResultSet res = stmt.executeQuery("SELECT * FROM bruker WHERE brukernavn='luksky@hist.no'");
         String brukernavn = null;
@@ -84,18 +96,18 @@ public class TestDB {
         assertEquals(b.getBrukertype(), brukertype);
         assertEquals(b.getPassord(), passord);
     }
-    
+
     @Test
     public void test_oppdaterBrukerSomIkkeEksisterer() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
         Bruker b = new Bruker("mamma@hist.no", "Moder", "Jord", 1, "");
-        boolean erBrukerOppdatert = dbUtils.oppdaterBruker(b);
+        boolean erBrukerOppdatert = database.oppdaterBruker(b);
         assert (!erBrukerOppdatert);
     }
+
     
-    public static void main(String[] args) throws Exception{
-        TestDB test = new TestDB();
-        test.test_registrerBruker();
-        
+    public void rivNed() {
+        db.shutdown();
     }
     
 }
