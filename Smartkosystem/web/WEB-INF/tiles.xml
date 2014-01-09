@@ -23,6 +23,10 @@
         <put-attribute name="title"  value="Glemt passord"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/glemtpassord.jsp"/>      
     </definition>
+    <definition name="endrepassord" extends="baseLayout">
+        <put-attribute name="title"  value="Endre passord"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/endrepassord.jsp"/>      
+    </definition>
         <definition name="logginn" extends="baseLayout">
         <put-attribute name="title"  value="Logg inn"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/logginn.jsp"/>      
