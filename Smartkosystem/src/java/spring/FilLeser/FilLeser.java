@@ -36,6 +36,7 @@ public class FilLeser {
         /**************************************
          * Oppretter en kobling til databasen.*
          **************************************/
+        showMessageDialog(null,"Starter nå opp...");
         Database db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
         
         
@@ -48,8 +49,8 @@ public class FilLeser {
          * Sjekker hvilket operativsystem som kjøres og velger hvilken stil*
          * som skal brukes når man skal velge fil.                         *
          *******************************************************************/
-                if (System.getProperty("os.name").startsWith("Windows 7")) {
-                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsFileChooserUI");
+                if (System.getProperty("os.name").startsWith("Windows")) {
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
                 }
 
             } catch (ClassNotFoundException e1) {
