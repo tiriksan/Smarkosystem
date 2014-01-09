@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.Vare;
+import spring.ov13.domene.Fag;
 
 public class Database {
 
@@ -25,6 +25,10 @@ public class Database {
     private final String sqlSelectAlleBrukere = "Select * from bruker order by etternavn";
     private final String sqlInsertBruker = "insert into bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "update bruker set fornavn=?,etternavn=?, brukertype=?, passord=? where brukernavn=?";
+    private final String sqlSelectAlleFag = "Select * from fag order by emnekode";
+    private final String sqlInsertFag= "insert into fag values(?,?,?,?,?)";
+    private final String sqlUpdateFag= "update fag set fagnavn=?,emnekode=?";
+    
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -153,6 +157,99 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
+    
+    
+    //fag metoder //
+    
+    public synchronized boolean registrerFag(Fag fag){
+        boolean ok = false;
+        System.out.println("registrerFag()");
+        PreparedStatement psInsertFag = null;
+
+        try {
+            åpneForbindelse();
+            psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
+            psInsertFag.setString(1, fag.getFagnavn());
+            psInsertFag.setString(2, fag.getEmnekode());
+            
+
+            int i = psInsertFag.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerFag()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerFag - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+           // Opprydder.lukkSetning(psInsertFag);
+        }
+        lukkForbindelse();
+        return ok;
+    
+    }
+    
+       public ArrayList<Fag> getAlleFag() {
+        System.out.println("getAlleFag()");
+        PreparedStatement psSelectAlle = null;
+        ResultSet res;
+        ArrayList<Fag> fagListe = null;
+        try {
+            åpneForbindelse();
+            psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleFag);
+            res = psSelectAlle.executeQuery();
+            while (res.next()) {
+                Fag f = new Fag(res.getString("fagnavn"), res.getString("emnekode"));
+                if (fagListe == null) {
+                    fagListe = new ArrayList<Fag>();
+                }
+                fagListe.add(f);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getAlleFag()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getAlleFag - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psSelectAlle);
+        }
+        lukkForbindelse();
+        return fagListe;
+    }
+
+    public synchronized boolean oppdaterFag(Fag bruker){
+        boolean ok = false;
+        System.out.println("oppdaterFag()");
+        PreparedStatement psUpdateFag = null;
+        
+        try{
+            åpneForbindelse();
+            psUpdateFag = forbindelse.prepareStatement(sqlUpdateFag);
+            psUpdateFag.setString(1, bruker.getFagnavn());
+            psUpdateFag.setString(2,bruker.getEmnekode());
+            int i = psUpdateFag.executeUpdate();
+            if(i>0){
+                ok = true;
+            }
+            
+            } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "oppdaterFag()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "oppdaterFag - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFag);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+    
+    
 }
             
             

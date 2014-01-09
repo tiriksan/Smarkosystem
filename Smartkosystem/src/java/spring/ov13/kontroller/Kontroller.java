@@ -79,6 +79,53 @@ public class Kontroller {
         
        return "bruker"; 
     }
+    
+    //FAG //
+    
+   
+    
+    
+    
+      @RequestMapping(value = "/fag.htm")
+    public String visInnsetting2(Model model, @RequestParam(value = "x", required = false) String getValg) {
+        Fag fag = new Fag();
+        model.addAttribute("fag", fag);
+        
+       // model.addAttribute("valget", getValg);
+        
+        
+        return "fag";
+    }
+    
+     @RequestMapping(value = "/faginnsetting.htm")
+    public String visFaginnsetning(@Validated @ModelAttribute("fag") Fag fag, BindingResult error, Model modell, HttpServletRequest request){
+        
+        
+        
+        
+        if (error.hasErrors()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av fag.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
+            return "fag";
+        }
+        UtilsBean utilsBean = new UtilsBean();
+        if (utilsBean.registrerFag(fag)) {
+            modell.addAttribute("melding", "Fag" + fag + " er registrert");
+            return "fag";
+        }
+        
+        
+       return "fag"; 
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /*
     @RequestMapping(value = "/bruker.htm")
     public String visVare(Model model) {
