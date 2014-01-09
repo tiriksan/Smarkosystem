@@ -116,10 +116,10 @@
 
         <form:option value="0">Velg fag</form:option>
 
-        <form:option value="1">fag1</form:option>
-        <form:option value="2">fag2</form:option>
-        <form:option value="3">fag3</form:option>
-        <form:option value="4">fag4</form:option>
+        <form:option value="5">fag1</form:option>
+        <form:option value="6">fag2</form:option>
+        <form:option value="7">fag3</form:option>
+        <form:option value="8">fag4</form:option>
         <script> 
             function leggTilFag{
                 if(brukerTyper.value=="1" || brukerTyper.value=="2" || brukerTyper.value=="4" ){
