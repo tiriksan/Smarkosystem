@@ -111,8 +111,8 @@
         <form:option value="4">Studass</form:option>
         
           </form:select>
-        <tr><td><label for="Fag">Fag: </label></td><td>
-        <form:select path="velgfag" id="velgFag">
+        <tr><td><label for="fag">Fag: </label></td><td>
+        <form:select path="fag.fagnavn" id="velgFag">
 
         <form:option value="0">Velg fag</form:option>
 
