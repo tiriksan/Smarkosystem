@@ -5,11 +5,19 @@
  
  --%>
  
+ 
+ 
+
+ 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-
+ <%@ taglib
+    prefix="c"
+    uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h3>Registrer ny Bruker</h3>
+
+<c:if test="${bruker.brukertype == 3}">
 
 <form:form action="brukerinnsetning.htm" method="post" modelAttribute="bruker" >
     <table>
@@ -31,5 +39,9 @@
       <br>
         <tr><td colspan="2"><input type="submit" value="Registrer bruker"></td></tr>
     </table>
+        
 </form:form>
+
+</c:if>
+
 
