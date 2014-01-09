@@ -216,7 +216,7 @@ public class Database {
     }
 
     //fag metoder //
-    public synchronized boolean registrerFag(Emne fag) {
+    public synchronized boolean registrerEmne(Emne fag) {
         boolean ok = false;
         System.out.println("registrerFag()");
         PreparedStatement psInsertFag = null;

@@ -68,9 +68,8 @@ public class UtilsBean {
     //fag //
     
     
-      public boolean registrerEmner(Emne fag){
-        
-        return db.registrerEmner(fag);
+      public boolean registrerEmne(Emne fag){
+        return db.registrerEmne(fag);
     }
       
       public void setValgteFag(List<Emne> valgteEmner){
