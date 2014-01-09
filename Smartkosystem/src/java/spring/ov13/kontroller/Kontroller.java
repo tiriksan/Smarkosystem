@@ -150,7 +150,7 @@ public class Kontroller {
         } else {
             System.out.println("Sender epost?");
             SendEpost epost = new SendEpost();
-            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8079/Smartkosystem/endrepassord/bruker"+bruker.getBrukernavn());
+            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8079/Smartkosystem/endrepassord.htm?bruker="+bruker.getBrukernavn());
             return "glemtpassord";
         }
     }
