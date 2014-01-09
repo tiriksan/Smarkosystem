@@ -37,9 +37,9 @@ public class Kontroller {
         Emne fag = new Emne();
         model.addAttribute("bruker", bruker);
         model.addAttribute("fag", fag);
-        
+        UtilsBean ub = new UtilsBean();
         model.addAttribute("valget", getValg);
-        
+        model.addAttribute("allefagene", ub.getAlleFag());
         
         return "bruker";
     }

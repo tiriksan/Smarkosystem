@@ -96,6 +96,12 @@
         
         
                </form:select>
+        
+        
+        <form:select path="fagene">
+    <form:option value="0" label="Select an Option" />
+    <form:options items="${allefagene}" />
+</form:select>
         <tr><td><label for="fag">Fag: </label></td><td>
         <form:select path="brukertype" id="fagvalg">
 

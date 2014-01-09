@@ -18,6 +18,7 @@ public class UtilsBean {
         System.out.println("starting utilbean");
         db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
         alleBrukere = db.getAlleBrukere();
+        alleFag = db.getAlleFag();
        // faglærere = db.getAlleFaglærere(); // denne er noe muffins med //
      //   System.out.println(toString());
     }
@@ -76,7 +77,7 @@ public class UtilsBean {
         this.valgteEmner = valgteEmner;
     }
       
-       public List<Emne> getAlleEmner(){
+       public List<Emne> getAlleFag(){
         return alleFag;
     }
     public List<Emne> getValgteEmner(){
