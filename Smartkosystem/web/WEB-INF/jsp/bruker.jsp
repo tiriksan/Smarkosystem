@@ -123,7 +123,7 @@
                     
                 </c:choose>
                 
-                <c:out value="${bruker.md5('Petter')}"/>
+ 
                 
                 
  
