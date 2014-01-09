@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.Fag;
+import spring.ov13.domene.Emne;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +34,7 @@ public class Kontroller {
     @RequestMapping(value = "/bruker.htm")
     public String visInnsetting(Model model, @RequestParam(value = "x", required = false) String getValg) {
         Bruker bruker = new Bruker();
-        Fag fag = new Fag();
+        Emne fag = new Emne();
         model.addAttribute("bruker", bruker);
         model.addAttribute("fag", fag);
         
@@ -78,7 +78,7 @@ public class Kontroller {
     }
     
     @RequestMapping(value = "/brukerinnsetning.htm")
-    public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, @ModelAttribute("fag") Fag fag, BindingResult error, Model modell, HttpServletRequest request){
+    public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, @ModelAttribute("fag") Emne fag, BindingResult error, Model modell, HttpServletRequest request){
         
         
         
@@ -104,7 +104,7 @@ public class Kontroller {
     
       @RequestMapping(value = "/fag.htm")
     public String visInnsetting2(Model model, @RequestParam(value = "x", required = false) String getValg) {
-        Fag fag = new Fag();
+        Emne fag = new Emne();
         model.addAttribute("fag", fag);
         
        // model.addAttribute("valget", getValg);
@@ -114,7 +114,7 @@ public class Kontroller {
     }
     
      @RequestMapping(value = "/faginnsetting.htm")
-    public String visFaginnsetning(@Validated @ModelAttribute("fag") Fag fag, BindingResult error, Model modell, HttpServletRequest request){
+    public String visFaginnsetning(@Validated @ModelAttribute("fag") Emne fag, BindingResult error, Model modell, HttpServletRequest request){
         
         
         

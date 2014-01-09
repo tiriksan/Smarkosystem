@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.sql.DataSource;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.Fag;
+import spring.ov13.domene.Emne;
 
 public class DatabaseForTesting {
 
@@ -191,7 +191,7 @@ public class DatabaseForTesting {
     
     //fag metoder //
     
-    public synchronized boolean registrerFag(Fag fag){
+    public synchronized boolean registrerFag(Emne fag){
         boolean ok = false;
         System.out.println("registrerFag()");
         PreparedStatement psInsertFag = null;
@@ -199,7 +199,7 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
-            psInsertFag.setString(1, fag.getFagnavn());
+            psInsertFag.setString(1, fag.getEmnenavn());
             psInsertFag.setString(2, fag.getEmnekode());
             
 
@@ -221,19 +221,19 @@ public class DatabaseForTesting {
     
     }
     
-       public ArrayList<Fag> getAlleFag() {
+       public ArrayList<Emne> getAlleFag() {
         System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
-        ArrayList<Fag> fagListe = null;
+        ArrayList<Emne> fagListe = null;
         try {
             åpneForbindelse();
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleFag);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Fag f = new Fag(res.getString("fagnavn"), res.getString("emnekode"));
+                Emne f = new Emne(res.getString("fagnavn"), res.getString("emnekode"));
                 if (fagListe == null) {
-                    fagListe = new ArrayList<Fag>();
+                    fagListe = new ArrayList<Emne>();
                 }
                 fagListe.add(f);
             }
@@ -250,7 +250,7 @@ public class DatabaseForTesting {
         return fagListe;
     }
 
-    public synchronized boolean oppdaterFag(Fag bruker){
+    public synchronized boolean oppdaterFag(Emne bruker){
         boolean ok = false;
         System.out.println("oppdaterFag()");
         PreparedStatement psUpdateFag = null;
@@ -258,7 +258,7 @@ public class DatabaseForTesting {
         try{
             åpneForbindelse();
             psUpdateFag = forbindelse.prepareStatement(sqlUpdateFag);
-            psUpdateFag.setString(1, bruker.getFagnavn());
+            psUpdateFag.setString(1, bruker.getEmnenavn());
             psUpdateFag.setString(2,bruker.getEmnekode());
             int i = psUpdateFag.executeUpdate();
             if(i>0){

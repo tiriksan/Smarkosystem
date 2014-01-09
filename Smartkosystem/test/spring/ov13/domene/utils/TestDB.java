@@ -12,6 +12,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import spring.ov13.domene.Bruker;
+import spring.ov13.domene.Emne;
 
 /**
  * @author HJ
@@ -103,6 +104,27 @@ public class TestDB {
         Bruker b = new Bruker("mamma@hist.no", "Moder", "Jord", 1, "");
         boolean erBrukerOppdatert = database.oppdaterBruker(b);
         assert (!erBrukerOppdatert);
+    }
+    
+    @Test
+    public void test_registrerFag() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Emne f = new Emne("TDAT2001", "Testing & Ballefranserier");
+        boolean erFagRegistrert = database.registrerFag(f);
+        assert (erFagRegistrert);
+        
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT * FROM emne WHERE emnekode='TDAT2001'");
+        String emnekode = null;
+        String emnenavn = null;
+
+        while (res.next()) {
+            emnekode = res.getString("emnekode");
+            emnenavn = res.getString("emnenavn");
+        }
+        assertEquals(f.getEmnekode(), emnekode);
+        assertEquals(f.getEmnenavn(), emnenavn);
     }
 
     

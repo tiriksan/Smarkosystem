@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.Fag;
+import spring.ov13.domene.Emne;
 
 public class Database {
 
@@ -219,7 +219,7 @@ public class Database {
     }
 
     //fag metoder //
-    public synchronized boolean registrerFag(Fag fag) {
+    public synchronized boolean registrerFag(Emne fag) {
         boolean ok = false;
         System.out.println("registrerFag()");
         PreparedStatement psInsertFag = null;
@@ -227,7 +227,7 @@ public class Database {
         try {
             åpneForbindelse();
             psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
-            psInsertFag.setString(1, fag.getFagnavn());
+            psInsertFag.setString(1, fag.getEmnenavn());
             psInsertFag.setString(2, fag.getEmnekode());
 
             int i = psInsertFag.executeUpdate();
@@ -247,8 +247,8 @@ public class Database {
         return ok;
     }
 
-    public synchronized Fag getFag(String fagkode) {
-        Fag f = null;
+    public synchronized Emne getFag(String fagkode) {
+        Emne f = null;
         ResultSet res;
         System.out.println("getFag()");
         PreparedStatement psSelectFag = null;
@@ -258,7 +258,7 @@ public class Database {
             psSelectFag = forbindelse.prepareStatement(sqlSelectFag);
             res = psSelectFag.executeQuery();
             while (res.next()) {
-                f = new Fag(res.getString("emnekode"), res.getString("emnenavn"));
+                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"));
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -273,19 +273,19 @@ public class Database {
         return f;
     }
 
-    public ArrayList<Fag> getAlleFag() {
+    public ArrayList<Emne> getAlleFag() {
         System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
-        ArrayList<Fag> fagListe = null;
+        ArrayList<Emne> fagListe = null;
         try {
             åpneForbindelse();
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleFag);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Fag f = new Fag(res.getString("fagnavn"), res.getString("emnekode"));
+                Emne f = new Emne(res.getString("fagnavn"), res.getString("emnekode"));
                 if (fagListe == null) {
-                    fagListe = new ArrayList<Fag>();
+                    fagListe = new ArrayList<Emne>();
                 }
                 fagListe.add(f);
             }
@@ -302,7 +302,7 @@ public class Database {
         return fagListe;
     }
 
-    public synchronized boolean oppdaterFag(Fag bruker) {
+    public synchronized boolean oppdaterFag(Emne bruker) {
         boolean ok = false;
         System.out.println("oppdaterFag()");
         PreparedStatement psUpdateFag = null;
@@ -310,7 +310,7 @@ public class Database {
         try {
             åpneForbindelse();
             psUpdateFag = forbindelse.prepareStatement(sqlUpdateFag);
-            psUpdateFag.setString(1, bruker.getFagnavn());
+            psUpdateFag.setString(1, bruker.getEmnenavn());
             psUpdateFag.setString(2, bruker.getEmnekode());
             int i = psUpdateFag.executeUpdate();
             if (i > 0) {

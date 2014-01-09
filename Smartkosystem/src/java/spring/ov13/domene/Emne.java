@@ -10,26 +10,26 @@ import java.util.ArrayList;
  *
  * @author Undis
  */
-public class Fag {
+public class Emne {
   
-    private String fagnavn;
+    private String emnenavn;
     private String emnekode;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
 
-    public Fag(String fagnavn, String emnekode){
-        this.fagnavn = fagnavn;
+    public Emne(String fagnavn, String emnekode){
+        this.emnenavn = fagnavn;
         this.emnekode = emnekode;
     }
-    public Fag(){
+    public Emne(){
         
     }
     
-    public String getFagnavn() {
-        return fagnavn;
+    public String getEmnenavn() {
+        return emnenavn;
     }
 
-    public void setFagnavn(String fagnavn) {
-        this.fagnavn = fagnavn;
+    public void setEmnenavn(String emnenavn) {
+        this.emnenavn = emnenavn;
     }
 
     public String getEmnekode() {

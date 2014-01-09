@@ -3,14 +3,14 @@ package spring.ov13.domene.utils;
 import java.math.BigInteger;
 import java.util.List;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.Fag;
+import spring.ov13.domene.Emne;
 
 public class UtilsBean {
     private Database db;
     private List<Bruker> alleBrukere = null;
     private List<Bruker> valgteBrukere = null;
-    private List<Fag> alleFag = null;
-    private List<Fag> valgteFag = null;
+    private List<Emne> alleFag = null;
+    private List<Emne> valgteFag = null;
     
     
     public UtilsBean(){
@@ -64,22 +64,22 @@ public class UtilsBean {
     //fag //
     
     
-      public boolean registrerFag(Fag fag){
+      public boolean registrerFag(Emne fag){
         
         return db.registrerFag(fag);
     }
       
-      public void setValgteFag(List<Fag> valgteFag){
+      public void setValgteFag(List<Emne> valgteFag){
         this.valgteFag = valgteFag;
     }
       
-       public List<Fag> getAlleFag(){
+       public List<Emne> getAlleFag(){
         return alleFag;
     }
-    public List<Fag> getValgteFag(){
+    public List<Emne> getValgteFag(){
         return valgteFag;
     }
-    public Fag hent(String emnekode){
+    public Emne hent(String emnekode){
         return db.getFag(emnekode);
     }
       

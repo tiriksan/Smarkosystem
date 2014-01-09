@@ -34,7 +34,7 @@ public class Bruker {
     @Max(4)
     private int brukertype;
     private String passord;
-    private ArrayList<Fag> fagene;
+    private ArrayList<Emne> fagene;
     private static int STUDENT = 1;
     private static int STUDENTASSISTENT = 2;
     private static int FAGLÆRER = 3;
@@ -93,11 +93,11 @@ public class Bruker {
         this.passord = passord;
     }
     
-    public ArrayList<Fag> getFagene(){
+    public ArrayList<Emne> getFagene(){
         return fagene;
     }
     
-    public void setFagene(ArrayList<Fag> fag){
+    public void setFagene(ArrayList<Emne> fag){
    this.fagene=fag;
     }
     
