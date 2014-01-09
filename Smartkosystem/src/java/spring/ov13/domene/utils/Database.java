@@ -18,14 +18,18 @@ import spring.ov13.domene.Vare;
 public class Database {
 
     private String dbNavn;
+    private String dbUser;
+    private String dbPswrd;
     private Connection forbindelse;
   
     private final String sqlSelectAlleBrukere = "Select * from bruker order by etternavn";
-    private final String sqlInsertBruker = "insert into bruker values(?,?,?,?)";
+    private final String sqlInsertBruker = "insert into bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "update bruker set fornavn=?,etternavn=?, brukertype=?, passord=? where brukernavn=?";
     
-    public Database(String dbNavn) {
+    public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
+        this.dbUser = dbUser;
+        this.dbPswrd = dbPswrd;
     }
 
     
@@ -38,7 +42,7 @@ public class Database {
             Class.forName("com.mysql.jdbc.Driver");
            // org.apache.derby.jdbc.
           //  Class.forName("org.apache.derby.jdbc.ClientDriver");
-            forbindelse = DriverManager.getConnection(dbNavn);
+            forbindelse = DriverManager.getConnection(dbNavn, dbUser, dbPswrd);
             System.out.println("Databaseforbindelse opprettet");
         } catch (SQLException e) {
             Opprydder.skrivMelding(e, "KonstruktÃ¸ren");
@@ -62,7 +66,9 @@ public class Database {
             psInsertBruker.setString(1, bruker.getBrukernavn());
             psInsertBruker.setString(2, bruker.getFornavn());
             psInsertBruker.setString(3, bruker.getEtternavn());
-            psInsertBruker.setInt(4, bruker.getBrukertype());
+            System.out.println(bruker.getPassord());
+            psInsertBruker.setString(4, bruker.getPassord());
+            psInsertBruker.setInt(5, bruker.getBrukertype());
             
 
             int i = psInsertBruker.executeUpdate();
@@ -76,7 +82,7 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            Opprydder.lukkSetning(psInsertBruker);
+           // Opprydder.lukkSetning(psInsertBruker);
         }
         lukkForbindelse();
         return ok;
