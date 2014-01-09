@@ -24,7 +24,7 @@ public class Opprydder {
 
   public static void lukkSetning(Statement stm) {
     try {
-      if (stm != null && !stm.isClosed()) stm.close();
+      if (stm != null) stm.close();
     } catch (SQLException e) {
       skrivMelding(e, "lukkSetning()");
     }

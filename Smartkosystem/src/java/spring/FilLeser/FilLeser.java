@@ -5,6 +5,7 @@ package spring.FilLeser;
  */
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +16,7 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.UIManager;
 import spring.ov13.domene.Bruker;
@@ -76,9 +78,12 @@ public class FilLeser {
                 fc.setApproveButtonText("Velg");
                 fc.setApproveButtonToolTipText("Trykk her for å velge markert fil");
                 fc.setDialogTitle("Velg filen du ønsker å lese fra");
-
-                Component forelder = null;
+                JFrame forelder = new JFrame();
+                forelder.setVisible(true);
+                forelder.toFront();
                 int returVerdi = fc.showOpenDialog(forelder);
+                forelder.dispatchEvent(new WindowEvent(forelder, WindowEvent.WINDOW_CLOSING));
+                
                 File fil = fc.getSelectedFile();
                 if (returVerdi == JFileChooser.APPROVE_OPTION) {
                     sti = fil.getAbsolutePath();

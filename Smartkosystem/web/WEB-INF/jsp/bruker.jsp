@@ -63,7 +63,7 @@
                         
                         <form:form action="faginnsetting.htm" method="post" modelAttribute="fag" >
                         <table>
-        <tr><td>Fagnavn: </td><td><form:input path="fagnavn" /></td><td><form:errors path="fagnavn" /></td></tr>
+        <tr><td>Fagnavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
         <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
         <tr><td>Faglærer:       </td><td><form:input path="faglærer" /></td><td><form:errors path="faglærer" /></td></tr>
        
@@ -96,6 +96,12 @@
         
         
                </form:select>
+        
+        
+        <form:select path="fagene">
+    <form:option value="0" label="Select an Option" />
+    <form:options items="${allefagene}" />
+</form:select>
         <tr><td><label for="fag">Fag: </label></td><td>
         <form:select path="brukertype" id="fagvalg">
 
