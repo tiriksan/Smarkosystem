@@ -60,7 +60,7 @@ public class Bruker {
         return fornavn;
     }
     public String getEtternavn() {
-        System.out.println(etternavn);
+        
         return etternavn;
     }
     

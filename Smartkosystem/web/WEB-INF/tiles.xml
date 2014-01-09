@@ -19,6 +19,10 @@
         <put-attribute name="title"  value="Bruker"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/bruker.jsp"/>      
     </definition>
+        <definition name="logginn" extends="baseLayout">
+        <put-attribute name="title"  value="Logg inn"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/logginn.jsp"/>      
+    </definition>
     <definition name="index" extends="baseLayout">
         <put-attribute name="title"  value="Index"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/index.jsp"/>      

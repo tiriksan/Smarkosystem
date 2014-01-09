@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,23 @@ public class Kontroller {
         
         return "bruker";
     }
+    
+       @RequestMapping(value = "/logginn.htm")
+    public String visLogginn() {
+        
+        
+        
+        return "logginn";
+    }
+    
+           @RequestMapping(value = "login")
+    public String Logginn(@ModelAttribute(value="brukerinnlogg") Bruker bruker) {
+        
+        
+        
+        return "logginn";
+    }
+    
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
         
