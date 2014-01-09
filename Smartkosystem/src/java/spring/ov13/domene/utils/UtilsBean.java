@@ -79,13 +79,8 @@ public class UtilsBean {
     public List<Fag> getValgteFag(){
         return valgteFag;
     }
-    public Fag hent(String fagnavn){
-        for(Fag f: alleFag){
-            if(f.getFagnavn().equals(fagnavn)){
-                return f;
-            }
-        }
-        return null;
+    public Fag hent(String emnekode){
+        return db.getFag(emnekode);
     }
       
       
