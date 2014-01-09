@@ -78,12 +78,9 @@ public class Kontroller {
     }
     
     @RequestMapping(value = "/brukerinnsetning.htm")
-    public String visBrukerinnsetning( BindingResult error, Model modell, HttpServletRequest request){
+    public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, @ModelAttribute("fag") Fag fag, BindingResult error, Model modell, HttpServletRequest request){
         
-        Fag faget = new Fag();
-        Bruker bruker = new Bruker();
-        modell.addAttribute("fag", faget);
-        modell.addAttribute("bruker", bruker);
+        
         
         
         if (error.hasErrors()) {
@@ -99,7 +96,6 @@ public class Kontroller {
         
        return "bruker"; 
     }
-    
     //FAG //
     
    
