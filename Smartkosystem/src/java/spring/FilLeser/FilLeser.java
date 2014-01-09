@@ -78,7 +78,7 @@ public class FilLeser {
 
                 if (sti.endsWith("txt")) {
                     riktigValg = true;
-                    BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sti), Charset.forName("windows-1252")));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sti), Charset.forName("ISO-8859-1")));
                     try {
                         String linje = br.readLine();
                         String[] oppdeling = new String[3];
