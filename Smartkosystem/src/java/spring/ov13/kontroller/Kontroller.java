@@ -181,7 +181,7 @@ public class Kontroller {
         ub.oppdaterBruker(bruker);
         
         //bruker.setBrukernavn();
-        return "endrepassord";
+        return "logginn";
         
     }
   

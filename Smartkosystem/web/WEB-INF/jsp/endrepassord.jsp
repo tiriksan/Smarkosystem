@@ -5,12 +5,16 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<form:form action="glemtpassordsvar.htm" method="post" modelAttribute="glemtpassordbruker" >
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
+    <form:form action="endrepassordsvar.htm" method="post" modelAttribute="endrepassordbruker">
     ${errorMelding}
     <table>
-        <tr><td>Brukernavn: </td><td><form:input path="brukernavn" /></td><td><form:errors path="brukernavn" /></td>
-        <tr><td><input type="submit" value="Send epost"></td></tr>
+        <tr><td>Nytt passord:    </td><td><form:password  path="passord" /></td><td><form:errors path="passord" /></td>
+ <%--   <tr><td>Bekreft passord: </td><td><form:input path="passord" /></td><td><form:errors path="passord" /></td>--%>
+        <tr><td><input type="submit" value="Endre passord"></td></tr>
         
     </table>
     
