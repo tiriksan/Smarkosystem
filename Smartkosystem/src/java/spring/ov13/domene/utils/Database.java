@@ -19,12 +19,15 @@ public class Database {
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
-    private final String sqlInsertBrukere = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? where brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM fag ORER BY emnekode";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
     private final String sqlInsertFag = "INSERT into EMNE values(?,?,?,?,?)";
     private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, emnekode=? WHERE emnekode=?";
+    private final String sqlSelectBrukereIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
+            + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? ORDER BY etternavn";
+    private final String sqlSelectBrukertypeIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
+            + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? AND brukertype=? ORDER BY etternavn";
 
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -126,7 +129,7 @@ public class Database {
             åpneForbindelse();
             for (int i = 0; i < brukere.size(); i++) {
 
-                psInsertBrukere = forbindelse.prepareStatement(sqlInsertBrukere);
+                psInsertBrukere = forbindelse.prepareStatement(sqlInsertBruker);
                 psInsertBrukere.setString(1, brukere.get(i).getBrukernavn());
                 psInsertBrukere.setString(2, brukere.get(i).getFornavn());
                 psInsertBrukere.setString(3, brukere.get(i).getEtternavn());
