@@ -3,7 +3,6 @@ package spring.ov13.domene.utils;
 import java.math.BigInteger;
 import java.util.List;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.Bruker;
 
 
 public class UtilsBean {
@@ -50,11 +49,11 @@ public class UtilsBean {
     public boolean slettBruker(Bruker v){
         return db.slettBruker(v);
     }
-    
-    public boolean oppdaterBruker(Bruker v){
-        return db.oppdaterBruker(v);
-    }
     */
+    public boolean oppdaterBruker(Bruker b){
+        return db.oppdaterBruker(b);
+    }
+    
     @Override
     public String toString() {
         return "UtilsBean{" + "db=" + db + ", alleBrukere=" + alleBrukere + '}';

@@ -35,6 +35,10 @@ public class Database {
     
     public Database() {
     }
+    
+    protected Connection getForbindelse() {
+        return forbindelse;
+    }
 
     private void åpneForbindelse() throws Exception {
         try {
