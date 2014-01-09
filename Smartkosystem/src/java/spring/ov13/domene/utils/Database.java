@@ -6,12 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 
@@ -22,15 +16,15 @@ public class Database {
     private String dbPswrd;
     private Connection forbindelse;
 
-    private final String sqlSelectAlleBrukere = "Select * from bruker order by etternavn";
+    private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
-    private final String sqlInsertBruker = "insert into bruker values(?,?,?,?,?)";
-    private final String sqlInsertBrukere = "insert into bruker values(?,?,?,?,?)";
-    private final String sqlUpdateBruker = "update bruker set fornavn=?,etternavn=?, brukertype=?, passord=? where brukernavn=?";
-    private final String sqlSelectAlleFag = "Select * from fag order by emnekode";
+    private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
+    private final String sqlInsertBrukere = "INSERT INTO bruker values(?,?,?,?,?)";
+    private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? where brukernavn=?";
+    private final String sqlSelectAlleFag = "SELECT * FROM fag ORER BY emnekode";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
-    private final String sqlInsertFag = "insert into emne values(?,?,?,?,?)";
-    private final String sqlUpdateFag = "update emne set fagnavn=?,emnekode=?";
+    private final String sqlInsertFag = "INSERT into EMNE values(?,?,?,?,?)";
+    private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, emnekode=? WHERE emnekode=?";
 
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -212,7 +206,7 @@ public class Database {
             Opprydder.skrivMelding(e, "oppdaterBruker - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            Opprydder.lukkSetning(psUpdateBruker);
+            //Opprydder.lukkSetning(psUpdateBruker);
         }
         lukkForbindelse();
         return ok;
@@ -302,7 +296,7 @@ public class Database {
         return fagListe;
     }
 
-    public synchronized boolean oppdaterFag(Emne bruker) {
+    public synchronized boolean oppdaterFag(Emne emne, String emnekode) {
         boolean ok = false;
         System.out.println("oppdaterFag()");
         PreparedStatement psUpdateFag = null;
@@ -310,8 +304,9 @@ public class Database {
         try {
             åpneForbindelse();
             psUpdateFag = forbindelse.prepareStatement(sqlUpdateFag);
-            psUpdateFag.setString(1, bruker.getEmnenavn());
-            psUpdateFag.setString(2, bruker.getEmnekode());
+            psUpdateFag.setString(1, emne.getEmnenavn());
+            psUpdateFag.setString(2, emne.getEmnekode());
+            psUpdateFag.setString(3, emnekode);
             int i = psUpdateFag.executeUpdate();
             if (i > 0) {
                 ok = true;
