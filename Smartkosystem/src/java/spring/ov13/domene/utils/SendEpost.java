@@ -23,7 +23,7 @@ public class SendEpost {
         mailProperties.setProperty("mail.smtp.auth", "true");
         mailProperties.setProperty("mail.smtp.starttls.enable", "true");
         mailProperties.setProperty("mail.smtp.quitwait", "false");
-
+        mailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         mailProperties.setProperty("mail.debug", "true");
         sender.setJavaMailProperties(mailProperties);
         
