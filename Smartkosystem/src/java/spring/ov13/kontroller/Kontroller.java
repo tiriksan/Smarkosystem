@@ -2,8 +2,11 @@ package spring.ov13.kontroller;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.RequestParam;
+import spring.FilLeser.FilLeser;
 
 @Controller
 public class Kontroller {
@@ -34,6 +38,20 @@ public class Kontroller {
         model.addAttribute("bruker", bruker);
         model.addAttribute("fag", fag);
         
+        model.addAttribute("valget", getValg);
+        
+        
+        return "bruker";
+    }
+    @RequestMapping(value = "/registrerBrukereFraFil.htm")
+    public String regBrukereFraFil(Model model, @RequestParam(value = "x", required = false) String getValg) {
+        
+        FilLeser fl = new FilLeser();
+        try {
+            fl.lesFil();
+        } catch (Exception ex) {
+            showMessageDialog(null, "Feil ved registrering oppstått, avbryter.");
+        }
         model.addAttribute("valget", getValg);
         
         

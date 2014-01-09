@@ -53,27 +53,10 @@
                
                      <c:when test="${valget eq '2'}">
 
-                         
-                         
-                         
-                         <form:form method="POST" commandName="filopplasting"
-		enctype="multipart/form-data">
- 
-		<form:errors path="*" cssClass="errorblock" element="div" />
- 
-                <center>Velg en fil med studenter:</br></br><input type="file" name="fil" />
-		<input type="submit" value="Last opp" />
-		<span><form:errors path="fil" cssClass="error" />
-                </span></br></br>
-                </center>
- 
-	</form:form>
-                         
-                         
-                        
-                         
-                         
-                         
+                <center>Velg en fil med studenter:</br></br>
+                <input type="button"  onclick="location.href='/Smartkosystem/registrerBrukereFraFil.htm'" value="Registrer brukere" >
+		</br></br>
+                </center>         
                 </c:when>
                     
                     <c:when test="${valget eq '3'}">

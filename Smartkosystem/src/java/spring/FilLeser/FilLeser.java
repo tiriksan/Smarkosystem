@@ -29,7 +29,7 @@ public class FilLeser {
     /*lesFil()-metoden lar bruker velge en tekstfil med brukere som systemet leser inn 
      og registrerer i databasen*/
     public void lesFil() throws Exception {
-        Database db = new Database();
+        Database db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
         while (!riktigValg && !feil) {
             try {
 
