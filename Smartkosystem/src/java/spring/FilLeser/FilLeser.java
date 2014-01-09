@@ -49,7 +49,7 @@ public class FilLeser {
          * som skal brukes når man skal velge fil.                         *
          *******************************************************************/
                 if (System.getProperty("os.name").startsWith("Windows 7")) {
-                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsFileChooserUI");
                 }
 
             } catch (ClassNotFoundException e1) {
