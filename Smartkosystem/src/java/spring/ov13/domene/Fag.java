@@ -48,9 +48,7 @@ public class Fag {
     public void setFaglærer(ArrayList<Bruker> nye){
         this.faglærer = nye;
     }
-    /*
-    public Bruker[] hentAlleLærere(){
-        
-    }
-    */
+    
+
+    
 }

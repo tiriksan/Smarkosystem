@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.security.*;
 import java.math.*;
+import java.util.ArrayList;
 /**
  *
  * @author Rune
@@ -33,6 +34,7 @@ public class Bruker {
     @Max(4)
     private int brukertype;
     private String passord;
+    private ArrayList<Fag> fagene;
     private static int STUDENT = 1;
     private static int STUDENTASSISTENT = 2;
     private static int FAGLÆRER = 3;
@@ -91,6 +93,15 @@ public class Bruker {
         this.passord = passord;
     }
     
+    public ArrayList<Fag> getFagene(){
+        return fagene;
+    }
+    
+    public void setFagene(ArrayList<Fag> fag){
+   this.fagene=fag;
+    }
+    
+
  
     
      public String toString(){
