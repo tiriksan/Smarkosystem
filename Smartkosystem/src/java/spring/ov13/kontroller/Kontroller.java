@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.RequestParam;
 import spring.FilLeser.FilLeser;
+import spring.ov13.domene.utils.SendEpost;
 
 @Controller
 public class Kontroller {
@@ -134,7 +135,21 @@ public class Kontroller {
     }
     
     
-    
+    @RequestMapping(value = "/glemtpassord.htm")
+    public String glemtPassord(@Validated @ModelAttribute("glemtpassordbruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
+        if (error.hasErrors()) {
+            return "glemtpassord";
+        }
+        UtilsBean utilsBean = new UtilsBean();
+        if(utilsBean.get(bruker.getBrukernavn()) == null){
+            modell.addAttribute("errorMelding", "Brukeren med dette brukernavnet eksisterer ikke. Sjekk om brukernavnet stemmer");
+            return "glemtpassord";
+        } else {
+            SendEpost epost = new SendEpost();
+            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8079/Smartkosystem/endrepassord/bruker"+bruker.getBrukernavn());
+            return "glemtpassord";
+        }
+    }
     
     
     
