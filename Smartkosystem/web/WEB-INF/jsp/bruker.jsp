@@ -123,7 +123,7 @@
         <script> 
             function leggTilFag{
                 if(brukerTyper.value=="1" || brukerTyper.value=="2" || brukerTyper.value=="4" ){
-                    document.getElementById(velgFag)
+                    document.getElementById(velgFag).style.display=none;
                 }
             }
             </script>
