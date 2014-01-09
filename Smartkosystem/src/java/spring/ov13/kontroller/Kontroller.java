@@ -166,13 +166,31 @@ public class Kontroller {
             modell.addAttribute("glemtpassordbruker", b);
             return "glemtpassord";
     }
-    
-    
-    
-    
-    
-    
-    
+        @RequestMapping(value = "/endrepassord.htm")
+    public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletRequest request){
+        UtilsBean ub = new UtilsBean();
+        Bruker bruker = ub.get(request.getParameter("bruker"));
+        model.addAttribute("endrepassordbruker", bruker);
+            System.out.println("Endrepassordbruker: " + bruker);
+        return "endrepassord";
+        
+    }
+    @RequestMapping(value = "/endrepassordsvar.htm")
+    public String endrePassordSvar(@Validated @ModelAttribute("endrepassordsomething") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
+       /* if(error.hasErrors()){
+            return "endrepassord";
+        }*/
+        
+        System.out.println(bruker);
+        UtilsBean ub = new UtilsBean();
+        
+        ub.oppdaterBruker(bruker);
+        
+        //bruker.setBrukernavn();
+        return "index";
+        
+    }
+  
     /*
     @RequestMapping(value = "/bruker.htm")
     public String visVare(Model model) {
