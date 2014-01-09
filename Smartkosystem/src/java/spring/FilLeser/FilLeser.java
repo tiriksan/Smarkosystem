@@ -26,14 +26,28 @@ public class FilLeser {
     private boolean feil = false;
     private String sti = "";
     private ArrayList<Bruker> listeMidlertidig = new ArrayList<Bruker>();
-
-    /*lesFil()-metoden lar bruker velge en tekstfil med brukere som systemet leser inn 
-     og registrerer i databasen*/
+     /******************************************************************************************
+      *lesFil()-metoden lar bruker velge en tekstfil med brukere som systemet leser inn        *
+      *og registrerer i databasen                                                              *
+      * formatet er: fornavn,etternavn,epost                                                   *
+      *                                                                                        *
+      ******************************************************************************************/
     public void lesFil() throws Exception {
+        /**************************************
+         * Oppretter en kobling til databasen.*
+         **************************************/
         Database db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
+        
+        
+         /******************************************************
+         * Løkke kjører til riktig valg eller feil har oppstått*
+         *******************************************************/
         while (!riktigValg && !feil) {
             try {
-
+         /******************************************************************
+         * Sjekker hvilket operativsystem som kjøres og velger hvilken stil*
+         * som skal brukes når man skal velge fil.                         *
+         *******************************************************************/
                 if (System.getProperty("os.name").startsWith("Windows")) {
                     UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
                 }
@@ -49,6 +63,11 @@ public class FilLeser {
                 e1.printStackTrace();
             }
             try {
+        /********************************************************************************
+         *Oppretter en filvelger, setter innstilliger og lar brukeren velge fil         *
+         * Sjekker om brukeren har trykket "velg", om det skjedde lagrer man filstien   *
+         * om brukeren ikke velger fil, eller annen feil oppstår kommern en feilmelding *
+         ********************************************************************************/
 
                 JFileChooser fc = new JFileChooser();
                 fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -74,12 +93,31 @@ public class FilLeser {
                 showMessageDialog(null, "En feil har oppstått, vennligst prøv igjen.");
                 feil = true;
             }
+            
+         /*********************************************************
+         * Sjekker at det ikke ar skjedd en feilmelding.          *
+         * sjekker om det er en .txt fil som brukeren velger.     *
+         * Om det ikke er en .txt fil så vil man få en feilmelding*
+         **********************************************************/
+            
             if (!feil) {
 
                 if (sti.endsWith("txt")) {
                     riktigValg = true;
+                    
+                    // Oppretter en filleser som leser riktig tegnsett.
                     BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sti), Charset.forName("ISO-8859-1")));
                     try {
+         /**************************************************************************
+         * Leser linje for linje i filen.                                          *         
+         * Splitter på komma slik at man kan lage en bruker med                    *
+         * fornavn,etternavn,epost, og autogenerer passord.                        *
+         * Sjekker at fornavn ikke er større enn 30, etternavn ikke større enn 100.*
+         * Sjekker samtidig om eposten inneholder en @                             *
+         * Sjekker om det skjedde feil. Om det gjorde det blir brukerene ikke      *
+         * registrert i databasen. (opprydderklassen kjører en rulltilbake)         *
+         ***************************************************************************/
+                        
                         String linje = br.readLine();
                         String[] oppdeling = new String[3];
 
