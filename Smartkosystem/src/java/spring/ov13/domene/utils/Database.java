@@ -286,7 +286,8 @@ public class Database {
     
     // metode for å hente faglærere // ikke testet //
     //usikker på denne!//
-       public ArrayList<Bruker> getAlleFaglærere() {
+    /* 
+    public ArrayList<Bruker> getAlleFaglærere() {
         System.out.println("getAlleFaglærere()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
@@ -323,4 +324,5 @@ public class Database {
         lukkForbindelse();
         return faglærerListe;
     }
+    */
 }
