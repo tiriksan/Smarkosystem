@@ -110,7 +110,7 @@
         <form:option value="3">Admin</form:option>
         <form:option value="4">Studass</form:option>
         
-        
+          </form:select>
         <tr><td><label for="Fag">Fag: </label></td><td>
         <form:select path="velgfag" id="velgFag">
 
@@ -132,7 +132,8 @@
       <br>
         <tr><td colspan="2"><input type="submit" value="Registrer bruker"></td></tr>
     </table>
-        </form:form>
+       
+                                   </form:form>
 
                 
                     
