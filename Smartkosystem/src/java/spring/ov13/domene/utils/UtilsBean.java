@@ -16,7 +16,7 @@ public class UtilsBean {
     public UtilsBean(){
         System.out.println("starting utilbean");
         db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
-     //   alleBrukere = db.getAlleBrukere();
+        alleBrukere = db.getAlleBrukere();
      //   System.out.println(toString());
     }
     

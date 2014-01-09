@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<form:form action="glemtpassord.htm" method="post" modelAttribute="glemtpassordbruker" >
+<form:form action="glemtpassordsvar.htm" method="post" modelAttribute="glemtpassordbruker" >
     ${errorMelding}
     <table>
         <tr><td>Brukernavn: </td><td><form:input path="brukernavn" /></td><td><form:errors path="brukernavn" /></td>

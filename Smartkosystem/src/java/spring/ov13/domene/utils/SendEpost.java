@@ -30,6 +30,8 @@ public class SendEpost {
         
         sender.send(meld);
         
+        System.out.println("Sender epost til: " + epost + ", melding: " + melding);
+        
     }
     
     

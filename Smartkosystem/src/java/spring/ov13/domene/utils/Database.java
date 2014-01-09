@@ -144,7 +144,7 @@ public class Database {
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleBrukere);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Bruker b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("brukertype"), res.getString("passord"));
+                Bruker b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
                 if (brukerListe == null) {
                     brukerListe = new ArrayList<Bruker>();
                 }
@@ -157,7 +157,7 @@ public class Database {
             Opprydder.skrivMelding(e, "getAlleBrukere - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            Opprydder.lukkSetning(psSelectAlle);
+            //Opprydder.lukkSetning(psSelectAlle);
         }
         lukkForbindelse();
         return brukerListe;
