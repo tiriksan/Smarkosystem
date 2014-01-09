@@ -2,15 +2,17 @@ package spring.ov13.kontroller;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.utils.TestDB;
 import spring.ov13.domene.Fag;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.RequestParam;
+import spring.FilLeser.FilLeser;
+import spring.ov13.domene.utils.SendEpost;
 
 @Controller
 public class Kontroller {
@@ -34,6 +38,20 @@ public class Kontroller {
         model.addAttribute("bruker", bruker);
         model.addAttribute("fag", fag);
         
+        model.addAttribute("valget", getValg);
+        
+        
+        return "bruker";
+    }
+    @RequestMapping(value = "/registrerBrukereFraFil.htm")
+    public String regBrukereFraFil(Model model, @RequestParam(value = "x", required = false) String getValg) {
+        
+        FilLeser fl = new FilLeser();
+        try {
+            fl.lesFil();
+        } catch (Exception ex) {
+            showMessageDialog(null, "Feil ved registrering oppstått, avbryter.");
+        }
         model.addAttribute("valget", getValg);
         
         
@@ -55,7 +73,6 @@ public class Kontroller {
        String brukernavn = bruker.getBrukernavn();
        String passord = bruker.md5(bruker.getPassord());
        
-        TestDB test = new TestDB();
        
         return bruker.getBrukernavn();
     }
@@ -82,6 +99,67 @@ public class Kontroller {
         
        return "bruker"; 
     }
+    
+    //FAG //
+    
+   
+    
+    
+    
+      @RequestMapping(value = "/fag.htm")
+    public String visInnsetting2(Model model, @RequestParam(value = "x", required = false) String getValg) {
+        Fag fag = new Fag();
+        model.addAttribute("fag", fag);
+        
+       // model.addAttribute("valget", getValg);
+        
+        
+        return "fag";
+    }
+    
+     @RequestMapping(value = "/faginnsetting.htm")
+    public String visFaginnsetning(@Validated @ModelAttribute("fag") Fag fag, BindingResult error, Model modell, HttpServletRequest request){
+        
+        
+        
+        
+        if (error.hasErrors()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av fag.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
+            return "fag";
+        }
+        UtilsBean utilsBean = new UtilsBean();
+        if (utilsBean.registrerFag(fag)) {
+            modell.addAttribute("melding", "Fag" + fag + " er registrert");
+            return "fag";
+        }
+        
+        
+       return "fag"; 
+    }
+    
+    
+    @RequestMapping(value = "/glemtpassord.htm")
+    public String glemtPassord(@Validated @ModelAttribute("glemtpassordbruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
+        if (error.hasErrors()) {
+            return "glemtpassord";
+        }
+        UtilsBean utilsBean = new UtilsBean();
+        if(utilsBean.get(bruker.getBrukernavn()) == null){
+            modell.addAttribute("errorMelding", "Brukeren med dette brukernavnet eksisterer ikke. Sjekk om brukernavnet stemmer");
+            return "glemtpassord";
+        } else {
+            SendEpost epost = new SendEpost();
+            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8079/Smartkosystem/endrepassord/bruker"+bruker.getBrukernavn());
+            return "glemtpassord";
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     /*
     @RequestMapping(value = "/bruker.htm")
     public String visVare(Model model) {

@@ -7,14 +7,16 @@ import java.sql.Statement;
 import static junit.framework.Assert.assertEquals;
 import org.junit.Test;
 import spring.ov13.domene.Bruker;
+import spring.ov13.domene.utils.Database;
+import spring.ov13.domene.utils.UtilsBean;
 
 /**
  * @author HJ
  */
 public class TestDB {
-    private UtilsBean dbUtils = new UtilsBean();
-    private Database db = dbUtils.getDb();
-    private Connection con = db.getForbindelse();
+    private final UtilsBean dbUtils = new UtilsBean();
+    private final Database db = dbUtils.getDb();
+    private final Connection con = db.getForbindelse();
     
     @Test
     public void test_registrerBruker() throws SQLException {
@@ -88,6 +90,12 @@ public class TestDB {
         Bruker b = new Bruker("mamma@hist.no", "Moder", "Jord", 1, "");
         boolean erBrukerOppdatert = dbUtils.oppdaterBruker(b);
         assert (!erBrukerOppdatert);
+    }
+    
+    public static void main(String[] args) throws Exception{
+        TestDB test = new TestDB();
+        test.test_registrerBruker();
+        
     }
     
 }

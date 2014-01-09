@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -29,7 +30,7 @@ public class FilLeser {
     /*lesFil()-metoden lar bruker velge en tekstfil med brukere som systemet leser inn 
      og registrerer i databasen*/
     public void lesFil() throws Exception {
-        Database db = new Database();
+        Database db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
         while (!riktigValg && !feil) {
             try {
 
@@ -77,7 +78,7 @@ public class FilLeser {
 
                 if (sti.endsWith("txt")) {
                     riktigValg = true;
-                    BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sti), "UTF-8"));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(sti), Charset.forName("windows-1252")));
                     try {
                         String linje = br.readLine();
                         String[] oppdeling = new String[3];
