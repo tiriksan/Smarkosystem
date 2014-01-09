@@ -126,7 +126,7 @@ public class FilLeser {
                             String fornavn = oppdeling[0];
                             String etternavn = oppdeling[1];
                             String epost = oppdeling[2];
-                            Bruker nyBruker = new Bruker(epost, fornavn, etternavn, 1, "passord");
+                            Bruker nyBruker = new Bruker(epost, fornavn, etternavn, 1, (java.util.UUID.randomUUID().toString().substring(0,10)));
                             listeMidlertidig.add(nyBruker);
                             linje = br.readLine();
                             if (fornavn.length() > 30 || etternavn.length() > 100 || !epost.contains("@")) {
