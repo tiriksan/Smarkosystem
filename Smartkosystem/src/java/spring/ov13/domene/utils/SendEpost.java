@@ -12,7 +12,7 @@ public class SendEpost {
         SimpleMailMessage meld = new SimpleMailMessage();
         meld.setText(melding);
         meld.setTo(epost);
-        meld.setFrom("skssomething");
+        meld.setSubject("Glemt passord");
         JavaMailSenderImpl sender = new JavaMailSenderImpl() {} ;
         sender.setHost("smtp.gmail.com");
         sender.setPort(587);
@@ -35,7 +35,7 @@ public class SendEpost {
     
     public static void main (String[] args){
         SendEpost se= new SendEpost();
-        se.sendEpost("sksmailsender@gmail.com", "testingtestingtesting");
+        se.sendEpost("sksmailsender@gmail.com", "http://google.com");
     
     }
     
