@@ -1,17 +1,12 @@
 package spring.ov13.domene.utils;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 import static junit.framework.Assert.assertEquals;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.Fag;
 
 /**
  * @author HJ
@@ -25,8 +20,8 @@ public class TestDB {
     public void test_registrerBruker() throws SQLException {
         Bruker b = new Bruker("luksky@hist.no", "Luke", "Skywalker", 3, "");
 
-        boolean erPersonRegistrert = dbUtils.registrerBruker(b);
-        assert (erPersonRegistrert);
+        boolean erBrukerRegistrert = dbUtils.registrerBruker(b);
+        assert (erBrukerRegistrert);
 
         Statement stmt = con.createStatement();
         ResultSet res = stmt.executeQuery("SELECT * FROM bruker WHERE brukernavn='luksky@hist.no'");
@@ -52,10 +47,17 @@ public class TestDB {
     }
     
     @Test
+    public void test_registrerEksisterendeBruker() throws SQLException {
+        Bruker b = new Bruker("luksky@hist.no", "Luke", "Skywalker", 3, "");
+        boolean erBrukerRegistrert = dbUtils.registrerBruker(b);
+        assert (!erBrukerRegistrert);
+    }
+    
+    @Test
     public void test_oppdaterBruker() throws SQLException {
         Bruker b = new Bruker("luksky@hist.no", "Darth", "Vader", 3, "");
 
-        boolean erPersonOppdatert = dbUtils.registrerBruker(b);
+        boolean erPersonOppdatert = dbUtils.oppdaterBruker(b);
         assert (erPersonOppdatert);
 
         Statement stmt = con.createStatement();
@@ -81,5 +83,11 @@ public class TestDB {
         assertEquals(b.getPassord(), passord);
     }
     
+    @Test
+    public void test_oppdaterBrukerSomIkkeEksisterer() throws SQLException {
+        Bruker b = new Bruker("mamma@hist.no", "Moder", "Jord", 1, "");
+        boolean erBrukerOppdatert = dbUtils.oppdaterBruker(b);
+        assert (!erBrukerOppdatert);
+    }
     
 }

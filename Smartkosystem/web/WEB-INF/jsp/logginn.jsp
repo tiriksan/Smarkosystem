@@ -29,6 +29,10 @@
             <tr><td>Passord:</td><td><form:password password="passord" path="passord" /></td><td><form:errors path="passord" /></td></tr>
             <tr><td>&nbsp;</td><td><input type="submit" name=login" value="Login"></td></tr></table>
         <c:out value="${bruker.md5('Petter')} og kake"/>
+        
+        <br>
+        <c:url value="/glemtpassord.htm" var="glemtpassordLink" />
+        <a id="glemtpassord" href="${glemtpassordLink}">Glemt passord?</a>
 
    
     </form:form>

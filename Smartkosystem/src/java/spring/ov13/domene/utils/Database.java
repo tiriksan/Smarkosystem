@@ -24,6 +24,7 @@ public class Database {
   
     private final String sqlSelectAlleBrukere = "Select * from bruker order by etternavn";
     private final String sqlInsertBruker = "insert into bruker values(?,?,?,?,?)";
+    private final String sqlInsertBrukere = "insert into bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "update bruker set fornavn=?,etternavn=?, brukertype=?, passord=? where brukernavn=?";
     private final String sqlSelectAlleFag = "Select * from fag order by emnekode";
     private final String sqlInsertFag= "insert into fag values(?,?,?,?,?)";
@@ -83,6 +84,41 @@ public class Database {
             if (i > 0) {
                 ok = true;
             }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+           // Opprydder.lukkSetning(psInsertBruker);
+        }
+        lukkForbindelse();
+        return ok;
+        
+    
+    }
+    public synchronized boolean registrerBrukere(ArrayList<Bruker> brukere){
+        boolean ok = false;
+        System.out.println("registrerBrukere()");
+        PreparedStatement psInsertBrukere = null;
+
+        try {
+            åpneForbindelse();
+               for (int i = 0; i < brukere.size(); i++) {
+              
+            psInsertBrukere = forbindelse.prepareStatement(sqlInsertBrukere);
+            psInsertBrukere.setString(1, brukere.get(i).getBrukernavn());
+            psInsertBrukere.setString(2, brukere.get(i).getFornavn());
+            psInsertBrukere.setString(3, brukere.get(i).getEtternavn());
+            psInsertBrukere.setString(4, brukere.get(i).getPassord());
+            psInsertBrukere.setInt(5, brukere.get(i).getBrukertype());
+            
+            int j = psInsertBrukere.executeUpdate();
+            if (j > 0) {
+                ok = true;
+            }
+        }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "registrerBruker()");
