@@ -10,7 +10,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
+import java.security.*;
+import java.math.*;
 /**
  *
  * @author Rune
@@ -100,6 +101,17 @@ public class Bruker {
     
 		
             
+     public static String md5(String md55){
+		String sendinn = "";
+		try {MessageDigest md5 = MessageDigest.getInstance("MD5");
+
+			 md5.update(md55.getBytes(),0,md55.length());
+		 sendinn = new BigInteger(1,md5.digest()).toString(16);
+
+
+} catch (Exception e){}
+return sendinn;
+	}
     
 }
 

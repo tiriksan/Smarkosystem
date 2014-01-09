@@ -8,12 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import spring.ov13.domene.Bruker;
+import spring.ov13.domene.Fag;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import spring.ov13.domene.utils.UtilsBean;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class Kontroller {
@@ -23,9 +25,14 @@ public class Kontroller {
         return "index";
     }
     @RequestMapping(value = "/bruker.htm")
-    public String visInnsetting(Model model) {
+    public String visInnsetting(Model model, @RequestParam(value = "x", required = false) String getValg) {
         Bruker bruker = new Bruker();
+        Fag fag = new Fag();
         model.addAttribute("bruker", bruker);
+        model.addAttribute("fag", fag);
+        
+        model.addAttribute("valget", getValg);
+        
         
         return "bruker";
     }

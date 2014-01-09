@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Øving13!!!!111!</h1>
+        <h1>SKS</h1>
     </body>
 </html>

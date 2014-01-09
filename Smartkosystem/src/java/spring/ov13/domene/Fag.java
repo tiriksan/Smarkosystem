@@ -12,21 +12,24 @@ import java.util.ArrayList;
  */
 public class Fag {
   
-    private String fag_navn;
+    private String fagnavn;
     private String emnekode;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
 
-    public Fag(String fag_navn, String emnekode){
-        this.fag_navn = fag_navn;
+    public Fag(String fagnavn, String emnekode){
+        this.fagnavn = fagnavn;
         this.emnekode = emnekode;
     }
+    public Fag(){
+        
+    }
     
-    public String getFag_navn() {
-        return fag_navn;
+    public String getFagnavn() {
+        return fagnavn;
     }
 
-    public void setFag_navn(String fag_navn) {
-        this.fag_navn = fag_navn;
+    public void setFagnavn(String fagnavn) {
+        this.fagnavn = fagnavn;
     }
 
     public String getEmnekode() {
@@ -37,16 +40,16 @@ public class Fag {
         this.emnekode = emnekode;
     }
     
-    public Bruker getFaglærer(Bruker bruker){
-        for(Bruker b: faglærer){
+    public ArrayList<Bruker> getFaglærer(){
+        
      //       if((b.getBrukertype()== 2) && ("select * from emne_bruker where emnekode ="+emnekode+", brukernavn="+b.getBrukernavn()+"")
             
-       return bruker;
+       return faglærer;
       //      }
-             
-    }
-
-    return null;  
+              
     
 }
+    public void setFaglærer(ArrayList<Bruker> nye){
+        this.faglærer = nye;
+    }
 }

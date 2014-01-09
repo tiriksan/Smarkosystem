@@ -10,13 +10,12 @@
     </head>
     <body>
         <div id="page-wrap">
-            <table id="block">
+            <table id="block" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td id="tablehead">
+                    <td id="tablehead" colspan="2">
                         <tiles:insertAttribute name="header" />
                     </td>
-                    <td>
-                    </td>
+
                 </tr>
                 <tr>
                     <td id="menu">
@@ -29,7 +28,7 @@
                 <tr>
                     <td>
                         <footer>
-                            <p>Alle varer kan variere i pris.</p>
+                            Footer
                         </footer>
                     </td>
                     <td></td>
