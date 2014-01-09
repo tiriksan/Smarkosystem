@@ -56,7 +56,7 @@ public class Kontroller {
        String passord = bruker.md5(bruker.getPassord());
        
         TestDB test = new TestDB();
-        test.getCon().executeQuery("");
+       
         return bruker.getBrukernavn();
     }
     
