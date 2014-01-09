@@ -180,3 +180,11 @@ img:hover {
         width: 250px;
         text-align: center;
     }
+    
+    form {
+        
+    }
+    form.velgFag{
+        display : block;
+    }
+    
