@@ -101,7 +101,8 @@
         <tr><td>Etternavn:   </td><td><form:input path="etternavn" /></td><td><form:errors path="etternavn" /></tr>
         <tr><td>Brukernavn:       </td><td><form:input path="brukernavn" /></td><td><form:errors path="brukernavn" /></td></tr>
         <tr><td><label for="brukerTyper">Brukertype: </label></td><td>
-        <form:select path="brukertype" id="brukerTyper">
+       
+                <form:select path="brukertype" id="brukerTyper">
 
         <form:option value="0">Velg brukertype</form:option>
 
@@ -110,6 +111,24 @@
         <form:option value="3">Admin</form:option>
         <form:option value="4">Studass</form:option>
         
+        
+               </form:select>
+        <tr><td><label for="fag">Fag: </label></td><td>
+        <form:select path="fagnavn" id="velgFag">
+
+        <form:option value="0">Velg fag</form:option>
+
+        <form:option value="5">fag1</form:option>
+        <form:option value="6">fag2</form:option>
+        <form:option value="7">fag3</form:option>
+        <form:option value="8">fag4</form:option>
+        <script> 
+            function leggTilFag{
+                if(brukerTyper.value=="1" || brukerTyper.value=="2" || brukerTyper.value=="4" ){
+                    document.getElementById(fagNavn).style.display=none;
+                }
+            }
+            </script>
 
       </form:select>
         

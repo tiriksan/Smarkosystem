@@ -41,15 +41,16 @@ public class Fag {
     }
     
     public ArrayList<Bruker> getFaglærer(){
-        
-     //       if((b.getBrukertype()== 2) && ("select * from emne_bruker where emnekode ="+emnekode+", brukernavn="+b.getBrukernavn()+"")
-            
+                    
        return faglærer;
-      //      }
-              
-    
-}
+      
+   }
     public void setFaglærer(ArrayList<Bruker> nye){
         this.faglærer = nye;
     }
+    /*
+    public Bruker[] hentAlleLærere(){
+        
+    }
+    */
 }
