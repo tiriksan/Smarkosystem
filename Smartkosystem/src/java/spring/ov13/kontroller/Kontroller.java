@@ -134,20 +134,31 @@ public class Kontroller {
     }
     
     
-    @RequestMapping(value = "/glemtpassord.htm")
-    public String glemtPassord(@Validated @ModelAttribute("glemtpassordbruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
-        if (error.hasErrors()) {
-            return "glemtpassord";
-        }
+    @RequestMapping(value = "/glemtpassordsvar.htm")
+    public String glemtPassordSvar(@Validated @ModelAttribute("glemtpassordbruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
+        System.out.println("Glemtpassord");
+        System.out.println(bruker.getBrukernavn());    
+     //   if (error.hasErrors()) {
+     //       System.out.println("feil");
+     //       return "glemtpassord";
+     //  }
         UtilsBean utilsBean = new UtilsBean();
         if(utilsBean.get(bruker.getBrukernavn()) == null){
             modell.addAttribute("errorMelding", "Brukeren med dette brukernavnet eksisterer ikke. Sjekk om brukernavnet stemmer");
+            System.out.println("Finner ikke i databasen");
             return "glemtpassord";
         } else {
+            System.out.println("Sender epost?");
             SendEpost epost = new SendEpost();
             epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8079/Smartkosystem/endrepassord/bruker"+bruker.getBrukernavn());
             return "glemtpassord";
         }
+    }
+    @RequestMapping(value = "/glemtpassord.htm")
+    public String glemtPassord(Model modell){
+            Bruker b = new Bruker();
+            modell.addAttribute("glemtpassordbruker", b);
+            return "glemtpassord";
     }
     
     
