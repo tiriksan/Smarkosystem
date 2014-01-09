@@ -68,7 +68,8 @@ public class Database {
         boolean ok = false;
         System.out.println("registrerBruker()");
         PreparedStatement psInsertBruker = null;
-
+        bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0,10));
+        
         try {
             åpneForbindelse();
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
