@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import spring.ov13.domene.Bruker;
-import spring.ov13.domene.utils.TestDB;
 import spring.ov13.domene.Fag;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -73,7 +72,6 @@ public class Kontroller {
        String brukernavn = bruker.getBrukernavn();
        String passord = bruker.md5(bruker.getPassord());
        
-        TestDB test = new TestDB();
        
         return bruker.getBrukernavn();
     }
