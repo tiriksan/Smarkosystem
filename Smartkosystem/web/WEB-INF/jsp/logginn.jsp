@@ -16,14 +16,25 @@
         <title>Innloggings side</title>
     </head>
     <body>
-        <spring:message code="velkomsthilsen" />
+        
+        <div id="logginnform">
+            
+            
+    <form:form method="POST" modelAttribute="brukerinnlogg" action="login">         
+                   
 
     
-    <form:form method="POST" modelAttribute="brukerinnlogg" action="login">
-        
-</tr>
-           <tr><td>&nbsp;</td><td><input type="submit" name=login" value="Login"></td></tr></table></center>
+        <table><tr><td colspan="2"> <spring:message code="velkomsthilsen" /></td></tr>
+            <tr><td>Brukernavn:</td><td><form:input path="brukernavn" /></td><td><form:errors path="brukernavn" /></td></tr>
+            <tr><td>Passord:</td><td><form:password password="passord" path="passord" /></td><td><form:errors path="passord" /></td></tr>
+            <tr><td>&nbsp;</td><td><input type="submit" name=login" value="Login"></td></tr></table>
+        <c:out value="${bruker.md5('Petter')} og kake"/>
+
    
     </form:form>
+            
+            
+        </div>
+  
                          </body>
 </html>
