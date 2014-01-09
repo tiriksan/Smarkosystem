@@ -36,7 +36,7 @@ public class FilLeser {
         /**************************************
          * Oppretter en kobling til databasen.*
          **************************************/
-        showMessageDialog(null,"Starter nå opp...");
+        
         Database db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
         
         
