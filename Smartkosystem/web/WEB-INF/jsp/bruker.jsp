@@ -95,7 +95,7 @@
                  
                     
                     
-                                   <form:form action="brukerinnsetning.htm" method="post" modelAttribute="bruker" modelAttribute="fag" >
+                                   <form:form action="brukerinnsetning.htm" method="post" modelAttribute="bruker" >
                 <table class="forminputs">
         <tr><td width="25%">Fornavn: </td><td><form:input path="fornavn" /></td><td><form:errors path="fornavn" /></td></tr>
         <tr><td>Etternavn:   </td><td><form:input path="etternavn" /></td><td><form:errors path="etternavn" /></tr>
@@ -123,7 +123,7 @@
         <script> 
             function leggTilFag{
                 if(brukerTyper.value=="1" || brukerTyper.value=="2" || brukerTyper.value=="4" ){
-                    document.getElementById(velgFag).style.display=none;
+                    document.getElementById(fagNavn).style.display=none;
                 }
             }
             </script>
