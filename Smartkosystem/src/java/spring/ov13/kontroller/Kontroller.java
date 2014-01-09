@@ -55,7 +55,7 @@ public class Kontroller {
         model.addAttribute("valget", getValg);
         
         
-        return "bruker";
+        return "redirect:/bruker.htm?x=2";
     }
     
        @RequestMapping(value = "/logginn.htm")
