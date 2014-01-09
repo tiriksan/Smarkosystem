@@ -10,17 +10,20 @@ public class UtilsBean {
     private List<Bruker> alleBrukere = null;
     private List<Bruker> valgteBrukere = null;
     private List<Emne> alleFag = null;
-    private List<Emne> valgteFag = null;
+    private List<Emne> valgteEmner = null;
+    private List<Bruker> faglærere = null;
     
     
     public UtilsBean(){
         System.out.println("starting utilbean");
         db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
         alleBrukere = db.getAlleBrukere();
+        faglærere = db.getAlleFaglærere(); // denne er noe muffins med //
      //   System.out.println(toString());
     }
     
     public boolean registrerBruker(Bruker bruker){
+        bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0,10));
         return db.registrerBruker(bruker);
     }
     
@@ -64,23 +67,32 @@ public class UtilsBean {
     //fag //
     
     
-      public boolean registrerFag(Emne fag){
+      public boolean registrerEmner(Emne fag){
         
-        return db.registrerFag(fag);
+        return db.registrerEmner(fag);
     }
       
-      public void setValgteFag(List<Emne> valgteFag){
-        this.valgteFag = valgteFag;
+      public void setValgteFag(List<Emne> valgteEmner){
+        this.valgteEmner = valgteEmner;
     }
       
-       public List<Emne> getAlleFag(){
+       public List<Emne> getAlleEmner(){
         return alleFag;
     }
-    public List<Emne> getValgteFag(){
-        return valgteFag;
+    public List<Emne> getValgteEmner(){
+        return valgteEmner;
     }
-    public Emne hent(String emnekode){
-        return db.getFag(emnekode);
+    public Emne hent(String fagnavn){
+        for(Emne f: alleFag){
+            if(f.getEmnenavn().equals(fagnavn)){
+                return f;
+            }
+        }
+        return null;
+    }
+    
+    public List <Bruker> getAlleFaglærere(String faglærer){
+        return faglærere;
     }
       
       

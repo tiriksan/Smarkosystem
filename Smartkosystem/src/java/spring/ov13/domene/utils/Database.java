@@ -6,6 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 
@@ -15,36 +21,36 @@ public class Database {
     private String dbUser;
     private String dbPswrd;
     private Connection forbindelse;
-
-    private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
-    private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
-    private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
-    private final String sqlInsertBrukere = "INSERT INTO bruker values(?,?,?,?,?)";
-    private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? where brukernavn=?";
-    private final String sqlSelectAlleFag = "SELECT * FROM fag ORER BY emnekode";
-    private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
-    private final String sqlInsertFag = "INSERT into EMNE values(?,?,?,?,?)";
-    private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, emnekode=? WHERE emnekode=?";
-
+  
+    private final String sqlSelectAlleBrukere = "Select * from bruker order by etternavn";
+    private final String sqlInsertBruker = "insert into bruker values(?,?,?,?,?)";
+    private final String sqlInsertBrukere = "insert into bruker values(?,?,?,?,?)";
+    private final String sqlUpdateBruker = "update bruker set fornavn=?,etternavn=?, brukertype=?, passord=? where brukernavn=?";
+    private final String sqlSelectAlleEmner = "Select * from fag order by emnekode";
+    private final String sqlInsertEmne= "insert into fag values(?,?,?,?,?)";
+    private final String sqlUpdateEmne= "update fag set fagnavn=?,emnekode=?";
+    
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
         this.dbPswrd = dbPswrd;
     }
 
+    
     public Database() {
     }
-
+    
     protected Connection getForbindelse() {
         return forbindelse;
     }
 
     private void åpneForbindelse() throws Exception {
         try {
-
+            
             Class.forName("com.mysql.jdbc.Driver");
-            // org.apache.derby.jdbc.
-            //  Class.forName("org.apache.derby.jdbc.ClientDriver");
+           // org.apache.derby.jdbc.
+          //  Class.forName("org.apache.derby.jdbc.ClientDriver");
             forbindelse = DriverManager.getConnection(dbNavn, dbUser, dbPswrd);
             System.out.println("Databaseforbindelse opprettet");
         } catch (SQLException e) {
@@ -57,12 +63,11 @@ public class Database {
         System.out.println("Lukker databaseforbindelsen");
         Opprydder.lukkForbindelse(forbindelse);
     }
-
-    public synchronized boolean registrerBruker(Bruker bruker) {
+    
+    public synchronized boolean registrerBruker(Bruker bruker){
         boolean ok = false;
         System.out.println("registrerBruker()");
         PreparedStatement psInsertBruker = null;
-        bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0, 10));
 
         try {
             åpneForbindelse();
@@ -73,6 +78,7 @@ public class Database {
             System.out.println(bruker.getPassord());
             psInsertBruker.setString(4, bruker.getPassord());
             psInsertBruker.setInt(5, bruker.getBrukertype());
+            
 
             int i = psInsertBruker.executeUpdate();
             if (i > 0) {
@@ -85,59 +91,34 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertBruker);
+           // Opprydder.lukkSetning(psInsertBruker);
         }
         lukkForbindelse();
         return ok;
+        
+    
     }
-
-    public synchronized Bruker getBruker(String brukernavn) {
-        Bruker b = null;
-        ResultSet res;
-        System.out.println("getBruker()");
-        PreparedStatement psSelectBruker = null;
-
-        try {
-            åpneForbindelse();
-            psSelectBruker = forbindelse.prepareStatement(sqlSelectBruker);
-            res = psSelectBruker.executeQuery();
-            while (res.next()) {
-                b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
-            }
-        } catch (SQLException e) {
-            Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "getBruker()");
-        } catch (Exception e) {
-            Opprydder.skrivMelding(e, "getBruker - ikke sqlfeil");
-        } finally {
-            Opprydder.settAutoCommit(forbindelse);
-            //Opprydder.lukkSetning(psSelectBruker);
-        }
-        lukkForbindelse();
-        return b;
-    }
-
-    public synchronized boolean registrerBrukere(ArrayList<Bruker> brukere) {
+    public synchronized boolean registrerBrukere(ArrayList<Bruker> brukere){
         boolean ok = false;
         System.out.println("registrerBrukere()");
         PreparedStatement psInsertBrukere = null;
 
         try {
             åpneForbindelse();
-            for (int i = 0; i < brukere.size(); i++) {
-
-                psInsertBrukere = forbindelse.prepareStatement(sqlInsertBrukere);
-                psInsertBrukere.setString(1, brukere.get(i).getBrukernavn());
-                psInsertBrukere.setString(2, brukere.get(i).getFornavn());
-                psInsertBrukere.setString(3, brukere.get(i).getEtternavn());
-                psInsertBrukere.setString(4, brukere.get(i).getPassord());
-                psInsertBrukere.setInt(5, brukere.get(i).getBrukertype());
-
-                int j = psInsertBrukere.executeUpdate();
-                if (j > 0) {
-                    ok = true;
-                }
+               for (int i = 0; i < brukere.size(); i++) {
+              
+            psInsertBrukere = forbindelse.prepareStatement(sqlInsertBrukere);
+            psInsertBrukere.setString(1, brukere.get(i).getBrukernavn());
+            psInsertBrukere.setString(2, brukere.get(i).getFornavn());
+            psInsertBrukere.setString(3, brukere.get(i).getEtternavn());
+            psInsertBrukere.setString(4, brukere.get(i).getPassord());
+            psInsertBrukere.setInt(5, brukere.get(i).getBrukertype());
+            
+            int j = psInsertBrukere.executeUpdate();
+            if (j > 0) {
+                ok = true;
             }
+        }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "registrerBruker()");
@@ -145,13 +126,14 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertBruker);
+           // Opprydder.lukkSetning(psInsertBruker);
         }
         lukkForbindelse();
         return ok;
-
+        
+    
     }
-
+    
     public ArrayList<Bruker> getAlleBrukere() {
         System.out.println("getAlleBrukere()");
         PreparedStatement psSelectAlle = null;
@@ -181,48 +163,51 @@ public class Database {
         return brukerListe;
     }
 
-    public synchronized boolean oppdaterBruker(Bruker bruker) {
+    public synchronized boolean oppdaterBruker(Bruker bruker){
         boolean ok = false;
         System.out.println("oppdaterBruker()");
         PreparedStatement psUpdateBruker = null;
-
-        try {
+        
+        try{
             åpneForbindelse();
             psUpdateBruker = forbindelse.prepareStatement(sqlUpdateBruker);
             psUpdateBruker.setString(1, bruker.getBrukernavn());
-            psUpdateBruker.setString(2, bruker.getFornavn());
+            psUpdateBruker.setString(2,bruker.getFornavn());
             psUpdateBruker.setString(3, bruker.getEtternavn());
             psUpdateBruker.setInt(4, bruker.getBrukertype());
             psUpdateBruker.setString(5, bruker.getPassord());
             int i = psUpdateBruker.executeUpdate();
-            if (i > 0) {
+            if(i>0){
                 ok = true;
             }
-
-        } catch (SQLException e) {
+            
+            } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "oppdaterBruker()");
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "oppdaterBruker - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            //Opprydder.lukkSetning(psUpdateBruker);
+            Opprydder.lukkSetning(psUpdateBruker);
         }
         lukkForbindelse();
         return ok;
     }
-
+    
+    
     //fag metoder //
-    public synchronized boolean registrerFag(Emne fag) {
+    
+    public synchronized boolean registrerEmner(Emne fag){
         boolean ok = false;
         System.out.println("registrerFag()");
         PreparedStatement psInsertFag = null;
 
         try {
             åpneForbindelse();
-            psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
+            psInsertFag = forbindelse.prepareStatement(sqlInsertEmne);
             psInsertFag.setString(1, fag.getEmnenavn());
             psInsertFag.setString(2, fag.getEmnekode());
+            
 
             int i = psInsertFag.executeUpdate();
             if (i > 0) {
@@ -235,53 +220,28 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerFag - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertFag);
+           // Opprydder.lukkSetning(psInsertFag);
         }
         lukkForbindelse();
         return ok;
+    
     }
-
-    public synchronized Emne getFag(String fagkode) {
-        Emne f = null;
-        ResultSet res;
-        System.out.println("getFag()");
-        PreparedStatement psSelectFag = null;
-
-        try {
-            åpneForbindelse();
-            psSelectFag = forbindelse.prepareStatement(sqlSelectFag);
-            res = psSelectFag.executeQuery();
-            while (res.next()) {
-                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"));
-            }
-        } catch (SQLException e) {
-            Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "getFag()");
-        } catch (Exception e) {
-            Opprydder.skrivMelding(e, "getFag - ikke sqlfeil");
-        } finally {
-            Opprydder.settAutoCommit(forbindelse);
-            //Opprydder.lukkSetning(psSelectFag);
-        }
-        lukkForbindelse();
-        return f;
-    }
-
-    public ArrayList<Emne> getAlleFag() {
+    
+       public ArrayList<Emne> getAlleFag() {
         System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
-        ArrayList<Emne> fagListe = null;
+        ArrayList<Emne> emneListe = null;
         try {
             åpneForbindelse();
-            psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleFag);
+            psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleEmner);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
                 Emne f = new Emne(res.getString("fagnavn"), res.getString("emnekode"));
-                if (fagListe == null) {
-                    fagListe = new ArrayList<Emne>();
+                if (emneListe == null) {
+                    emneListe = new ArrayList<Emne>();
                 }
-                fagListe.add(f);
+                emneListe.add(f);
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -293,36 +253,74 @@ public class Database {
             Opprydder.lukkSetning(psSelectAlle);
         }
         lukkForbindelse();
-        return fagListe;
+        return emneListe;
     }
 
-    public synchronized boolean oppdaterFag(Emne emne, String emnekode) {
+    public synchronized boolean oppdaterFag(Emne bruker){
         boolean ok = false;
         System.out.println("oppdaterFag()");
-        PreparedStatement psUpdateFag = null;
-
-        try {
+        PreparedStatement psUpdateEmne = null;
+        
+        try{
             åpneForbindelse();
-            psUpdateFag = forbindelse.prepareStatement(sqlUpdateFag);
-            psUpdateFag.setString(1, emne.getEmnenavn());
-            psUpdateFag.setString(2, emne.getEmnekode());
-            psUpdateFag.setString(3, emnekode);
-            int i = psUpdateFag.executeUpdate();
-            if (i > 0) {
+            psUpdateEmne = forbindelse.prepareStatement(sqlUpdateEmne);
+            psUpdateEmne.setString(1, bruker.getEmnenavn());
+            psUpdateEmne.setString(2,bruker.getEmnekode());
+            int i = psUpdateEmne.executeUpdate();
+            if(i>0){
                 ok = true;
             }
-
-        } catch (SQLException e) {
+            
+            } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "oppdaterFag()");
+            Opprydder.skrivMelding(e, "oppdaterEmne()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "oppdaterFag - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "oppdaterEmne - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            Opprydder.lukkSetning(psUpdateFag);
+            Opprydder.lukkSetning(psUpdateEmne);
         }
         lukkForbindelse();
         return ok;
     }
-
+    
+    // metode for å hente faglærere // ikke testet //
+    //usikker på denne!//
+       public ArrayList<Bruker> getAlleFaglærere() {
+        System.out.println("getAlleFaglærere()");
+        PreparedStatement psSelectAlle = null;
+        ResultSet res;
+        ArrayList<Bruker> faglærerListe = null;
+        try {
+            åpneForbindelse();
+            psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleEmner);
+            res = psSelectAlle.executeQuery();
+            while (res.next()) {
+                
+              String sql = ("SELECT * FROM bruker JOIN emne_bruker WHERE hovedbrukertype =2"); // hente ut faglærere i hvert fag// // må fikses//
+		String fornavn = "";
+                String etternavn = "";
+		//while(res.next()){
+			fornavn= res.getString("fornavn");
+			etternavn= res.getString("etternavn");      
+                String lærer = fornavn + etternavn;     
+                      
+              Bruker a = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"),Integer.parseInt(res.getString("brukertype")),res.getString("passord"));
+                if (faglærerListe == null) {
+                    faglærerListe = new ArrayList<Bruker>();
+                }
+                faglærerListe.add(a);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getAlleFaglærere()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getAlleFaglærere - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psSelectAlle);
+        }
+        lukkForbindelse();
+        return faglærerListe;
+    }
 }
