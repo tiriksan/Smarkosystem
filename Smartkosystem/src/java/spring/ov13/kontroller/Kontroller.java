@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Fag;
 import org.springframework.ui.Model;
@@ -39,19 +40,22 @@ public class Kontroller {
     }
     
        @RequestMapping(value = "/logginn.htm")
-    public String visLogginn() {
+    public String visLogginn(Model model, @ModelAttribute(value="brukerinnlogg") Bruker bruker) {
         
-        
-        
+        Bruker bruker2 = new Bruker();
+        model.addAttribute("bruker", bruker2);
         return "logginn";
     }
     
            @RequestMapping(value = "login")
-    public String Logginn(@ModelAttribute(value="brukerinnlogg") Bruker bruker) {
+           @ResponseBody
+    public String Logginn(@ModelAttribute(value="brukerinnlogg") Bruker bruker, BindingResult error) {
         
+       String brukernavn = bruker.getBrukernavn();
+       String passord = bruker.md5(bruker.getPassord());
+       
         
-        
-        return "logginn";
+        return bruker.getBrukernavn();
     }
     
     @RequestMapping(value = "/brukerinnsetning.htm")
