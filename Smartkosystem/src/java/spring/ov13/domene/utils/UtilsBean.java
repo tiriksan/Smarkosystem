@@ -1,5 +1,6 @@
 package spring.ov13.domene.utils;
 
+import java.math.BigInteger;
 import java.util.List;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Bruker;
@@ -12,12 +13,13 @@ public class UtilsBean {
     
     public UtilsBean(){
         System.out.println("starting utilbean");
-        db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306?user=14-ing2-t5&password=aXJff+6e");
+        db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
      //   alleBrukere = db.getAlleBrukere();
      //   System.out.println(toString());
     }
     
     public boolean registrerBruker(Bruker bruker){
+        bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0,10));
         return db.registrerBruker(bruker);
     }
     

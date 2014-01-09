@@ -31,11 +31,10 @@ public class Kontroller {
     }
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
-        java.security.SecureRandom random = new java.security.SecureRandom();
         
-        bruker.setPassord(new BigInteger(130,random).toString(10));
-        System.out.println(new BigInteger(130,random).toString(10));
-        System.out.println(java.util.UUID.randomUUID().toString().substring(0,10));
+        
+        
+        
         if (error.hasErrors()) {
             javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
             return "bruker";

@@ -87,7 +87,7 @@ public class Bruker {
     }
     
     public void setPassord(String passord) {
-        this.etternavn = passord;
+        this.passord = passord;
     }
     
  
