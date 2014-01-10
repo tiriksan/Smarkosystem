@@ -22,6 +22,7 @@ public class Database {
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? where brukernavn=?";
+    private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
     private final String sqlInsertFag = "INSERT into EMNE VALUES(?,?,?,?,?)";
@@ -219,6 +220,36 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
+    
+    
+    public synchronized boolean endrePassord(Bruker bruker){
+        boolean ok = false;
+        System.out.println("endrePassord()");
+        PreparedStatement psEndrePassord = null;
+
+        try {
+            åpneForbindelse();
+            psEndrePassord = forbindelse.prepareStatement(sqlendrePassord);
+            psEndrePassord.setString(1, bruker.getBrukernavn());
+            psEndrePassord.setString(1, bruker.getPassord());
+            int i = psEndrePassord.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "endrePassord()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "endrePassord - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psUpdateBruker);
+        }
+        lukkForbindelse();
+        return ok;
+        
+    }
 
     //fag metoder //
     public synchronized boolean registrerEmne(Emne fag) {
@@ -332,6 +363,36 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
+    
+     // øving //
+    public synchronized boolean registrerØving(Øving øving) {
+        boolean ok = false;
+        System.out.println("registrerØving()");
+        PreparedStatement psInsertØving= null;
+
+        try {
+            åpneForbindelse();
+            psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
+            psInsertØving.setInt(1, øving.getØvingsnummer());
+            psInsertØving.setString(2, øving.getØvingsnavn());
+
+            int i = psInsertØving.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerØving()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerØving - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertFag);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
 
     // emne_bruker //
     private synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
