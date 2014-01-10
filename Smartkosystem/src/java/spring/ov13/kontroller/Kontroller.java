@@ -110,7 +110,7 @@ public class Kontroller {
         UtilsBean utilsBean = new UtilsBean();
         if (utilsBean.registrerBruker(bruker)) {
             modell.addAttribute("melding", "Bruker " + bruker + " er registrert");
-            return "bruker";
+ 
         }
         
         
