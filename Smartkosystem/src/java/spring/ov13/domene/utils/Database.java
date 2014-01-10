@@ -34,10 +34,10 @@ public class Database {
     private final String sqlSelectBrukertypeIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? AND brukertype=? ORDER BY etternavn";
     private final String sqlInsertBrukerIEmne = "INSERT INTO emne_bruker VALUES(?,?,?)";
-    private final String sqlSelectØving = "SELECT emnekode FROM emnenavn =? or emnekode =? ";
-    private final String sqlInsertØving = "INSERT into EMNE values(?,?)";
-    private final String sqlUpdateØving = "UPDATE emne SET øvingsnr =? emnekode =? ";
-    private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode IN(SELECT emnekode FROM emne WHERE emnekode = ?)";
+    private final String sqlSelectØving = "SELECT * FROM øving WHERE øvingsnummer=? AND emnekode =?";
+    private final String sqlInsertØving = "INSERT ENTO øving VALUES(?,?)";
+    private final String sqlUpdateØving = "UPDATE øving SET øvingsnr =?, emnekode =?";
+    private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
