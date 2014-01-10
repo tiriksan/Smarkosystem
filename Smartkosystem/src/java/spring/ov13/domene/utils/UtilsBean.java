@@ -24,7 +24,6 @@ public class UtilsBean {
     }
     
     public boolean registrerBruker(Bruker bruker){
-        bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0,10));
         return db.registrerBruker(bruker);
     }
     
