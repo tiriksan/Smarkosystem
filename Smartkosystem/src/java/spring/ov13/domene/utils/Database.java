@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 
@@ -327,9 +329,8 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
+
     // emne_bruker //
-    
     private synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
         boolean ok = false;
         int brukertypeIEmne = brukertype;
@@ -352,12 +353,47 @@ public class Database {
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerBruker()");
+            Opprydder.skrivMelding(e, "leggTilBrukerIEmne()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "leggTilBrukerIEmne - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertBrukerIEmne);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+
+    private synchronized boolean leggTilBrukereIEmne(Emne emne, ArrayList<Bruker> bruker) {
+        boolean ok = false;
+        int i = 0;
+        ListIterator<Bruker> iterator = bruker.listIterator();
+        System.out.println("leggTilBrukerIEmne()");
+        PreparedStatement psInsertBrukerIEmne = null;
+
+        try {
+            åpneForbindelse();
+            psInsertBrukerIEmne = forbindelse.prepareStatement(sqlInsertBrukerIEmne);
+            while (iterator.hasNext()) {
+                Bruker b = iterator.next();
+                psInsertBrukerIEmne.setString(1, emne.getEmnekode());
+                psInsertBrukerIEmne.setString(2, b.getBrukernavn());
+                psInsertBrukerIEmne.setInt(3, b.getBrukertype());
+                iterator.remove();
+
+                i += psInsertBrukerIEmne.executeUpdate();
+            }
+            if (i == bruker.size()) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "leggTilBrukereIEmne()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "leggTilBrukereIEmne - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertBrukereIEmne);
         }
         lukkForbindelse();
         return ok;
