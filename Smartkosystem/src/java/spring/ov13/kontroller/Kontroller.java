@@ -1,6 +1,7 @@
 package spring.ov13.kontroller;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,16 +48,24 @@ public class Kontroller {
         return "bruker";
     }
     @RequestMapping(value = "/registrerBrukereFraFil.htm")
-    public String regBrukereFraFil(Model model, @RequestParam(value = "x", required = false) String getValg) {
-        
-        FilLeser fl = new FilLeser();
+    public String regBrukereFraFil(Model model, @ModelAttribute("fag") Emne emne, BindingResult error, HttpServletRequest request) {
+        UtilsBean ub = new UtilsBean();
+        ArrayList<Emne> emner = new ArrayList<Emne>();
+        emner = ub.getAlleFag();
+        emne = (Emne) request.getAttribute("fag");
+        boolean emnetIDatabase = false;
+        for (int i = 0; i < emner.size(); i++) {
+            if (emner.get(i).getEmnekode() == emne.getEmnekode() && emner.get(i).getEmnenavn() == emne.getEmnenavn()) {
+                emnetIDatabase = true;
+            }
+        }
+        FilLeser fl = new FilLeser(emne);
         try {
             fl.lesFil();
         } catch (Exception ex) {
             showMessageDialog(null, "Feil ved registrering oppstått, avbryter.");
         }
-        model.addAttribute("valget", getValg);
-        
+      
         
         return "redirect:/bruker.htm?x=2";
     }

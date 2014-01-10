@@ -20,7 +20,9 @@ import javax.swing.JFrame;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.UIManager;
 import spring.ov13.domene.Bruker;
+import spring.ov13.domene.Emne;
 import spring.ov13.domene.utils.Database;
+import spring.ov13.domene.utils.UtilsBean;
 
 public class FilLeser {
 
@@ -28,6 +30,12 @@ public class FilLeser {
     private boolean feil = false;
     private String sti = "";
     private ArrayList<Bruker> listeMidlertidig = new ArrayList<Bruker>();
+    private Emne emne = null;
+    private UtilsBean ub = new UtilsBean();
+    
+    public FilLeser(Emne emne){
+        this.emne = emne;
+    }
      /******************************************************************************************
       *lesFil()-metoden lar bruker velge en tekstfil med brukere som systemet leser inn        *
       *og registrerer i databasen                                                              *
@@ -39,7 +47,6 @@ public class FilLeser {
          * Oppretter en kobling til databasen.*
          **************************************/
         
-        Database db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
         
         
          /******************************************************
@@ -142,7 +149,7 @@ public class FilLeser {
                             }
                         }
                         if (!feil) {
-                            db.registrerBrukere(listeMidlertidig);
+//                            ub.registrerBrukere(listeMidlertidig);
                         }
                     } catch (Exception e) {
                         System.out.println("En feil er oppstått, feilmelding: " + e + "\n Prøv på nytt.");
