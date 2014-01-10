@@ -38,6 +38,7 @@ public class Database {
     private final String sqlInsertØving = "INSERT ENTO øving VALUES(?,?)";
     private final String sqlUpdateØving = "UPDATE øving SET øvingsnr =?, emnekode =?";
     private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
+    private final String SqlCountØvinger = "SELECT COUNT(øvingsnummer) FROM øving WHERE emnekode =?";
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
