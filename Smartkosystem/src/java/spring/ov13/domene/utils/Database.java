@@ -31,7 +31,10 @@ public class Database {
     private final String sqlSelectBrukertypeIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? AND brukertype=? ORDER BY etternavn";
     private final String sqlInsertBrukerIEmne = "INSERT INTO emne_bruker VALUES(?,?,?)";
-
+    private final String sqlSelectØving = "SELECT emnekode FROM emnenavn =? or emnekode =? ";
+    private final String sqlInsertØving = "INSERT into EMNE values(?,?)";
+    
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
