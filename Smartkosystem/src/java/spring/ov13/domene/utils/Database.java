@@ -363,6 +363,36 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
+    
+     // øving //
+    public synchronized boolean registrerØving(Øving øving) {
+        boolean ok = false;
+        System.out.println("registrerØving()");
+        PreparedStatement psInsertØving= null;
+
+        try {
+            åpneForbindelse();
+            psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
+            psInsertØving.setInt(1, øving.getØvingsnummer());
+            psInsertØving.setString(2, øving.getØvingsnavn());
+
+            int i = psInsertØving.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerØving()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerØving - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertFag);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
 
     // emne_bruker //
     private synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
