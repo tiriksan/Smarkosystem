@@ -21,19 +21,20 @@ import java.util.ArrayList;
 public class Bruker {
    
     @NotNull()
-    @Pattern(regexp="Skriv inn brukernavn")
+    @Pattern (regexp = "\\b[A-z0-9._%+-]+@[A-z0-9.-]+\\.[A-z]{2,4}\\b")
     private String brukernavn;
     
     @NotNull()
-    @Pattern(regexp="Skriv inn fornavn")
+    @Pattern(regexp="\\b[A-z]*")
     private String fornavn;
     
     @NotNull()
-    @Pattern(regexp="Skriv inn etternavn")
+    @Pattern(regexp="\\b[A-z]*")
     private String etternavn;
     @Min(1)
     @Max(4)
     private int brukertype;
+    
     private String passord;
     private ArrayList<Emne> fagene;
     private static int STUDENT = 1;
