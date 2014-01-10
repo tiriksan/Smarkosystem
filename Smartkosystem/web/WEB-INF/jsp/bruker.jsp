@@ -70,7 +70,7 @@
                         <table>
                             <tr><td>Fagnavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
                             <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-                                <tr><td><label for="emne">Faglærer: </label></td><td>
+                                <tr><td><label for="fag">Faglærer: </label></td><td>
                 
 
                                     <form:select path="faglærer">

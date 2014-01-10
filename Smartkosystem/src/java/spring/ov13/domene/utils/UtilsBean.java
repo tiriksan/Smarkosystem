@@ -96,7 +96,7 @@ public class UtilsBean {
     }
     
     public ArrayList <Bruker> getAlleFaglærere(){
-        return db.getAlleBrukertype(2);
+        return db.getAlleBrukertype(3);
     }
       
       

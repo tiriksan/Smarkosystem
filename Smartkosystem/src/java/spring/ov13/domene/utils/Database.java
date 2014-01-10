@@ -514,6 +514,7 @@ public class Database {
         try {
             åpneForbindelse();
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleHovedbrukertyper);
+          
             psSelectAlle.setInt(1, brukertype);
             res = psSelectAlle.executeQuery();
             while (res.next()) {

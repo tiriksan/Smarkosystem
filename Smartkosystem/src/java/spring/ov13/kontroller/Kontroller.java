@@ -121,6 +121,7 @@ public class Kontroller {
         Emne emne = new Emne();
         model.addAttribute("emne", emne);
         
+        
                 UtilsBean ub = new UtilsBean();
                 ArrayList<Bruker> faget = ub.getAlleFaglærere();
         ArrayList<String> brukertabell = new ArrayList<String>(); 
