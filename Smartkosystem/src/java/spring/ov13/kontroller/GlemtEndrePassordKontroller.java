@@ -1,6 +1,8 @@
 package spring.ov13.kontroller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMethod;
 import spring.ov13.domene.utils.SendEpost;
 
 @Controller
@@ -41,27 +44,35 @@ public class GlemtEndrePassordKontroller {
         }
     }    
     @RequestMapping(value = "/endrepassord.htm")
-    public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletRequest request){
+    public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletResponse response){
         //System.out.println("Endrepassordbruker: " + bruker);
         UtilsBean ub = new UtilsBean();
         String brukernavn = getValg;
         System.out.println(brukernavn);
+        response.addCookie(new Cookie("brukernavn", brukernavn));
         model.addAttribute("endrepassordbrukernavn", brukernavn);
         Bruker bruker = new Bruker();
+        bruker.setBrukernavn(brukernavn);
         model.addAttribute("endrepassordbruker", bruker);
         
         System.out.println("Endrepassordbruker: " + bruker);
         return "endrepassord";
         
     }
-    @RequestMapping(value = "/endrepassordsvar.htm")
-    public String endrePassordSvar(@ModelAttribute(value = "endrepassordbrukernavn")String brukernavn, @Validated @ModelAttribute(value = "endrepassordbruker") Bruker bruker ,BindingResult error, Model modell, HttpServletRequest request){
+    @RequestMapping(value = "/endrepassordsvar.htm", method = RequestMethod.POST)
+    public String endrePassordSvar(@ModelAttribute(value = "endrepassordbruker") Bruker bruker, Model modell, HttpServletRequest request){
        /* if(error.hasErrors()){
             return "endrepassord";
         }*/
+        
+        for(Cookie c : request.getCookies()){
+            if(c.getName().equals("brukernavn")){
+                bruker.setBrukernavn(c.getValue());
+            }
+            
+        }
         //System.out.println((Bruker)request.getAttribute("endrepassordbruker"));
         
-        System.out.println("brukernavn " + brukernavn);
         System.out.println(bruker);
         
         UtilsBean ub = new UtilsBean();
@@ -69,7 +80,7 @@ public class GlemtEndrePassordKontroller {
         ub.oppdaterBruker(bruker);
         
         //bruker.setBrukernavn();
-        return "index";
+        return "endrepassord";
         
     }
 }
