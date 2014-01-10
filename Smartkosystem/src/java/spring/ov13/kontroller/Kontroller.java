@@ -50,6 +50,16 @@ public class Kontroller {
             fagtabell.add(fag.get(i).getEmnenavn());
         }
         model.addAttribute("allefagene", fagtabell);
+        System.out.println("GET VALG--------------------------------- = "+getValg);
+        if(getValg.equals("3")){
+            System.out.println("kommer hit -----------------------------");
+            ArrayList<Bruker> faget = ub.getAlleFaglærere();
+        ArrayList<String> brukertabell = new ArrayList<String>(); 
+        for(int i=0; i<faget.size(); i++){
+            brukertabell.add(faget.get(i).getFornavn()+" "+faget.get(i).getEtternavn());
+        }
+        model.addAttribute("allelaerere", brukertabell);
+        }
         
         return "bruker";
     }
@@ -116,13 +126,14 @@ public class Kontroller {
     
     
     
-      @RequestMapping(value = "/emne.htm")
-    public String visInnsetting2(Model model, @RequestParam(value = "x", required = false) String getValg) {
+      @RequestMapping(value = "/bruker.htm?x=3")
+    public String visInnsetting2(Model model) {
         Emne emne = new Emne();
         model.addAttribute("emne", emne);
         
         
                 UtilsBean ub = new UtilsBean();
+                System.out.println("----------------Henter ut getAlleFagLærerre-------------");
                 ArrayList<Bruker> faget = ub.getAlleFaglærere();
         ArrayList<String> brukertabell = new ArrayList<String>(); 
         for(int i=0; i<faget.size(); i++){

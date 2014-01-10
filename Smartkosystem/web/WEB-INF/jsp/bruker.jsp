@@ -66,11 +66,11 @@
 
                 <c:when test="${valget eq '3'}">
 
-                    <form:form action="faginnsetting.htm" method="post" modelAttribute="emne" >
+                    <form:form action="bruker.htm" method="post" modelAttribute="emne" >
                         <table>
                             <tr><td>Fagnavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
                             <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-                                <tr><td><label for="fag">Faglærer: </label></td><td>
+                                <tr><td><label for="bruker">Faglærer: </label></td><td>
                 
 
                                     <form:select path="faglærer">

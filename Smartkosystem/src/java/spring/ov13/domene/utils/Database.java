@@ -508,7 +508,7 @@ public class Database {
     
     
         public ArrayList<Bruker> getAlleFagLarere(int brukertyp) {
-        System.out.println("getAlleFag()");
+        System.out.println("getAlleFagLarere()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
         ArrayList<Bruker> fagListe = null;
