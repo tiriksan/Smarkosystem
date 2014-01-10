@@ -33,6 +33,7 @@ public class Kontroller {
     public String visIndex() {
         return "index";
     }
+  
     @RequestMapping(value = "/bruker.htm")
     public String visInnsetting(Model model, @RequestParam(value = "x", required = false) String getValg) {
         Bruker bruker = new Bruker();
@@ -80,7 +81,7 @@ public class Kontroller {
     }
     
     @RequestMapping(value = "/brukerinnsetning.htm")
-    public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, @ModelAttribute("fag") Emne fag, BindingResult error, Model modell, HttpServletRequest request){
+    public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
         
         
         
