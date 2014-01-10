@@ -26,6 +26,9 @@ public class UtilsBean {
     public boolean registrerBruker(Bruker bruker){
         return db.registrerBruker(bruker);
     }
+    public boolean registrerBrukere(ArrayList<Bruker> brukere){
+        return db.registrerBrukere(brukere);
+    }
     
     public void setValgteBrukere(ArrayList<Bruker> valgteBrukere){
         this.valgteBrukere = valgteBrukere;
