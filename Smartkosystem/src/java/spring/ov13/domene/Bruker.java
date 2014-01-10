@@ -21,14 +21,15 @@ import java.util.ArrayList;
 public class Bruker {
    
     @NotNull()
+    @Pattern(regexp="Skriv inn brukernavn")
     private String brukernavn;
     
     @NotNull()
-    @Pattern(regexp="\\b[A-z]*")
+    @Pattern(regexp="Skriv inn fornavn")
     private String fornavn;
     
     @NotNull()
-    @Pattern(regexp="\\b[A-z]*")
+    @Pattern(regexp="Skriv inn etternavn")
     private String etternavn;
     @Min(1)
     @Max(4)
