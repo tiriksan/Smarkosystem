@@ -375,7 +375,7 @@ public class Database {
             åpneForbindelse();
             psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
             psInsertØving.setInt(1, øving.getØvingsnummer());
-            psInsertØving.setString(2, øving.getØvingsnavn());
+            psInsertØving.setString(2, øving.getEmnekode());
 
             int i = psInsertØving.executeUpdate();
             if (i > 0) {
