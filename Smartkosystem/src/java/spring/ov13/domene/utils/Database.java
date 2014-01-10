@@ -506,35 +506,40 @@ public class Database {
         return ok;
     }
     
-     public ArrayList<Bruker> getAlleBrukertype(int brukertype) {
-        System.out.println("getAlleFagLærere()");
+    
+        public ArrayList<Bruker> getAlleFagLarere(int brukertyp) {
+        System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
-        ArrayList<Bruker> brukerListe = null;
+        ArrayList<Bruker> fagListe = null;
         try {
             åpneForbindelse();
-            psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleHovedbrukertyper);
+           psSelectAlle = forbindelse.prepareStatement("SELECT * FROM bruker WHERE hovedbrukertype = ? ORDER BY etternavn");
           
-            psSelectAlle.setInt(1, brukertype);
+             psSelectAlle.setInt(1, brukertyp);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Bruker b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
-                if (brukerListe == null) {
-                    brukerListe = new ArrayList<Bruker>();
+                Bruker f = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                if (fagListe == null) {
+                    fagListe = new ArrayList<Bruker>();
                 }
-                brukerListe.add(b);
+                fagListe.add(f);
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "getAlleBrukere()");
+            Opprydder.skrivMelding(e, "getAlleFag()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "getAlleBrukere - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "getAlleFag - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            //Opprydder.lukkSetning(psSelectAlle);
+            Opprydder.lukkSetning(psSelectAlle);
         }
         lukkForbindelse();
-        return brukerListe;
+        return fagListe;
     }
+    
+    
+    
+
 
 }
