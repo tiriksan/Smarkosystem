@@ -13,12 +13,12 @@ public class Øving {
     private int øvingsnummer;
     
     @NotNull()
-    private String øvingsnavn;
+    private String emnekode;
     
     
-    public Øving(int øvingsnummer, String øvingsnavn){
+    public Øving(int øvingsnummer, String emnekode){
         this.øvingsnummer = øvingsnummer;
-        this.øvingsnavn = øvingsnavn;
+        this.emnekode = emnekode;
     }
     
     public Øving(){
@@ -33,13 +33,15 @@ public class Øving {
         this.øvingsnummer = øvingsnummer;
     }
 
-    public String getØvingsnavn() {
-        return øvingsnavn;
+    public String getEmnekode() {
+        return emnekode;
     }
 
-    public void setØvingsnavn(String øvingsnavn) {
-        this.øvingsnavn = øvingsnavn;
+    public void setEmnekode(String øvingsnavn) {
+        this.emnekode = emnekode;
     }
+    
+    public 
     
     
     
