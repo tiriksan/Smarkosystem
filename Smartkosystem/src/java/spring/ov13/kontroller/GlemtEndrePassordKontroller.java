@@ -74,7 +74,7 @@ public class GlemtEndrePassordKontroller {
         //System.out.println((Bruker)request.getAttribute("endrepassordbruker"));
         
         System.out.println(bruker);
-        
+        bruker.setPassord(bruker.md5(bruker.getPassord()));
         UtilsBean ub = new UtilsBean();
         
         ub.endrePassord(bruker);
