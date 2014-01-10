@@ -385,7 +385,7 @@ public class Database {
             psInsertØving.setString(2, øving.getEmnekode());
            
             i= psInsertØving.executeUpdate();
-             if (i < 0) {
+             if (i <= øving.getØvingantall()) {
                 ok = true;
             }
         }
