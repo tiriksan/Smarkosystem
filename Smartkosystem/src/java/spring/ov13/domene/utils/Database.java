@@ -280,7 +280,7 @@ public class Database {
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleFag);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Emne f = new Emne(res.getString("fagnavn"), res.getString("emnekode"));
+                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"));
                 if (fagListe == null) {
                     fagListe = new ArrayList<Emne>();
                 }
