@@ -419,7 +419,7 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
-            psInsertØving.setInt(1, øving.getØvingsnummer());
+            psInsertØving.setInt(1, øving.getØvingantall());
             psInsertØving.setString(2, øving.getEmnekode());
 
             int i = psInsertØving.executeUpdate();

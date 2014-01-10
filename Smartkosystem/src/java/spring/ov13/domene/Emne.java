@@ -17,8 +17,8 @@ public class Emne {
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
     ArrayList<Øving> øvinger = new ArrayList<Øving>();
 
-    public Emne(String fagnavn, String emnekode){
-        this.emnenavn = fagnavn;
+    public Emne(String emnekode, String emnenavn){
+        this.emnenavn = emnenavn;
         this.emnekode = emnekode;
     }
     public Emne(){
