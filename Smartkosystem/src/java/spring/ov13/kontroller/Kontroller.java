@@ -94,9 +94,8 @@ public class Kontroller {
     }
     
     @RequestMapping(value = "/brukerinnsetning.htm")
-    public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
+    public String visBrukerinnsetning(@Validated @ModelAttribute(value="bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
         
-        error.rejectValue("fornavn","Noe gikk galt, prøv på nytt");
         
         
         if (error.hasErrors()) {
