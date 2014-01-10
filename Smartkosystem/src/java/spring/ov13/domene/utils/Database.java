@@ -38,7 +38,9 @@ public class Database {
     private final String sqlInsertØving = "INSERT ENTO øving VALUES(?,?)";
     private final String sqlUpdateØving = "UPDATE øving SET øvingsnr =?, emnekode =?";
     private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
-    private final String SqlCountØvinger = "SELECT COUNT(øvingsnummer) FROM øving WHERE emnekode =?";
+    private final String sqlCountØvinger = "SELECT COUNT(øvingsnummer) as telling FROM øving WHERE emnekode =?";
+    private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
+    
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -409,21 +411,32 @@ public class Database {
     }
     
     
-     public synchronized boolean oppdaterØving(Øving øving) {
+     public synchronized boolean oppdaterØving(int NyttAnt) {
         boolean ok = false;
         System.out.println("oppdaterØving()");
-        PreparedStatement psUpdateØving = null;
-
+        PreparedStatement psCountØving = null;
+        int antall;
         try {
             åpneForbindelse();
-            psUpdateØving = forbindelse.prepareStatement(sqlUpdateØving);
-            psUpdateØving.setInt(1, øving.getØvingantall());
+            psCountØving = forbindelse.prepareStatement(sqlCountØvinger);
+            ResultSet rs = null;
+            rs = psCountØving.executeQuery();
+            antall = rs.getInt("telling");
+            
+            if( antall> NyttAnt){
+              int mid = antall - NyttAnt;
+              
+              
+            }
+                    
+                    
+       /*     psCountØving.setInt(1, øving.getØvingantall());
             psUpdateØving.setString(2, øving.getEmnekode());
             int i = psUpdateØving.executeUpdate();
             if (i > 0) {
                 ok = true;
             }
-
+*/
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "oppdaterØving()");
