@@ -159,13 +159,35 @@ public class TestDB {
     }
     
     @Test
-    public void test_OppdaterEmneSomIkkeEksisterer() throws SQLException {
+    public void test_oppdaterEmneSomIkkeEksisterer() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
         Emne emne = new Emne("IKKE1337", "Finnes Ikke");
         boolean erEmneOppdatert = database.oppdaterEmne(emne, emne.getEmnekode());
         assert (!erEmneOppdatert);
     }
 
+    @Test
+    public void test_leggTilBrukerIEmne() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Emne emne = new Emne("TDAT9090", "Matematikk 2");
+        Bruker bruker = new Bruker("grestra@hist.no", "Grethe", "Sandstrak", 3, "");
+        boolean erBrukerLagtTil = database.leggTilBrukerIEmne(emne, bruker, 3);
+        assert (erBrukerLagtTil);
+        
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT * FROM emne_bruker WHERE emnekode='TDAT9090' AND brukernavn='grestra@hist.no'");
+        String emnekode = null;
+        String brukernavn = null;
+
+        while (res.next()) {
+            emnekode = res.getString("emnekode");
+            brukernavn = res.getString("emnenavn");
+        }
+        assertEquals(emne.getEmnekode(), emnekode);
+        assertEquals(bruker.getBrukernavn(), brukernavn);
+    }
+    
     
     public void rivNed() {
         db.shutdown();

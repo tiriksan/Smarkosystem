@@ -292,6 +292,7 @@ public class Database {
         try {
             åpneForbindelse();
             psSelectFag = forbindelse.prepareStatement(sqlSelectFag);
+            psSelectFag.setString(1, fagkode);
             res = psSelectFag.executeQuery();
             while (res.next()) {
                 f = new Emne(res.getString("emnekode"), res.getString("emnenavn"));
@@ -338,7 +339,7 @@ public class Database {
         return fagListe;
     }
 
-    public synchronized boolean oppdaterFag(Emne emne, String emnekode) {
+    public synchronized boolean oppdaterEmne(Emne emne, String emnekode) {
         boolean ok = false;
         System.out.println("oppdaterFag()");
         PreparedStatement psUpdateFag = null;
@@ -437,7 +438,7 @@ public class Database {
     
 
     // emne_bruker //
-    private synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
+    public synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
         boolean ok = false;
         int brukertypeIEmne = brukertype;
         System.out.println("leggTilBrukerIEmne()");
@@ -470,7 +471,7 @@ public class Database {
         return ok;
     }
 
-    private synchronized boolean leggTilBrukereIEmne(Emne emne, ArrayList<Bruker> bruker) {
+    public synchronized boolean leggTilBrukereIEmne(Emne emne, ArrayList<Bruker> bruker) {
         boolean ok = false;
         int i = 0;
         ListIterator<Bruker> iterator = bruker.listIterator();

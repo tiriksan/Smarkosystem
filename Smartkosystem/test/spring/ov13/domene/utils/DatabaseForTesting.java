@@ -12,6 +12,7 @@ import java.util.ListIterator;
 import javax.sql.DataSource;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
+import spring.ov13.domene.Øving;
 
 public class DatabaseForTesting {
 
@@ -342,7 +343,7 @@ public class DatabaseForTesting {
     }
 
     // emne_bruker //
-    private synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
+    public synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
         boolean ok = false;
         int brukertypeIEmne = brukertype;
         System.out.println("leggTilBrukerIEmne()");
@@ -375,7 +376,7 @@ public class DatabaseForTesting {
         return ok;
     }
 
-    private synchronized boolean leggTilBrukereIEmne(Emne emne, ArrayList<Bruker> bruker) {
+    public synchronized boolean leggTilBrukereIEmne(Emne emne, ArrayList<Bruker> bruker) {
         boolean ok = false;
         int i = 0;
         ListIterator<Bruker> iterator = bruker.listIterator();
@@ -405,6 +406,34 @@ public class DatabaseForTesting {
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertBrukereIEmne);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+    public synchronized boolean registrerØving(Øving øving) {
+        boolean ok = false;
+        System.out.println("registrerØving()");
+        PreparedStatement psInsertØving= null;
+
+        try {
+            åpneForbindelse();
+            psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
+            psInsertØving.setInt(1, øving.getØvingsnummer());
+            psInsertØving.setString(2, øving.getEmnekode());
+
+            int i = psInsertØving.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerØving()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerØving - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertFag);
         }
         lukkForbindelse();
         return ok;
