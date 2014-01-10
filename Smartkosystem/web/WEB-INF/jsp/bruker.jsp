@@ -88,9 +88,9 @@
                         <table class="forminputs">
                             <tr><td width="25%">Fornavn: </td><td><form:input path="fornavn" /></td><td>&nbsp;<form:errors path="fornavn" /></td></tr>
                             <tr><td>Etternavn:   </td><td><form:input path="etternavn" /></td><td>&nbsp;<form:errors path="etternavn" /></tr>
-                            <tr><td>Brukernavn:       </td><td><form:input path="brukernavn" /></td><td>&nbsp;jj<form:errors path="brukernavn" /></td></tr>
-                            <tr><td><label for="brukerTyper">Brukertype: </label></td><td></td>
-
+                            <tr><td>Brukernavn:       </td><td><form:input path="brukernavn" /></td><td>&nbsp;<form:errors path="brukernavn" /></td></tr>
+                            <tr><td><label for="brukerTyper">Brukertype: </label></td>
+                                <td>
                                     <form:select path="brukertype" id="brukerTyper">
 
                                         <form:option value="0">Velg brukertype</form:option>
@@ -102,7 +102,7 @@
 
 
                                     </form:select>
-
+                                </td></tr>
 
                                     
                             <tr><td><label for="fag">Fag: </label></td><td>
