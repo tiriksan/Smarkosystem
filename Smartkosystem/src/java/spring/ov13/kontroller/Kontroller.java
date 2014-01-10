@@ -158,7 +158,7 @@ public class Kontroller {
         } else {
             System.out.println("Sender epost?");
             SendEpost epost = new SendEpost();
-            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8079/Smartkosystem/endrepassord/bruker"+bruker.getBrukernavn());
+            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8079/Smartkosystem/endrepassord.htm?bruker="+bruker.getBrukernavn());
             return "glemtpassord";
         }
     }
@@ -169,20 +169,20 @@ public class Kontroller {
             return "glemtpassord";
     }
         @RequestMapping(value = "/endrepassord.htm")
-    public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletRequest request){
+    public String endrePassord(Model model, @Validated @ModelAttribute("endrepassordbruker") Bruker bruker, @RequestParam(value = "bruker", required = false) String getValg, HttpServletRequest request){
         UtilsBean ub = new UtilsBean();
-        Bruker bruker = ub.get(request.getParameter("bruker"));
-        model.addAttribute("endrepassordbruker", bruker);
-            System.out.println("Endrepassordbruker: " + bruker);
+        bruker = ub.get(request.getParameter("bruker"));
+       // model.addAttribute("endrepassordbruker", bruker);
+        System.out.println("Endrepassordbruker: " + bruker);
         return "endrepassord";
         
     }
     @RequestMapping(value = "/endrepassordsvar.htm")
-    public String endrePassordSvar(@Validated @ModelAttribute("endrepassordsomething") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
+    public String endrePassordSvar(@Validated @ModelAttribute("endrepassordbruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
        /* if(error.hasErrors()){
             return "endrepassord";
         }*/
-        
+        //System.out.println((Bruker)request.getAttribute("endrepassordbruker"));
         System.out.println(bruker);
         UtilsBean ub = new UtilsBean();
         
