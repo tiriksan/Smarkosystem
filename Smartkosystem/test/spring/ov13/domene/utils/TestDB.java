@@ -60,7 +60,7 @@ public class TestDB {
     @Test
     public void test_registrerEksisterendeBruker() {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Bruker b = new Bruker("luksky@hist.no", "Luke", "Skywalker", 3, "");
+        Bruker b = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 3, "");
         boolean erBrukerRegistrert = database.registrerBruker(b);
         assert (!erBrukerRegistrert);
 
@@ -107,10 +107,10 @@ public class TestDB {
     }
     
     @Test
-    public void test_registrerFag() throws SQLException {
+    public void test_registrerEmne() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Emne f = new Emne("TDAT2001", "Testing & Ballefranserier");
-        boolean erFagRegistrert = database.registrerFag(f);
+        Emne emne = new Emne("TDAT2001", "Testing & Ballefranserier");
+        boolean erFagRegistrert = database.registrerEmne(emne);
         assert (erFagRegistrert);
         
         Connection con = database.getForbindelse();
@@ -123,8 +123,47 @@ public class TestDB {
             emnekode = res.getString("emnekode");
             emnenavn = res.getString("emnenavn");
         }
-        assertEquals(f.getEmnekode(), emnekode);
-        assertEquals(f.getEmnenavn(), emnenavn);
+        assertEquals(emne.getEmnekode(), emnekode);
+        assertEquals(emne.getEmnenavn(), emnenavn);
+    }
+    
+    @Test
+    public void test_registrerEksisterendeEmne() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Emne emne = new Emne("TDAT3003", "3D-Programmering");
+        boolean erEmneRegistrert = database.registrerEmne(emne);
+        assert (!erEmneRegistrert);
+    }
+    
+    @Test
+    public void test_oppdaterEmne() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Emne emne = new Emne("IFUD1337", "Tåmalerier i Moderne Tid");
+
+        boolean erEmneOppdatert = database.oppdaterEmne(emne, emne.getEmnekode());
+        assert (erEmneOppdatert);
+
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT * FROM emne WHERE emnekode='IFUD1337'");
+        String emnekode = null;
+        String emnenavn = null;
+
+        while (res.next()) {
+            emnekode = res.getString("emnekode");
+            emnenavn = res.getString("emnenavn");
+        }
+
+        assertEquals(emne.getEmnekode(), emnekode);
+        assertEquals(emne.getEmnenavn(), emnenavn);
+    }
+    
+    @Test
+    public void test_OppdaterEmneSomIkkeEksisterer() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Emne emne = new Emne("IKKE1337", "Finnes Ikke");
+        boolean erEmneOppdatert = database.oppdaterEmne(emne, emne.getEmnekode());
+        assert (!erEmneOppdatert);
     }
 
     
