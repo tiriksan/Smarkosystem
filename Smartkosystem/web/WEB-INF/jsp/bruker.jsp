@@ -75,7 +75,7 @@
 
                                     <form:select path="faglærer">
                                         <form:option value="0" label="Velg faglærer" />
-                                        <form:options items="${faglaerere}" />
+                                        <form:options items="${allelaerere}" />
                                     </form:select>
 
                             <br>
