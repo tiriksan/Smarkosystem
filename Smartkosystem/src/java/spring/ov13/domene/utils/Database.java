@@ -40,8 +40,9 @@ public class Database {
     private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
     private final String sqlCountØvinger = "SELECT COUNT(øvingsnummer) as telling FROM øving WHERE emnekode =?";
     private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
-    
-    
+    private final String sqlInsertArbeidskrav = "INSERT INTO arbeidskrav VALUES(DEFAULT,?,?)";
+    private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(DEFAULT, ?)";
+
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -137,7 +138,7 @@ public class Database {
         boolean ok = false;
         System.out.println("registrerBrukere()");
         PreparedStatement psInsertBrukere = null;
-        
+
         try {
             åpneForbindelse();
             for (int i = 0; i < brukere.size(); i++) {
@@ -226,9 +227,8 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
-    
-    public synchronized boolean endrePassord(Bruker bruker){
+
+    public synchronized boolean endrePassord(Bruker bruker) {
         boolean ok = false;
         System.out.println("endrePassord()");
         PreparedStatement psEndrePassord = null;
@@ -254,7 +254,7 @@ public class Database {
         }
         lukkForbindelse();
         return ok;
-        
+
     }
 
     //fag metoder //
@@ -280,7 +280,7 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerFag - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertFag);
+            // Opprydder.lukkSetning(psInsertArbeidskrav);
         }
         lukkForbindelse();
         return ok;
@@ -370,87 +370,83 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
-     // øving //
+
+    // øving //
     public synchronized boolean registrerØving(Øving øving) {
         boolean ok = false;
         System.out.println("registrerØving()");
-        PreparedStatement psInsertØving= null;
+        PreparedStatement psInsertØving = null;
         int i;
         try {
-           
+
             åpneForbindelse();
-            
+
             psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
-           
-            for(int k =øving.getØvingantall(); k>0; k-- ){
-            psInsertØving.setInt(1, øving.getØvingantall());
-            psInsertØving.setString(2, øving.getEmnekode());
-           
-            i= psInsertØving.executeUpdate();
-             if (i <= øving.getØvingantall()) {
-                ok = true;
+
+            for (int k = øving.getØvingantall(); k > 0; k--) {
+                psInsertØving.setInt(1, øving.getØvingantall());
+                psInsertØving.setString(2, øving.getEmnekode());
+
+                i = psInsertØving.executeUpdate();
+                if (i <= øving.getØvingantall()) {
+                    ok = true;
+                }
             }
-        }
-            
-            
-            
-           
+
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "registrerØving()");
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "registrerØving - ikke sqlfeil");
-            
+
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertFag);
+            // Opprydder.lukkSetning(psInsertArbeidskrav);
         }
         lukkForbindelse();
         return ok;
     }
-    
-    
-     public synchronized boolean oppdaterØving(Øving øving) {
+
+    public synchronized boolean oppdaterØving(Øving øving) {
         boolean ok = false;
         System.out.println("oppdaterØving()");
         PreparedStatement psCountØving = null;
         PreparedStatement psDeleteØving = null;
         PreparedStatement psInsertØving = null;
-        
+
         int antall;
         int sjekker;
-        
+
         try {
             åpneForbindelse();
             psCountØving = forbindelse.prepareStatement(sqlCountØvinger);
             ResultSet rs = null;
             rs = psCountØving.executeQuery();
             antall = rs.getInt("telling");
-            
-            if( antall> øving.getØvingantall()){
-              int mid = antall - øving.getØvingantall(); // antall øvinger ønsket fjernet
-              psDeleteØving = forbindelse.prepareStatement(sqlDeleteØvinger);
-              psDeleteØving.setInt(1,antall);
-              psDeleteØving.setInt(2,øving.getØvingantall());
-              
-              sjekker= psDeleteØving.executeUpdate();
-              if(sjekker >0){
-                  return true;
-              }
-            }else if(antall<øving.getØvingantall()){
-                int mid=øving.getØvingantall()-antall; // antall øvinger ønsket lagt til. 10-5
-                for(int r=mid+1; r<=øving.getØvingantall(); r++){ // teller fra ønsket +1 slik at de nye som blir laget får riktig øvingsnr.
-                    psInsertØving= forbindelse.prepareStatement(sqlInsertØving);
+
+            if (antall > øving.getØvingantall()) {
+                int mid = antall - øving.getØvingantall(); // antall øvinger ønsket fjernet
+                psDeleteØving = forbindelse.prepareStatement(sqlDeleteØvinger);
+                psDeleteØving.setInt(1, antall);
+                psDeleteØving.setInt(2, øving.getØvingantall());
+
+                sjekker = psDeleteØving.executeUpdate();
+                if (sjekker > 0) {
+                    return true;
+                }
+            } else if (antall < øving.getØvingantall()) {
+                int mid = øving.getØvingantall() - antall; // antall øvinger ønsket lagt til. 10-5
+                for (int r = mid + 1; r <= øving.getØvingantall(); r++) { // teller fra ønsket +1 slik at de nye som blir laget får riktig øvingsnr.
+                    psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
                     psInsertØving.setInt(1, r);
                     psInsertØving.setString(2, øving.getEmnekode());
-                    sjekker =psInsertØving.executeUpdate();
-                    if(sjekker>0){
+                    sjekker = psInsertØving.executeUpdate();
+                    if (sjekker > 0) {
                         return true;
                     }
                 }
             }
-       
+
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "oppdaterØving()");
@@ -463,7 +459,6 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
 
     // emne_bruker //
     public synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
@@ -533,18 +528,17 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
-    
-        public ArrayList<Bruker> getAlleFagLarere(int brukertyp) {
+
+    public ArrayList<Bruker> getAlleFagLarere(int brukertyp) {
         System.out.println("getAlleFagLarere()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
         ArrayList<Bruker> fagListe = null;
         try {
             åpneForbindelse();
-           psSelectAlle = forbindelse.prepareStatement("SELECT * FROM bruker WHERE hovedbrukertype = ? ORDER BY etternavn");
-          
-             psSelectAlle.setInt(1, brukertyp);
+            psSelectAlle = forbindelse.prepareStatement("SELECT * FROM bruker WHERE hovedbrukertype = ? ORDER BY etternavn");
+
+            psSelectAlle.setInt(1, brukertyp);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
                 Bruker f = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
@@ -565,15 +559,62 @@ public class Database {
         lukkForbindelse();
         return fagListe;
     }
-    
-    // KRAVGRUPPE //
-        
-    public synchronized boolean registrerArbeidskrav(String beskrivelse) {
-        boolean ok = false;
 
+    // ARBEIDSKRAV //
+    public synchronized boolean registrerArbeidskrav(Emne emne, String beskrivelse) {
+        boolean ok = false;
+        System.out.println("registrerFag()");
+        PreparedStatement psInsertArbeidskrav = null;
+
+        try {
+            åpneForbindelse();
+            psInsertArbeidskrav = forbindelse.prepareStatement(sqlInsertArbeidskrav);
+            psInsertArbeidskrav.setString(1, emne.getEmnekode());
+            psInsertArbeidskrav.setString(2, beskrivelse);
+
+            int i = psInsertArbeidskrav.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerArbeidskrav()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerArbeidskrav - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertArbeidskrav);
+        }
+        lukkForbindelse();
         return ok;
     }
     
+    // KRAVGRUPPE //
+        public synchronized boolean registrerKravgruppe(int kravid) {
+        boolean ok = false;
+        System.out.println("registrerKravgruppe()");
+        PreparedStatement psInsertKravgruppe = null;
 
+        try {
+            åpneForbindelse();
+            psInsertKravgruppe = forbindelse.prepareStatement(sqlInsertArbeidskrav);
+            psInsertKravgruppe.setInt(1, kravid);
+
+            int i = psInsertKravgruppe.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerArbeidskrav()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerArbeidskrav - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertArbeidskrav);
+        }
+        lukkForbindelse();
+        return ok;
+    }
 
 }
