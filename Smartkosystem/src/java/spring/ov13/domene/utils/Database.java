@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
+import spring.ov13.domene.Øving;
 
 public class Database {
 
