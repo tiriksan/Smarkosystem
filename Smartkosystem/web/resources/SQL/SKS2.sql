@@ -3,8 +3,8 @@ DROP TABLE køinnlegg;
 DROP TABLE kø;
 DROP TABLE emne_bruker;
 DROP TABLE bruker;
-DROP TABLE kravgruppe;
 DROP TABLE øving;
+DROP TABLE kravgruppe;
 DROP TABLE arbeidskrav;
 DROP TABLE emne;
 
@@ -56,23 +56,25 @@ CONSTRAINT brukere_i_innlegg_fk2 FOREIGN KEY(brukernavn) REFERENCES bruker(bruke
 CONSTRAINT brukere_i_innlegg_pk1 PRIMARY KEY(innleggsid, brukernavn)
 );
 
-CREATE TABLE øving(
-øvingsnummer INT NOT NULL,
-emnekode VARCHAR(8) NOT NULL,
-CONSTRAINT øving_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode),
-CONSTRAINT øving_pk1 PRIMARY KEY(øvingsnummer, emnekode)
+CREATE TABLE arbeidskrav(
+kravid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+beskrivelse VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE kravgruppe(
 gruppeid INT NOT NULL,
-øvingsnummer INT NOT NULL,
-emnekode VARCHAR(8) NOT NULL,
-obligatorisk BOOLEAN DEFAULT FALSE,
+kravid INT NOT NULL,
 CONSTRAINT kravgruppe_fk1 FOREIGN KEY(øvingsnummer, emnekode) REFERENCES øving(øvingsnummer, emnekode),
+CONSTRAINT kravgruppe_fk2 FOREIGN KEY(kravid) REFERENCES arbeidskrav(kravid),
 CONSTRAINT kravgruppe_pk1 PRIMARY KEY(gruppeid, øvingsnummer, emnekode)
 );
 
-CREATE TABLE arbeidskrav(
-kravid INT PRIMARY KEY NOT NULL,
-beskrivelse VARCHAR(256) NOT NULL
+CREATE TABLE øving(
+øvingsnummer INT NOT NULL,
+emnekode VARCHAR(8) NOT NULL,
+obligatorisk BOOLEAN DEFAULT FALSE,
+gruppeid INT NOT NULL,
+CONSTRAINT øving_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode),
+CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid),
+CONSTRAINT øving_pk1 PRIMARY KEY(øvingsnummer, emnekode)
 );
