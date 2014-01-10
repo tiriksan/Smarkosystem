@@ -22,12 +22,13 @@ public class Database {
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? where brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
-    private final String sqlInsertFag = "INSERT into EMNE values(?,?,?,?,?)";
+    private final String sqlInsertFag = "INSERT into EMNE VALUES(?,?,?,?,?)";
     private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, emnekode=? WHERE emnekode=?";
     private final String sqlSelectBrukereIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? ORDER BY etternavn";
     private final String sqlSelectBrukertypeIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? AND brukertype=? ORDER BY etternavn";
+    private final String sqlInsertBrukerIEmne = "INSERT INTO emne_bruker VALUES(?,?,?)";
 
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -88,7 +89,7 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertBruker);
+            // Opprydder.lukkSetning(psInsertBrukerIEmne);
         }
         lukkForbindelse();
         return ok;
@@ -148,11 +149,10 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertBruker);
+            // Opprydder.lukkSetning(psInsertBrukerIEmne);
         }
         lukkForbindelse();
         return ok;
-
     }
 
     public ArrayList<Bruker> getAlleBrukere() {
@@ -323,6 +323,41 @@ public class Database {
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             Opprydder.lukkSetning(psUpdateFag);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+    // emne_bruker //
+    
+    private synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
+        boolean ok = false;
+        int brukertypeIEmne = brukertype;
+        System.out.println("leggTilBrukerIEmne()");
+        PreparedStatement psInsertBrukerIEmne = null;
+        if (brukertype < 0 || brukertype > 4) {
+            brukertypeIEmne = bruker.getBrukertype();
+        }
+
+        try {
+            åpneForbindelse();
+            psInsertBrukerIEmne = forbindelse.prepareStatement(sqlInsertBrukerIEmne);
+            psInsertBrukerIEmne.setString(1, emne.getEmnekode());
+            psInsertBrukerIEmne.setString(2, bruker.getBrukernavn());
+            psInsertBrukerIEmne.setInt(3, brukertypeIEmne);
+
+            int i = psInsertBrukerIEmne.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertBrukerIEmne);
         }
         lukkForbindelse();
         return ok;

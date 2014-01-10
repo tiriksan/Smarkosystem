@@ -1,6 +1,7 @@
 package spring.ov13.kontroller;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,16 +48,24 @@ public class Kontroller {
         return "bruker";
     }
     @RequestMapping(value = "/registrerBrukereFraFil.htm")
-    public String regBrukereFraFil(Model model, @RequestParam(value = "x", required = false) String getValg) {
-        
-        FilLeser fl = new FilLeser();
+    public String regBrukereFraFil(Model model, @ModelAttribute("fag") Emne emne, BindingResult error, HttpServletRequest request) {
+        UtilsBean ub = new UtilsBean();
+        ArrayList<Emne> emner = new ArrayList<Emne>();
+        emner = ub.getAlleFag();
+        emne = (Emne) request.getAttribute("fag");
+        boolean emnetIDatabase = false;
+        for (int i = 0; i < emner.size(); i++) {
+            if (emner.get(i).getEmnekode() == emne.getEmnekode() && emner.get(i).getEmnenavn() == emne.getEmnenavn()) {
+                emnetIDatabase = true;
+            }
+        }
+        FilLeser fl = new FilLeser(emne);
         try {
             fl.lesFil();
         } catch (Exception ex) {
             showMessageDialog(null, "Feil ved registrering oppstått, avbryter.");
         }
-        model.addAttribute("valget", getValg);
-        
+      
         
         return "redirect:/bruker.htm?x=2";
     }
@@ -143,57 +152,7 @@ public class Kontroller {
     }
     
     
-    @RequestMapping(value = "/glemtpassordsvar.htm")
-    public String glemtPassordSvar(@Validated @ModelAttribute("glemtpassordbruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
-        System.out.println("Glemtpassord");
-        System.out.println(bruker.getBrukernavn());    
-     //   if (error.hasErrors()) {
-     //       System.out.println("feil");
-     //       return "glemtpassord";
-     //  }
-        UtilsBean utilsBean = new UtilsBean();
-        if(utilsBean.get(bruker.getBrukernavn()) == null){
-            modell.addAttribute("errorMelding", "Brukeren med dette brukernavnet eksisterer ikke. Sjekk om brukernavnet stemmer");
-            System.out.println("Finner ikke i databasen");
-            return "glemtpassord";
-        } else {
-            System.out.println("Sender epost?");
-            SendEpost epost = new SendEpost();
-            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8079/Smartkosystem/endrepassord.htm?bruker="+bruker.getBrukernavn());
-            return "glemtpassord";
-        }
-    }
-    @RequestMapping(value = "/glemtpassord.htm")
-    public String glemtPassord(Model modell){
-            Bruker b = new Bruker();
-            modell.addAttribute("glemtpassordbruker", b);
-            return "glemtpassord";
-    }
-        @RequestMapping(value = "/endrepassord.htm")
-    public String endrePassord(Model model, @Validated @ModelAttribute("endrepassordbruker") Bruker bruker, @RequestParam(value = "bruker", required = false) String getValg, HttpServletRequest request){
-        UtilsBean ub = new UtilsBean();
-        bruker = ub.get(request.getParameter("bruker"));
-       // model.addAttribute("endrepassordbruker", bruker);
-        System.out.println("Endrepassordbruker: " + bruker);
-        return "endrepassord";
-        
-    }
-    @RequestMapping(value = "/endrepassordsvar.htm")
-    public String endrePassordSvar(@Validated @ModelAttribute("endrepassordbruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
-       /* if(error.hasErrors()){
-            return "endrepassord";
-        }*/
-        //System.out.println((Bruker)request.getAttribute("endrepassordbruker"));
-        System.out.println(bruker);
-        UtilsBean ub = new UtilsBean();
-        
-        ub.oppdaterBruker(bruker);
-        
-        //bruker.setBrukernavn();
-        return "index";
-        
-    }
-  
+    
     /*
     @RequestMapping(value = "/bruker.htm")
     public String visVare(Model model) {
