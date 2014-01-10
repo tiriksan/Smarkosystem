@@ -43,7 +43,12 @@ public class Kontroller {
         model.addAttribute("emne", emne);
         UtilsBean ub = new UtilsBean();
         model.addAttribute("valget", getValg);
-        model.addAttribute("allefagene", ub.getAlleFag());
+        ArrayList<Emne> fag = ub.getAlleFag();
+        ArrayList<String> fagtabell = new ArrayList<String>(); 
+        for(int i=0; i<fag.size(); i++){
+            fagtabell.add(fag.get(i).getEmnenavn());
+        }
+        model.addAttribute("allefagene", fagtabell);
         
         return "bruker";
     }
