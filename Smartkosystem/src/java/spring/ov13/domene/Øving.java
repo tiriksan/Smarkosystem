@@ -10,14 +10,15 @@ import javax.validation.constraints.NotNull;
 
 
 public class Øving {
-    private int øvingsnummer;
+    private int øvingsantall;
+    private int antalløvinger;
     
     @NotNull()
     private String emnekode;
     
     
     public Øving(int øvingsnummer, String emnekode){
-        this.øvingsnummer = øvingsnummer;
+        this.øvingsantall = øvingsantall;
         this.emnekode = emnekode;
     }
     
@@ -25,12 +26,12 @@ public class Øving {
         
     }
 
-    public int getØvingsnummer() {
-        return øvingsnummer;
+    public int getØvingantall() {
+        return øvingsantall;
     }
 
     public void setØvingsnummer(int øvingsnummer) {
-        this.øvingsnummer = øvingsnummer;
+        this.øvingsantall = øvingsnummer;
     }
 
     public String getEmnekode() {
