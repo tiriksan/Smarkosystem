@@ -37,15 +37,8 @@ public class Øving {
         return emnekode;
     }
 
-    public void setEmnekode(String øvingsnavn) {
+    public void setEmnekode(String emnekode) {
         this.emnekode = emnekode;
     }
-    
-    public 
-    
-    
-    
-    
-    
-    
+   
 }
