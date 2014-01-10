@@ -371,22 +371,32 @@ public class Database {
         boolean ok = false;
         System.out.println("registrerØving()");
         PreparedStatement psInsertØving= null;
-
+        int i;
         try {
+           
             åpneForbindelse();
+            
             psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
+           
+            for(int k =øving.getØvingantall(); k>0; k-- ){
             psInsertØving.setInt(1, øving.getØvingantall());
             psInsertØving.setString(2, øving.getEmnekode());
-
-            int i = psInsertØving.executeUpdate();
-            if (i > 0) {
+           
+            i= psInsertØving.executeUpdate();
+             if (i < 0) {
                 ok = true;
             }
+        }
+            
+            
+            
+           
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "registrerØving()");
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "registrerØving - ikke sqlfeil");
+            
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertFag);
