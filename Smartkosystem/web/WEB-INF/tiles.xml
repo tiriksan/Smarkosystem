@@ -47,5 +47,10 @@
         <put-attribute name="title"  value="Svarside"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/svarside.jsp"/>      
     </definition>
+    
+    <definition name="studentko" extends="baseLayout">
+        <put-attribute name="title"  value="Studentkø"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/studentkø.jsp"/>      
+    </definition>
 
 </tiles-definitions>
