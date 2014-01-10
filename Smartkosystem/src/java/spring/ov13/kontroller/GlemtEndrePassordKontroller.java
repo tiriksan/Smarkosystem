@@ -41,6 +41,7 @@ public class GlemtEndrePassordKontroller {
             SendEpost epost = new SendEpost();
             String brukernavn = bruker.getBrukernavn();
             brukernavn = krypterRot13(brukernavn);
+            //TODO endre dersom man endrer server
             epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8080/Smartkosystem/endrepassord.htm?bruker="+brukernavn);
             return "glemtpassord";
         }
