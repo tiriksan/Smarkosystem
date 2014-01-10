@@ -52,13 +52,12 @@
             <c:choose>
 
                 <c:when test="${valget eq '2'}">
-                    <form:form action="registrerBrukereFraFil.htm" method="post" modelAttribute="emne" >
+                    <form:form action="registrerBrukereFraFil.htm" method="post" modelAttribute="emne">
 
                         <table>
                             <p>Skriv inn emnekode og emnenavn du ønsker å registrere brukere i:</p>
                             <tr><td>Emnekode:  </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-                            <tr><td>Emnenavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
-                            Velg så en fil med ny brukere(Du får opp et popup-vindu du kan velge fil fra):
+                            <p>Velg så en fil med ny brukere(Du får opp et popup-vindu du kan velge fil fra):</p>
                             <tr><td colspan="2"><input type="submit" value="Registrer brukere"></td></tr>
                         </table>
                     </form:form>

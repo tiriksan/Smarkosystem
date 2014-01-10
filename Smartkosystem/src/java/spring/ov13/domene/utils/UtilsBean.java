@@ -81,6 +81,9 @@ public class UtilsBean {
        public ArrayList<Emne> getAlleFag(){
         return alleFag;
     }
+       public Emne getEmne(String emnekode){
+        return db.getFag(emnekode);
+    }
     public ArrayList<Emne> getValgteEmner(){
         return valgteEmner;
     }
