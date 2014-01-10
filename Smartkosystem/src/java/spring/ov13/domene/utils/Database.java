@@ -566,7 +566,13 @@ public class Database {
         return fagListe;
     }
     
-    
+    // KRAVGRUPPE //
+        
+    public synchronized boolean registrerArbeidskrav(String beskrivelse) {
+        boolean ok = false;
+
+        return ok;
+    }
     
 
 
