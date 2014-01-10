@@ -92,7 +92,7 @@ public class Kontroller {
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute("bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
         
-        
+        error.rejectValue("fornavn","Noe gikk galt, prøv på nytt");
         
         
         if (error.hasErrors()) {
@@ -110,6 +110,8 @@ public class Kontroller {
     }
     //FAG //
     
+    
+
    
     
     
