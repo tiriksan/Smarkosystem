@@ -404,7 +404,7 @@ public class Database {
         try {
             åpneForbindelse();
             psUpdateØving = forbindelse.prepareStatement(sqlUpdateØving);
-            psUpdateØving.setInt(1, øving.getØvingsnummer());
+            psUpdateØving.setInt(1, øving.getØvingantall());
             psUpdateØving.setString(2, øving.getEmnekode());
             int i = psUpdateØving.executeUpdate();
             if (i > 0) {
