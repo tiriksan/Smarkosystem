@@ -86,10 +86,10 @@
 
                     <form:form action="brukerinnsetning.htm" method="post" modelAttribute="bruker" >
                         <table class="forminputs">
-                            <tr><td width="25%">Fornavn: </td><td><form:input path="fornavn" /></td><td><form:errors path="fornavn" /></td></tr>
-                            <tr><td>Etternavn:   </td><td><form:input path="etternavn" /></td><td><form:errors path="etternavn" /></tr>
-                            <tr><td>Brukernavn:       </td><td><form:input path="brukernavn" /></td><td><form:errors path="brukernavn" /></td></tr>
-                            <tr><td><label for="brukerTyper">Brukertype: </label></td><td>
+                            <tr><td width="25%">Fornavn: </td><td><form:input path="fornavn" /></td><td>&nbsp;<form:errors path="fornavn" /></td></tr>
+                            <tr><td>Etternavn:   </td><td><form:input path="etternavn" /></td><td>&nbsp;<form:errors path="etternavn" /></tr>
+                            <tr><td>Brukernavn:       </td><td><form:input path="brukernavn" /></td><td>&nbsp;jj<form:errors path="brukernavn" /></td></tr>
+                            <tr><td><label for="brukerTyper">Brukertype: </label></td><td></td>
 
                                     <form:select path="brukertype" id="brukerTyper">
 
@@ -104,22 +104,17 @@
                                     </form:select>
 
 
+                                    
+                            <tr><td><label for="fag">Fag: </label></td><td>
+                
+
                                     <form:select path="fagene">
-                                        <form:option value="0" label="Select an Option" />
+                                        <form:option value="0" label="Velg fag" />
                                         <form:options items="${allefagene}" />
                                     </form:select>
-                            <tr><td><label for="fag">Fag: </label></td><td>
-                                    <form:select path="brukertype" id="fagvalg">
-
-                                        <form:option value="0">Velg fag</form:option>
-
-                                        <form:option value="5">fag1</form:option>
-                                        <form:option value="6">fag2</form:option>
-                                        <form:option value="7">fag3</form:option>
-                                        <form:option value="8">fag4</form:option>
 
 
-                                    </form:select>
+                                 
 
                                     <br>
                             <tr><td colspan="2"><input type="submit" value="Registrer bruker"></td></tr>
