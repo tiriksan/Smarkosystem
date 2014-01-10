@@ -78,13 +78,13 @@ public class Kontroller {
                 model.addAttribute("feilmelding", ex.getMessage());
             }
         } else {
-            if (emne == null) {
+            if (emne.getEmnekode().equals("")) {
                 model.addAttribute("feilmelding", "Feilmelding: Du har ikke fyllt inn emnekoden.");
             } else {
                 model.addAttribute("feilmelding", "Feil ved registrering inntruffet, emnet du oppgav eksisterer ikke, vennligst kontroller opplysningene du oppgav eller registrer emnet først.");
             }
         }
-
+        emne = null;
         return "redirect:/bruker.htm?x=2";
     }
 
