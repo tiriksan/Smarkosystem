@@ -411,11 +411,16 @@ public class Database {
     }
     
     
-     public synchronized boolean oppdaterØving(int NyttAnt) {
+     public synchronized boolean oppdaterØving(Øving øving,int nyttant) {
         boolean ok = false;
         System.out.println("oppdaterØving()");
         PreparedStatement psCountØving = null;
+        PreparedStatement psDeleteØving = null;
+        PreparedStatement psInsertØving = null;
+        
         int antall;
+        int sjekker;
+        
         try {
             åpneForbindelse();
             psCountØving = forbindelse.prepareStatement(sqlCountØvinger);
@@ -423,20 +428,29 @@ public class Database {
             rs = psCountØving.executeQuery();
             antall = rs.getInt("telling");
             
-            if( antall> NyttAnt){
-              int mid = antall - NyttAnt;
+            if( antall> nyttant){
+              int mid = antall - nyttant; // antall øvinger ønsket fjernet
+              psDeleteØving = forbindelse.prepareStatement(sqlDeleteØvinger);
+              psDeleteØving.setInt(1,antall);
+              psDeleteØving.setInt(2,nyttant);
               
-              
+              sjekker= psDeleteØving.executeUpdate();
+              if(sjekker >0){
+                  return true;
+              }
+            }else if(antall<nyttant){
+                int mid=nyttant-antall; // antall øvinger ønsket lagt til. 10-5
+                for(int r=mid+1; r<=nyttant; r++){ // teller fra ønsket +1 slik at de nye som blir laget får riktig øvingsnr.
+                    psInsertØving= forbindelse.prepareStatement(sqlInsertØving);
+                    psInsertØving.setInt(1, r);
+                    psInsertØving.setString(2, øving.getEmnekode());
+                    sjekker =psInsertØving.executeUpdate();
+                    if(sjekker>0){
+                        return true;
+                    }
+                }
             }
-                    
-                    
-       /*     psCountØving.setInt(1, øving.getØvingantall());
-            psUpdateØving.setString(2, øving.getEmnekode());
-            int i = psUpdateØving.executeUpdate();
-            if (i > 0) {
-                ok = true;
-            }
-*/
+       
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "oppdaterØving()");
