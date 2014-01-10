@@ -18,7 +18,7 @@ public class Øving {
     
     
     public Øving(int øvingsnummer, String emnekode){
-        this.øvingsantall = øvingsantall;
+        this.øvingsantall = øvingsnummer;
         this.emnekode = emnekode;
     }
     
