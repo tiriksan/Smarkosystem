@@ -21,9 +21,11 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.FilLeser.FilLeser;
 import spring.ov13.domene.utils.SendEpost;
 
+@SessionAttributes("skjema")
 @Controller
 public class Kontroller {
 

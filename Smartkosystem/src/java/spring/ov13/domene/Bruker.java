@@ -108,6 +108,13 @@ public class Bruker {
         return  brukernavn + " " +  fornavn + " " + etternavn + " " + brukertype + " " + passord;
     }
 
+         public boolean sjekkominnskrevet2() {
+
+        if (fornavn == null || etternavn == null || brukernavn == null || (brukertype<0 && brukertype>4) || fornavn.equals("") || etternavn.equals("") || brukernavn.equals("")) {
+            return false;
+        }
+        return true;
+    }
     
     
 		
