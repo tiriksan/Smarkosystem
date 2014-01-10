@@ -39,23 +39,24 @@ public class GlemtEndrePassordKontroller {
         } else {
             System.out.println("Sender epost?");
             SendEpost epost = new SendEpost();
-            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8079/Smartkosystem/endrepassord.htm?bruker="+bruker.getBrukernavn());
+            String brukernavn = bruker.getBrukernavn();
+            brukernavn = krypterRot13(brukernavn);
+            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8080/Smartkosystem/endrepassord.htm?bruker="+brukernavn);
             return "glemtpassord";
         }
     }    
     @RequestMapping(value = "/endrepassord.htm")
     public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletResponse response){
         //System.out.println("Endrepassordbruker: " + bruker);
-        UtilsBean ub = new UtilsBean();
         String brukernavn = getValg;
+        brukernavn =dekrypterRot13(brukernavn);
         System.out.println(brukernavn);
         response.addCookie(new Cookie("brukernavn", brukernavn));
         model.addAttribute("endrepassordbrukernavn", brukernavn);
         Bruker bruker = new Bruker();
-        bruker.setBrukernavn(brukernavn);
         model.addAttribute("endrepassordbruker", bruker);
         
-        System.out.println("Endrepassordbruker: " + bruker);
+        
         return "endrepassord";
         
     }
@@ -82,5 +83,32 @@ public class GlemtEndrePassordKontroller {
         //bruker.setBrukernavn();
         return "endrepassord";
         
+    }
+    
+    public String krypterRot13(String string){
+        String kryptert = "";
+        for (int i = 0; i < string.length(); i++) {
+            char c = string.charAt(i);
+            if       (c >= 'a' && c <= 'm') c += 13;
+            else if  (c >= 'A' && c <= 'M') c += 13;
+            else if  (c >= 'n' && c <= 'z') c -= 13;
+            else if  (c >= 'N' && c <= 'Z') c -= 13;
+            kryptert += c;
+        }
+        return kryptert;
+    
+    }
+    public String dekrypterRot13(String string){
+        String dekryptert = "";
+        for (int i = 0; i < string.length(); i++) {
+            char c = string.charAt(i);
+            if       (c >= 'a' && c <= 'm') c += 13;
+            else if  (c >= 'A' && c <= 'M') c += 13;
+            else if  (c >= 'n' && c <= 'z') c -= 13;
+            else if  (c >= 'N' && c <= 'Z') c -= 13;
+            dekryptert += c;
+        }
+        return dekryptert;
+    
     }
 }

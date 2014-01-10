@@ -188,6 +188,15 @@ public class TestDB {
         assertEquals(bruker.getBrukernavn(), brukernavn);
     }
     
+    @Test
+    public void test_registrerBrukerPåIkkeEksisterendeEmne() {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Bruker bruker = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 3, "");
+        Emne emne = new Emne("IKKE2009", "BS");
+        boolean brukerRegistrertIEmne = database.leggTilBrukerIEmne(emne, bruker, 3);
+        assert (!brukerRegistrertIEmne);
+    }
+    
     
     public void rivNed() {
         db.shutdown();

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
+import spring.ov13.domene.Øving;
 
 public class UtilsBean {
     private Database db;
@@ -104,9 +105,14 @@ public class UtilsBean {
     public ArrayList <Bruker> getAlleFaglærere(){
         return db.getAlleFagLarere(3);
     }
-      
-      
     
+    public boolean registrerØving(Øving o) {
+        return db.registrerØving(o);
+    }
     
+    public boolean oppdaterØving(Øving o) {
+        return db.oppdaterØving(o);
+    }
+      
 
 }
