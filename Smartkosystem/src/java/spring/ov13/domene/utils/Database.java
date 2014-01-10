@@ -37,7 +37,7 @@ public class Database {
     private final String sqlSelectØving = "SELECT emnekode FROM emnenavn =? or emnekode =? ";
     private final String sqlInsertØving = "INSERT into EMNE values(?,?)";
     private final String sqlUpdateØving = "UPDATE emne SET øvingsnr =? emnekode =? ";
-    
+    private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode IN(SELECT emnekode FROM emne WHERE emnekode = ?)";
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
