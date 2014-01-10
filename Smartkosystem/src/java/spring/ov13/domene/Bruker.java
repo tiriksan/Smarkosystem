@@ -25,7 +25,7 @@ public class Bruker {
     private String brukernavn;
     
     @NotNull()
-    @Pattern(regexp="\\b[A-z]*")
+    @Pattern(regexp="\\b[A-z]*+[ ]{0,1}+[A-z]*")
     private String fornavn;
     
     @NotNull()
