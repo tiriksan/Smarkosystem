@@ -8,11 +8,11 @@
 
 <!DOCTYPE html>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
-    <form:form action="endrepassordsvar.htm" method="get" modelAttribute="endrepassordbruker">
-    
-    <form:errors path="brukertype" />
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+${endrepassordbrukernavn}
+    <form:form action="endrepassordsvar.htm" method="post" modelAttribute="endrepassordbruker">
     <table>
+        <c:set var="endrepassordbruker.brukernavn" value="${endrepassordbrukernavn}" />
         <tr><td>Nytt passord:    </td><td><form:password  path="passord" /></td><td><form:errors path="passord" /></td>
  <%--   <tr><td>Bekreft passord: </td><td><form:input path="passord" /></td><td><form:errors path="passord" /></td>--%>
         <tr><td><input type="submit" value="Endre passord"></td></tr>
