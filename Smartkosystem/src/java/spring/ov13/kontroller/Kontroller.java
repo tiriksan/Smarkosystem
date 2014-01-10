@@ -124,41 +124,50 @@ public class Kontroller {
     
     
     
-      @RequestMapping(value = "/fag.htm")
+      @RequestMapping(value = "/emne.htm")
     public String visInnsetting2(Model model, @RequestParam(value = "x", required = false) String getValg) {
-        Emne fag = new Emne();
-        model.addAttribute("fag", fag);
+        Emne emne = new Emne();
+        model.addAttribute("emne", emne);
         
+                UtilsBean ub = new UtilsBean();
+                ArrayList<Bruker> faget = ub.getAlleFaglærere();
+        ArrayList<String> brukertabell = new ArrayList<String>(); 
+        for(int i=0; i<faget.size(); i++){
+            brukertabell.add(faget.get(i).getFornavn()+" "+faget.get(i).getEtternavn());
+        }
+        model.addAttribute("allelaerere", brukertabell);
+        
+   
        // model.addAttribute("valget", getValg);
         
         
-        return "fag";
+        return "emne";
     }
     
      @RequestMapping(value = "/faginnsetting.htm")
-    public String visEmneinnsetning(@Validated @ModelAttribute("fag") Emne fag, BindingResult error, Model modell, HttpServletRequest request){
+    public String visEmneinnsetning(@Validated @ModelAttribute("emne") Emne emne, BindingResult error, Model modell, HttpServletRequest request){
         
         
         
         
         if (error.hasErrors()) {
             javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av fag.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-            return "fag";
+            return "emne";
         }
         UtilsBean utilsBean = new UtilsBean();
-        if (utilsBean.registrerEmne(fag)) {
-            modell.addAttribute("melding", "Fag" + fag + " er registrert");
-            return "fag";
+        if (utilsBean.registrerEmne(emne)) {
+            modell.addAttribute("melding", "Fag" + emne + " er registrert");
+            return "emne";
         }
           
       /*  UtilsBean utilsBean2 = new UtilsBean();
         if (utilsBean2.hentUtFagListe(fag)) {  // forandre til riktig metodenavn //
            
         }*/
+
         
         
-        
-       return "fag"; 
+       return "emne"; 
     }
     
     

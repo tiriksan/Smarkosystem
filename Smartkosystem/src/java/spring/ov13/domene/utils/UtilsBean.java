@@ -11,7 +11,6 @@ public class UtilsBean {
     private ArrayList<Bruker> valgteBrukere = null;
     private ArrayList<Emne> alleFag = null;
     private ArrayList<Emne> valgteEmner = null;
-    private ArrayList<Bruker> faglærere = null;
     
     
     public UtilsBean(){
@@ -93,8 +92,8 @@ public class UtilsBean {
         return null;
     }
     
-    public ArrayList <Bruker> getAlleFaglærere(String faglærer){
-        return faglærere;
+    public ArrayList <Bruker> getAlleFaglærere(){
+        return db.getAlleBrukertype(2);
     }
       
       

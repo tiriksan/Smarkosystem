@@ -67,11 +67,17 @@
 
                 <c:when test="${valget eq '3'}">
 
-                    <form:form action="faginnsetting.htm" method="post" modelAttribute="fag" >
+                    <form:form action="faginnsetting.htm" method="post" modelAttribute="emne" >
                         <table>
                             <tr><td>Fagnavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
                             <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-                            <tr><td>Faglærer:       </td><td><form:input path="faglærer" /></td><td><form:errors path="faglærer" /></td></tr>
+                                <tr><td><label for="emne">Faglærer: </label></td><td>
+                
+
+                                    <form:select path="faglærer">
+                                        <form:option value="0" label="Velg faglærer" />
+                                        <form:options items="${faglaerere}" />
+                                    </form:select>
 
                             <br>
                             <tr><td colspan="2"><input type="submit" value="Registrer fag"></td></tr>

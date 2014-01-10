@@ -20,6 +20,7 @@ public class Database {
     private Connection forbindelse;
 
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
+    private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? where brukernavn=?";
@@ -462,6 +463,36 @@ public class Database {
         }
         lukkForbindelse();
         return ok;
+    }
+    
+     public ArrayList<Bruker> getAlleBrukertype(int brukertype) {
+        System.out.println("getAlleFagLærere()");
+        PreparedStatement psSelectAlle = null;
+        ResultSet res;
+        ArrayList<Bruker> brukerListe = null;
+        try {
+            åpneForbindelse();
+            psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleHovedbrukertyper);
+            psSelectAlle.setInt(1, brukertype);
+            res = psSelectAlle.executeQuery();
+            while (res.next()) {
+                Bruker b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                if (brukerListe == null) {
+                    brukerListe = new ArrayList<Bruker>();
+                }
+                brukerListe.add(b);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getAlleBrukere()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getAlleBrukere - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectAlle);
+        }
+        lukkForbindelse();
+        return brukerListe;
     }
 
 }
