@@ -233,7 +233,7 @@ public class Database {
         try {
             åpneForbindelse();
             psEndrePassord = forbindelse.prepareStatement(sqlendrePassord);
-            psEndrePassord.setString(1, bruker.getBrukernavn());
+            psEndrePassord.setString(2, bruker.getBrukernavn());
             psEndrePassord.setString(1, bruker.getPassord());
             int i = psEndrePassord.executeUpdate();
             if (i > 0) {

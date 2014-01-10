@@ -41,6 +41,9 @@ public class UtilsBean {
     public ArrayList<Bruker> getValgteBrukere(){
         return valgteBrukere;
     }
+    public boolean endrePassord(Bruker bruker){
+        return db.endrePassord(bruker);
+    }
     public Bruker get(String brukernavn){
         for(Bruker b: alleBrukere){
             if(b.getBrukernavn().equals(brukernavn)){

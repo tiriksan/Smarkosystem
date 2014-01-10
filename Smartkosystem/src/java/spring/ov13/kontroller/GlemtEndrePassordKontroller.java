@@ -77,7 +77,7 @@ public class GlemtEndrePassordKontroller {
         
         UtilsBean ub = new UtilsBean();
         
-        ub.oppdaterBruker(bruker);
+        ub.endrePassord(bruker);
         
         //bruker.setBrukernavn();
         return "endrepassord";
