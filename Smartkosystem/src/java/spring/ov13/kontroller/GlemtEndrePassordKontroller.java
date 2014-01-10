@@ -41,21 +41,29 @@ public class GlemtEndrePassordKontroller {
         }
     }    
     @RequestMapping(value = "/endrepassord.htm")
-    public String endrePassord(Model model, @Validated @ModelAttribute("endrepassordbruker") Bruker bruker, @RequestParam(value = "bruker", required = false) String getValg, HttpServletRequest request){
+    public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletRequest request){
+        //System.out.println("Endrepassordbruker: " + bruker);
         UtilsBean ub = new UtilsBean();
-        bruker = ub.get(request.getParameter("bruker"));
-       // model.addAttribute("endrepassordbruker", bruker);
+        String brukernavn = getValg;
+        System.out.println(brukernavn);
+        model.addAttribute("endrepassordbrukernavn", brukernavn);
+        Bruker bruker = new Bruker();
+        model.addAttribute("endrepassordbruker", bruker);
+        
         System.out.println("Endrepassordbruker: " + bruker);
         return "endrepassord";
         
     }
     @RequestMapping(value = "/endrepassordsvar.htm")
-    public String endrePassordSvar(@Validated @ModelAttribute("endrepassordbruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request){
+    public String endrePassordSvar(@ModelAttribute(value = "endrepassordbrukernavn")String brukernavn, @Validated @ModelAttribute(value = "endrepassordbruker") Bruker bruker ,BindingResult error, Model modell, HttpServletRequest request){
        /* if(error.hasErrors()){
             return "endrepassord";
         }*/
         //System.out.println((Bruker)request.getAttribute("endrepassordbruker"));
+        
+        System.out.println("brukernavn " + brukernavn);
         System.out.println(bruker);
+        
         UtilsBean ub = new UtilsBean();
         
         ub.oppdaterBruker(bruker);

@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
+import spring.ov13.domene.Øving;
 
 public class Database {
 
@@ -32,7 +33,7 @@ public class Database {
     private final String sqlSelectBrukertypeIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? AND brukertype=? ORDER BY etternavn";
     private final String sqlInsertBrukerIEmne = "INSERT INTO emne_bruker VALUES(?,?,?)";
-    private final String sqlSelectØving = "SELECT emnekode FROM emnenavn =? or emnekode =? ";
+    private final String sqlSelectØving = "SELECT emnekode FROM emnenavn ='TDAT3003' or emnekode ='TDAT3003' ";
     private final String sqlInsertØving = "INSERT into EMNE values(?,?)";
     
     
@@ -131,7 +132,7 @@ public class Database {
         boolean ok = false;
         System.out.println("registrerBrukere()");
         PreparedStatement psInsertBrukere = null;
-
+        
         try {
             åpneForbindelse();
             for (int i = 0; i < brukere.size(); i++) {
