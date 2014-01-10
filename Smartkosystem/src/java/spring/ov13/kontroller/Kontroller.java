@@ -38,9 +38,9 @@ public class Kontroller {
     @RequestMapping(value = "/bruker.htm")
     public String visInnsetting(Model model, @RequestParam(value = "x", required = false) String getValg) {
         Bruker bruker = new Bruker();
-        Emne fag = new Emne();
+        Emne emne = new Emne();
         model.addAttribute("bruker", bruker);
-        model.addAttribute("fag", fag);
+        model.addAttribute("emne", emne);
         UtilsBean ub = new UtilsBean();
         model.addAttribute("valget", getValg);
         model.addAttribute("allefagene", ub.getAlleFag());
@@ -48,24 +48,28 @@ public class Kontroller {
         return "bruker";
     }
     @RequestMapping(value = "/registrerBrukereFraFil.htm")
-    public String regBrukereFraFil(Model model, @ModelAttribute("fag") Emne emne, BindingResult error, HttpServletRequest request) {
+    public String regBrukereFraFil(Model model, @ModelAttribute("emne") Emne emne, BindingResult error, HttpServletRequest request) {
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> emner = new ArrayList<Emne>();
         emner = ub.getAlleFag();
-        emne = (Emne) request.getAttribute("fag");
+        emne = (Emne) request.getAttribute("emne");
         boolean emnetIDatabase = false;
         for (int i = 0; i < emner.size(); i++) {
             if (emner.get(i).getEmnekode() == emne.getEmnekode() && emner.get(i).getEmnenavn() == emne.getEmnenavn()) {
                 emnetIDatabase = true;
             }
         }
+        if (emnetIDatabase) {
+           
         FilLeser fl = new FilLeser(emne);
         try {
             fl.lesFil();
         } catch (Exception ex) {
             showMessageDialog(null, "Feil ved registrering oppstått, avbryter.");
         }
-      
+        }else {
+           showMessageDialog(null, "Feil ved registrering oppstått, emnet du oppgav eksisterer ikke, vennligst kontroller opplysningene du oppgav eller registrer emnet først.");
+        }
         
         return "redirect:/bruker.htm?x=2";
     }
