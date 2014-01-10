@@ -35,6 +35,7 @@ public class Database {
     private final String sqlInsertBrukerIEmne = "INSERT INTO emne_bruker VALUES(?,?,?)";
     private final String sqlSelectØving = "SELECT emnekode FROM emnenavn =? or emnekode =? ";
     private final String sqlInsertØving = "INSERT into EMNE values(?,?)";
+    private final String sqlUpdateØving = "UPDATE emne SET øvingsnr =? emnekode =? ";
     
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
@@ -389,6 +390,35 @@ public class Database {
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertFag);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+    
+     public synchronized boolean oppdaterØving(Øving øving) {
+        boolean ok = false;
+        System.out.println("oppdaterØving()");
+        PreparedStatement psUpdateØving = null;
+
+        try {
+            åpneForbindelse();
+            psUpdateØving = forbindelse.prepareStatement(sqlUpdateØving);
+            psUpdateØving.setInt(1, øving.getØvingsnummer());
+            psUpdateØving.setString(2, øving.getEmnekode());
+            int i = psUpdateØving.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "oppdaterØving()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "oppdaterØving - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psUpdateBruker);
         }
         lukkForbindelse();
         return ok;
