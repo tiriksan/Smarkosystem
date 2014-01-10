@@ -124,7 +124,7 @@ public class Kontroller {
             return "fag";
         }
         UtilsBean utilsBean = new UtilsBean();
-        if (utilsBean.registrerEmner(fag)) {
+        if (utilsBean.registrerEmne(fag)) {
             modell.addAttribute("melding", "Fag" + fag + " er registrert");
             return "fag";
         }
