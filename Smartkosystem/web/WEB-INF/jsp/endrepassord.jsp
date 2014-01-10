@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-${endrepassordbrukernavn}
+${endrepassordbruker.passord}
     <form:form action="endrepassordsvar.htm" method="post" modelAttribute="endrepassordbruker">
     <table>
         <c:set var="endrepassordbruker.brukernavn" value="${endrepassordbrukernavn}" />

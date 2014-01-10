@@ -34,7 +34,7 @@ public class Bruker {
     @Min(1)
     @Max(4)
     private int brukertype;
-    @Pattern(regexp="^.{4,*}$")
+    @Pattern(regexp="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,13}$")
     private String passord;
     private ArrayList<Emne> fagene;
     private static int STUDENT = 1;

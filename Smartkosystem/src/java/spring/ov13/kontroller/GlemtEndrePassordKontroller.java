@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMethod;
 import spring.ov13.domene.utils.SendEpost;
 
@@ -41,7 +42,7 @@ public class GlemtEndrePassordKontroller {
             SendEpost epost = new SendEpost();
             String brukernavn = bruker.getBrukernavn();
             brukernavn = krypterRot13(brukernavn);
-            //TODO endre dersom man endrer server
+            //TODO endre dersom man endrer server 
             epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8080/Smartkosystem/endrepassord.htm?bruker="+brukernavn);
             return "glemtpassord";
         }
@@ -62,16 +63,20 @@ public class GlemtEndrePassordKontroller {
         
     }
     @RequestMapping(value = "/endrepassordsvar.htm", method = RequestMethod.POST)
-    public String endrePassordSvar(@ModelAttribute(value = "endrepassordbruker") Bruker bruker, Model modell, HttpServletRequest request){
-       /* if(error.hasErrors()){
+    public String endrePassordSvar(@Validated @ModelAttribute(value = "endrepassordbruker") Bruker bruker,BindingResult error, Model modell, HttpServletRequest request){
+        if(error.hasErrors()){
+           
+            
             return "endrepassord";
-        }*/
+        }
+        for(FieldError f : error.getFieldErrors()){
+            System.out.println(f.getField());
+        }
         
         for(Cookie c : request.getCookies()){
             if(c.getName().equals("brukernavn")){
                 bruker.setBrukernavn(c.getValue());
             }
-            
         }
         //System.out.println((Bruker)request.getAttribute("endrepassordbruker"));
         
