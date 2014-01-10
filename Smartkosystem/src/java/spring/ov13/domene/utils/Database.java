@@ -34,8 +34,9 @@ public class Database {
     private final String sqlSelectBrukertypeIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? AND brukertype=? ORDER BY etternavn";
     private final String sqlInsertBrukerIEmne = "INSERT INTO emne_bruker VALUES(?,?,?)";
-    private final String sqlSelectØving = "SELECT emnekode FROM emnenavn ='TDAT3003' or emnekode ='TDAT3003' ";
+    private final String sqlSelectØving = "SELECT emnekode FROM emnenavn =? or emnekode =? ";
     private final String sqlInsertØving = "INSERT into EMNE values(?,?)";
+    private final String sqlUpdateØving = "UPDATE emne SET øvingsnr =? emnekode =? ";
     
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
@@ -371,25 +372,64 @@ public class Database {
         boolean ok = false;
         System.out.println("registrerØving()");
         PreparedStatement psInsertØving= null;
-
+        int i;
         try {
+           
             åpneForbindelse();
+            
             psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
-            psInsertØving.setInt(1, øving.getØvingsnummer());
+           
+            for(int k =øving.getØvingantall(); k>0; k-- ){
+            psInsertØving.setInt(1, øving.getØvingantall());
             psInsertØving.setString(2, øving.getEmnekode());
-
-            int i = psInsertØving.executeUpdate();
-            if (i > 0) {
+           
+            i= psInsertØving.executeUpdate();
+             if (i < 0) {
                 ok = true;
             }
+        }
+            
+            
+            
+           
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "registrerØving()");
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "registrerØving - ikke sqlfeil");
+            
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertFag);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+    
+     public synchronized boolean oppdaterØving(Øving øving) {
+        boolean ok = false;
+        System.out.println("oppdaterØving()");
+        PreparedStatement psUpdateØving = null;
+
+        try {
+            åpneForbindelse();
+            psUpdateØving = forbindelse.prepareStatement(sqlUpdateØving);
+            psUpdateØving.setInt(1, øving.getØvingantall());
+            psUpdateØving.setString(2, øving.getEmnekode());
+            int i = psUpdateØving.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "oppdaterØving()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "oppdaterØving - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psUpdateBruker);
         }
         lukkForbindelse();
         return ok;

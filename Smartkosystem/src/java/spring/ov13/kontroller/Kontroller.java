@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMethod;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -52,21 +53,12 @@ public class Kontroller {
         
         return "bruker";
     }
-    @RequestMapping(value = "/registrerBrukereFraFil.htm")
-    public String regBrukereFraFil(Model model, @ModelAttribute("emne") Emne emne, BindingResult error, HttpServletRequest request) {
+    @RequestMapping(value = "/registrerBrukereFraFil.htm", method = RequestMethod.POST)
+    public String regBrukereFraFil(Model model, @ModelAttribute(value="emne") Emne emne, BindingResult error) {
         UtilsBean ub = new UtilsBean();
-        ArrayList<Emne> emner = new ArrayList<Emne>();
-        emner = ub.getAlleFag();
-        emne = (Emne) request.getAttribute("emne");
-        boolean emnetIDatabase = false;
-        for (int i = 0; i < emner.size(); i++) {
-            if (emner.get(i).getEmnekode() == emne.getEmnekode() && emner.get(i).getEmnenavn() == emne.getEmnenavn()) {
-                emnetIDatabase = true;
-            }
-        }
-        if (emnetIDatabase) {
-           
-        FilLeser fl = new FilLeser(emne);
+        Emne emnet = ub.getEmne(emne.getEmnekode());
+        if (emnet != null) {
+        FilLeser fl = new FilLeser(emnet);
         try {
             fl.lesFil();
         } catch (Exception ex) {
