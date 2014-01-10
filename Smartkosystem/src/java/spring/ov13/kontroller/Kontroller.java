@@ -38,9 +38,9 @@ public class Kontroller {
     @RequestMapping(value = "/bruker.htm")
     public String visInnsetting(Model model, @RequestParam(value = "x", required = false) String getValg) {
         Bruker bruker = new Bruker();
-        Emne fag = new Emne();
+        Emne emne = new Emne();
         model.addAttribute("bruker", bruker);
-        model.addAttribute("fag", fag);
+        model.addAttribute("emne", emne);
         UtilsBean ub = new UtilsBean();
         model.addAttribute("valget", getValg);
         model.addAttribute("allefagene", ub.getAlleFag());
