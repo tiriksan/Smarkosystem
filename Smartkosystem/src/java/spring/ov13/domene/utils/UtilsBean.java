@@ -110,8 +110,8 @@ public class UtilsBean {
         return db.registrerØving(o);
     }
     
-    public boolean oppdaterØving(Øving o, int antall) {
-        return db.oppdaterØving(o, antall);
+    public boolean oppdaterØving(Øving o) {
+        return db.oppdaterØving(o);
     }
       
 
