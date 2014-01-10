@@ -59,6 +59,8 @@
                             <tr><td>Emnekode:  </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
                             <p>Velg så en fil med ny brukere(Du får opp et popup-vindu du kan velge fil fra):</p>
                             <tr><td colspan="2"><input type="submit" value="Registrer brukere"></td></tr>
+                            <tr><td>${feilmelding}</td></tr>
+                            
                         </table>
                     </form:form>
 

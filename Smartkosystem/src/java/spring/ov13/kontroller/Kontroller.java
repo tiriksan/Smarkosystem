@@ -37,7 +37,7 @@ public class Kontroller {
     }
 
     @RequestMapping(value = "/bruker.htm")
-    public String visInnsetting(Model model, @RequestParam(value = "x", required = false) String getValg) {
+    public String visInnsetting(Model model, @ModelAttribute("feilmelding") String feil, @RequestParam(value = "x", required = false) String getValg) {
         Bruker bruker = new Bruker();
         Emne emne = new Emne();
         model.addAttribute("bruker", bruker);
@@ -50,10 +50,10 @@ public class Kontroller {
             fagtabell.add(fag.get(i).getEmnenavn());
         }
         model.addAttribute("allefagene", fagtabell);
-        System.out.println("GET VALG--------------------------------- = " + getValg);
+
         if (getValg != null) {
             if (getValg.equals("3")) {
-                System.out.println("kommer hit -----------------------------");
+
                 ArrayList<Bruker> faget = ub.getAlleFaglærere();
                 ArrayList<String> brukertabell = new ArrayList<String>();
                 for (int i = 0; i < faget.size(); i++) {
@@ -75,10 +75,14 @@ public class Kontroller {
             try {
                 fl.lesFil();
             } catch (Exception ex) {
-                showMessageDialog(null, "Feil ved registrering oppstått, avbryter.");
+                model.addAttribute("feilmelding", ex.getMessage());
             }
         } else {
-            showMessageDialog(null, "Feil ved registrering oppstått, emnet du oppgav eksisterer ikke, vennligst kontroller opplysningene du oppgav eller registrer emnet først.");
+            if (emne == null) {
+                model.addAttribute("feilmelding", "Feilmelding: Du har ikke fyllt inn emnekoden.");
+            } else {
+                model.addAttribute("feilmelding", "Feil ved registrering inntruffet, emnet du oppgav eksisterer ikke, vennligst kontroller opplysningene du oppgav eller registrer emnet først.");
+            }
         }
 
         return "redirect:/bruker.htm?x=2";
@@ -133,7 +137,7 @@ public class Kontroller {
         }
         model.addAttribute("allelaerere", brukertabell);
 
-       // model.addAttribute("valget", getValg);
+        // model.addAttribute("valget", getValg);
         return "emne";
     }
 

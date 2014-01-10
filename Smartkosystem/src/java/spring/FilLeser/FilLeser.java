@@ -94,8 +94,9 @@ public class FilLeser {
                 int returVerdi = fc.showOpenDialog(forelder);
                 forelder.dispatchEvent(new WindowEvent(forelder, WindowEvent.WINDOW_CLOSING));
 
-                File fil = fc.getSelectedFile();
+                
                 if (returVerdi == JFileChooser.APPROVE_OPTION) {
+                    File fil = fc.getSelectedFile();
                     sti = fil.getAbsolutePath();
                 } else {
                     throw new Exception("Du har valgt å avbryte.");
@@ -160,7 +161,7 @@ public class FilLeser {
 
                         }
                     } catch (Exception e) {
-                       
+                       throw new Exception("Filens innhold er ikke gyldig, vennligst kontroller.");
                     } finally {
                         br.close();
                     }
