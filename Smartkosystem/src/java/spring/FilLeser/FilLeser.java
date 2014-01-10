@@ -29,7 +29,7 @@ public class FilLeser {
     private boolean riktigValg = false;
     private boolean feil = false;
     private String sti = "";
-    private ArrayList<Bruker> listeMidlertidig = new ArrayList<Bruker>();
+    private ArrayList<Bruker> brukere = new ArrayList<Bruker>();
     private Emne emne = null;
     private UtilsBean ub = new UtilsBean();
     
@@ -140,7 +140,7 @@ public class FilLeser {
                             String etternavn = oppdeling[1];
                             String epost = oppdeling[2];
                             Bruker nyBruker = new Bruker(epost, fornavn, etternavn, 1, (java.util.UUID.randomUUID().toString().substring(0,10)));
-                            listeMidlertidig.add(nyBruker);
+                            brukere.add(nyBruker);
                             linje = br.readLine();
                             if (fornavn.length() > 30 || etternavn.length() > 100 || !epost.contains("@")) {
                                 feil = true;
@@ -149,7 +149,9 @@ public class FilLeser {
                             }
                         }
                         if (!feil) {
-//                            ub.registrerBrukere(listeMidlertidig);
+                           ub.registrerBrukere(brukere);
+                           ub.leggTilBrukereIEmne(emne, brukere);
+                           
                         }
                     } catch (Exception e) {
                         System.out.println("En feil er oppstått, feilmelding: " + e + "\n Prøv på nytt.");
