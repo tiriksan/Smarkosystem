@@ -463,7 +463,7 @@ public class Database {
 
                 sjekker = psDeleteØving.executeUpdate();
                 if (sjekker > 0) {
-                    return true;
+                    ok= true;
                 }
             } else if (antall < øving.getØvingantall()) {
                 int mid = øving.getØvingantall() - antall; // antall øvinger ønsket lagt til. 10-5
@@ -473,7 +473,7 @@ public class Database {
                     psInsertØving.setString(2, øving.getEmnekode());
                     sjekker = psInsertØving.executeUpdate();
                     if (sjekker > 0) {
-                        return true;
+                        ok= true;
                     }
                 }
             }
