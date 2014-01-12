@@ -52,5 +52,10 @@
         <put-attribute name="title"  value="Studentkø"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/studentkø.jsp"/>      
     </definition>
+    
+     <definition name="regov2" extends="baseLayout">
+        <put-attribute name="title"  value="regov2"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/regov2.jsp"/>      
+    </definition>
 
 </tiles-definitions>

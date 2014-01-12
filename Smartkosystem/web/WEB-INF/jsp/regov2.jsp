@@ -8,9 +8,9 @@
 
 <h3> registrere øving </h3>
 
-<c:when test="${valget eq '2'}"> 
+<%-- <c:when test="${valget eq '2'}"> 
 
-
+--%>
 <form:form action="regov2.htm" method="post" modelAttribute="øving" >
     <table>
         <tr><td>ØvingsNr: </td><td><form:input path="øvingsnr" /></td><td><form:errors path="øvingsnr" /></td></tr>
@@ -29,11 +29,11 @@
        
        
       <br>
-        <tr><td colspan="2"><input type="submit" value="Registrer Øving"></td></tr>
+        <tr><td colspan="2"><input type="submit" value="regoving"></td></tr>
     </table>
 </form:form>
     
-    </c:when>
+   
 
 
 
