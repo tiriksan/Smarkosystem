@@ -6,3 +6,4 @@
 <a href="<c:url value="logginn.htm"/>" ><spring:message code="menyvalg4" /></a><br>
 
 <a href="<c:url value="studentko.htm"/>" ><spring:message code="menyvalg5" /></a><br>
+<a href="<c:url value="regov2.htm"/>" ><spring:message code="menyvalg6" /></a><br>
