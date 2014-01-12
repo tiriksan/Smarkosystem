@@ -1,14 +1,7 @@
 package spring.ov13.kontroller;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import static javax.swing.JOptionPane.showMessageDialog;
-import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +18,6 @@ import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.FilLeser.FilLeser;
-import spring.ov13.domene.utils.SendEpost;
 
 @SessionAttributes("skjema")
 @Controller
@@ -54,7 +46,7 @@ public class Kontroller {
         if (getValg != null) {
             if (getValg.equals("3")) {
 
-                ArrayList<Bruker> faget = ub.getAlleFaglærere();
+                ArrayList<Bruker> faget = ub.getAlleBrukereAvBrukertype(3);
                 ArrayList<String> brukertabell = new ArrayList<String>();
                 for (int i = 0; i < faget.size(); i++) {
                     brukertabell.add(faget.get(i).getFornavn() + " " + faget.get(i).getEtternavn());
@@ -130,7 +122,7 @@ public class Kontroller {
 
         UtilsBean ub = new UtilsBean();
         System.out.println("----------------Henter ut getAlleFagLærerre-------------");
-        ArrayList<Bruker> faget = ub.getAlleFaglærere();
+        ArrayList<Bruker> faget = ub.getAlleBrukereAvBrukertype(3);
         ArrayList<String> brukertabell = new ArrayList<String>();
         for (int i = 0; i < faget.size(); i++) {
             brukertabell.add(faget.get(i).getFornavn() + " " + faget.get(i).getEtternavn());

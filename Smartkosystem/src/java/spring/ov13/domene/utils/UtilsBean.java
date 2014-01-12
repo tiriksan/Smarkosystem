@@ -1,13 +1,12 @@
 package spring.ov13.domene.utils;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 import spring.ov13.domene.Øving;
 
 public class UtilsBean {
-    private Database db;
+    private final Database db;
     private ArrayList<Bruker> alleBrukere = null;
     private ArrayList<Bruker> valgteBrukere = null;
     private ArrayList<Emne> alleFag = null;
@@ -102,16 +101,16 @@ public class UtilsBean {
         return null;
     }
     
-    public ArrayList <Bruker> getAlleFaglærere(){
-        return db.getAlleFagLarere(3);
+    public ArrayList <Bruker> getAlleBrukereAvBrukertype(int brukertype){
+        return db.getAlleBrukereAvBrukertype(brukertype);
     }
     
     public boolean registrerØving(Øving o) {
         return db.registrerØving(o);
     }
     
-    public boolean oppdaterØving(Øving o) {
-        return db.oppdaterØving(o);
+    public boolean oppdaterØving(Øving o, int øvingsnr, String emnekode) {
+        return db.oppdaterØving(o, øvingsnr, emnekode);
     }
       
 

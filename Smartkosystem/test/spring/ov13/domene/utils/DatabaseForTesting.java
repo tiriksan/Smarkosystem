@@ -1,13 +1,11 @@
 package spring.ov13.domene.utils;
 
-import spring.ov13.domene.utils.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ListIterator;
 import javax.sql.DataSource;
 import spring.ov13.domene.Bruker;
@@ -419,7 +417,7 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
-            psInsertØving.setInt(1, øving.getØvingantall());
+            psInsertØving.setInt(1, øving.getØvingsnr());
             psInsertØving.setString(2, øving.getEmnekode());
 
             int i = psInsertØving.executeUpdate();
