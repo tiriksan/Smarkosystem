@@ -113,6 +113,9 @@ public class UtilsBean {
     public boolean oppdaterØving(Øving o, int øvingsnr, String emnekode) {
         return db.oppdaterØving(o, øvingsnr, emnekode);
     }
+    public boolean erBrukerIFag(String brukernavn, String emnekode){
+        return db.erBrukerIFag(brukernavn, emnekode);
+    }
       
   public int getBrukertypeiEmne(String brukernavn, String emnekode){
       return db.getBrukertypeiEmne(brukernavn, emnekode);

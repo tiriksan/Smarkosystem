@@ -49,7 +49,8 @@ public class Database {
     private final String sqlUpdateFagKoAktiv = "UPDATE kø SET aktiv = ? WHERE emnekode = ?";
     private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg WHERE aktiv = 1";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
-
+    private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -754,7 +755,7 @@ public class Database {
         boolean returnen = false;
         try {
             åpneForbindelse();
-            psSelectAlle = forbindelse.prepareStatement(sqlSelectFagKoAktiv);
+            psSelectAlle = forbindelse.prepareStatement(sqlErBrukerIFag);
 
             psSelectAlle.setString(1, emnekode);
             res = psSelectAlle.executeQuery();
@@ -772,6 +773,31 @@ public class Database {
         }
         lukkForbindelse();
         return returnen;
+    }
+    public boolean erBrukerIFag(String brukernavn, String emnekode) {
+        System.out.println("erBrukerIFag()");
+        PreparedStatement psErBrukerIFag = null;
+        ResultSet res;
+        boolean brukerErIFag = false;
+        try {
+            åpneForbindelse();
+            psErBrukerIFag = forbindelse.prepareStatement(sqlErBrukerIFag);
+
+            psErBrukerIFag.setString(1, brukernavn);
+             psErBrukerIFag.setString(1, emnekode);
+            res = psErBrukerIFag.executeQuery();
+            brukerErIFag = res.next();
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "erBrukerIFag()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "erBrukerIFag - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psErBrukerIFag);
+        }
+        lukkForbindelse();
+        return brukerErIFag;
     }
 
     public boolean updateFagKoAktiv(String emnekode, boolean aktiv) {
