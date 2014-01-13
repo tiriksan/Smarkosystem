@@ -186,12 +186,57 @@ public class Kontroller {
      return "regov2";
      }
      */
-    @RequestMapping(value = "/regov2.htm")
-    public String visØvinginnsetning(@ModelAttribute(value = "øving") Øving øving, BindingResult error) {
-
+    
+   @RequestMapping(value = "regov2")
+    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
+        Emne emnet = new Emne();
+        UtilsBean ub = new UtilsBean();
+        ArrayList<Emne> em = ub.getAlleFag();
         System.out.println("--------------kommerinn-----------");
+        ArrayList<String> emnetabell = new ArrayList<String>();
+        
+        for (int i = 0; i < em.size(); i++) {
+            emnetabell.add(em.get(i).getEmnenavn());
+            
+        }
+        model.addAttribute("allefagene", emnetabell);
+        
+      /*  
+        String[] obl = request.getParameterValues("obligatorisk");
+        
+        for(String jau : obl ){
+      //     System.out.print("jada");
+        }
+            */
+        
+        
         return "regov2";
     }
+    
+    
+    //funker ikke //
+  /* 
+    @RequestMapping(value = "regov2")
+    public String visInnsetting3(Model model) {
+        Emne emne = new Emne();
+        model.addAttribute("emne", emne);
+
+        UtilsBean ub = new UtilsBean();
+        System.out.println("----------------Henter ut getAlleFag-------------");
+        ArrayList<Emne> faget = ub.getAlleFag();
+        ArrayList<String> emnetabell = new ArrayList<String>();
+        for (int i = 0; i < faget.size(); i++) {
+            emnetabell.add(faget.get(i).getEmnekode());
+        }
+        model.addAttribute("alleemner", emnetabell);
+
+        // model.addAttribute("valget", getValg);
+        return "regov2";
+    }
+    
+    */
+    
+    
 
     @RequestMapping(value = "regov23")
     public String regØv(@Validated @ModelAttribute(value = "regov23") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
