@@ -117,6 +117,9 @@ public class UtilsBean {
   public int getBrukertypeiEmne(String brukernavn, String emnekode){
       return db.getBrukertypeiEmne(brukernavn, emnekode);
   }
+  public boolean updateFagKoAktiv(String emnekode, boolean aktiv){
+      return db.updateFagKoAktiv(emnekode, aktiv);
+  }
        
     public ArrayList<String> getInfoTilBruker(String brukernavn) {
         return db.getInfoTilBruker(brukernavn);

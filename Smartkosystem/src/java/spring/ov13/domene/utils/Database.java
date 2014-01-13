@@ -46,6 +46,7 @@ public class Database {
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
     private final String sqlSelectFagKoAktiv = "SELECT * FROM kø WHERE emnekode = ? AND aktiv = 1";
+    private final String sqlUpdateFagKoAktiv = "UPDATE kø SET aktiv = ? WHERE emnekode = ?";
     private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg WHERE aktiv = 1";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
 
@@ -769,6 +770,41 @@ public class Database {
         lukkForbindelse();
         return returnen;
     }
+    public boolean updateFagKoAktiv(String emnekode, boolean aktiv) {
+        System.out.println("updateFagKoAktiv()");
+        PreparedStatement psUpdateFagKoAktiv = null;
+        
+        boolean ok = false;
+        try {
+            åpneForbindelse();
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlUpdateFagKoAktiv);
+            
+            if (aktiv) {
+                psUpdateFagKoAktiv.setInt(1, 0);
+            }else{
+                psUpdateFagKoAktiv.setInt(1, 1);
+            }
+            psUpdateFagKoAktiv.setString(2, emnekode);
+            
+            int i = psUpdateFagKoAktiv.executeUpdate();
+            
+            if (i > 0) {
+                ok = true;
+            }
+            
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getFagKoAktiv()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getFagKoAktiv - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFagKoAktiv);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+   
 
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         System.out.println("getFulleInnleggTilKo()");
