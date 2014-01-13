@@ -106,8 +106,6 @@ public class KøKontroller {
                         ovingtekster.add(tekstenforinnlegg);
 
                     }
-
-                    System.out.println(innleggene.get(0).getKønummer() + " er bygningen kake");
                     model.addAttribute("ovingtekster", ovingtekster);
                     model.addAttribute("innleggene", innleggene);
                 }
