@@ -28,6 +28,13 @@ public class KøKontroller {
 
         return new Bruker();
     }
+    
+    @RequestMapping(value = "/aktiverko.htm")
+    public String aktiverko(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker,@RequestParam(value = "x", required = false) String emnekode){
+        UtilsBean ub = new UtilsBean();
+        ub.updateFagKoAktiv(emnekode, !ub.getFagKoAktiv(emnekode));
+        return "redirect:studentko.htm?x="+emnekode;
+    }
 
     @RequestMapping(value = "/studentko.htm")
     public String visKø(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x", required = false) String emnekode) {
@@ -46,7 +53,9 @@ public class KøKontroller {
             if (emnekode == null) {
 
             } else {
+                
                 bruker.setBrukertype(ub.getBrukertypeiEmne(bruker.getBrukernavn(),emnekode));
+                System.out.println(bruker.getBrukertype());
                 boolean open = ub.getFagKoAktiv(emnekode);
 
                 model.addAttribute("emnenavnvalgt", emnekode);
