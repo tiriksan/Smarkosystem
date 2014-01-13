@@ -31,41 +31,43 @@
                         <input type ="submit" value ="Aktiver kø!">
                     </form:form>
                 </c:if>
-                <c:choose>
-                    <c:when test="${not empty IngenAktiv}">
-                        </br><c:out value="${IngenAktiv}"/>
-                    </c:when>
-                    <c:otherwise>
-                        <table class="hovedko" cellspacing="0" cellpadding="0">
-                            <tr><td class="overtdko">Innleggene</td><td class="overtdko">Brukerne</td><td class="overtdko">Øvinger</td></tr>
-                            <c:choose>
-                                <c:when test="${empty innleggene}">
-                                    <tr><td class="tdko" colspan="3">Ingen innlegg i kø.</td></tr>
+                <c:out value="Status: "/>
+                <c:if test = "${aktiv}">
+                    Aktiv
+                </c:if>
+                <c:if test = "${!aktiv}">
+                    Stengt
+                </c:if>
 
-                                </c:when>
-                                <c:otherwise>
-                                    <c:set var="hvorlangt" value="0"/>
-                                    <c:forEach items="${innleggene}" var="innlegg" varStatus="hvorlangt">
+                <table class="hovedko" cellspacing="0" cellpadding="0">
+                    <tr><td class="overtdko">Innleggene</td><td class="overtdko">Brukerne</td><td class="overtdko">Øvinger</td></tr>
+                    <c:choose>
+                        <c:when test="${empty innleggene}">
+                            <tr><td class="tdko" colspan="3">Ingen innlegg i kø.</td></tr>
 
-                                        <tr><td class="tdko">
-                                                Bygning: ${innlegg.getPlass().getBygning()}</br>
-                                                Etasje: ${innlegg.getPlass().getEtasje()}</br>
-                                                Rom: ${innlegg.getPlass().getRom()}</br>
-                                                Ekstra informasjon: ${innlegg.getPlass().getKommentar()}
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="hvorlangt" value="0"/>
+                            <c:forEach items="${innleggene}" var="innlegg" varStatus="hvorlangt">
 
-                                            </td><td class="tdko">
-                                                <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
-                                                    - <c:out value="${hverbruker.getFornavn()}"/> <c:out value="${hverbruker.getEtternavn()}"/></br>
-                                                </c:forEach>
-                                            </td><td class="tdko"><c:out value="${ovingtekster.get(hvorlangt.index)}"/></td></tr>
+                                <tr><td class="tdko">
+                                        Bygning: ${innlegg.getPlass().getBygning()}</br>
+                                        Etasje: ${innlegg.getPlass().getEtasje()}</br>
+                                        Rom: ${innlegg.getPlass().getRom()}</br>
+                                        Ekstra informasjon: ${innlegg.getPlass().getKommentar()}
 
-                                    </c:forEach>
+                                    </td><td class="tdko">
+                                        <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
+                                            - <c:out value="${hverbruker.getFornavn()}"/> <c:out value="${hverbruker.getEtternavn()}"/></br>
+                                        </c:forEach>
+                                    </td><td class="tdko"><c:out value="${ovingtekster.get(hvorlangt.index)}"/></td></tr>
 
-                                </c:otherwise>
-                            </c:choose>
-                        </table>
-                    </c:otherwise>
-                </c:choose>
+                            </c:forEach>
+
+                        </c:otherwise>
+                    </c:choose>
+                </table>
+
             </c:when>
 
             <c:otherwise>

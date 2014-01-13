@@ -59,6 +59,7 @@ public class KøKontroller {
                 bruker.setBrukertype(ub.getBrukertypeiEmne(bruker.getBrukernavn(),emnekode));
                 System.out.println(bruker.getBrukertype());
                 boolean open = ub.getFagKoAktiv(emnekode);
+                model.addAttribute("aktiv", open);
                 System.out.println("Open: " + open);
                 model.addAttribute("emnenavnvalgt", emnekode);
                 if (open == false) {

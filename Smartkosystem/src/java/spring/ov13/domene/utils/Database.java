@@ -45,7 +45,7 @@ public class Database {
     private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(DEFAULT, ?)";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
-    private final String sqlSelectFagKoAktiv = "SELECT * FROM kø WHERE emnekode = ? AND aktiv = 1";
+    private final String sqlSelectFagKoAktiv = "SELECT * FROM kø WHERE emnekode = ?";
     private final String sqlUpdateFagKoAktiv = "UPDATE kø SET aktiv = ? WHERE emnekode = ?";
     private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg WHERE aktiv = 1";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
@@ -759,7 +759,7 @@ public class Database {
             psSelectAlle.setString(1, emnekode);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                returnen = true;
+                returnen = res.getBoolean("aktiv");
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -783,11 +783,7 @@ public class Database {
             åpneForbindelse();
             psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlUpdateFagKoAktiv);
 
-            if (aktiv) {
-                psUpdateFagKoAktiv.setInt(1, 0);
-            } else {
-                psUpdateFagKoAktiv.setInt(1, 1);
-            }
+            psUpdateFagKoAktiv.setBoolean(1, aktiv);
             psUpdateFagKoAktiv.setString(2, emnekode);
 
             int i = psUpdateFagKoAktiv.executeUpdate();
