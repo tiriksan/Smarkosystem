@@ -14,14 +14,26 @@
 <form:form action="regov23" method="post" modelAttribute="øving" >
     <table>
         <tr><td>ØvingsNr: </td><td><form:input path="øvingsnr" /></td><td><form:errors path="øvingsnr" /></td></tr>
-        <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-        <tr><td>GruppeId:       </td><td><form:input path="gruppeid" /></td><td><form:errors path="gruppeid" /></td></tr>
-       <tr><td><label for="obligatorisk"> Obligatorisk: </label></td>
-                                <td>
-                                  
-       
-       
-      <br>
+        
+
+                                    
+                            <tr><td><label for="emnekode"> Emnekode: </label></td><td>
+                
+
+                                    <form:select path="emnekode">
+                                        <form:option value="0" label="Velg fag" />
+                                        <form:options items="${allefagene}" />
+                                    </form:select>
+        
+        <tr>
+                    <td>Obligatorisk:</td>
+                    <td><form:checkbox path="obligatorisk" value="true" /></br>
+                    <td><form:errors path="obligatorisk" /></td>
+                    
+                </tr>
+        
+        
+      
         <tr><td colspan="2"><input type="submit" value="regoving"></td></tr>
     </table>
 </form:form>

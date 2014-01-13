@@ -17,7 +17,7 @@ public class Øving {
         this.gruppeid = gruppeid;
         this.obligatorisk = obligatorisk;
     }
-    
+    //lage checkbox jsp og liste
     public Øving(){
     }
 
