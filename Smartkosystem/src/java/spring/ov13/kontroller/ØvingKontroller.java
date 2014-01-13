@@ -20,7 +20,7 @@ import spring.ov13.domene.utils.UtilsBean;
  *
  * @author Bruker
  */
-
+/*
 @Controller
 public class ØvingKontroller {
     
