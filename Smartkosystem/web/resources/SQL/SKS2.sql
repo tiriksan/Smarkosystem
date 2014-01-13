@@ -21,9 +21,9 @@ bygg VARCHAR(64) NOT NULL,
 etasje INT NOT NULL,
 rom VARCHAR(64) NOT NULL,
 bord INT NOT NULL,
-fagkode VARCHAR(8),
-CONSTRAINT lokasjon_fk1 FOREIGN KEY(fagkode) REFERENCES emne(fagkode) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT lokasjon_pk1 PRIMARY KEY(bygg, etasje, rom, bord, fagkode)
+emnekode VARCHAR(8),
+CONSTRAINT lokasjon_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT lokasjon_pk1 PRIMARY KEY(bygg, etasje, rom, bord, emnekode)
 );
 
 CREATE TABLE bruker(
@@ -60,11 +60,11 @@ bygg VARCHAR(64) NOT NULL,
 etasje INT NOT NULL,
 rom VARCHAR(64) NOT NULL,
 bord INT NOT NULL,
-fagkode VARCHAR(8),
+emnekode VARCHAR(8),
 kommentar VARCHAR(64) DEFAULT '&nbsp',
 CONSTRAINT køinnlegg_fk1 FOREIGN KEY(kønummer) REFERENCES kø(kønummer) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT køinnlegg_fk2 FOREIGN KEY(eier) REFERENCES bruker(brukernavn) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT køinnlegg_fk3 FOREIGN KEY(bygg, etasje, rom, bord, fagkode) REFERENCES lokasjon(bygg, etasje, rom, bord, fagkode) ON DELETE CASCADE ON UPDATE CASCADE
+CONSTRAINT køinnlegg_fk3 FOREIGN KEY(bygg, etasje, rom, bord, emnekode) REFERENCES lokasjon(bygg, etasje, rom, bord, emnekode) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE brukere_i_innlegg(
