@@ -13,6 +13,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
+import spring.ov13.kontroller.LoggInnKontroller;
 
 /**
  * @author HJ
@@ -195,6 +196,16 @@ public class TestDB {
         Emne emne = new Emne("IKKE2009", "BS");
         boolean brukerRegistrertIEmne = database.leggTilBrukerIEmne(emne, bruker, 3);
         assert (!brukerRegistrertIEmne);
+    }
+    
+    @Test
+    public void loggInn() {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        LoggInnKontroller login = new LoggInnKontroller();
+        String md5Passord = "7c3daa31f887c333291d5cf04e541db5";
+        Bruker bruker = new Bruker("test@hist.no", "Herman", "Jensen", 0, "few");
+        boolean registrert = database.registrerBruker(bruker);
+        assert(registrert && bruker.getPassord().equals(md5Passord));
     }
     
     

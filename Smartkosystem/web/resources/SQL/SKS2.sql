@@ -101,3 +101,14 @@ CONSTRAINT øving_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE 
 CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid),
 CONSTRAINT øving_pk1 PRIMARY KEY(øvingsnummer, emnekode)
 );
+
+ALTER TABLE 'øvinger_i_innlegg' ENGINE = InnoDB;
+ALTER TABLE 'brukere_i_innlegg' ENGINE = InnoDB;
+ALTER TABLE 'lokasjon' ENGINE = InnoDB;
+ALTER TABLE 'køinnlegg' ENGINE = InnoDB;
+ALTER TABLE 'kø' ENGINE = InnoDB;
+ALTER TABLE 'emne_bruker' ENGINE = InnoDB;
+ALTER TABLE 'bruker' ENGINE = InnoDB;
+ALTER TABLE 'kravgruppe' ENGINE = InnoDB;
+ALTER TABLE 'øving' ENGINE = InnoDB;
+ALTER TABLE 'emne' ENGINE = InnoDB;
