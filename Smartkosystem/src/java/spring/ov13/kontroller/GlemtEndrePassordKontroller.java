@@ -65,9 +65,11 @@ public class GlemtEndrePassordKontroller {
     @RequestMapping(value = "/endrepassordsvar.htm", method = RequestMethod.POST)
     public String endrePassordSvar(@Validated @ModelAttribute(value = "endrepassordbruker") Bruker bruker,BindingResult error, Model modell, HttpServletRequest request){
         if(error.hasErrors()){
-           
-            
-            return "endrepassord";
+            for(FieldError f : error.getFieldErrors()){
+                if(f.getField().equals("passord")){
+                    return "endrepassord";
+                }
+            }
         }
         for(FieldError f : error.getFieldErrors()){
             System.out.println(f.getField());
