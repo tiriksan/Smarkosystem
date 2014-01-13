@@ -11,21 +11,14 @@
 <%-- <c:when test="${valget eq '2'}"> 
 
 --%>
-<form:form action="regov2" method="post" modelAttribute="øving" >
+<form:form action="regov23" method="post" modelAttribute="øving" >
     <table>
         <tr><td>ØvingsNr: </td><td><form:input path="øvingsnr" /></td><td><form:errors path="øvingsnr" /></td></tr>
         <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
         <tr><td>GruppeId:       </td><td><form:input path="gruppeid" /></td><td><form:errors path="gruppeid" /></td></tr>
        <tr><td><label for="obligatorisk"> Obligatorisk: </label></td>
                                 <td>
-                                    <form:select path="obligatorisk" id="obligatorisk">
-
-                                        <form:option value="0">Velg Ja/Nei</form:option>
-
-                                        <form:option value="1">Ja</form:option>
-                                        <form:option value="2">Nei</form:option>
-
-                                    </form:select> 
+                                  
        
        
       <br>

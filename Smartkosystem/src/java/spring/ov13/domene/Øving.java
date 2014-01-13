@@ -45,7 +45,7 @@ public class Øving {
         this.gruppeid = gruppeid;
     }
     
-    public boolean erObligatorisk() {
+    public boolean getObligatorisk() {
         return obligatorisk;
     }
     
