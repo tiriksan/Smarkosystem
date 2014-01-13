@@ -5,5 +5,6 @@
 --%>
 
 
-<h3>Welcome to the page of vare</h3>
+<h3>Velkommen til Smartkøsystem 2.0!/h3>
+<h4>Naviger i menyen til venstre./h4>
 
