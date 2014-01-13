@@ -272,8 +272,8 @@ public class Database {
         try {
             åpneForbindelse();
             psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
-            psInsertFag.setString(1, fag.getEmnenavn());
-            psInsertFag.setString(2, fag.getEmnekode());
+            psInsertFag.setString(2, fag.getEmnenavn());
+            psInsertFag.setString(1, fag.getEmnekode());
 
             int i = psInsertFag.executeUpdate();
             if (i > 0) {
