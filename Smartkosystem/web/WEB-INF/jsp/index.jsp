@@ -5,6 +5,6 @@
 --%>
 
 
-<h3>Velkommen til Smartkøsystem 2.0!/h3>
-<h4>Naviger i menyen til venstre./h4>
+<h3>Velkommen til Smartkøsystem 2.0! </h3>
+<h4>Naviger i menyen til venstre. </h4>
 
