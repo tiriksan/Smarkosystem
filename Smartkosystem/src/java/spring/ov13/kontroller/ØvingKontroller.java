@@ -25,7 +25,7 @@ import spring.ov13.domene.utils.UtilsBean;
 public class ØvingKontroller {
     
     @RequestMapping(value = "/regov2.htm")
-    public String visØvinginnsetning(@Validated @ModelAttribute(value = "regov2") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
+    public String visØvinginnsetning(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
         if (error.hasErrors()) {
             //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av øving.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);

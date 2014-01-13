@@ -18,6 +18,7 @@ import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.FilLeser.FilLeser;
+import spring.ov13.domene.Øving;
 
 @SessionAttributes("skjema")
 @Controller
@@ -152,6 +153,25 @@ public class Kontroller {
          }*/
         return "emne";
     }
+    
+    
+    
+        @RequestMapping(value = "/regov2.htm")
+    public String visØvinginnsetning(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
+
+        if (error.hasErrors()) {
+            //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av øving.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
+            return "øving";
+        }
+        UtilsBean utilsBean = new UtilsBean();
+        if (utilsBean.registrerØving(øving)) {
+            modell.addAttribute("melding", "Øving" + øving + " er registrert");
+
+        }
+
+        return "øving";
+    }
+    
 
     /*
      @RequestMapping(value = "/bruker.htm")
