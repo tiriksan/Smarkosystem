@@ -86,7 +86,7 @@ public class Database {
         System.out.println("registrerBruker()");
         PreparedStatement psInsertBruker = null;
         bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0, 10));
-                
+
         try {
             åpneForbindelse();
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
@@ -411,7 +411,7 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
+
     public synchronized boolean oppdaterØving(Øving øving, int øvingsnr, String emnekode) {
         boolean ok = false;
         System.out.println("oppdaterØving()");
@@ -426,7 +426,7 @@ public class Database {
             psUpdateØving.setBoolean(4, øving.getObligatorisk());
             psUpdateØving.setInt(5, øvingsnr);
             psUpdateØving.setString(6, emnekode);
-            
+
             int i = psUpdateØving.executeUpdate();
             if (i > 0) {
                 ok = true;
@@ -445,59 +445,59 @@ public class Database {
         return ok;
     }
 
-/*    public synchronized boolean oppdaterØving(Øving øving) {
-        boolean ok = false;
-        System.out.println("oppdaterØving()");
-        PreparedStatement psCountØving = null;
-        PreparedStatement psDeleteØving = null;
-        PreparedStatement psInsertØving = null;
+    /*    public synchronized boolean oppdaterØving(Øving øving) {
+     boolean ok = false;
+     System.out.println("oppdaterØving()");
+     PreparedStatement psCountØving = null;
+     PreparedStatement psDeleteØving = null;
+     PreparedStatement psInsertØving = null;
 
-        int antall;
-        int sjekker;
+     int antall;
+     int sjekker;
 
-        try {
-            åpneForbindelse();
-            psCountØving = forbindelse.prepareStatement(sqlCountØvinger);
-            ResultSet rs = null;
-            rs = psCountØving.executeQuery();
-            antall = rs.getInt("telling");
+     try {
+     åpneForbindelse();
+     psCountØving = forbindelse.prepareStatement(sqlCountØvinger);
+     ResultSet rs = null;
+     rs = psCountØving.executeQuery();
+     antall = rs.getInt("telling");
 
-            if (antall > øving.getØvingantall()) {
-                int mid = antall - øving.getØvingantall(); // antall øvinger ønsket fjernet
-                psDeleteØving = forbindelse.prepareStatement(sqlDeleteØvinger);
-                psDeleteØving.setInt(1, antall);
-                psDeleteØving.setInt(2, øving.getØvingantall());
+     if (antall > øving.getØvingantall()) {
+     int mid = antall - øving.getØvingantall(); // antall øvinger ønsket fjernet
+     psDeleteØving = forbindelse.prepareStatement(sqlDeleteØvinger);
+     psDeleteØving.setInt(1, antall);
+     psDeleteØving.setInt(2, øving.getØvingantall());
 
-                sjekker = psDeleteØving.executeUpdate();
-                if (sjekker > 0) {
-                    ok= true;
-                }
-            } else if (antall < øving.getØvingantall()) {
-                int mid = øving.getØvingantall() - antall; // antall øvinger ønsket lagt til. 10-5
-                for (int r = mid + 1; r <= øving.getØvingantall(); r++) { // teller fra ønsket +1 slik at de nye som blir laget får riktig øvingsnr.
-                    psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
-                    psInsertØving.setInt(1, r);
-                    psInsertØving.setString(2, øving.getEmnekode());
-                    sjekker = psInsertØving.executeUpdate();
-                    if (sjekker > 0) {
-                        ok= true;
-                    }
-                }
-            }
+     sjekker = psDeleteØving.executeUpdate();
+     if (sjekker > 0) {
+     ok= true;
+     }
+     } else if (antall < øving.getØvingantall()) {
+     int mid = øving.getØvingantall() - antall; // antall øvinger ønsket lagt til. 10-5
+     for (int r = mid + 1; r <= øving.getØvingantall(); r++) { // teller fra ønsket +1 slik at de nye som blir laget får riktig øvingsnr.
+     psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
+     psInsertØving.setInt(1, r);
+     psInsertØving.setString(2, øving.getEmnekode());
+     sjekker = psInsertØving.executeUpdate();
+     if (sjekker > 0) {
+     ok= true;
+     }
+     }
+     }
 
-        } catch (SQLException e) {
-            Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "oppdaterØving()");
-        } catch (Exception e) {
-            Opprydder.skrivMelding(e, "oppdaterØving - ikke sqlfeil");
-        } finally {
-            Opprydder.settAutoCommit(forbindelse);
-            //Opprydder.lukkSetning(psUpdateBruker);
-        }
-        lukkForbindelse();
-        return ok;
-    }
-*/
+     } catch (SQLException e) {
+     Opprydder.rullTilbake(forbindelse);
+     Opprydder.skrivMelding(e, "oppdaterØving()");
+     } catch (Exception e) {
+     Opprydder.skrivMelding(e, "oppdaterØving - ikke sqlfeil");
+     } finally {
+     Opprydder.settAutoCommit(forbindelse);
+     //Opprydder.lukkSetning(psUpdateBruker);
+     }
+     lukkForbindelse();
+     return ok;
+     }
+     */
     // emne_bruker //
     public synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
         boolean ok = false;
@@ -565,6 +565,30 @@ public class Database {
         }
         lukkForbindelse();
         return ok;
+    }
+
+    public int getBrukertypeiEmne(String brukernavn, String emnekode) {
+        PreparedStatement psSelectBrukerTypeIEmne = null;
+        ResultSet res;
+        int brukertype = 0;
+        try {
+            åpneForbindelse();
+            psSelectBrukerTypeIEmne = forbindelse.prepareStatement("SELECT brukertype FROM emne_bruker WHERE emnekode=" + emnekode);
+            res = psSelectBrukerTypeIEmne.executeQuery();
+            while (res.next()) {
+                brukertype = res.getInt(brukertype);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getBrukertypeiEmne()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getBrukertypeiEmne - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psSelectBrukerTypeIEmne);
+        }
+        lukkForbindelse();
+        return brukertype;
     }
 
     public ArrayList<Bruker> getAlleBrukereAvBrukertype(int brukertype) {
@@ -652,13 +676,7 @@ public class Database {
         return ok;
     }
 
-    
-    
-    
-    
-    
-        
-        public ArrayList<String> getInfoTilBruker(String brukernavn){
+    public ArrayList<String> getInfoTilBruker(String brukernavn) {
         System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
@@ -666,12 +684,12 @@ public class Database {
         try {
             åpneForbindelse();
             psSelectAlle = forbindelse.prepareStatement(sqlSelectBrukerHentPassord);
-            
+
             psSelectAlle.setString(1, brukernavn);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                
-                if(returnen.size() != 0){
+
+                if (returnen.size() != 0) {
                     returnen = new ArrayList<String>();
                 }
                 returnen.add(res.getString("brukernavn"));
@@ -679,7 +697,7 @@ public class Database {
                 returnen.add(res.getString("fornavn"));
                 returnen.add(res.getString("etternavn"));
                 returnen.add(res.getString("hovedbrukertype"));
-                
+
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -693,11 +711,8 @@ public class Database {
         lukkForbindelse();
         return returnen;
     }
-            
-        
-        
-        
-            public ArrayList<Emne> getFageneTilBruker(String brukernavn) {
+
+    public ArrayList<Emne> getFageneTilBruker(String brukernavn) {
         System.out.println("getFageneTilBruker()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
@@ -727,11 +742,8 @@ public class Database {
         lukkForbindelse();
         return fagListe;
     }
-        
-        
-            
-            
-                    public boolean getFagKoAktiv(String emnekode){
+
+    public boolean getFagKoAktiv(String emnekode) {
         System.out.println("getFagKoAktiv()");
         PreparedStatement psSelectAlle = null;
         ResultSet res;
@@ -739,11 +751,11 @@ public class Database {
         try {
             åpneForbindelse();
             psSelectAlle = forbindelse.prepareStatement(sqlSelectFagKoAktiv);
-            
+
             psSelectAlle.setString(1, emnekode);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-               returnen = true;
+                returnen = true;
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -757,10 +769,8 @@ public class Database {
         lukkForbindelse();
         return returnen;
     }
-        
-                    
-                    
-                    public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode){
+
+    public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         System.out.println("getFulleInnleggTilKo()");
         PreparedStatement psSelectAlle = null;
         PreparedStatement dobbel = null;
@@ -770,103 +780,97 @@ public class Database {
         try {
             åpneForbindelse();
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleInnleggFraEmnekode);
-            
-            
+
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-              Innlegg innlegg = new Innlegg();
-              
-              innlegg.setBrukere(null);
-              innlegg.setHjelp(null);
-              innlegg.setKønummer(res.getInt("kønummer"));
-              innlegg.setOvinger(null);
-              innlegg.setTid(0);
-              innlegg.setId(res.getInt("innleggsid"));
-             
-             // KOMMENTER UT, HENT UT EKTE DIN LATSABB 
-              ArrayList<Øving> ovinger = new ArrayList<Øving>();
-              Øving øving1 = new Øving();
-              øving1.setEmnekode(emnekode);
-              øving1.setØvingsnr(1);
-              ovinger.add(øving1);
-              
-              if(res.getString("eier").equals("petterlu@stud.hist.no")){
-                  
-              Øving øving2 = new Øving();
-              øving2.setEmnekode(emnekode);
-              øving2.setØvingsnr(2);
-              ovinger.add(øving2);
-              }
-              Øving øving3 = new Øving();
-              øving3.setEmnekode(emnekode);
-              øving3.setØvingsnr(3);
-              ovinger.add(øving3);
-              
-              Øving øving4 = new Øving();
-              øving4.setEmnekode(emnekode);
-              øving4.setØvingsnr(4);
-              
-              ovinger.add(øving4);
+                Innlegg innlegg = new Innlegg();
+
+                innlegg.setBrukere(null);
+                innlegg.setHjelp(null);
+                innlegg.setKønummer(res.getInt("kønummer"));
+                innlegg.setOvinger(null);
+                innlegg.setTid(0);
+                innlegg.setId(res.getInt("innleggsid"));
+
+                // KOMMENTER UT, HENT UT EKTE DIN LATSABB 
+                ArrayList<Øving> ovinger = new ArrayList<Øving>();
+                Øving øving1 = new Øving();
+                øving1.setEmnekode(emnekode);
+                øving1.setØvingsnr(1);
+                ovinger.add(øving1);
+
+                if (res.getString("eier").equals("petterlu@stud.hist.no")) {
+
+                    Øving øving2 = new Øving();
+                    øving2.setEmnekode(emnekode);
+                    øving2.setØvingsnr(2);
+                    ovinger.add(øving2);
+                }
+                Øving øving3 = new Øving();
+                øving3.setEmnekode(emnekode);
+                øving3.setØvingsnr(3);
+                ovinger.add(øving3);
+
+                Øving øving4 = new Øving();
+                øving4.setEmnekode(emnekode);
+                øving4.setØvingsnr(4);
+
+                ovinger.add(øving4);
              // KOMMENTER UT, HENT UT EKTE DIN LATSABB - OVER AND OUT 
-              
-innlegg.setEier(null);   
-Plassering plass = new Plassering();
-plass.setBygning("MAIN HALL");
-plass.setEtasje(2);
-plass.setRom(1408);
-plass.setKommentar("Vi sitter på rommet like utenfor automaten.");
-innlegg.setPlass(plass);
-              ArrayList<ArrayList<Øving>> alleov = new ArrayList<ArrayList<Øving>>();
-              alleov.add(ovinger);
-              innlegg.setOvinger(alleov);
-              returnen.add(innlegg);
-             
+
+                innlegg.setEier(null);
+                Plassering plass = new Plassering();
+                plass.setBygning("MAIN HALL");
+                plass.setEtasje(2);
+                plass.setRom(1408);
+                plass.setKommentar("Vi sitter på rommet like utenfor automaten.");
+                innlegg.setPlass(plass);
+                ArrayList<ArrayList<Øving>> alleov = new ArrayList<ArrayList<Øving>>();
+                alleov.add(ovinger);
+                innlegg.setOvinger(alleov);
+                returnen.add(innlegg);
+
             }
-            
+
             /*
             
-                        PreparedStatement trippel = forbindelse.prepareStatement(sqlSelectBruker);
-            trippel.setString(1, res.getString("brukernavn"));
-            ResultSet set = trippel.executeQuery();
-            while(set.next()){
-                Bruker bruker = new Bruker();
-                bruker.setBrukernavn(set.getString("brukernavn"));
-                bruker.setBrukertype(set.getInt("hovedbrukertype"));
-                bruker.setFornavn(set.getString("fornavn"));
-                bruker.setEtternavn(set.getString("etternavn"));
-                innlegg.setEier(bruker);
-            }
-              */
-            
-            
-            
-            for(int i = 0; i < returnen.size(); i++){
-            dobbel = forbindelse.prepareStatement(sqlSelectAlleBrukereIInnlegg);
-            System.out.println("Henter fra ID: " + returnen.get(i).getId());
-            dobbel.setInt(1, returnen.get(i).getId());
-            res2 = dobbel.executeQuery();
-            ArrayList<Bruker> brukerne = new ArrayList<Bruker>();
-                    while(res2.next()){
-             System.out.println("Dermed henter vi ut navn: " + res2.getString("brukernavn"));
-            PreparedStatement trippel = forbindelse.prepareStatement(sqlSelectBruker);
-            trippel.setString(1, res2.getString("brukernavn"));
-            ResultSet set = trippel.executeQuery();
-            
-            while(set.next()){
-                Bruker bruker = new Bruker();
-                bruker.setBrukernavn(set.getString("brukernavn"));
-                bruker.setBrukertype(set.getInt("hovedbrukertype"));
-                bruker.setFornavn(set.getString("fornavn"));
-                bruker.setEtternavn(set.getString("etternavn"));
-                brukerne.add(bruker);
-            }
-            
-                        
+             PreparedStatement trippel = forbindelse.prepareStatement(sqlSelectBruker);
+             trippel.setString(1, res.getString("brukernavn"));
+             ResultSet set = trippel.executeQuery();
+             while(set.next()){
+             Bruker bruker = new Bruker();
+             bruker.setBrukernavn(set.getString("brukernavn"));
+             bruker.setBrukertype(set.getInt("hovedbrukertype"));
+             bruker.setFornavn(set.getString("fornavn"));
+             bruker.setEtternavn(set.getString("etternavn"));
+             innlegg.setEier(bruker);
+             }
+             */
+            for (int i = 0; i < returnen.size(); i++) {
+                dobbel = forbindelse.prepareStatement(sqlSelectAlleBrukereIInnlegg);
+                System.out.println("Henter fra ID: " + returnen.get(i).getId());
+                dobbel.setInt(1, returnen.get(i).getId());
+                res2 = dobbel.executeQuery();
+                ArrayList<Bruker> brukerne = new ArrayList<Bruker>();
+                while (res2.next()) {
+                    System.out.println("Dermed henter vi ut navn: " + res2.getString("brukernavn"));
+                    PreparedStatement trippel = forbindelse.prepareStatement(sqlSelectBruker);
+                    trippel.setString(1, res2.getString("brukernavn"));
+                    ResultSet set = trippel.executeQuery();
+
+                    while (set.next()) {
+                        Bruker bruker = new Bruker();
+                        bruker.setBrukernavn(set.getString("brukernavn"));
+                        bruker.setBrukertype(set.getInt("hovedbrukertype"));
+                        bruker.setFornavn(set.getString("fornavn"));
+                        bruker.setEtternavn(set.getString("etternavn"));
+                        brukerne.add(bruker);
                     }
-                    returnen.get(i).setBrukere(brukerne);
+
+                }
+                returnen.get(i).setBrukere(brukerne);
             }
-            
-            
+
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "getFulleInnleggTilKo()");
@@ -880,9 +884,5 @@ innlegg.setPlass(plass);
         System.out.println("Returnerer liste med størrelse: " + returnen.size());
         return returnen;
     }
-        
 
-    
-    
-    
 }
