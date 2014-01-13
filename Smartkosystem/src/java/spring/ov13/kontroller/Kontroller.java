@@ -154,14 +154,14 @@ public class Kontroller {
         return "emne";
     }
     
-    
+    /*
     
         @RequestMapping(value = "/regov2.htm")
     public String visØvinginnsetning(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
         if (error.hasErrors()) {
             //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av øving.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-            return "øving";
+            return "regov2";
         }
         UtilsBean utilsBean = new UtilsBean();
         if (utilsBean.registrerØving(øving)) {
@@ -169,9 +169,16 @@ public class Kontroller {
 
         }
 
-        return "øving";
+        return "regov2";
     }
-    
+    */
+        @RequestMapping(value = "regov2")
+    @ResponseBody
+    public String visØvinginnsetning(@ModelAttribute(value = "øving") Øving øving, BindingResult error) {
+
+System.out.println("--------------kommerinn-----------");
+        return "regov2";
+    }
 
     /*
      @RequestMapping(value = "/bruker.htm")

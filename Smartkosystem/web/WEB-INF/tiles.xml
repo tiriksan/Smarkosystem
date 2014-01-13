@@ -54,7 +54,7 @@
     </definition>
     
      <definition name="regov2" extends="baseLayout">
-        <put-attribute name="title"  value="regov2"/>
+        <put-attribute name="title"  value="reg oving"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/regov2.jsp"/>      
     </definition>
 
