@@ -66,7 +66,7 @@ System.out.println(innleggene.size() + "er størrelsen på tabellen");
                for(int a = 0; a < innleggene.get(i).getOvinger().size(); a++){ // Finner ArrayList<Øving> per bruker
                    
                    for(int k = 0; k < innleggene.get(i).getOvinger().get(a).size(); k++){ // Henter alle øvingene per bruker
-                       System.out.println(innleggene.get(i).getOvinger().get(a).get(k).getØvingsnr() + " er et øvingsnummer");
+                       
                        boolean funnet = false;
                        for(int e = 0; e < nummeriliste.size(); e++){
                        if(nummeriliste.get(e) == innleggene.get(i).getOvinger().get(a).get(k).getØvingsnr()){
