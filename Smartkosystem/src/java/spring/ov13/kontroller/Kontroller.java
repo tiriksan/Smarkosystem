@@ -20,13 +20,27 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.FilLeser.FilLeser;
 import spring.ov13.domene.Øving;
 
-@SessionAttributes("skjema")
+//@SessionAttributes("skjema")
+@SessionAttributes("brukerinnlogg")
 @Controller
 public class Kontroller {
+    
+    @ModelAttribute(value="brukerinnlogg")
+public Bruker lage2(){
+    
+return new Bruker();
+}
+    
+    
 
     @RequestMapping(value = "/*")
-    public String visIndex() {
-        return "index";
+    public String visIndex(@ModelAttribute("brukerinnlogg")Bruker bruker) {
+ if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+     System.out.println(bruker.getBrukernavn() + " TESTER BRUKERNAVN");
+ return "redirect:/logginn.htm";
+} else {
+return "index";
+}
     }
 
     @RequestMapping(value = "/bruker.htm")
@@ -80,8 +94,6 @@ public class Kontroller {
         emne = null;
         return "redirect:/bruker.htm?x=2";
     }
-
-
 
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request) {
@@ -140,6 +152,8 @@ public class Kontroller {
     
     /*
     
+<<<<<<< HEAD
+=======
         @RequestMapping(value = "/regov2.htm")
     public String visØvinginnsetning(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
@@ -156,31 +170,15 @@ public class Kontroller {
         return "regov2";
     }
     */
+        @RequestMapping(value = "regov2")
+    @ResponseBody
+    public String visØvinginnsetning(@ModelAttribute(value = "øving") Øving øving, BindingResult error) {
 
-        @RequestMapping(value = "/regov2.htm")
-    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving) {
-
-       System.out.println("--------------kommerinn-----------");
+System.out.println("--------------kommerinn-----------");
         return "regov2";
     }
-    
-    /*
-        @RequestMapping(value = "regov23")
-    public String visØvinginnsetning2(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
-        if (error.hasErrors()) {
-            //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av øving.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-            return "regov2";
-        }
-        UtilsBean utilsBean = new UtilsBean();
-        if (utilsBean.registrerØving(øving)) {
-            modell.addAttribute("melding", "Øving" + øving + " er registrert");
 
-        }
-
-        return "regov2";
-    }
-    */
     /*
      @RequestMapping(value = "/bruker.htm")
      public String visVare(Model model) {
