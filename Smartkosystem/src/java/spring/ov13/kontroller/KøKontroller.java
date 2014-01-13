@@ -34,17 +34,17 @@ return new Bruker();
     
     @RequestMapping(value = "/studentko.htm")
     public String visKø(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x", required = false) String emnekode){
-       if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
- return "logginn";
-} else {
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+            return "logginn";
+        } else {
            
         UtilsBean ub = new UtilsBean();
         
         ArrayList<Emne> fagene = ub.getFageneTilBruker(bruker.getBrukernavn());
         if(fagene != null){
-if(fagene.size() > 0){
-        model.addAttribute("fagene", fagene);           
-}
+            if(fagene.size() > 0){
+                model.addAttribute("fagene", fagene);           
+            }
         }
         if(emnekode == null){
 
