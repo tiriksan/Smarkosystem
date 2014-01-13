@@ -34,6 +34,11 @@
                 <c:out value="Status: "/>
                 <c:if test = "${aktiv}">
                     Aktiv
+                    <c:if test="${brukerinnlogg.brukertype == 1}">
+                        <form:form method="POST" action="stilliko.htm?x=${emnenavnvalgt}">
+                            <input type ="submit" value ="Still i kø">
+                        </form:form>
+                    </c:if>
                 </c:if>
                 <c:if test = "${!aktiv}">
                     Stengt

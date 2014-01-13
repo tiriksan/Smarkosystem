@@ -55,7 +55,10 @@ public class KøKontroller {
             if (emnekode == null) {
 
             } else {
-                
+                if(!ub.erBrukerIFag(bruker.getBrukernavn(),emnekode)){
+                    model.addAttribute("feilmelding", "Brukeren eksisterer ikke i dette faget");
+                    return "studentko";
+                }
                 bruker.setBrukertype(ub.getBrukertypeiEmne(bruker.getBrukernavn(),emnekode));
                 System.out.println(bruker.getBrukertype());
                 boolean open = ub.getFagKoAktiv(emnekode);
