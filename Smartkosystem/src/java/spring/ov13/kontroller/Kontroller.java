@@ -186,15 +186,14 @@ public class Kontroller {
      return "regov2";
      }
      */
-    @RequestMapping(value = "regov2")
-    @ResponseBody
+    @RequestMapping(value = "/regov2.htm")
     public String visØvinginnsetning(@ModelAttribute(value = "øving") Øving øving, BindingResult error) {
 
         System.out.println("--------------kommerinn-----------");
         return "regov2";
     }
 
-    @RequestMapping(value = "regov2.htm")
+    @RequestMapping(value = "regov23")
     public String regØv(@Validated @ModelAttribute(value = "regov23") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
         if (error.hasErrors()) {

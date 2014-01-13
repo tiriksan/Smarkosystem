@@ -16,6 +16,9 @@
     <tr><td class="menuvalg"><a href="<c:url value="bruker.htm"/>" ><spring:message code="menyvalg3" /></a></td></tr>
 </c:if>
     </c:if>
+    <tr><td class="menuvalg"><a href="<c:url value="regov2.htm"/>" ><spring:message code="menyvalg5" /></a></td></tr>
+
+   
     
     <tr><td class="menuvalg"><a href="<c:url value="/studentko.htm"/>" >Gå til kø</a></td></tr>
     
