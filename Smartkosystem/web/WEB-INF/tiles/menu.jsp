@@ -12,7 +12,7 @@
 
     
 </c:if>
-<c:if test="${brukerinnlogg.brukertype eq 1}">
+<c:if test="${brukerinnlogg.brukertype eq 3 or brukerinnlogg.brukertype eq 4}">
     <tr><td class="menuvalg"><a href="<c:url value="bruker.htm"/>" ><spring:message code="menyvalg3" /></a></td></tr>
 </c:if>
     </c:if>
