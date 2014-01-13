@@ -177,6 +177,23 @@ return "index";
 System.out.println("--------------kommerinn-----------");
         return "regov2";
     }
+    
+    @RequestMapping(value = "regov2.htm")
+    public String regØv(@Validated @ModelAttribute(value = "regov23") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
+
+        if (error.hasErrors()) {
+            //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
+            return "regov2";
+        }
+        UtilsBean utilsBean = new UtilsBean();
+        if (utilsBean.registrerØving(øving)) {
+            modell.addAttribute("melding", "Øving " + øving + " er registrert");
+
+        }
+
+        return "regov2";
+        
+    }
 
 
     /*
