@@ -1,3 +1,4 @@
+DROP TABLE øvinger_i_innlegg;
 DROP TABLE brukere_i_innlegg;
 DROP TABLE køinnlegg;
 DROP TABLE kø;
@@ -54,6 +55,16 @@ brukernavn VARCHAR(64) NOT NULL,
 CONSTRAINT brukere_i_innlegg_fk1 FOREIGN KEY(innleggsid) REFERENCES køinnlegg(innleggsid),
 CONSTRAINT brukere_i_innlegg_fk2 FOREIGN KEY(brukernavn) REFERENCES bruker(brukernavn),
 CONSTRAINT brukere_i_innlegg_pk1 PRIMARY KEY(innleggsid, brukernavn)
+);
+
+CREATE TABLE øvinger_i_innlegg(
+innleggsid INT NOT NULL,
+brukernavn VARCHAR(64) NOT NULL,
+øvingsnummer INT NOT NULL,
+emnekode VARCHAR(8) NOT NULL,
+CONSTRAINT øvinger_i_innlegg_fk1 FOREIGN KEY(innleggsid, brukernavn) REFERENCES brukere_i_innlegg(innleggsid, brukernavn),
+CONSTRAINT øvinger_i_innlegg_fk2 FOREIGN KEY(øvingsnummer, emnekode) REFERENCES øving(øvingsnummer, emnekode),
+CONSTRAINT øvinger_i_innlegg_pk1 PRIMARY KEY(brukernavn, øvingsnummer, emnekode)
 );
 
 CREATE TABLE arbeidskrav(
