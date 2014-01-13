@@ -37,7 +37,7 @@ public class SendEpost {
         SimpleMailMessage meld = new SimpleMailMessage();
         meld.setText(melding);
         meld.setTo(epost);
-        meld.setSubject("Glemt passord");
+        meld.setSubject(tittel);
         JavaMailSenderImpl sender = new JavaMailSenderImpl() {} ;
         sender.setHost("smtp.gmail.com");
         sender.setPort(587);
