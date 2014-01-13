@@ -114,7 +114,9 @@ public class UtilsBean {
         return db.oppdaterØving(o, øvingsnr, emnekode);
     }
       
-
+  public int getBrukertypeiEmne(String brukernavn, String emnekode){
+      return db.getBrukertypeiEmne(brukernavn, emnekode);
+  }
        
     public ArrayList<String> getInfoTilBruker(String brukernavn) {
         return db.getInfoTilBruker(brukernavn);

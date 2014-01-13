@@ -573,7 +573,7 @@ public class Database {
         int brukertype = 0;
         try {
             åpneForbindelse();
-            psSelectBrukerTypeIEmne = forbindelse.prepareStatement("SELECT brukertype FROM emne_bruker WHERE emnekode=" + emnekode);
+            psSelectBrukerTypeIEmne = forbindelse.prepareStatement("SELECT brukertype FROM emne_bruker WHERE emnekode=" + emnekode+" AND brukernavn="+brukernavn);
             res = psSelectBrukerTypeIEmne.executeQuery();
             while (res.next()) {
                 brukertype = res.getInt(brukertype);
