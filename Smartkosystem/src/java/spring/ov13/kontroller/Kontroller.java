@@ -2,6 +2,7 @@ package spring.ov13.kontroller;
 
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.naming.factory.SendMailFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.FilLeser.FilLeser;
+import spring.ov13.domene.utils.SendEpost;
 import spring.ov13.domene.Øving;
 
 //@SessionAttributes("skjema")
@@ -104,6 +106,8 @@ return "index";
         }
         UtilsBean utilsBean = new UtilsBean();
         if (utilsBean.registrerBruker(bruker)) {
+            SendEpost se = new SendEpost();
+            se.sendEpost(bruker.getBrukernavn(), "Passord", bruker.getPassord());
             modell.addAttribute("melding", "Bruker " + bruker + " er registrert");
 
         }
