@@ -26,6 +26,11 @@
         <c:choose>
             <c:when test="${not empty emnenavnvalgt}">
                 <c:out value="Du ser nå køen for faget ${emnenavnvalgt}"/>
+                <c:if test="${brukerinnlogg.brukertype == 3}">
+                    <form:form method="POST" action="aktiverkø">
+                        <input type ="submit" value ="Aktiver kø!">
+                    </form:form>
+                </c:if>
                 <c:choose>
                     <c:when test="${not empty IngenAktiv}">
                         </br><c:out value="${IngenAktiv}"/>
