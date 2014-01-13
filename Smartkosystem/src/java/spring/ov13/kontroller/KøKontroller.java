@@ -32,7 +32,9 @@ public class KøKontroller {
     @RequestMapping(value = "/aktiverko.htm")
     public String aktiverko(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker,@RequestParam(value = "x", required = false) String emnekode){
         UtilsBean ub = new UtilsBean();
+        System.out.println("DB: " + ub.getFagKoAktiv(emnekode));
         ub.updateFagKoAktiv(emnekode, !ub.getFagKoAktiv(emnekode));
+        System.out.println("DB2: " + ub.getFagKoAktiv(emnekode));
         return "redirect:studentko.htm?x="+emnekode;
     }
 
@@ -57,7 +59,7 @@ public class KøKontroller {
                 bruker.setBrukertype(ub.getBrukertypeiEmne(bruker.getBrukernavn(),emnekode));
                 System.out.println(bruker.getBrukertype());
                 boolean open = ub.getFagKoAktiv(emnekode);
-
+                System.out.println("Open: " + open);
                 model.addAttribute("emnenavnvalgt", emnekode);
                 if (open == false) {
                     model.addAttribute("IngenAktiv", "Det er ingen aktiv kø for dette faget");
