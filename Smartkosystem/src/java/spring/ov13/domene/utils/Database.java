@@ -86,7 +86,7 @@ public class Database {
         System.out.println("registrerBruker()");
         PreparedStatement psInsertBruker = null;
         bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0, 10));
-
+                
         try {
             åpneForbindelse();
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
@@ -94,7 +94,7 @@ public class Database {
             psInsertBruker.setString(2, bruker.getFornavn());
             psInsertBruker.setString(3, bruker.getEtternavn());
             System.out.println(bruker.getPassord());
-            psInsertBruker.setString(4, bruker.getPassord());
+            psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
             psInsertBruker.setInt(5, bruker.getBrukertype());
 
             int i = psInsertBruker.executeUpdate();
