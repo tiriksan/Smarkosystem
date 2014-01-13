@@ -90,19 +90,19 @@ public class Kontroller {
             for (int i = 0; i < emnekoder.length; i++) {
                 emnerListe.add(ub.getEmne(emnekoder[i]));
             }
-        }
-        if (emnerListe != null) {
-            FilLeser fl = new FilLeser(emnerListe);
-            try {
-                fl.lesFil();
-            } catch (Exception ex) {
-                model.addAttribute("feilmelding", ex.getMessage());
-            }
-        } else {
-            if (emnerListe.size() == 0) {
-                model.addAttribute("feilmelding", "Feilmelding: Du har ikke fyllt inn emnekode(r).");
+            if (emnerListe != null) {
+                FilLeser fl = new FilLeser(emnerListe);
+                try {
+                    fl.lesFil();
+                } catch (Exception ex) {
+                    model.addAttribute("feilmelding", ex.getMessage());
+                }
             } else {
-                model.addAttribute("feilmelding", "Feil ved registrering inntruffet, emnet/noen av emenene du oppgav eksisterer ikke, vennligst kontroller opplysningene");
+                if (emnerListe.size() == 0) {
+                    model.addAttribute("feilmelding", "Feilmelding: Du har ikke fyllt inn emnekode(r).");
+                } else {
+                    model.addAttribute("feilmelding", "Feil ved registrering inntruffet, emnet/noen av emenene du oppgav eksisterer ikke, vennligst kontroller opplysningene");
+                }
             }
         }
         emner = null;

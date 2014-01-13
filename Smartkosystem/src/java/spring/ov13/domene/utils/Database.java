@@ -536,30 +536,23 @@ public class Database {
     public synchronized boolean leggTilBrukereIEmner(ArrayList<Emne> emner, ArrayList<Bruker> bruker) {
         boolean ok = false;
         int i = 0;
-        ListIterator<Emne> iteratorEmner = emner.listIterator();
-        ListIterator<Bruker> iteratorBruker = bruker.listIterator();
+
         System.out.println("leggTilBrukerIEmner()");
         PreparedStatement psInsertBrukerIEmne = null;
 
         try {
             åpneForbindelse();
             psInsertBrukerIEmne = forbindelse.prepareStatement(sqlInsertBrukerIEmne);
-            int emneindex = -1;
-            
-            while (iteratorEmner.hasNext()) {
-                emneindex += 1;
-                iteratorBruker = bruker.listIterator();
-                while (iteratorBruker.hasNext()) {
-                    Bruker b = iteratorBruker.next();
-                    psInsertBrukerIEmne.setString(1, emner.get(emneindex).getEmnekode());
-                    psInsertBrukerIEmne.setString(2, b.getBrukernavn());
-                    psInsertBrukerIEmne.setInt(3, b.getBrukertype());
-                    iteratorBruker.remove();
 
+            for (int j = 0; j < emner.size(); j++) {
+                for (int k = 0; k < bruker.size(); k++) {
+                    psInsertBrukerIEmne.setString(1, emner.get(j).getEmnekode());
+                    psInsertBrukerIEmne.setString(2, bruker.get(k).getBrukernavn());
+                    psInsertBrukerIEmne.setInt(3, bruker.get(k).getBrukertype());
                     i += psInsertBrukerIEmne.executeUpdate();
-                }
-                iteratorEmner.remove();
+                } 
             }
+            
             if (i == bruker.size() * emner.size()) {
                 ok = true;
             }
