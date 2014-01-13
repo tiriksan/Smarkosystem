@@ -25,11 +25,11 @@ public class FilLeser {
     private boolean feil = false;
     private String sti = "";
     private ArrayList<Bruker> brukere = new ArrayList<Bruker>();
-    private Emne emne = null;
+    private ArrayList<Emne> emner = null;
     private UtilsBean ub = new UtilsBean();
 
-    public FilLeser(Emne emne) {
-        this.emne = emne;
+    public FilLeser(ArrayList<Emne> emner) {
+        this.emner = emner;
     }
 
     /**
@@ -160,12 +160,12 @@ public class FilLeser {
                         }
                         if (!feil) {
                             if(ub.registrerBrukere(brukere)){
-                                SendEpost se = new SendEpost();
+                                /*SendEpost se = new SendEpost();
                                 for(Bruker b : brukere){
                                     se.sendEpost(b.getBrukernavn(), "Passord", b.getPassord());
-                                }
+                                }*/
                             }
-                            ub.leggTilBrukereIEmne(emne, brukere);
+                            ub.leggTilBrukereIEmner(emner, brukere);
 
                         }
                     } catch (Exception e) {

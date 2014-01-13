@@ -26,31 +26,31 @@ import spring.ov13.domene.Øving;
 @SessionAttributes("brukerinnlogg")
 @Controller
 public class Kontroller {
-    
-    @ModelAttribute(value="brukerinnlogg")
-public Bruker lage2(){
-    
-return new Bruker();
-}
-    
-    
+
+    @ModelAttribute(value = "brukerinnlogg")
+    public Bruker lage2() {
+
+        return new Bruker();
+    }
 
     @RequestMapping(value = "/*")
-    public String visIndex(@ModelAttribute("brukerinnlogg")Bruker bruker) {
- if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
-     System.out.println(bruker.getBrukernavn() + " TESTER BRUKERNAVN");
- return "redirect:/logginn.htm";
-} else {
-return "index";
-}
+    public String visIndex(@ModelAttribute("brukerinnlogg") Bruker bruker) {
+        if (bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")) {
+            System.out.println(bruker.getBrukernavn() + " TESTER BRUKERNAVN");
+            return "redirect:/logginn.htm";
+        } else {
+            return "index";
+        }
     }
 
     @RequestMapping(value = "/bruker.htm")
     public String visInnsetting(Model model, @ModelAttribute("feilmelding") String feil, @RequestParam(value = "x", required = false) String getValg) {
         Bruker bruker = new Bruker();
         Emne emne = new Emne();
+        Emne emner = new Emne();
         model.addAttribute("bruker", bruker);
         model.addAttribute("emne", emne);
+        model.addAttribute("emner", emner);
         UtilsBean ub = new UtilsBean();
         model.addAttribute("valget", getValg);
         ArrayList<Emne> fag = ub.getAlleFag();
@@ -76,24 +76,36 @@ return "index";
     }
 
     @RequestMapping(value = "/registrerBrukereFraFil.htm", method = RequestMethod.POST)
-    public String regBrukereFraFil(Model model, @ModelAttribute(value = "emne") Emne emne, BindingResult error) {
+    public String regBrukereFraFil(Model model, @ModelAttribute(value = "emner") Emne emner, BindingResult error) {
         UtilsBean ub = new UtilsBean();
-        Emne emnet = ub.getEmne(emne.getEmnekode());
-        if (emnet != null) {
-            FilLeser fl = new FilLeser(emnet);
+        boolean emneSjekkOk = true;
+        ArrayList<Emne> emnerListe = new ArrayList<Emne>();
+        String[] emnekoder = emner.getEmnekode().split(",");
+        for (int i = 0; i < emnekoder.length; i++) {
+            if (ub.getEmne(emnekoder[i]) == null) {
+                emneSjekkOk = false;
+            }
+        }
+        if (emneSjekkOk) {
+            for (int i = 0; i < emnekoder.length; i++) {
+                emnerListe.add(ub.getEmne(emnekoder[i]));
+            }
+        }
+        if (emnerListe != null) {
+            FilLeser fl = new FilLeser(emnerListe);
             try {
                 fl.lesFil();
             } catch (Exception ex) {
                 model.addAttribute("feilmelding", ex.getMessage());
             }
         } else {
-            if (emne.getEmnekode().equals("")) {
-                model.addAttribute("feilmelding", "Feilmelding: Du har ikke fyllt inn emnekoden.");
+            if (emnerListe.size() == 0) {
+                model.addAttribute("feilmelding", "Feilmelding: Du har ikke fyllt inn emnekode(r).");
             } else {
-                model.addAttribute("feilmelding", "Feil ved registrering inntruffet, emnet du oppgav eksisterer ikke, vennligst kontroller opplysningene du oppgav eller registrer emnet først.");
+                model.addAttribute("feilmelding", "Feil ved registrering inntruffet, emnet/noen av emenene du oppgav eksisterer ikke, vennligst kontroller opplysningene");
             }
         }
-        emne = null;
+        emner = null;
         return "redirect:/bruker.htm?x=2";
     }
 
@@ -153,35 +165,35 @@ return "index";
          }*/
         return "emne";
     }
-    
+
     /*
     
-<<<<<<< HEAD
-=======
-        @RequestMapping(value = "/regov2.htm")
-    public String visØvinginnsetning(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
+     <<<<<<< HEAD
+     =======
+     @RequestMapping(value = "/regov2.htm")
+     public String visØvinginnsetning(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
-        if (error.hasErrors()) {
-            //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av øving.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-            return "regov2";
-        }
-        UtilsBean utilsBean = new UtilsBean();
-        if (utilsBean.registrerØving(øving)) {
-            modell.addAttribute("melding", "Øving" + øving + " er registrert");
+     if (error.hasErrors()) {
+     //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av øving.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
+     return "regov2";
+     }
+     UtilsBean utilsBean = new UtilsBean();
+     if (utilsBean.registrerØving(øving)) {
+     modell.addAttribute("melding", "Øving" + øving + " er registrert");
 
-        }
+     }
 
-        return "regov2";
-    }
-    */
-        @RequestMapping(value = "regov2")
+     return "regov2";
+     }
+     */
+    @RequestMapping(value = "regov2")
     @ResponseBody
     public String visØvinginnsetning(@ModelAttribute(value = "øving") Øving øving, BindingResult error) {
 
-System.out.println("--------------kommerinn-----------");
+        System.out.println("--------------kommerinn-----------");
         return "regov2";
     }
-    
+
     @RequestMapping(value = "regov2.htm")
     public String regØv(@Validated @ModelAttribute(value = "regov23") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
@@ -196,7 +208,7 @@ System.out.println("--------------kommerinn-----------");
         }
 
         return "regov2";
-        
+
     }
 
 

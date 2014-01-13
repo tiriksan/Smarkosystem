@@ -533,26 +533,34 @@ public class Database {
         return ok;
     }
 
-    public synchronized boolean leggTilBrukereIEmne(Emne emne, ArrayList<Bruker> bruker) {
+    public synchronized boolean leggTilBrukereIEmner(ArrayList<Emne> emner, ArrayList<Bruker> bruker) {
         boolean ok = false;
         int i = 0;
-        ListIterator<Bruker> iterator = bruker.listIterator();
-        System.out.println("leggTilBrukerIEmne()");
+        ListIterator<Emne> iteratorEmner = emner.listIterator();
+        ListIterator<Bruker> iteratorBruker = bruker.listIterator();
+        System.out.println("leggTilBrukerIEmner()");
         PreparedStatement psInsertBrukerIEmne = null;
 
         try {
             åpneForbindelse();
             psInsertBrukerIEmne = forbindelse.prepareStatement(sqlInsertBrukerIEmne);
-            while (iterator.hasNext()) {
-                Bruker b = iterator.next();
-                psInsertBrukerIEmne.setString(1, emne.getEmnekode());
-                psInsertBrukerIEmne.setString(2, b.getBrukernavn());
-                psInsertBrukerIEmne.setInt(3, b.getBrukertype());
-                iterator.remove();
+            int emneindex = -1;
+            
+            while (iteratorEmner.hasNext()) {
+                emneindex += 1;
+                iteratorBruker = bruker.listIterator();
+                while (iteratorBruker.hasNext()) {
+                    Bruker b = iteratorBruker.next();
+                    psInsertBrukerIEmne.setString(1, emner.get(emneindex).getEmnekode());
+                    psInsertBrukerIEmne.setString(2, b.getBrukernavn());
+                    psInsertBrukerIEmne.setInt(3, b.getBrukertype());
+                    iteratorBruker.remove();
 
-                i += psInsertBrukerIEmne.executeUpdate();
+                    i += psInsertBrukerIEmne.executeUpdate();
+                }
+                iteratorEmner.remove();
             }
-            if (i == bruker.size()) {
+            if (i == bruker.size() * emner.size()) {
                 ok = true;
             }
         } catch (SQLException e) {
@@ -574,10 +582,12 @@ public class Database {
         int brukertype = 0;
         try {
             åpneForbindelse();
-            psSelectBrukerTypeIEmne = forbindelse.prepareStatement("SELECT brukertype FROM emne_bruker WHERE emnekode=" + emnekode+" AND brukernavn="+brukernavn);
+            psSelectBrukerTypeIEmne = forbindelse.prepareStatement("SELECT brukertype FROM emne_bruker WHERE emnekode= ? AND brukernavn = ?");
+            psSelectBrukerTypeIEmne.setString(1, emnekode);
+            psSelectBrukerTypeIEmne.setString(2, brukernavn);
             res = psSelectBrukerTypeIEmne.executeQuery();
             while (res.next()) {
-                brukertype = res.getInt(brukertype);
+                brukertype = res.getInt("brukertype");
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -770,28 +780,29 @@ public class Database {
         lukkForbindelse();
         return returnen;
     }
+
     public boolean updateFagKoAktiv(String emnekode, boolean aktiv) {
         System.out.println("updateFagKoAktiv()");
         PreparedStatement psUpdateFagKoAktiv = null;
-        
+
         boolean ok = false;
         try {
             åpneForbindelse();
             psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlUpdateFagKoAktiv);
-            
+
             if (aktiv) {
                 psUpdateFagKoAktiv.setInt(1, 0);
-            }else{
+            } else {
                 psUpdateFagKoAktiv.setInt(1, 1);
             }
             psUpdateFagKoAktiv.setString(2, emnekode);
-            
+
             int i = psUpdateFagKoAktiv.executeUpdate();
-            
+
             if (i > 0) {
                 ok = true;
             }
-            
+
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "getFagKoAktiv()");
@@ -804,7 +815,6 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-   
 
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         System.out.println("getFulleInnleggTilKo()");
@@ -852,7 +862,7 @@ public class Database {
                 øving4.setØvingsnr(4);
 
                 ovinger.add(øving4);
-             // KOMMENTER UT, HENT UT EKTE DIN LATSABB - OVER AND OUT 
+                // KOMMENTER UT, HENT UT EKTE DIN LATSABB - OVER AND OUT 
 
                 innlegg.setEier(null);
                 Plassering plass = new Plassering();

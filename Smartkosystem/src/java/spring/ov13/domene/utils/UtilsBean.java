@@ -90,8 +90,8 @@ public class UtilsBean {
     public ArrayList<Emne> getValgteEmner(){
         return valgteEmner;
     }
-    public boolean leggTilBrukereIEmne(Emne emne, ArrayList<Bruker> brukere){
-        return db.leggTilBrukereIEmne(emne, brukere);
+    public boolean leggTilBrukereIEmner(ArrayList<Emne> emner, ArrayList<Bruker> brukere){
+        return db.leggTilBrukereIEmner(emner, brukere);
     }
     public Emne hent(String fagnavn){
         for(Emne f: alleFag){
