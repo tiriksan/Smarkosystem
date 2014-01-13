@@ -148,12 +148,12 @@ public class Database {
         try {
             åpneForbindelse();
             for (int i = 0; i < brukere.size(); i++) {
-
+                brukere.get(i).setPassord(java.util.UUID.randomUUID().toString().substring(0, 10));
                 psInsertBrukere = forbindelse.prepareStatement(sqlInsertBruker);
                 psInsertBrukere.setString(1, brukere.get(i).getBrukernavn());
                 psInsertBrukere.setString(2, brukere.get(i).getFornavn());
                 psInsertBrukere.setString(3, brukere.get(i).getEtternavn());
-                psInsertBrukere.setString(4, brukere.get(i).getPassord());
+                psInsertBrukere.setString(4, brukere.get(i).md5(brukere.get(i).getPassord()));
                 psInsertBrukere.setInt(5, brukere.get(i).getBrukertype());
 
                 int j = psInsertBrukere.executeUpdate();
