@@ -99,7 +99,9 @@ img:hover {
 
 #menu {
     vertical-align: top;
-    min-height: 250px;
+    min-height: 200px;
+    width: 150px;
+    border-right: 2px solid #808080;
 
 }
 
@@ -118,6 +120,11 @@ img:hover {
 }
 #tablehead{
 
+height: 120px;
+border-bottom: 2px solid #808080;
+background: url(../bilder/logo.gif);
+background-repeat: no-repeat;
+background-color: white;
 
 }
 
@@ -177,4 +184,106 @@ a {
 form.fagNavn{
     display: block;
     
+}
+#feilLogginn {
+    background-color: #FF7777;
+    text-align: center;
+    border: 2px solid black;
+    width: 400px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#logginnform {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+    padding: 20px;
+    background: url(../bilder/continuous2.gif);
+    
+}
+
+#LogginnVelkommen{
+    background-color: #DDDDDD;
+
+    border: 2px solid black;
+    width: 400px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    
+}
+input[name=passordinnlogging] {
+    background: url(../bilder/bakinputpassord.gif);
+    background-repeat: no-repeat;
+    background-color: white;
+    height: 30px;
+    border: 2px solid #808080;
+    padding-left: 30px;
+    width: 220px;
+    
+}
+
+input[name=brukernavninnlogging] {
+    background: url(../bilder/bakinputbruker.gif);
+    background-repeat: no-repeat;
+    background-color: white;
+    height: 30px;
+    border: 2px solid #808080;
+    padding-left: 30px;
+    font-size: 13px;
+    width: 220px;
+    
+}
+
+table.logginntable {
+
+}
+#indexdiv{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+td.infoiheader {
+    font-size: 12px;
+    vertical-align: top;
+    font-family: verdana, Arial, Helvetica, sans-serif;
+    padding-left: 5px;
+    padding-top: 5px;
+    
+}
+table.hovedko {
+    width: 100%;
+    cellspacing: 0px;
+    cellpadding: 0px;
+    
+    
+}
+td.overtdko{
+    border: 1px solid #808080;
+    background-color: #333333;
+    color: #FFFFFF;
+}
+td.tdko{
+    border: 1px solid #808080;
+    background-color: #DDDDDD;
+    vertical-align: top;
+    font-family: verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+td.menuvalg {
+    background: url(../bilder/vedlinkmenu.gif);
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    vertical-align: top;
+    height: 30px;
+        font-family: verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    
+}
+table.menutable {
+    margin-top: 20px;
+    margin-left: 10px;
 }

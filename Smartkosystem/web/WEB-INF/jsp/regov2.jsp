@@ -11,7 +11,7 @@
 <%-- <c:when test="${valget eq '2'}"> 
 
 --%>
-<form:form action="regov2.htm" method="post" modelAttribute="øving" >
+<form:form action="regov2" method="post" modelAttribute="øving" >
     <table>
         <tr><td>ØvingsNr: </td><td><form:input path="øvingsnr" /></td><td><form:errors path="øvingsnr" /></td></tr>
         <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>

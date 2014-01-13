@@ -11,12 +11,12 @@ package spring.ov13.domene;
  * @author Bruker
  */
 public class Plassering {
-    private int bygning;
+    private String bygning;
     private int etasje;
     private int rom;
     private String kommentar;
 
-    public int getBygning() {
+    public String getBygning() {
         return bygning;
     }
 
@@ -32,7 +32,7 @@ public class Plassering {
         return kommentar;
     }
 
-    public void setBygning(int bygning) {
+    public void setBygning(String bygning) {
         this.bygning = bygning;
     }
 

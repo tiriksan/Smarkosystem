@@ -3,6 +3,7 @@ package spring.ov13.domene.utils;
 import java.util.ArrayList;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
+import spring.ov13.domene.Innlegg;
 import spring.ov13.domene.Øving;
 
 public class UtilsBean {
@@ -114,4 +115,25 @@ public class UtilsBean {
     }
       
 
+       
+    public ArrayList<String> getInfoTilBruker(String brukernavn) {
+        return db.getInfoTilBruker(brukernavn);
+    }
+    
+    public ArrayList<Emne> getFageneTilBruker(String brukernavn) {
+        return db.getFageneTilBruker(brukernavn);
+    }
+    
+    public Boolean getFagKoAktiv(String emnekode) {
+        return db.getFagKoAktiv(emnekode);
+    }
+      
+
+          public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
+        return db.getFulleInnleggTilKo(emnekode);
+    }
+ 
+    
+    
+    
 }

@@ -17,18 +17,31 @@
     </head>
     <body>
         
+       
+        
+        <c:if test="${not empty error}">
+            
+       <div id="feilLogginn"><c:out value="${error}"/></div>              
+        </c:if>
+               <c:if test="${empty error}">
+            
+       <div id="LogginnVelkommen"><spring:message code="velkomsthilsen" /></div>              
+        </c:if>
+  
+       
         <div id="logginnform">
             
+       
             
-    <form:form method="POST" modelAttribute="brukerinnlogg" action="login">         
+    <form:form method="POST" action="login">         
                    
 
     
-        <table><tr><td colspan="2"> <spring:message code="velkomsthilsen" /></td></tr>
-            <tr><td>Brukernavn:</td><td><form:input path="brukernavn" /></td><td><form:errors path="brukernavn" /></td></tr>
-            <tr><td>Passord:</td><td><form:password password="passord" path="passord" /></td><td><form:errors path="passord" /></td></tr>
+        <table class="logginntable">
+            <tr><td>Brukernavn:</td><td><input type="text" name="brukernavninnlogging" id="brukernavninnlogging"></td></tr>
+            <tr><td>Passord:</td><td><input type="password" name="passordinnlogging" id="passordinnlogging"></td></tr>
             <tr><td>&nbsp;</td><td><input type="submit" name=login" value="Login"></td></tr></table>
-        <c:out value="${bruker.md5('Petter')} og kake"/>
+        
         
         <br>
         <c:url value="/glemtpassord.htm" var="glemtpassordLink" />
@@ -36,6 +49,7 @@
 
    
     </form:form>
+        
             
             
         </div>
