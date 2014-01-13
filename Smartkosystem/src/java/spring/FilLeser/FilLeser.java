@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
+import spring.ov13.domene.utils.SendEpost;
 import spring.ov13.domene.utils.UtilsBean;
 
 public class FilLeser {
@@ -158,7 +159,12 @@ public class FilLeser {
                             }
                         }
                         if (!feil) {
-                            ub.registrerBrukere(brukere);
+                            if(ub.registrerBrukere(brukere)){
+                                SendEpost se = new SendEpost();
+                                for(Bruker b : brukere){
+                                    se.sendEpost(b.getBrukernavn(), "Passord", b.getPassord());
+                                }
+                            }
                             ub.leggTilBrukereIEmne(emne, brukere);
 
                         }
