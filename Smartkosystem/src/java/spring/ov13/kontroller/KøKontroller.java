@@ -41,9 +41,11 @@ return new Bruker();
         UtilsBean ub = new UtilsBean();
         
         ArrayList<Emne> fagene = ub.getFageneTilBruker(bruker.getBrukernavn());
+        if(fagene != null){
 if(fagene.size() > 0){
         model.addAttribute("fagene", fagene);           
 }
+        }
         if(emnekode == null){
 
         } else {
