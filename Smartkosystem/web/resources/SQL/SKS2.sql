@@ -5,15 +5,15 @@ DROP TABLE køinnlegg;
 DROP TABLE kø;
 DROP TABLE emne_bruker;
 DROP TABLE bruker;
-DROP TABLE øving;
 DROP TABLE kravgruppe;
-DROP TABLE arbeidskrav;
+DROP TABLE øving;
 DROP TABLE emne;
 
 
 CREATE TABLE emne(
 emnekode VARCHAR(8) PRIMARY KEY NOT NULL,
-emnenavn VARCHAR(64) NOT NULL
+emnenavn VARCHAR(64) NOT NULL,
+øvingsbeskrivelse VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE lokasjon(
@@ -85,19 +85,11 @@ CONSTRAINT øvinger_i_innlegg_fk2 FOREIGN KEY(øvingsnummer, emnekode) REFERENCE
 CONSTRAINT øvinger_i_innlegg_pk1 PRIMARY KEY(brukernavn, øvingsnummer, emnekode)
 );
 
-CREATE TABLE arbeidskrav(
-kravid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-emnekode VARCHAR(8) NOT NULL,
-beskrivelse VARCHAR(256) NOT NULL,
-CONSTRAINT arbeidskrav_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 CREATE TABLE kravgruppe(
-gruppeid INT UNIQUE AUTO_INCREMENT NOT NULL,
-kravid INT NOT NULL,
+gruppeid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+emnekode VARCHAR(8) NOT NULL,
 antall INT NOT NULL,
-CONSTRAINT kravgruppe_fk1 FOREIGN KEY(kravid) REFERENCES arbeidskrav(kravid) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT kravgruppe_pk1 PRIMARY KEY(gruppeid, kravid)
+CONSTRAINT kravgruppe_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE øving(
@@ -106,6 +98,6 @@ emnekode VARCHAR(8) NOT NULL,
 gruppeid INT NOT NULL,
 obligatorisk BOOLEAN DEFAULT FALSE,
 CONSTRAINT øving_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid),
 CONSTRAINT øving_pk1 PRIMARY KEY(øvingsnummer, emnekode)
 );
