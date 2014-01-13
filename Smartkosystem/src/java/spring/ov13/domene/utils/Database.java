@@ -391,7 +391,7 @@ public class Database {
             psInsertØving.setInt(1, øving.getØvingsnr());
             psInsertØving.setString(2, øving.getEmnekode());
             psInsertØving.setInt(3, øving.getGruppeid());
-            psInsertØving.setBoolean(4, øving.erObligatorisk());
+            psInsertØving.setBoolean(4, øving.getObligatorisk());
 
             int i = psInsertØving.executeUpdate();
             if (i > 0) {
@@ -423,7 +423,7 @@ public class Database {
             psUpdateØving.setInt(1, øving.getØvingsnr());
             psUpdateØving.setString(2, øving.getEmnekode());
             psUpdateØving.setInt(3, øving.getGruppeid());
-            psUpdateØving.setBoolean(4, øving.erObligatorisk());
+            psUpdateØving.setBoolean(4, øving.getObligatorisk());
             psUpdateØving.setInt(5, øvingsnr);
             psUpdateØving.setString(6, emnekode);
             

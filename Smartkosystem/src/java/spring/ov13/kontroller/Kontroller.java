@@ -81,23 +81,7 @@ public class Kontroller {
         return "redirect:/bruker.htm?x=2";
     }
 
-    @RequestMapping(value = "/logginn.htm")
-    public String visLogginn(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker) {
 
-        Bruker bruker2 = new Bruker();
-        model.addAttribute("bruker", bruker2);
-        return "logginn";
-    }
-
-    @RequestMapping(value = "login")
-    @ResponseBody
-    public String Logginn(@ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error) {
-
-        String brukernavn = bruker.getBrukernavn();
-        String passord = bruker.md5(bruker.getPassord());
-
-        return bruker.getBrukernavn();
-    }
 
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request) {
