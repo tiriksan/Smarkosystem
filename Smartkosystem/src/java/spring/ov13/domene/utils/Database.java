@@ -47,7 +47,7 @@ public class Database {
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
     private final String sqlSelectFagKoAktiv = "SELECT * FROM kø WHERE emnekode = ?";
     private final String sqlUpdateFagKoAktiv = "UPDATE kø SET aktiv = ? WHERE emnekode = ?";
-    private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg WHERE aktiv = 1";
+    private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
     private final String sqlInsertFagLaerer = "INSERT into emne_bruker VALUES(?,?,?)";
