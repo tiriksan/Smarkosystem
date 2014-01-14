@@ -43,6 +43,12 @@ ${feilmelding}
                 </c:if>
                 <c:if test = "${!aktiv}">
                     Stengt
+                    <c:if test="${brukerinnlogg.brukertype == 1}">
+                        <form:form method="POST" action="stilliko.htm?x=${emnenavnvalgt}">
+                            <input type ="submit" value ="Still i kø" disabled>
+                        </form:form>
+                    </c:if>
+
                 </c:if>
 
                 <table class="hovedko" cellspacing="0" cellpadding="0">
