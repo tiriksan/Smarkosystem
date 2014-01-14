@@ -12,7 +12,7 @@
         <div id="page-wrap">
             <table id="block" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td id="tablehead" colspan="2">
+                    <td id="tablehead" colspan="3">
                         <tiles:insertAttribute name="header" />
                     </td>
 
@@ -23,10 +23,10 @@
                     </td>
                     <td id="menubody">
                         <tiles:insertAttribute name="body" />
-                        <td id="gruppe">
+                    </td>
+                    <td id="gruppe">
                             <tiles:insertAttribute name="gruppe" />
                         </td>
-                    </td>
                     
                 </tr>
                 <tr>

@@ -125,8 +125,9 @@ public class KøKontroller {
     }
     
     @RequestMapping(value = "hjelp.htm")
-    public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker){
+    public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "id") int id){
         modell.addAttribute("hjelp", true);
+        System.out.println("id: " + id);
         System.out.println("kake");
         
             //if(hjelp.equals("hjelp")){

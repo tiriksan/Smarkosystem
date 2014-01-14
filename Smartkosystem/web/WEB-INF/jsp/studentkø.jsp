@@ -71,7 +71,7 @@ ${feilmelding}
                                         Ekstra informasjon: ${innlegg.getPlass().getKommentar()}
                                         
                                         <%--<c:if test="${brukerinnlogg.brukertype != 0}">--%>
-                                        <form:form action="hjelp.htm">
+                                        <form:form action="hjelp.htm?id=${innlegg.getId()}" method="post">
                                             <input type="submit" id="hjelp" value="hjelp">
                                        </form:form>
                                         
