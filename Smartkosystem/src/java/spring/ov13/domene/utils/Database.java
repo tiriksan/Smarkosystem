@@ -127,6 +127,7 @@ public class Database {
         try {
             åpneForbindelse();
             psSelectBruker = forbindelse.prepareStatement(sqlSelectBruker);
+            psSelectBruker.setString(1, brukernavn);
             res = psSelectBruker.executeQuery();
             while (res.next()) {
                 b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
@@ -847,14 +848,15 @@ public class Database {
         PreparedStatement psSelectBrukere = null;
         ArrayList<Bruker> brukere = new ArrayList();
         try{
+            åpneForbindelse();
             psSelectBrukere = forbindelse.prepareStatement(sqlSelectAlleBrukereIInnlegg);
             psSelectBrukere.setInt(1, id);
             ResultSet rs = psSelectBrukere.executeQuery();
             while(rs.next()){
-                Bruker bruker = new Bruker();
-                bruker.setBrukernavn(rs.getString("brukernavn"));
-                bruker.setFornavn(rs.getString("fornavn"));
-                bruker.setEtternavn(rs.getString("etternavn"));
+                Bruker bruker = getBruker(rs.getString("brukernavn"));
+                //bruker.setBrukernavn(rs.getString("brukernavn"));
+                //bruker.setFornavn(rs.getString("fornavn"));
+                //bruker.setEtternavn(rs.getString("etternavn"));
                 brukere.add(bruker);
             }
         } catch (SQLException e) {
@@ -885,7 +887,9 @@ public class Database {
             res = psSelectAlle.executeQuery();
             while (res.next()) {
                 Innlegg innlegg = new Innlegg();
-                innlegg.setEier(getBruker(res.getString("eier")));
+                Bruker eier = new Bruker();
+                eier.setBrukernavn(res.getString("eier"));
+                innlegg.setEier(eier);
                 innlegg.setBrukere(null); //TODO
                 innlegg.setHjelp(null); //TODO
                 innlegg.setKønummer(res.getInt("kønummer"));
