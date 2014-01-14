@@ -755,7 +755,7 @@ public class Database {
         boolean returnen = false;
         try {
             åpneForbindelse();
-            psSelectAlle = forbindelse.prepareStatement(sqlErBrukerIFag);
+            psSelectAlle = forbindelse.prepareStatement(sqlSelectFagKoAktiv);
 
             psSelectAlle.setString(1, emnekode);
             res = psSelectAlle.executeQuery();
@@ -784,7 +784,7 @@ public class Database {
             psErBrukerIFag = forbindelse.prepareStatement(sqlErBrukerIFag);
 
             psErBrukerIFag.setString(1, brukernavn);
-             psErBrukerIFag.setString(1, emnekode);
+             psErBrukerIFag.setString(2, emnekode);
             res = psErBrukerIFag.executeQuery();
             brukerErIFag = res.next();
         } catch (SQLException e) {
