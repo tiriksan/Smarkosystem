@@ -866,7 +866,6 @@ public class DatabaseForTesting {
                 plass.setBygning("MAIN HALL");
                 plass.setEtasje(2);
                 plass.setRom(1408);
-                plass.setKommentar("Vi sitter på rommet like utenfor automaten.");
                 innlegg.setPlass(plass);
                 ArrayList<ArrayList<Øving>> alleov = new ArrayList<ArrayList<Øving>>();
                 alleov.add(ovinger);

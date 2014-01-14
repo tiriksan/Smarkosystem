@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 import spring.ov13.domene.Innlegg;
+import spring.ov13.domene.Plassering;
 import spring.ov13.domene.Øving;
 
 public class UtilsBean {
@@ -19,7 +20,7 @@ public class UtilsBean {
         db = new Database("jdbc:mysql://mysql.stud.aitel.hist.no:3306/14-ing2-t5?", "14-ing2-t5", "aXJff+6e");
         alleBrukere = db.getAlleBrukere();
         alleFag = db.getAlleFag();
-       // faglærere = db.getAlleFaglærere(); // denne er noe muffins med //
+        // faglærere = db.getAlleFaglærere(); // denne er noe muffins med //
         //   System.out.println(toString());
     }
 
@@ -150,7 +151,19 @@ public class UtilsBean {
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         return db.getFulleInnleggTilKo(emnekode);
     }
-    public ArrayList<Bruker> getBrukereIInnlegg(int id){
+
+    public ArrayList<Bruker> getBrukereIInnlegg(int id) {
         return db.getBrukereIInnlegg(id);
     }
+
+    public boolean registrerKøInnlegg(int id, int kønummer, String brukernavn, Plassering lokasjon, String kommentar) {
+        return db.registrerKøInnlegg(id, kønummer, brukernavn, lokasjon, kommentar);
+    }
+    
+/*    public static void main(String[] args) {
+        UtilsBean ub = new UtilsBean();
+        Plassering p = new Plassering("Sukkerhuset", 1, 1, 1, "IFUD1043");
+        ub.registrerKøInnlegg(50, 1, "haakon.jarle.hassel@gmail.com", p, "HJELP!");
+    }
+*/    
 }

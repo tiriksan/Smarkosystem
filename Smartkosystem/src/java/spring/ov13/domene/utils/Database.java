@@ -51,8 +51,9 @@ public class Database {
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
     private final String sqlInsertFagLaerer = "INSERT into emne_bruker VALUES(?,?,?)";
-    
-    
+    private final String sqlInsertKø = "INSERT INTO kø VALUES(?,?,?)";
+    private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
+
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -273,7 +274,7 @@ public class Database {
         boolean ok = false;
         System.out.println("registrerEmne()");
         PreparedStatement psInsertFag = null;
-        PreparedStatement psInsertLaerer =null;
+        PreparedStatement psInsertLaerer = null;
 
         try {
             åpneForbindelse();
@@ -282,10 +283,10 @@ public class Database {
             psInsertFag.setString(1, fag.getEmnekode());
             psInsertFag.setString(3, "");
             psInsertFag.executeUpdate();
-            for(int i =0;i<fag.getFaglærer().size();i++){
-            psInsertLaerer = forbindelse.prepareStatement(sqlInsertFagLaerer);
-            psInsertLaerer.setString(1, fag.getEmnekode());
-              psInsertLaerer.setString(2, fag.getFaglærer().get(i).getBrukernavn());
+            for (int i = 0; i < fag.getFaglærer().size(); i++) {
+                psInsertLaerer = forbindelse.prepareStatement(sqlInsertFagLaerer);
+                psInsertLaerer.setString(1, fag.getEmnekode());
+                psInsertLaerer.setString(2, fag.getFaglærer().get(i).getBrukernavn());
                 psInsertLaerer.setInt(3, 2);
                 psInsertLaerer.executeUpdate();
             }
@@ -564,9 +565,9 @@ public class Database {
                     psInsertBrukerIEmne.setString(2, bruker.get(k).getBrukernavn());
                     psInsertBrukerIEmne.setInt(3, bruker.get(k).getBrukertype());
                     i += psInsertBrukerIEmne.executeUpdate();
-                } 
+                }
             }
-            
+
             if (i == bruker.size() * emner.size()) {
                 ok = true;
             }
@@ -730,6 +731,70 @@ public class Database {
         return returnen;
     }
 
+    public synchronized boolean registrerKø(String emnekode, boolean aktiv) {
+        boolean ok = false;
+        System.out.println("registrerKø()");
+        PreparedStatement psInsertKø = null;
+
+        try {
+            åpneForbindelse();
+            psInsertKø = forbindelse.prepareStatement(sqlInsertKø);
+            psInsertKø.setString(1, emnekode);
+            psInsertKø.setBoolean(2, aktiv);
+
+            int i = psInsertKø.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerKø()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerKø - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertArbeidskrav);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+
+    public synchronized boolean registrerKøInnlegg(int id, int kønummer, String brukernavn, Plassering lokasjon, String kommentar) {
+        boolean ok = false;
+        System.out.println("registrerKøInnlegg()");
+        PreparedStatement psInsertKø = null;
+
+        try {
+            åpneForbindelse();
+            psInsertKø = forbindelse.prepareStatement(sqlInsertKøInnlegg);
+            psInsertKø.setInt(1, id);
+            psInsertKø.setInt(2, kønummer);
+            psInsertKø.setString(3, brukernavn);
+            psInsertKø.setString(4, lokasjon.getBygning());
+            psInsertKø.setInt(5, lokasjon.getEtasje());
+            psInsertKø.setInt(6, lokasjon.getRom());
+            psInsertKø.setInt(7, lokasjon.getBord());
+            psInsertKø.setString(8, null);
+            psInsertKø.setString(9, lokasjon.getEmnekode());
+            psInsertKø.setString(10, kommentar);
+
+            int i = psInsertKø.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerKø()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerKø - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertArbeidskrav);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+
     public ArrayList<Emne> getFageneTilBruker(String brukernavn) {
         System.out.println("getFageneTilBruker()");
         PreparedStatement psSelectAlle = null;
@@ -787,6 +852,7 @@ public class Database {
         lukkForbindelse();
         return returnen;
     }
+
     public boolean erBrukerIFag(String brukernavn, String emnekode) {
         System.out.println("erBrukerIFag()");
         PreparedStatement psErBrukerIFag = null;
@@ -797,7 +863,7 @@ public class Database {
             psErBrukerIFag = forbindelse.prepareStatement(sqlErBrukerIFag);
 
             psErBrukerIFag.setString(1, brukernavn);
-             psErBrukerIFag.setString(2, emnekode);
+            psErBrukerIFag.setString(2, emnekode);
             res = psErBrukerIFag.executeQuery();
             brukerErIFag = res.next();
         } catch (SQLException e) {
@@ -844,15 +910,15 @@ public class Database {
         return ok;
     }
 
-    public ArrayList<Bruker> getBrukereIInnlegg(int id){
+    public ArrayList<Bruker> getBrukereIInnlegg(int id) {
         PreparedStatement psSelectBrukere = null;
         ArrayList<Bruker> brukere = new ArrayList();
-        try{
+        try {
             åpneForbindelse();
             psSelectBrukere = forbindelse.prepareStatement(sqlSelectAlleBrukereIInnlegg);
             psSelectBrukere.setInt(1, id);
             ResultSet rs = psSelectBrukere.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Bruker bruker = getBruker(rs.getString("brukernavn"));
                 //bruker.setBrukernavn(rs.getString("brukernavn"));
                 //bruker.setFornavn(rs.getString("fornavn"));
@@ -870,9 +936,9 @@ public class Database {
         }
         lukkForbindelse();
         return brukere;
-        
+
     }
-    
+
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         System.out.println("getFulleInnleggTilKo()");
         PreparedStatement psSelectAlle = null;
@@ -900,9 +966,8 @@ public class Database {
                 plassering.setBygning(res.getString("bygg"));
                 plassering.setEtasje(res.getInt("etasje"));
                 plassering.setRom(res.getInt("rom"));
-                plassering.setKommentar(res.getString("kommentar"));
                 innlegg.setPlass(plassering);
-                
+
                 // KOMMENTER UT, HENT UT EKTE DIN LATSABB 
                 ArrayList<Øving> ovinger = new ArrayList<Øving>();
                 Øving øving1 = new Øving();
@@ -930,7 +995,7 @@ public class Database {
                 // KOMMENTER UT, HENT UT EKTE DIN LATSABB - OVER AND OUT 
 
                 //innlegg.setEier(null);
-               // Plassering plass = new Plassering();
+                // Plassering plass = new Plassering();
                 //plass.setBygning("MAIN HALL");
                 //plass.setEtasje(2);
                 //plass.setRom(1408);
