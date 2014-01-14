@@ -16,6 +16,10 @@ import spring.ov13.domene.Øving;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+import static org.junit.runner.Request.method;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -118,5 +122,20 @@ public class KøKontroller {
 
             return "studentko";
         }
+    }
+    
+    @RequestMapping(value = "hjelp.htm")
+    public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker){
+        modell.addAttribute("hjelp", true);
+        System.out.println("kake");
+        
+            //if(hjelp.equals("hjelp")){
+           //     System.out.println("JAAAAA");
+           // }
+        
+       // if(value == "hjelp"){
+      //      System.out.println("halp!!!");
+      //  }
+        return "studentko";
     }
 }

@@ -62,11 +62,22 @@ ${feilmelding}
                             <c:set var="hvorlangt" value="0"/>
                             <c:forEach items="${innleggene}" var="innlegg" varStatus="hvorlangt">
 
+                                
+                                
                                 <tr><td class="tdko">
                                         Bygning: ${innlegg.getPlass().getBygning()}</br>
                                         Etasje: ${innlegg.getPlass().getEtasje()}</br>
                                         Rom: ${innlegg.getPlass().getRom()}</br>
                                         Ekstra informasjon: ${innlegg.getPlass().getKommentar()}
+                                        
+                                        <%--<c:if test="${brukerinnlogg.brukertype != 0}">--%>
+                                        <form:form action="hjelp.htm">
+                                            <input type="submit" id="hjelp" value="hjelp">
+                                       </form:form>
+                                        
+                                        
+                                        
+                                        
 
                                     </td><td class="tdko">
                                         <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
