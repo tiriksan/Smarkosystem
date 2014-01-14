@@ -168,8 +168,10 @@ public class Kontroller {
     
     //******************* viser registreringen av en ny øving*****************************************************
    @RequestMapping(value = "regov2")
-    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error, @RequestParam(value="obligatorisk") boolean obligatorisk, @RequestParam(value="emner") String emnekode) {
-        Emne emnet = new Emne();
+   public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
+        
+         Bruker bruker = new Bruker();
+        Emne emne = new Emne();
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
        
@@ -185,7 +187,7 @@ public class Kontroller {
     
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23", method = RequestMethod.POST)
-    public String regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
+    public String regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value="obligatorisk") boolean obligatorisk, @RequestParam(value="emner") String emnekode) {
 
         if (error.hasErrors()) {
              System.out.println("--------------kommerinn-----------");
