@@ -52,6 +52,7 @@ public class Database {
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
     private final String sqlInsertFagLaerer = "INSERT into emne_bruker VALUES(?,?,?)";
     
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -884,14 +885,20 @@ public class Database {
             res = psSelectAlle.executeQuery();
             while (res.next()) {
                 Innlegg innlegg = new Innlegg();
-
-                innlegg.setBrukere(null);
-                innlegg.setHjelp(null);
+                innlegg.setEier(getBruker(res.getString("eier")));
+                innlegg.setBrukere(null); //TODO
+                innlegg.setHjelp(null); //TODO
                 innlegg.setKønummer(res.getInt("kønummer"));
-                innlegg.setOvinger(null);
-                innlegg.setTid(0);
+                innlegg.setOvinger(null); //TODO
+                innlegg.setTid(0);  //TODO
                 innlegg.setId(res.getInt("innleggsid"));
-
+                Plassering plassering = new Plassering();
+                plassering.setBygning(res.getString("bygg"));
+                plassering.setEtasje(res.getInt("etasje"));
+                plassering.setRom(res.getInt("rom"));
+                plassering.setKommentar(res.getString("kommentar"));
+                innlegg.setPlass(plassering);
+                
                 // KOMMENTER UT, HENT UT EKTE DIN LATSABB 
                 ArrayList<Øving> ovinger = new ArrayList<Øving>();
                 Øving øving1 = new Øving();
@@ -918,13 +925,13 @@ public class Database {
                 ovinger.add(øving4);
                 // KOMMENTER UT, HENT UT EKTE DIN LATSABB - OVER AND OUT 
 
-                innlegg.setEier(null);
-                Plassering plass = new Plassering();
-                plass.setBygning("MAIN HALL");
-                plass.setEtasje(2);
-                plass.setRom(1408);
-                plass.setKommentar("Vi sitter på rommet like utenfor automaten.");
-                innlegg.setPlass(plass);
+                //innlegg.setEier(null);
+               // Plassering plass = new Plassering();
+                //plass.setBygning("MAIN HALL");
+                //plass.setEtasje(2);
+                //plass.setRom(1408);
+                //plass.setKommentar("Vi sitter på rommet like utenfor automaten.");
+                //innlegg.setPlass(plass);
                 ArrayList<ArrayList<Øving>> alleov = new ArrayList<ArrayList<Øving>>();
                 alleov.add(ovinger);
                 innlegg.setOvinger(alleov);
