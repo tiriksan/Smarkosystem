@@ -110,11 +110,7 @@ public class Bruker {
     }
 
     public boolean sjekkominnskrevet2() {
-
-        if (fornavn == null || etternavn == null || brukernavn == null || (brukertype < 0 && brukertype > 4) || fornavn.equals("") || etternavn.equals("") || brukernavn.equals("")) {
-            return false;
-        }
-        return true;
+        return fornavn != null && etternavn != null && brukernavn != null && (brukertype >= 0 || brukertype <= 4) && !fornavn.equals("") && !etternavn.equals("") && !brukernavn.equals("");
     }
 
     public String md5(String md55) {

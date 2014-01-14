@@ -15,9 +15,8 @@ import javax.validation.constraints.Pattern;
  */
 public class Emne {
   @NotNull
-  @Pattern(regexp = "\\b[A-z]*+[ ]{0,1}+[A-z]*")
     private String emnenavn;
-  @Pattern(regexp = "\\b[A-z]*+[ ]{0,1}+[A-z]*")
+  @Pattern(regexp = "\\b[A-z]{4}[0-9]{4}")
   @NotNull
     private String emnekode;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
