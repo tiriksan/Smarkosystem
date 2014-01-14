@@ -18,7 +18,8 @@
     <c:out value="Alle medlemmene av gruppen:"></c:out><br>
     <c:forEach items="${brukere}" var="bruker">
         
-            ${bruker.getFornavn()};
-            <input type="submit" value="godkjent">
+            ${bruker.getFornavn()}
+            <input type="submit" value="Godkjenn"><br>
         </c:forEach>
+            <input type="submit" value="Godkjenn alle">
 </c:if>
