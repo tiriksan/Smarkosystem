@@ -238,8 +238,8 @@ public class Kontroller {
     
     
 
-    @RequestMapping(value = "regov23")
-    public String regØv(@Validated @ModelAttribute(value = "regov23") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
+    @RequestMapping(value = "regov23",method = RequestMethod.POST)
+    public String regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
         if (error.hasErrors()) {
             //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
