@@ -128,7 +128,10 @@ public class KøKontroller {
     public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "id") int id){
         modell.addAttribute("hjelp", true);
         System.out.println("id: " + id);
+        modell.addAttribute("id", id);
         System.out.println("kake");
+        UtilsBean bean = new UtilsBean();
+        //bean.get
         
             //if(hjelp.equals("hjelp")){
            //     System.out.println("JAAAAA");
