@@ -842,6 +842,34 @@ public class Database {
         return ok;
     }
 
+    public ArrayList<Bruker> getBrukereIInnlegg(int id){
+        PreparedStatement psSelectBrukere = null;
+        ArrayList<Bruker> brukere = new ArrayList();
+        try{
+            psSelectBrukere = forbindelse.prepareStatement(sqlSelectAlleBrukereIInnlegg);
+            psSelectBrukere.setInt(1, id);
+            ResultSet rs = psSelectBrukere.executeQuery();
+            while(rs.next()){
+                Bruker bruker = new Bruker();
+                bruker.setBrukernavn(rs.getString("brukernavn"));
+                bruker.setFornavn(rs.getString("fornavn"));
+                bruker.setEtternavn(rs.getString("etternavn"));
+                brukere.add(bruker);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getFagKoAktiv()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getFagKoAktiv - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psSelectBrukere);
+        }
+        lukkForbindelse();
+        return brukere;
+        
+    }
+    
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         System.out.println("getFulleInnleggTilKo()");
         PreparedStatement psSelectAlle = null;
