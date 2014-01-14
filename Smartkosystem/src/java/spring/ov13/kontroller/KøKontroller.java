@@ -126,11 +126,14 @@ public class KøKontroller {
     
     @RequestMapping(value = "hjelp.htm")
     public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "id") int id){
+        UtilsBean bean = new UtilsBean();
         modell.addAttribute("hjelp", true);
         System.out.println("id: " + id);
+        
         modell.addAttribute("id", id);
+        modell.addAttribute("brukere", bean.getBrukereIInnlegg(id));
         System.out.println("kake");
-        UtilsBean bean = new UtilsBean();
+        
         //bean.get
         
             //if(hjelp.equals("hjelp")){
