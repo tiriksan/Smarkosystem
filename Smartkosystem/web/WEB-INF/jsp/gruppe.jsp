@@ -13,8 +13,11 @@
 
 <c:if test="${hjelp == true}">
     
-    
+    lkj
+    ${id}
+    <c:out value="Alle medlemmene av gruppen:"></c:out><br>
     <c:forEach items="${brukere}" var="bruker">
+        
             ${bruker.getFornavn()};
             <input type="submit" value="godkjent">
         </c:forEach>
