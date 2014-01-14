@@ -126,11 +126,12 @@ public class Kontroller {
 // ********************Registrer bruker************************
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request) {
-
+/*
         if (error.hasErrors()) {
             //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
             return "bruker";
         }
+        */
         UtilsBean utilsBean = new UtilsBean();
         if (utilsBean.registrerBruker(bruker)) {
             SendEpost se = new SendEpost();
@@ -190,12 +191,13 @@ public class Kontroller {
     public String regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value="obligatorisk") boolean obligatorisk, @RequestParam(value="emner") String emnekode) {
 
         if (error.hasErrors()) {
-             System.out.println("--------------kommerinn-----------");
+             System.out.println("--------------kommerinniERROOOOOOOOOOOOOOOOOOOOOOOOOOOR-----------");
             //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
             return "regov2";
         }
         UtilsBean utilsBean = new UtilsBean();
         if (utilsBean.registrerØving(øving)) {
+            System.out.println("KJEMPESUKSESS-----------------------------------------------------------HURRA FOR SPRING");
             modell.addAttribute("melding", "Øving " + øving + " er registrert");
 
         }
