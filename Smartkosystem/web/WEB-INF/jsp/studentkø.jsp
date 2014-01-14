@@ -61,9 +61,6 @@ ${feilmelding}
                         <c:otherwise>
                             <c:set var="hvorlangt" value="0"/>
                             <c:forEach items="${innleggene}" var="innlegg" varStatus="hvorlangt">
-
-                                
-                                
                                 <tr><td class="tdko">
                                         Bygning: ${innlegg.getPlass().getBygning()}</br>
                                         Etasje: ${innlegg.getPlass().getEtasje()}</br>
@@ -71,14 +68,9 @@ ${feilmelding}
                                         Ekstra informasjon: ${innlegg.getPlass().getKommentar()}
                                         
                                         <%--<c:if test="${brukerinnlogg.brukertype != 0}">--%>
-                                        <form:form action="hjelp.htm?id=${innlegg.getId()}" method="post">
+                                        <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
                                             <input type="submit" id="hjelp" value="hjelp">
                                        </form:form>
-                                        
-                                        
-                                        
-                                        
-
                                     </td><td class="tdko">
                                         <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
                                             - <c:out value="${hverbruker.getFornavn()}"/> <c:out value="${hverbruker.getEtternavn()}"/></br>
@@ -99,16 +91,6 @@ ${feilmelding}
             </c:otherwise>
 
         </c:choose>
-
-
-
-
-
-
-
-
-
-
     </c:when>        
 
 
