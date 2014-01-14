@@ -19,16 +19,17 @@ import spring.ov13.kontroller.LoggInnKontroller;
  * @author HJ
  */
 public class TestDB {
-    private EmbeddedDatabase db;
+    private EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+    private EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).addScript("SKS2.sql").build();
 
     @Before
     public void settOpp() {
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        db = builder.setType(EmbeddedDatabaseType.DERBY).addScript("resources/SQL/SKS2.sql").build();
+        builder = new EmbeddedDatabaseBuilder();
+        db = builder.setType(EmbeddedDatabaseType.DERBY).addScript("SKS2.sql").build();
     }
 
     @Test
-    public void test_registrerBruker() throws SQLException {
+    public void test_registrerBruker() throws SQLException, ClassNotFoundException {
         DatabaseForTesting database = new DatabaseForTesting(db);
         Bruker b = new Bruker("luksky@hist.no", "Luke", "Skywalker", 3, "");
         boolean erBrukerRegistrert = database.registrerBruker(b);
@@ -208,7 +209,7 @@ public class TestDB {
         assert(registrert && bruker.getPassord().equals(md5Passord));
     }
     
-    
+    @After
     public void rivNed() {
         db.shutdown();
     }
