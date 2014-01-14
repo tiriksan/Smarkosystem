@@ -12,6 +12,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <c:if test="${hjelp == true}">
-
-    Hjelperereraereradsfa
+    
+    
+    <c:forEach items="${brukere}" var="bruker">
+            ${bruker.getFornavn()};
+            <input type="submit" value="godkjent">
+        </c:forEach>
 </c:if>
