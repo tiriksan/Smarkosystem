@@ -44,6 +44,8 @@ public class GlemtEndrePassordKontroller {
             brukernavn = krypterRot13(brukernavn);
             //TODO endre dersom man endrer server 
             epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8080/Smartkosystem/endrepassord.htm?bruker="+brukernavn);
+            modell.addAttribute("sendMelding", "Epost med passordendring er blitt sendt til din epost");
+            bruker.setBrukernavn("");
             return "glemtpassord";
         }
     }    

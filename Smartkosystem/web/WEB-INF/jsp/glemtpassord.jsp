@@ -10,6 +10,7 @@
 
 <form:form action="glemtpassordsvar.htm" method="post" modelAttribute="glemtpassordbruker" >
     ${errorMelding}
+    ${sendMelding}
     <table>
         <tr><td>Brukernavn: </td><td><form:input path="brukernavn" /></td><td><form:errors path="brukernavn" /></td>
         <tr><td><input type="submit" value="Send epost"></td></tr>
