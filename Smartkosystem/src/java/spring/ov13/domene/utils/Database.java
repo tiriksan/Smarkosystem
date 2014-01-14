@@ -28,7 +28,7 @@ public class Database {
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
-    private final String sqlInsertFag = "INSERT into EMNE VALUES(?,?,?,?,?)";
+    private final String sqlInsertFag = "INSERT INTO emne VALUES(?,?,?)";
     private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, emnekode=? WHERE emnekode=?";
     private final String sqlSelectBrukereIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? ORDER BY etternavn";
@@ -50,6 +50,7 @@ public class Database {
     private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg WHERE aktiv = 1";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
+    private final String sqlInsertFagLaerer = "INSERT into emne_bruker VALUES(?,?,?)";
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -268,14 +269,24 @@ public class Database {
     //fag metoder //
     public synchronized boolean registrerEmne(Emne fag) {
         boolean ok = false;
-        System.out.println("registrerFag()");
+        System.out.println("registrerEmne()");
         PreparedStatement psInsertFag = null;
+        PreparedStatement psInsertLaerer =null;
 
         try {
             åpneForbindelse();
             psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
             psInsertFag.setString(2, fag.getEmnenavn());
             psInsertFag.setString(1, fag.getEmnekode());
+            psInsertFag.setString(3, "");
+            psInsertFag.executeUpdate();
+            for(int i =0;i<fag.getFaglærer().size();i++){
+            psInsertLaerer = forbindelse.prepareStatement(sqlInsertFagLaerer);
+            psInsertLaerer.setString(1, fag.getEmnekode());
+              psInsertLaerer.setString(2, fag.getFaglærer().get(i).getBrukernavn());
+                psInsertLaerer.setInt(3, 2);
+                psInsertLaerer.executeUpdate();
+            }
 
             int i = psInsertFag.executeUpdate();
             if (i > 0) {
@@ -283,9 +294,9 @@ public class Database {
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerFag()");
+            Opprydder.skrivMelding(e, "registrerEmne()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "registrerFag - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "registrerEmne - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertArbeidskrav);

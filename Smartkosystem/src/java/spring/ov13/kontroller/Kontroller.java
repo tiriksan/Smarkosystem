@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 import spring.FilLeser.FilLeser;
 import spring.ov13.domene.utils.SendEpost;
 import spring.ov13.domene.Øving;
@@ -76,13 +77,7 @@ public class Kontroller {
 
         return "bruker";
     }
-    
-    
-    
-    
-    //**************************Registerer emner********************************************
-    public String regEmne()
-      
+   
             
             
             
@@ -121,6 +116,13 @@ public class Kontroller {
         emner = null;
         return "redirect:/bruker.htm?x=2";
     }
+    
+    
+    
+    
+    
+    
+    
 // ********************Registrer bruker************************
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request) {
@@ -139,18 +141,42 @@ public class Kontroller {
 
         return "bruker";
     }
-
+ //**************************Registerer emner********************************************
+    @RequestMapping(value="/innsettemne.htm")
+    public ModelAndView regEmne(@Validated @ModelAttribute(value = "emne") Emne emne, BindingResult error, Model modell, HttpServletRequest request){
+        System.out.println("-------------------- kommer inn i regEmne---------------");
+       
+        if(error.hasErrors()){
+            System.out.println("----------------------- kommer inn i hasErrors()------------");
+        modell.addAttribute("Noeerfeil", "En feil har oppstått");
+            return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
+            }
+       
+        UtilsBean utilsBean = new UtilsBean();
+        if(utilsBean.registrerEmne(emne)) {
+            System.out.println("----------------------kommer inn i registrerEmne() i db-----------------");
+            modell.addAttribute("melding", "Emne " + emne + " er registrert");
+        }
+     return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
+    }
+      
+    
+    
+    
+    
+    
+    
     //******************* viser registreringen av en ny øving*****************************************************
    @RequestMapping(value = "regov2")
     public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error, @RequestParam(value="obligatorisk") boolean obligatorisk, @RequestParam(value="emner") String emnekode) {
         Emne emnet = new Emne();
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
-        System.out.println("--------------kommerinn-----------");
+       
         ArrayList<String> emnetabell = new ArrayList<String>();
         
         for (int i = 0; i < em.size(); i++) {
-            emnetabell.add(em.get(i).getEmnenavn());
+            emnetabell.add(em.get(i).getEmnekode());
         }
         model.addAttribute("allefagene", emnetabell);
         
@@ -158,10 +184,11 @@ public class Kontroller {
     }
     
     //*************************Registrerer en ny øving*****************************
-    @RequestMapping(value = "regov23",method = RequestMethod.POST)
+    @RequestMapping(value = "regov23", method = RequestMethod.POST)
     public String regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
         if (error.hasErrors()) {
+             System.out.println("--------------kommerinn-----------");
             //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
             return "regov2";
         }

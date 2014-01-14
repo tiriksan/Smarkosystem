@@ -5,14 +5,20 @@
 package spring.ov13.domene;
 
 import java.util.ArrayList;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 
 /**
  *
  * @author Undis
  */
 public class Emne {
-  
+  @NotNull
+  @Pattern(regexp = "\\b[A-z]*+[ ]{0,1}+[A-z]*")
     private String emnenavn;
+  @Pattern(regexp = "\\b[A-z]*+[ ]{0,1}+[A-z]*")
+  @NotNull
     private String emnekode;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
     ArrayList<Øving> øvinger = new ArrayList<Øving>();

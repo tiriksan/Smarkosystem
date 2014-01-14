@@ -67,15 +67,17 @@
                 </c:when>
 
                 <c:when test="${valget eq '3'}">
-
-                    <form:form action="bruker.htm" method="post" modelAttribute="emne" >
+                    <c:if test="${not empty Noeerfeil}">
+                        <c:out value="${Noeerfeil}"/>
+                        </c:if>
+                    <form:form action="innsettemne.htm" method="post" modelAttribute="emne" >
                         <table>
                             <tr><td>Fagnavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
                             <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-                                <tr><td><label for="bruker">Faglærer: </label></td><td>
+                                <tr><td><label for="lærer">Faglærer: </label></td><td>
                 
 
-                                    <form:select path="faglærer">
+                                    <form:select path="faglærer" id="lærer">
                                         <form:option value="0" label="Velg faglærer" />
                                         <form:options items="${allelaerere}" />
                                     </form:select>
