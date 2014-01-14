@@ -20,15 +20,15 @@
                             <tr><td><label for="emnekode"> Emnekode: </label></td><td>
                 
 
-                                    <form:select path="emnekode">
-                                        <form:option value="0" label="Velg fag" />
-                                        <form:options items="${allefagene}" />
-                                    </form:select>
+                                    <select name="emner">
+                                        <option value="0" label="Velg fag" />
+                                        <options items="${allefagene}" />
+                                    </select>
         
         <tr>
                     <td>Obligatorisk:</td>
-                    <td><form:checkbox path="obligatorisk" value="true" /></br>
-                    <td><form:errors path="obligatorisk" /></td>
+                    <td><checkbox name="obligatorisk" value="true" /></br>
+                    <td><errors path="obligatorisk" /></td>
                     
                 </tr>
         

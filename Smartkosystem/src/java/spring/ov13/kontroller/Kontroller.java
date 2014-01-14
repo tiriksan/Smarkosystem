@@ -42,7 +42,9 @@ public class Kontroller {
             return "index";
         }
     }
-
+    
+    
+//************************ Viser innleggingssiden ***********************
     @RequestMapping(value = "/bruker.htm")
     public String visInnsetting(Model model, @ModelAttribute("feilmelding") String feil, @RequestParam(value = "x", required = false) String getValg) {
         Bruker bruker = new Bruker();
@@ -74,7 +76,18 @@ public class Kontroller {
 
         return "bruker";
     }
-
+    
+    
+    
+    
+    //**************************Registerer emner********************************************
+    public String regEmne()
+      
+            
+            
+            
+            
+//*******************************Registerer bruker fra fil**********************************
     @RequestMapping(value = "/registrerBrukereFraFil.htm", method = RequestMethod.POST)
     public String regBrukereFraFil(Model model, @ModelAttribute(value = "emner") Emne emner, BindingResult error) {
         UtilsBean ub = new UtilsBean();
@@ -108,7 +121,7 @@ public class Kontroller {
         emner = null;
         return "redirect:/bruker.htm?x=2";
     }
-
+// ********************Registrer bruker************************
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request) {
 
@@ -126,69 +139,10 @@ public class Kontroller {
 
         return "bruker";
     }
-    //FAG //
 
-    @RequestMapping(value = "/bruker.htm?x=3")
-    public String visInnsetting2(Model model) {
-        Emne emne = new Emne();
-        model.addAttribute("emne", emne);
-
-        UtilsBean ub = new UtilsBean();
-        System.out.println("----------------Henter ut getAlleFagLærerre-------------");
-        ArrayList<Bruker> faget = ub.getAlleBrukereAvBrukertype(3);
-        ArrayList<String> brukertabell = new ArrayList<String>();
-        for (int i = 0; i < faget.size(); i++) {
-            brukertabell.add(faget.get(i).getFornavn() + " " + faget.get(i).getEtternavn());
-        }
-        model.addAttribute("allelaerere", brukertabell);
-
-        // model.addAttribute("valget", getValg);
-        return "emne";
-    }
-
-    @RequestMapping(value = "/faginnsetting.htm")
-    public String visEmneinnsetning(@Validated @ModelAttribute("emne") Emne emne, BindingResult error, Model modell, HttpServletRequest request) {
-
-        if (error.hasErrors()) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av fag.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-            return "emne";
-        }
-        UtilsBean utilsBean = new UtilsBean();
-        if (utilsBean.registrerEmne(emne)) {
-            modell.addAttribute("melding", "Fag" + emne + " er registrert");
-            return "emne";
-        }
-
-        /*  UtilsBean utilsBean2 = new UtilsBean();
-         if (utilsBean2.hentUtFagListe(fag)) {  // forandre til riktig metodenavn //
-           
-         }*/
-        return "emne";
-    }
-
-    /*
-    
-     <<<<<<< HEAD
-     =======
-     @RequestMapping(value = "/regov2.htm")
-     public String visØvinginnsetning(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
-
-     if (error.hasErrors()) {
-     //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av øving.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-     return "regov2";
-     }
-     UtilsBean utilsBean = new UtilsBean();
-     if (utilsBean.registrerØving(øving)) {
-     modell.addAttribute("melding", "Øving" + øving + " er registrert");
-
-     }
-
-     return "regov2";
-     }
-     */
-    
+    //******************* viser registreringen av en ny øving*****************************************************
    @RequestMapping(value = "regov2")
-    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
+    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error, @RequestParam(value="obligatorisk") boolean obligatorisk, @RequestParam(value="emner") String emnekode) {
         Emne emnet = new Emne();
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
@@ -197,47 +151,13 @@ public class Kontroller {
         
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
-            
         }
         model.addAttribute("allefagene", emnetabell);
         
-      /*  
-        String[] obl = request.getParameterValues("obligatorisk");
-        
-        for(String jau : obl ){
-      //     System.out.print("jada");
-        }
-            */
-        
-        
         return "regov2";
     }
     
-    
-    //funker ikke //
-  /* 
-    @RequestMapping(value = "regov2")
-    public String visInnsetting3(Model model) {
-        Emne emne = new Emne();
-        model.addAttribute("emne", emne);
-
-        UtilsBean ub = new UtilsBean();
-        System.out.println("----------------Henter ut getAlleFag-------------");
-        ArrayList<Emne> faget = ub.getAlleFag();
-        ArrayList<String> emnetabell = new ArrayList<String>();
-        for (int i = 0; i < faget.size(); i++) {
-            emnetabell.add(faget.get(i).getEmnekode());
-        }
-        model.addAttribute("alleemner", emnetabell);
-
-        // model.addAttribute("valget", getValg);
-        return "regov2";
-    }
-    
-    */
-    
-    
-
+    //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23",method = RequestMethod.POST)
     public String regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request) {
 
@@ -256,6 +176,22 @@ public class Kontroller {
     }
 
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /*
      @RequestMapping(value = "/bruker.htm")
      public String visVare(Model model) {
