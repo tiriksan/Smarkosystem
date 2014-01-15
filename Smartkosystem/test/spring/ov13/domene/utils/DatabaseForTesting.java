@@ -27,7 +27,7 @@ public class DatabaseForTesting {
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
-    private final String sqlInsertFag = "INSERT into EMNE VALUES(?,?,?,?,?)";
+    private final String sqlInsertFag = "INSERT into EMNE VALUES(?,?,?)";
     private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, emnekode=? WHERE emnekode=?";
     private final String sqlSelectBrukereIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? ORDER BY etternavn";
@@ -52,18 +52,19 @@ public class DatabaseForTesting {
     private final String sqlInsertKø = "INSERT INTO kø VALUES(?,?,?)";
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
 
-    public DatabaseForTesting(String dbNavn, String dbUser, String dbPswrd) {
-        this.dbNavn = dbNavn;
-        this.dbUser = dbUser;
-        this.dbPswrd = dbPswrd;
-    }
-
+    /*    public DatabaseForTesting(String dbNavn, String dbUser, String dbPswrd) {
+     this.dbNavn = dbNavn;
+     this.dbUser = dbUser;
+     this.dbPswrd = dbPswrd;
+     }
+     */
     public DatabaseForTesting(DataSource ds) {
         datasource = ds;
     }
-
-    public DatabaseForTesting() {
-    }
+    /*
+     public DatabaseForTesting() {
+     }
+     */
 
     protected Connection getForbindelse() throws SQLException {
         return datasource.getConnection();
@@ -171,7 +172,7 @@ public class DatabaseForTesting {
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerBruker()");
+            Opprydder.skrivMelding(e, "registrerBrukere()");
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "registrerBruker - ikke sqlfeil");
         } finally {
@@ -222,8 +223,8 @@ public class DatabaseForTesting {
             psUpdateBruker.setString(1, bruker.getBrukernavn());
             psUpdateBruker.setString(2, bruker.getFornavn());
             psUpdateBruker.setString(3, bruker.getEtternavn());
-            psUpdateBruker.setInt(4, bruker.getBrukertype());
-            psUpdateBruker.setString(5, bruker.getPassord());
+            psUpdateBruker.setString(4, bruker.getPassord());
+            psUpdateBruker.setInt(5, bruker.getBrukertype());
             int i = psUpdateBruker.executeUpdate();
             if (i > 0) {
                 ok = true;
@@ -274,14 +275,16 @@ public class DatabaseForTesting {
     //fag metoder //
     public synchronized boolean registrerEmne(Emne fag) {
         boolean ok = false;
-        System.out.println("registrerFag()");
+        System.out.println("registrerEmne()");
         PreparedStatement psInsertFag = null;
 
         try {
             åpneForbindelse();
             psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
-            psInsertFag.setString(1, fag.getEmnenavn());
-            psInsertFag.setString(2, fag.getEmnekode());
+            psInsertFag.setString(1, fag.getEmnekode());
+            psInsertFag.setString(2, fag.getEmnenavn());
+            psInsertFag.setString(3, fag.getØvingsbeskrivelse());
+            psInsertFag.executeUpdate();
 
             int i = psInsertFag.executeUpdate();
             if (i > 0) {
@@ -289,12 +292,12 @@ public class DatabaseForTesting {
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerFag()");
+            Opprydder.skrivMelding(e, "registrerEmne()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "registrerFag - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "registrerEmne - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertArbeidskrav);
+            // Opprydder.lukkSetning(psInsertKravgruppe);
         }
         lukkForbindelse();
         return ok;
@@ -312,7 +315,7 @@ public class DatabaseForTesting {
             psSelectFag.setString(1, fagkode);
             res = psSelectFag.executeQuery();
             while (res.next()) {
-                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"));
+                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"), res.getString("øvingsbeskrivelse"));
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -337,7 +340,7 @@ public class DatabaseForTesting {
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleFag);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"));
+                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"));
                 if (fagListe == null) {
                     fagListe = new ArrayList<Emne>();
                 }
@@ -578,7 +581,6 @@ public class DatabaseForTesting {
     }
 
     // KRAVGRUPPE //
-
     public synchronized boolean registrerKravgruppe(Kravgruppe kg) {
         boolean ok = false;
         System.out.println("registrerKravgruppe()");
@@ -608,29 +610,24 @@ public class DatabaseForTesting {
     }
 
     public synchronized ArrayList<Kravgruppe> getKravGruppertilEmne(String emnekode) {
-      System.out.println("hent kravgrupper");
-      PreparedStatement psSelectKravGruppe = null;
-      int gruppeID;
-      
-      
-      ArrayList<Kravgruppe> krav = new ArrayList<Kravgruppe>();
-       ResultSet res;
-        try{
+        System.out.println("hent kravgrupper");
+        PreparedStatement psSelectKravGruppe = null;
+        int gruppeID;
+
+        ArrayList<Kravgruppe> krav = new ArrayList<Kravgruppe>();
+        ResultSet res;
+        try {
             åpneForbindelse();
             psSelectKravGruppe = forbindelse.prepareStatement(sqlgetKravGruppe);
             psSelectKravGruppe.setString(1, emnekode);
             res = psSelectKravGruppe.executeQuery();
-           
-                 while(res.next()){
-                     Kravgruppe k = new Kravgruppe(res.getInt("gruppeID"),emnekode,res.getInt("antall"));
-                     krav.add(k);
-                
-             
-                 }
-          
-      
-           
-            
+
+            while (res.next()) {
+                Kravgruppe k = new Kravgruppe(res.getInt("gruppeID"), emnekode, res.getInt("antall"));
+                krav.add(k);
+
+            }
+
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "registrerArbeidskrav()");
@@ -640,7 +637,7 @@ public class DatabaseForTesting {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertKravgruppe);
         }
-       
+
         return krav;
     }
 
@@ -691,7 +688,7 @@ public class DatabaseForTesting {
             psSelectAlle.setString(1, brukernavn);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"));
+                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"));
                 if (fagListe == null) {
                     fagListe = new ArrayList<Emne>();
                 }

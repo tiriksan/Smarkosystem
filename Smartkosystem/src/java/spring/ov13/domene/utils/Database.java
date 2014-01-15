@@ -335,7 +335,7 @@ public class Database {
             psSelectFag.setString(1, fagkode);
             res = psSelectFag.executeQuery();
             while (res.next()) {
-                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"));
+                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"), res.getString("øvingsbeskrivelse"));
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -360,7 +360,7 @@ public class Database {
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleFag);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"));
+                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"));
                 if (fagListe == null) {
                     fagListe = new ArrayList<Emne>();
                 }
@@ -867,7 +867,7 @@ public class Database {
             psSelectAlle.setString(1, brukernavn);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"));
+                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"));
                 if (fagListe == null) {
                     fagListe = new ArrayList<Emne>();
                 }
@@ -1018,7 +1018,7 @@ public class Database {
                 eier.setBrukernavn(res.getString("eier"));
                 innlegg.setEier(eier);
                 innlegg.setBrukere(null); //TODO
-                innlegg.setHjelp(null); //TODO
+                innlegg.setHjelp(getBruker(res.getString("hjelp"))); //TODO
                 innlegg.setKønummer(res.getInt("kønummer"));
                 innlegg.setOvinger(null); //TODO
                 innlegg.setTid(0);  //TODO
