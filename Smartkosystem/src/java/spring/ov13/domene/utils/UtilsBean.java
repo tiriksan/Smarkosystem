@@ -120,6 +120,10 @@ public class UtilsBean {
         return null;
     }
 
+    public ArrayList<Bruker> getFaglærerBruker(String fornavn, String etternavn, int brukertype){
+        return db.getFaglærerBruker;
+    }
+    
     public ArrayList<Bruker> getAlleBrukereAvBrukertype(int brukertype) {
         return db.getAlleBrukereAvBrukertype(brukertype);
     }

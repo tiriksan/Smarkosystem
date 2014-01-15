@@ -149,6 +149,9 @@ public class Kontroller {
         System.out.println("-------------------- kommer inn i regEmne---------------");
         String [] values = request.getParameterValues("laerer");
               System.out.println("Her skal det komme opp noe nå " + values[0]);
+              Bruker bruker = new Bruker();
+              ArrayList<Bruker> brukere = new ArrayList<Bruker>();
+              brukere.add(bruker);
        /*
         if(error.hasErrors()){
             System.out.println("----------------------- kommer inn i hasErrors()------------");
@@ -157,6 +160,8 @@ public class Kontroller {
             }
        */
         UtilsBean utilsBean = new UtilsBean();
+       
+        emne.setFaglærer(values[0]);
         if(utilsBean.registrerEmne(emne)) {
             System.out.println("----------------------kommer inn i registrerEmne() i db-----------------");
             modell.addAttribute("melding", "Emne " + emne + " er registrert");
