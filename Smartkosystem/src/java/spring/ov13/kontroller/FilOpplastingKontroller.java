@@ -5,12 +5,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.SimpleFormController;
  
 import spring.FilLeser.FilOpplasting;
  
-public class FilOpplastingKontroller{
+public class FilOpplastingKontroller extends SimpleFormController{
  
 	public FilOpplastingKontroller(){
+            setCommandClass(FilOpplasting.class);
+            setCommandName("filOpplastingSkjema");
 	}
  
 	
@@ -29,6 +32,6 @@ public class FilOpplastingKontroller{
 			//do whatever you want
 		}
  
-		return new ModelAndView("FileUploadSuccess","fileName",filNamn);
+		return new ModelAndView("filOpplastingVelykket","filNamn",filNamn);
 	}
 }
