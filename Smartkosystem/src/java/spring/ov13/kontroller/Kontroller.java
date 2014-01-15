@@ -215,25 +215,10 @@ public class Kontroller {
     
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23", method = RequestMethod.POST)
-    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value="obligatorisk") boolean obligatorisk, @RequestParam(value = "Emner") String [] Emner) {
-
-     
-      //Øving øvinga = new Øving();
-      
-      //int nr = øving.getØvingsnr();
-      // String ja = request.getAttribute("Emner");
-       String [] values = request.getParameterValues("Emner");
-      // for(int i= 0; i<values.length; i++){
-          System.out.println("Her skal det komme opp noe nå" + values[0]);
-          
-          
-          
-         // ub.oppdaterØving(øving, nr , "100");
-         // øvinga.setEmnekode("100");
-    //   }
-       
-       
-       
+    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value="obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String [] Emner) {
+        
+    String [] values = request.getParameterValues("Emner");
+            System.out.println("Her skal det komme opp noe nå" + values[0]);
         
    /*  if (error.hasErrors()) {
              System.out.println("--------------kommerinniERROOOOOOOOOOOOOOOOOOOOOOOOOOOR-----------");
@@ -242,10 +227,10 @@ public class Kontroller {
             return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
         }*/
         UtilsBean utilsBean = new UtilsBean();
-      //utilsBean.oppdaterØving(øving, nr , values[0]);
-      //hente inn den oppdaterte øving her // // trenger metode i database.java for å klare det //
+    
       øving.setEmnekode(values[0]);
       øving.setGruppeid(1);
+    System.out.println("HERKOMMERDET------------------"+øving.getObligatorisk());
         String hentekode = øving.getEmnekode();
        System.out.println("EMNEKODE IKKE VÆR NULL!" + hentekode);
       

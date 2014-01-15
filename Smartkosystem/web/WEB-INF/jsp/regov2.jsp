@@ -31,7 +31,7 @@
         
         <tr>
                     <td>Obligatorisk:</td>
-                    <td><input type=checkbox name="obligatorisk" value="true" /></br>
+                    <td><input for="obligatorisk" type=checkbox name="obliga" /></br>
                     <td><errors path="obligatorisk" /></td>
                     
                 </tr>
