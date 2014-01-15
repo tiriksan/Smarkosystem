@@ -92,6 +92,7 @@ public class Database {
         boolean ok = false;
         System.out.println("registrerBruker()");
         PreparedStatement psInsertBruker = null;
+        PreparedStatement psInsertBrukerifag=null;
         bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0, 10));
 
         try {
@@ -103,7 +104,19 @@ public class Database {
             System.out.println(bruker.getPassord());
             psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
             psInsertBruker.setInt(5, bruker.getBrukertype());
+            psInsertBruker.executeUpdate();
 
+               for (int i = 0; i < bruker.getFagene().size(); i++) {
+                psInsertBrukerifag = forbindelse.prepareStatement(sqlInsertBrukerIEmne);
+                psInsertBrukerifag.setString(1,bruker.getFagene().get(i).getEmnekode());
+                psInsertBrukerifag.setString(2, bruker.getBrukernavn());
+                psInsertBrukerifag.setInt(3, bruker.getBrukertype());
+                psInsertBrukerifag.executeUpdate();
+            }
+            
+            
+           
+            
             int i = psInsertBruker.executeUpdate();
             if (i > 0) {
                 ok = true;

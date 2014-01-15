@@ -118,11 +118,11 @@
                             <tr><td><label for="fag">Fag: </label></td><td>
                 
 
-                                    <form:select path="fagene">
-                                        <form:option value="0" label="Velg fag" />
-                                        <form:options items="${allefagene}" />
-                                    </form:select>
-
+                                    <select name="fagene" id="fagene">
+                                        <c:forEach items="${allefagene}" var="fagen">
+                                            <option value="${fagen}">${fagen}</option>
+                                        </c:forEach>
+                                    </select>
 
                                  
 

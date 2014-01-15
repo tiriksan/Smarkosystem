@@ -126,14 +126,16 @@ public class Kontroller {
     
 // ********************Registrer bruker************************
     @RequestMapping(value = "/brukerinnsetning.htm")
-    public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request) {
-/*
-        if (error.hasErrors()) {
-            //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-            return "bruker";
-        }
-        */
-        UtilsBean utilsBean = new UtilsBean();
+    public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request,@RequestParam(value = "fagene") String [] fagene) {
+
+          String [] values = request.getParameterValues("fagene");
+              System.out.println("Her skal det komme opp noe nå " + values[0]);
+             ArrayList<Emne> emneliste = new ArrayList<Emne>();
+              UtilsBean utilsBean = new UtilsBean();
+             Emne returnen = utilsBean.getEmne(values[0]);
+             emneliste.add(returnen);
+     
+        bruker.setFagene(emneliste);
         if (utilsBean.registrerBruker(bruker)) {
             SendEpost se = new SendEpost();
             se.sendEpost(bruker.getBrukernavn(), "Passord", bruker.getPassord());
