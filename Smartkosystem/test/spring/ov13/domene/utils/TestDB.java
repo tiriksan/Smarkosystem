@@ -56,7 +56,7 @@ public class TestDB {
         assertEquals(b.getFornavn(), fornavn);
         assertEquals(b.getEtternavn(), etternavn);
         assertEquals(b.getBrukertype(), brukertype);
-        assertEquals(b.getPassord(), passord);
+        assertEquals(b.md5(b.getPassord()), passord);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class TestDB {
     @Test
     public void test_oppdaterBruker() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Bruker b = new Bruker("anasky@hist.no", "Darth", "Vader", 2, "few");
+        Bruker b = new Bruker("anasky@hist.no", "Darth", "Vader", 2, "");
 
         boolean erPersonOppdatert = database.oppdaterBruker(b);
         assert (erPersonOppdatert);
@@ -89,7 +89,7 @@ public class TestDB {
             brukernavn = res.getString("brukernavn");
             fornavn = res.getString("fornavn");
             etternavn = res.getString("etternavn");
-            brukertype = res.getInt("brukertype");
+            brukertype = res.getInt("hovedbrukertype");
             passord = res.getString("passord");
         }
 
@@ -111,7 +111,7 @@ public class TestDB {
     @Test
     public void test_registrerEmne() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Emne emne = new Emne("TDAT2001", "Testing & Ballefranserier");
+        Emne emne = new Emne("TDAT2001", "Testing & Ballefranserier", "Alle baller må være godkjent");
         boolean erFagRegistrert = database.registrerEmne(emne);
         assert (erFagRegistrert);
         
@@ -132,7 +132,7 @@ public class TestDB {
     @Test
     public void test_registrerEksisterendeEmne() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Emne emne = new Emne("TDAT3003", "3D-Programmering");
+        Emne emne = new Emne("TDAT3003", "3D-Programmering", "Må ha godkjent 5 av 10 øvinger.");
         boolean erEmneRegistrert = database.registrerEmne(emne);
         assert (!erEmneRegistrert);
     }
@@ -140,7 +140,7 @@ public class TestDB {
     @Test
     public void test_oppdaterEmne() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Emne emne = new Emne("IFUD1337", "Tåmalerier i Moderne Tid");
+        Emne emne = new Emne("IFUD1337", "Tåmalerier i Moderne Tid", "Ingen krav.");
 
         boolean erEmneOppdatert = database.oppdaterEmne(emne, emne.getEmnekode());
         assert (erEmneOppdatert);
@@ -163,7 +163,7 @@ public class TestDB {
     @Test
     public void test_oppdaterEmneSomIkkeEksisterer() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Emne emne = new Emne("IKKE1337", "Finnes Ikke");
+        Emne emne = new Emne("IKKE1337", "Finnes Ikke", "Ingen øvinger");
         boolean erEmneOppdatert = database.oppdaterEmne(emne, emne.getEmnekode());
         assert (!erEmneOppdatert);
     }
@@ -171,39 +171,42 @@ public class TestDB {
     @Test
     public void test_leggTilBrukerIEmne() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Emne emne = new Emne("IFUD1048", "C++ for programmerere");
-        Bruker bruker = new Bruker("grestra@hist.no", "Grethe", "Sandstrak", 3, "");
+        Emne emne = new Emne("TDAT3008", "Java EE og distribuerte systemer", "Må ha godtkjent 3 av de første fem øvingene, og minst 2 av de 4 siste.");
+        Bruker bruker = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 3, "");
         boolean erBrukerLagtTil = database.leggTilBrukerIEmne(emne, bruker, 3);
         assert (erBrukerLagtTil);
         
         Connection con = database.getForbindelse();
         Statement stmt = con.createStatement();
-        ResultSet res = stmt.executeQuery("SELECT * FROM emne_bruker WHERE emnekode='IFUD1048' AND brukernavn='grestra@hist.no'");
+        ResultSet res = stmt.executeQuery("SELECT * FROM emne_bruker WHERE emnekode='TDAT3008' AND brukernavn='anasky@hist.no'");
         String emnekode = null;
         String brukernavn = null;
+        int brukertype = -1;
 
         while (res.next()) {
             emnekode = res.getString("emnekode");
-            brukernavn = res.getString("emnenavn");
+            brukernavn = res.getString("brukernavn");
+            brukertype = res.getInt("brukertype");
         }
         assertEquals(emne.getEmnekode(), emnekode);
         assertEquals(bruker.getBrukernavn(), brukernavn);
+        assertEquals(3, brukertype);
     }
     
     @Test
     public void test_registrerBrukerPåIkkeEksisterendeEmne() {
         DatabaseForTesting database = new DatabaseForTesting(db);
         Bruker bruker = new Bruker("meg@hist.no", "Meg", "OgBareMeg", 0, "");
-        Emne emne = new Emne("IKKE2009", "BS");
+        Emne emne = new Emne("IKKE2009", "BS", "Ingen krav");
         boolean brukerRegistrertIEmne = database.leggTilBrukerIEmne(emne, bruker, 3);
         assert (!brukerRegistrertIEmne);
     }
     
-    @Test(expected=SQLException.class)
+    @Test()
     public void test_leggTilEksisterendeBrukerPåEksisterendeFag() {
         DatabaseForTesting database = new DatabaseForTesting(db);
         Bruker bruker = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 0, "NoSoup4U");
-        Emne emne = new Emne("TDAT3003", "3D-programmering");
+        Emne emne = new Emne("TDAT3003", "3D-programmering", "Må ha godkjent 5 av 10 øvinger.");
         boolean duplikat = database.leggTilBrukerIEmne(emne, bruker, bruker.getBrukertype());
         assert(!duplikat);
     }
@@ -212,7 +215,7 @@ public class TestDB {
     public void loggInn() {
         DatabaseForTesting database = new DatabaseForTesting(db);
         String md5Passord = "7c3daa31f887c333291d5cf04e541db5";
-        Bruker bruker = new Bruker("test@hist.no", "Herman", "Jensen", 0, "few");
+        Bruker bruker = new Bruker("test@hist.no", "Herman", "Jensen", 0, "");
         boolean registrert = database.registrerBruker(bruker);
         assert(registrert && bruker.getPassord().equals(md5Passord));
     }
