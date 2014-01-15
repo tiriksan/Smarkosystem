@@ -51,12 +51,6 @@ public class Konfig extends WebMvcConfigurationSupport{
         handlerMapping.setOrder(-1);
         return handlerMapping;
     }
-    @Bean
-    public MultipartResolver multipartResolver() {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(10000000);
-        return multipartResolver;
-    }
 @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
