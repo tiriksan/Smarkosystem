@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 import spring.ov13.domene.Innlegg;
+import spring.ov13.domene.KravGruppe;
 import spring.ov13.domene.Plassering;
 import spring.ov13.domene.Øving;
 
@@ -14,6 +15,7 @@ public class UtilsBean {
     private ArrayList<Bruker> valgteBrukere = null;
     private ArrayList<Emne> alleFag = null;
     private ArrayList<Emne> valgteEmner = null;
+    
 
     public UtilsBean() {
         System.out.println("starting utilbean");
@@ -50,6 +52,12 @@ public class UtilsBean {
 
     public boolean endrePassord(Bruker bruker) {
         return db.endrePassord(bruker);
+    }
+    
+    public ArrayList<KravGruppe> getKravGruppetilEmne(String emnekode){
+       return db.getKravGruppertilEmne(emnekode);
+        
+       
     }
 
     public Bruker get(String brukernavn) {

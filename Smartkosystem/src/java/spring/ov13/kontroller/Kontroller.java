@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import spring.FilLeser.FilLeser;
+import spring.ov13.domene.KravGruppe;
 import spring.ov13.domene.utils.SendEpost;
 import spring.ov13.domene.Øving;
 
@@ -173,22 +174,36 @@ public class Kontroller {
    @RequestMapping(value = "regov2")
    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
         
-         Bruker bruker = new Bruker();
+        Bruker bruker = new Bruker();
         Emne emne = new Emne();
+        KravGruppe kravg = new KravGruppe();
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
-       // ArrayList<
+        String emnekoden = null;
        
         ArrayList<String> emnetabell = new ArrayList<String>();
         
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
-            String emnekodenkanskje = em.get(i).getEmnenavn();
-            System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekodenkanskje );
-            model.addAttribute("emnekode", emnekodenkanskje);
+           emnekoden = em.get(i).getEmnenavn();
+            System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden );
+            model.addAttribute("emnekode", emnekoden);
+          
         }
         model.addAttribute("allefagene", emnetabell);
+       
         
+         
+          ArrayList<KravGruppe> gr = ub.getKravGruppetilEmne(emnekoden);
+          ArrayList<Integer> grid = new ArrayList<Integer>();
+          for (int i = 0; i < gr.size(); i++) {
+            grid.add(gr.get(i).getGruppeID());
+            
+          }
+          
+           model.addAttribute("allegruppeid", grid);
+           
+           
         
         return "regov2";
     }
