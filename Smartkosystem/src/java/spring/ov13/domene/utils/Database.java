@@ -55,7 +55,8 @@ public class Database {
     private final String sqlInsertKø = "INSERT INTO kø VALUES(?,?,?)";
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
     private final String sqlSelectpaabrukertype= "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
-
+    private final String sqlUpdateKøinnleggHjelpBruker = "UPDATE køinnlegg SET hjelp=? WHERE innleggsid=?";
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -1121,5 +1122,35 @@ public class Database {
         System.out.println("Returnerer liste med størrelse: " + returnen.size());
         return returnen;
     }
-
+    //Endre hvem som hjelper et køinnlegg. Null dersom køinnlegget ikke får hjelp
+    public boolean setKøinnleggHjelpBruker(Bruker bruker, int køinnleggid){
+        System.out.println("setBrukerHjelperKøinnlegg()");
+        //set hjelp(brukvernavn)= bruker where køinnleggid = køinnleggid
+        PreparedStatement psUpdateKøinleggHjelpBruker = null;
+        boolean ok = false;
+        try {
+            åpneForbindelse();
+            psUpdateKøinleggHjelpBruker = forbindelse.prepareStatement(sqlUpdateKøinnleggHjelpBruker);
+            if(bruker!=null){
+                psUpdateKøinleggHjelpBruker.setString(1, bruker.getBrukernavn());
+            } else{
+                psUpdateKøinleggHjelpBruker.setString(1, null);
+            }
+            psUpdateKøinleggHjelpBruker.setInt(2, køinnleggid);
+            int i = psUpdateKøinleggHjelpBruker.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "updateKøinnleggHjelpBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "updateKøinnleggHjelpBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateKøinleggHjelpBruker);
+        }
+        lukkForbindelse();
+        return ok;
+    }
 }

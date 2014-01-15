@@ -139,13 +139,22 @@ public class KøKontroller {
         request.getSession().setAttribute("emne", emne);
         request.getSession().setAttribute("id", id);
         request.getSession().setAttribute("brukere", ub.getBrukereIInnlegg(id));
-
+        ub.setKøinnleggHjelpBruker(bruker, id);
         return "redirect:studentko.htm?x="+emne;
     }
     
     @RequestMapping(value = "godkjennalle.htm")
     public String something(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne){
         request.getSession().setAttribute("hjelp", false);
+        UtilsBean ub = new UtilsBean();
+        /*
+        for(bruker b : brukereiinnlegg){
+        godkjenn
+        
+        }
+        
+        */
+        ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
     }
 }

@@ -172,6 +172,9 @@ public class UtilsBean {
     public boolean registrerKøInnlegg(int id, int kønummer, String brukernavn, Plassering lokasjon, String kommentar) {
         return db.registrerKøInnlegg(id, kønummer, brukernavn, lokasjon, kommentar);
     }
+    public boolean setKøinnleggHjelpBruker(Bruker bruker, int køinnleggid){
+        return db.setKøinnleggHjelpBruker(bruker, køinnleggid);
+    }
     
     
 /*    public static void main(String[] args) {
