@@ -12,6 +12,7 @@ import spring.ov13.domene.Emne;
 import spring.ov13.domene.Plassering;
 import spring.ov13.domene.Øving;
 import spring.ov13.domene.Innlegg;
+import spring.ov13.domene.KravGruppe;
 
 public class Database {
 
@@ -43,6 +44,7 @@ public class Database {
     private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
     private final String sqlInsertArbeidskrav = "INSERT INTO arbeidskrav VALUES(DEFAULT,?,?)";
     private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(DEFAULT, ?)";
+    private final String sqlgetKravGruppe = "Select * from kravgruppe where emnekode =?";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
     private final String sqlSelectFagKoAktiv = "SELECT * FROM kø WHERE emnekode = ?";
@@ -698,6 +700,25 @@ public class Database {
         }
         lukkForbindelse();
         return ok;
+    }
+    public synchronized KravGruppe getKravGruppertilEmne(String emnekode) {
+      System.out.println("hent kravgrupper");
+      PreparedStatement psSelectKravGruppe = null;
+        try{
+            åpneForbindelse();
+            psSelectKravGruppe = forbindelse.prepareStatement(sqlgetKravGruppe);
+            
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "registrerArbeidskrav()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "registrerArbeidskrav - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertArbeidskrav);
+        }
+        KravGruppe krav = new KravGruppe();
+        return krav;
     }
 
     public ArrayList<String> getInfoTilBruker(String brukernavn) {

@@ -15,9 +15,17 @@ import java.util.ArrayList;
 public class KravGruppe {
 
     private ArrayList<Integer> gruppeID = new ArrayList<Integer>();
+    
     private String emnekode;
     private int Antallgodkj;
-
+    
+      public KravGruppe(String emnekode){
+        this.emnekode = emnekode;
+    }
+      public KravGruppe(){
+          
+    }
+ 
     public ArrayList<Integer> getGruppeID() {
         return gruppeID;
     }
