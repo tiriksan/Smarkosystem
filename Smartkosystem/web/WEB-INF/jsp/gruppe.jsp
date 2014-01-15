@@ -12,14 +12,27 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <c:if test="${hjelp == true}">
-    
+
     lkj
     ${id}
     <c:out value="Alle medlemmene av gruppen:"></c:out><br>
-    <c:forEach items="${brukere}" var="bruker">
-        
-            ${bruker.getFornavn()}
-            <input type="submit" value="Godkjenn"><br>
-        </c:forEach>
-            <input type="submit" value="Godkjenn alle">
+
+
+        <table id="brukertabell">
+        <c:forEach items="${brukere}" var="bruker">
+            <tr>
+                <td>${bruker.getFornavn()}
+                    ${bruker.getEtternavn()}
+                    <%--${bruker.getOvinger()}--%>
+
+                <td><input type="submit" class="gkKnapp" value="Godkjenn"></td></tr>
+                </c:forEach>
+
+        <form:form method="POST" action="studentko.htm?x=${fag.emnenavn}">
+            <td><input type="submit" value="Godkjenn alle"></td>
+            </form:form>
+        <td><input type="submit" value="Utsett gruppen"></td>
+    </table>
 </c:if>
+
+

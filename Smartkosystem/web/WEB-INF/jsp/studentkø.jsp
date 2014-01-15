@@ -69,7 +69,12 @@ ${feilmelding}
                                         
                                         <%--<c:if test="${brukerinnlogg.brukertype != 0}">--%>
                                         <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
-                                            <input type="submit" id="hjelp" value="hjelp">
+                                            <table>
+                                                <tr>
+                                                    <td><input type="submit" id="hjelp" value="hjelp"></td>
+                                                </tr>
+                                            </table>
+
                                        </form:form>
                                     </td><td class="tdko">
                                         <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
