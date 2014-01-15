@@ -54,6 +54,7 @@ public class Database {
     private final String sqlInsertFagLaerer = "INSERT into emne_bruker VALUES(?,?,?)";
     private final String sqlInsertKø = "INSERT INTO kø VALUES(?,?,?)";
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
+    private final String sqlSelectpaabrukertype= "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
 
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -642,6 +643,37 @@ public class Database {
         }
         lukkForbindelse();
         return fagListe;
+    }
+    
+    public synchronized ArrayList<Bruker> getFaglærerBruker(String fornavn,String etternavn,int brukertype) {
+        Bruker b = null;
+        ResultSet res;
+        System.out.println("getFaglærer()");
+        PreparedStatement psSelectBruker = null;
+        ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
+
+        try {
+            åpneForbindelse();
+            psSelectBruker = forbindelse.prepareStatement(sqlSelectpaabrukertype);
+            psSelectBruker.setString(1, fornavn);
+            psSelectBruker.setString(2, etternavn);
+            psSelectBruker.setInt(3, brukertype);
+            res = psSelectBruker.executeQuery();
+            while (res.next()) {
+                b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                faglærer.add(b);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectBruker);
+        }
+        lukkForbindelse();
+        return faglærer;
     }
     
     // KRAVGRUPPE //

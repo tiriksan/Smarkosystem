@@ -149,9 +149,14 @@ public class Kontroller {
         System.out.println("-------------------- kommer inn i regEmne---------------");
         String [] values = request.getParameterValues("laerer");
               System.out.println("Her skal det komme opp noe nå " + values[0]);
-              Bruker bruker = new Bruker();
-              ArrayList<Bruker> brukere = new ArrayList<Bruker>();
-              brukere.add(bruker);
+              String[] tabell = values[0].split(" ");
+              String forn = tabell[0];
+              String ettern = tabell[1];
+              System.out.println("fornavn "+forn + " etternavn "+ettern);
+              UtilsBean utilsBean = new UtilsBean();
+             ArrayList<Bruker> returnen = utilsBean.getFaglærerBruker(forn, ettern, 3);
+              
+          
        /*
         if(error.hasErrors()){
             System.out.println("----------------------- kommer inn i hasErrors()------------");
@@ -159,9 +164,9 @@ public class Kontroller {
             return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
             }
        */
-        UtilsBean utilsBean = new UtilsBean();
-       
-        emne.setFaglærer(values[0]);
+        
+       emne.setFaglærer(returnen);
+      
         if(utilsBean.registrerEmne(emne)) {
             System.out.println("----------------------kommer inn i registrerEmne() i db-----------------");
             modell.addAttribute("melding", "Emne " + emne + " er registrert");
