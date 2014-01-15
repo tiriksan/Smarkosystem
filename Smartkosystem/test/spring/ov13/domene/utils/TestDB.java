@@ -19,12 +19,12 @@ import spring.ov13.domene.*;
  * @author HJ
  */
 public class TestDB {
-    private EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    private EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).addDefaultScripts().build();
+    //private EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+    private EmbeddedDatabase db; // = builder.setType(EmbeddedDatabaseType.DERBY).addDefaultScripts().build();
 
     @Before
     public void settOpp() {
-        builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         db = builder.setType(EmbeddedDatabaseType.DERBY).addDefaultScripts().build();
     }
 
@@ -48,7 +48,7 @@ public class TestDB {
             brukernavn = res.getString("brukernavn");
             fornavn = res.getString("fornavn");
             etternavn = res.getString("etternavn");
-            brukertype = res.getInt("brukertype");
+            brukertype = res.getInt("hovedbrukertype");
             passord = res.getString("passord");
         }
 
