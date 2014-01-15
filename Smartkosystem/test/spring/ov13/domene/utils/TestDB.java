@@ -13,8 +13,7 @@ import org.springframework.jdbc.datasource.embedded.DataSourceFactory;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import spring.ov13.domene.Bruker;
-import spring.ov13.domene.Emne;
+import spring.ov13.domene.*;
 
 /**
  * @author HJ
@@ -216,6 +215,14 @@ public class TestDB {
         Bruker bruker = new Bruker("test@hist.no", "Herman", "Jensen", 0, "few");
         boolean registrert = database.registrerBruker(bruker);
         assert(registrert && bruker.getPassord().equals(md5Passord));
+    }
+    
+    @Test
+    public void registrerKravgruppe() {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Kravgruppe kg = new Kravgruppe("TDAT3003", 2);
+        boolean registrert = database.registrerKravgruppe(kg);
+        assert(registrert);
     }
     
     @After

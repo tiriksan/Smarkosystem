@@ -12,7 +12,7 @@ import spring.ov13.domene.Emne;
 import spring.ov13.domene.Plassering;
 import spring.ov13.domene.Øving;
 import spring.ov13.domene.Innlegg;
-import spring.ov13.domene.KravGruppe;
+import spring.ov13.domene.Kravgruppe;
 
 public class Database {
 
@@ -42,8 +42,7 @@ public class Database {
     private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
     private final String sqlCountØvinger = "SELECT COUNT(øvingsnummer) as telling FROM øving WHERE emnekode =?";
     private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
-    private final String sqlInsertArbeidskrav = "INSERT INTO arbeidskrav VALUES(DEFAULT,?,?)";
-    private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(DEFAULT, ?)";
+    private final String sqlInsertKravgruppe = "INSERT INTO arbeidskrav VALUES(DEFAULT,?,?)";
     private final String sqlgetKravGruppe = "Select * from kravgruppe where emnekode =?";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
@@ -304,7 +303,7 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerEmne - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertArbeidskrav);
+            // Opprydder.lukkSetning(psInsertKravgruppe);
         }
         lukkForbindelse();
         return ok;
@@ -424,7 +423,7 @@ public class Database {
 
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertArbeidskrav);
+            // Opprydder.lukkSetning(psInsertKravgruppe);
         }
         lukkForbindelse();
         return ok;
@@ -644,46 +643,19 @@ public class Database {
         lukkForbindelse();
         return fagListe;
     }
-
-    // ARBEIDSKRAV //
-    public synchronized boolean registrerArbeidskrav(Emne emne, String beskrivelse) {
-        boolean ok = false;
-        System.out.println("registrerFag()");
-        PreparedStatement psInsertArbeidskrav = null;
-
-        try {
-            åpneForbindelse();
-            psInsertArbeidskrav = forbindelse.prepareStatement(sqlInsertArbeidskrav);
-            psInsertArbeidskrav.setString(1, emne.getEmnekode());
-            psInsertArbeidskrav.setString(2, beskrivelse);
-
-            int i = psInsertArbeidskrav.executeUpdate();
-            if (i > 0) {
-                ok = true;
-            }
-        } catch (SQLException e) {
-            Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerArbeidskrav()");
-        } catch (Exception e) {
-            Opprydder.skrivMelding(e, "registrerArbeidskrav - ikke sqlfeil");
-        } finally {
-            Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertArbeidskrav);
-        }
-        lukkForbindelse();
-        return ok;
-    }
-
+    
     // KRAVGRUPPE //
-    public synchronized boolean registrerKravgruppe(int kravid) {
+
+    public synchronized boolean registrerKravgruppe(Kravgruppe kg) {
         boolean ok = false;
         System.out.println("registrerKravgruppe()");
         PreparedStatement psInsertKravgruppe = null;
 
         try {
             åpneForbindelse();
-            psInsertKravgruppe = forbindelse.prepareStatement(sqlInsertArbeidskrav);
-            psInsertKravgruppe.setInt(1, kravid);
+            psInsertKravgruppe = forbindelse.prepareStatement(sqlInsertKravgruppe);
+            psInsertKravgruppe.setString(1, kg.getEmnekode());
+            psInsertKravgruppe.setInt(2, kg.getAntallgodkj());
 
             int i = psInsertKravgruppe.executeUpdate();
             if (i > 0) {
@@ -691,23 +663,24 @@ public class Database {
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerArbeidskrav()");
+            Opprydder.skrivMelding(e, "registrerKravgruppe()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "registrerArbeidskrav - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "registrerKravgruppe - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertArbeidskrav);
+            // Opprydder.lukkSetning(psInsertKravgruppe);
         }
         lukkForbindelse();
         return ok;
     }
-    public synchronized ArrayList<KravGruppe> getKravGruppertilEmne(String emnekode) {
+
+    public synchronized ArrayList<Kravgruppe> getKravGruppertilEmne(String emnekode) {
       System.out.println("hent kravgrupper");
       PreparedStatement psSelectKravGruppe = null;
       int gruppeID;
       
       
-      ArrayList<KravGruppe> krav = new ArrayList<KravGruppe>();
+      ArrayList<Kravgruppe> krav = new ArrayList<Kravgruppe>();
        ResultSet res;
         try{
             åpneForbindelse();
@@ -716,7 +689,7 @@ public class Database {
             res = psSelectKravGruppe.executeQuery();
            
                  while(res.next()){
-                     KravGruppe k = new KravGruppe(res.getInt("gruppeID"),emnekode,res.getInt("antall"));
+                     Kravgruppe k = new Kravgruppe(res.getInt("gruppeID"),emnekode,res.getInt("antall"));
                      krav.add(k);
                 
              
@@ -732,7 +705,7 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerArbeidskrav - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertArbeidskrav);
+            // Opprydder.lukkSetning(psInsertKravgruppe);
         }
        
         return krav;
@@ -796,7 +769,7 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerKø - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertArbeidskrav);
+            // Opprydder.lukkSetning(psInsertKravgruppe);
         }
         lukkForbindelse();
         return ok;
@@ -832,7 +805,7 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerKø - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertArbeidskrav);
+            // Opprydder.lukkSetning(psInsertKravgruppe);
         }
         lukkForbindelse();
         return ok;
