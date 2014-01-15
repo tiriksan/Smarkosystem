@@ -65,7 +65,7 @@ ${feilmelding}
                                         Bygning: ${innlegg.getPlass().getBygning()}</br>
                                         Etasje: ${innlegg.getPlass().getEtasje()}</br>
                                         Rom: ${innlegg.getPlass().getRom()}</br>
-                                        Ekstra informasjon: ${innlegg.getPlass().getKommentar()}
+                                        Ekstra informasjon: ${innlegg.getKommentar()}
                                         
                                         <%--<c:if test="${brukerinnlogg.brukertype != 0}">--%>
                                         <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
