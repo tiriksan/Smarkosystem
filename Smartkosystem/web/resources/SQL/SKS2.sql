@@ -33,14 +33,14 @@ brukernavn VARCHAR(64) PRIMARY KEY NOT NULL,
 fornavn VARCHAR(64) NOT NULL,
 etternavn VARCHAR(64) NOT NULL,
 passord VARCHAR(64) NOT NULL,
-hovedbrukertype INT DEFAULT 0 NOT NULL,
+hovedbrukertype INT DEFAULT 1 NOT NULL,
 INDEX(brukernavn)
 ) ENGINE=innoDB;
 
 CREATE TABLE emne_bruker(
 emnekode VARCHAR(8) NOT NULL,
 brukernavn VARCHAR(64) NOT NULL,
-brukertype INT DEFAULT 0 NOT NULL,
+brukertype INT DEFAULT 1 NOT NULL,
 CONSTRAINT emne_bruker_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT emne_bruker_fk2 FOREIGN KEY(brukernavn) REFERENCES bruker(brukernavn) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT emne_bruker_pk1 PRIMARY KEY(emnekode, brukernavn),
@@ -122,3 +122,5 @@ ALTER TABLE 'bruker' ENGINE = InnoDB;
 ALTER TABLE 'kravgruppe' ENGINE = InnoDB;
 ALTER TABLE 'øving' ENGINE = InnoDB;
 ALTER TABLE 'emne' ENGINE = InnoDB;
+ALTER TABLE bruker ALTER COLUMN hovedbrukertype SET DEFAULT 1;
+ALTER TABLE emne_bruker ALTER COLUMN brukertype SET DEFAULT 1;

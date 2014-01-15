@@ -20,7 +20,7 @@ import spring.ov13.kontroller.LoggInnKontroller;
  */
 public class TestDB {
     private EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    private EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).addScript("SKS2.sql").build();
+    private EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).addScript("SKS2.sql").addScript("SKS2Data.sql").build();
 
     @Before
     public void settOpp() {
@@ -62,7 +62,7 @@ public class TestDB {
     @Test
     public void test_registrerEksisterendeBruker() {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Bruker b = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 3, "");
+        Bruker b = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 3, "NoSoup4U");
         boolean erBrukerRegistrert = database.registrerBruker(b);
         assert (!erBrukerRegistrert);
 
@@ -71,14 +71,14 @@ public class TestDB {
     @Test
     public void test_oppdaterBruker() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Bruker b = new Bruker("luksky@hist.no", "Darth", "Vader", 3, "");
+        Bruker b = new Bruker("anasky@hist.no", "Darth", "Vader", 2, "few");
 
         boolean erPersonOppdatert = database.oppdaterBruker(b);
         assert (erPersonOppdatert);
 
         Connection con = database.getForbindelse();
         Statement stmt = con.createStatement();
-        ResultSet res = stmt.executeQuery("SELECT * FROM bruker WHERE brukernavn='luksky@hist.no'");
+        ResultSet res = stmt.executeQuery("SELECT * FROM bruker WHERE brukernavn='anasky@hist.no'");
         String brukernavn = null;
         String fornavn = null;
         String etternavn = null;
@@ -171,14 +171,14 @@ public class TestDB {
     @Test
     public void test_leggTilBrukerIEmne() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Emne emne = new Emne("TDAT9090", "Matematikk 2");
+        Emne emne = new Emne("IFUD1048", "C++ for programmerere");
         Bruker bruker = new Bruker("grestra@hist.no", "Grethe", "Sandstrak", 3, "");
         boolean erBrukerLagtTil = database.leggTilBrukerIEmne(emne, bruker, 3);
         assert (erBrukerLagtTil);
         
         Connection con = database.getForbindelse();
         Statement stmt = con.createStatement();
-        ResultSet res = stmt.executeQuery("SELECT * FROM emne_bruker WHERE emnekode='TDAT9090' AND brukernavn='grestra@hist.no'");
+        ResultSet res = stmt.executeQuery("SELECT * FROM emne_bruker WHERE emnekode='IFUD1048' AND brukernavn='grestra@hist.no'");
         String emnekode = null;
         String brukernavn = null;
 
@@ -193,7 +193,7 @@ public class TestDB {
     @Test
     public void test_registrerBrukerPåIkkeEksisterendeEmne() {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Bruker bruker = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 3, "");
+        Bruker bruker = new Bruker("meg@hist.no", "Meg", "OgBareMeg", 0, "");
         Emne emne = new Emne("IKKE2009", "BS");
         boolean brukerRegistrertIEmne = database.leggTilBrukerIEmne(emne, bruker, 3);
         assert (!brukerRegistrertIEmne);
