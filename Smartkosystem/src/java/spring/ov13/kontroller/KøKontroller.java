@@ -140,6 +140,7 @@ public class KøKontroller {
         System.out.println("kake");
         request.getSession().setAttribute("hjelp", true);
         request.getSession().setAttribute("id", id);
+        request.getSession().setAttribute("brukere", bean.getBrukereIInnlegg(id));
        // request.setAttribute("hjelp", true);
         //bean.get
         
