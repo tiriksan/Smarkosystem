@@ -460,6 +460,11 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
+    
+    
+    
+    
+    
 
     /*    public synchronized boolean oppdaterØving(Øving øving) {
      boolean ok = false;

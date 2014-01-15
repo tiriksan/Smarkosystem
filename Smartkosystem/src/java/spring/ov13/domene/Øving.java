@@ -1,6 +1,7 @@
 package spring.ov13.domene;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 
 
 public class Øving {
@@ -9,6 +10,7 @@ public class Øving {
     private String emnekode;
     private int gruppeid;
     private boolean obligatorisk;
+    private ArrayList <Integer> gruppeider = new ArrayList<Integer>
     
     
     public Øving(int øvingsnr, String emnekode, int gruppeid, boolean obligatorisk){

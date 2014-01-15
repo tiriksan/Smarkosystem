@@ -175,34 +175,66 @@ public class Kontroller {
         Emne emne = new Emne();
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
+        ArrayList<
        
         ArrayList<String> emnetabell = new ArrayList<String>();
         
         for (int i = 0; i < em.size(); i++) {
-            emnetabell.add(em.get(i).getEmnekode());
+            emnetabell.add(em.get(i).getEmnenavn());
+            String emnekodenkanskje = em.get(i).getEmnenavn();
+            System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekodenkanskje );
+            model.addAttribute("emnekode", emnekodenkanskje);
         }
         model.addAttribute("allefagene", emnetabell);
+        
         
         return "regov2";
     }
     
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23", method = RequestMethod.POST)
-    public String regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value="obligatorisk") boolean obligatorisk, @RequestParam(value="emner") String emnekode) {
+    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value="obligatorisk") boolean obligatorisk, @RequestParam(value = "Emner") String [] Emner) {
 
-        if (error.hasErrors()) {
+     
+      //Øving øvinga = new Øving();
+      
+      //int nr = øving.getØvingsnr();
+      // String ja = request.getAttribute("Emner");
+       String [] values = request.getParameterValues("Emner");
+      // for(int i= 0; i<values.length; i++){
+          System.out.println("Her skal det komme opp noe nå" + values[0]);
+          
+          
+          
+         // ub.oppdaterØving(øving, nr , "100");
+         // øvinga.setEmnekode("100");
+    //   }
+       
+       
+       
+        
+     if (error.hasErrors()) {
              System.out.println("--------------kommerinniERROOOOOOOOOOOOOOOOOOOOOOOOOOOR-----------");
             //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-            return "regov2";
+          //  return "regov2";
+            return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
         }
         UtilsBean utilsBean = new UtilsBean();
+      //utilsBean.oppdaterØving(øving, nr , values[0]);
+      //hente inn den oppdaterte øving her // // trenger metode i database.java for å klare det //
+      øving.setEmnekode(values[0]);
+      øving.setGruppeid(1);
+        String hentekode = øving.getEmnekode();
+       System.out.println("EMNEKODE IKKE VÆR NULL!" + hentekode);
+      
         if (utilsBean.registrerØving(øving)) {
             System.out.println("KJEMPESUKSESS-----------------------------------------------------------HURRA FOR SPRING");
-            modell.addAttribute("melding", "Øving " + øving + " er registrert");
+            model.addAttribute("melding", "Øving " + øving + " er registrert");
 
         }
 
-        return "regov2";
+       // return "regov2";
+        return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
 
     }
 
