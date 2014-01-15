@@ -8,12 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import javax.sql.DataSource;
-import spring.ov13.domene.Bruker;
-import spring.ov13.domene.Emne;
-import spring.ov13.domene.Plassering;
-import spring.ov13.domene.Øving;
-import spring.ov13.domene.Innlegg;
-import spring.ov13.domene.Kravgruppe;
+import spring.ov13.domene.*;
 
 public class DatabaseForTesting {
 
@@ -77,10 +72,11 @@ public class DatabaseForTesting {
     private void åpneForbindelse() throws Exception {
         try {
 
-            Class.forName("com.mysql.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver");
             // org.apache.derby.jdbc.
             //  Class.forName("org.apache.derby.jdbc.ClientDriver");
-            forbindelse = DriverManager.getConnection(dbNavn, dbUser, dbPswrd);
+            //forbindelse = DriverManager.getConnection(dbNavn, dbUser, dbPswrd);
+            forbindelse = datasource.getConnection();
             System.out.println("Databaseforbindelse opprettet");
         } catch (SQLException e) {
             Opprydder.skrivMelding(e, "KonstruktÃ¸ren");
@@ -284,8 +280,8 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
-            psInsertFag.setString(2, fag.getEmnenavn());
-            psInsertFag.setString(1, fag.getEmnekode());
+            psInsertFag.setString(1, fag.getEmnenavn());
+            psInsertFag.setString(2, fag.getEmnekode());
 
             int i = psInsertFag.executeUpdate();
             if (i > 0) {
