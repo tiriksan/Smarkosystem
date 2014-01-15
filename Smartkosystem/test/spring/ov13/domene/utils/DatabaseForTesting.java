@@ -70,8 +70,8 @@ public class DatabaseForTesting {
     public DatabaseForTesting() {
     }
 
-    protected Connection getForbindelse() {
-        return forbindelse;
+    protected Connection getForbindelse() throws SQLException {
+        return datasource.getConnection();
     }
 
     private void åpneForbindelse() throws Exception {
