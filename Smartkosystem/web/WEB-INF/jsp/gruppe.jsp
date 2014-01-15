@@ -23,12 +23,16 @@
                             ${bruker.getEtternavn()}
                             <%--${bruker.getOvinger()}--%>
                         </li>
-                    </ul></td><td>
-                        <input type="submit" value="Godkjenn"></td></tr>
-                </c:forEach>
-        <td><input type="submit" value="Utsett gruppen"></td>
+                    </ul></td>
+                <td><input type="submit" value="Godkjenn"></td>
+            </tr>
+        </c:forEach>
+            <form:form method="POST" action="utsett.htm?x=${fag.emnenavn}">
+                <td><input type="submit" value="utsett"></td>
+            </form:form>
+                
             <form:form method="POST" action="godkjennalle.htm?x=${fag.emnenavn}">
-            <td><input type="submit" value="Godkjenn alle"></td>
+            <td><input type="submit" id="gkAlle" value="Godkjenn alle"></td>
             </form:form>
     </table>
 </c:if>
