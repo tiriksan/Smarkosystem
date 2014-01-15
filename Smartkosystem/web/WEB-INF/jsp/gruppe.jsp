@@ -28,8 +28,9 @@
                 <td><input type="submit" class="gkKnapp" value="Godkjenn"></td></tr>
                 </c:forEach>
 
-        <form:form method="POST" action="studentko.htm?x=${fag.emnenavn}">
+        <form:form method="POST" action="godkjennalle.htm?x=${fag.emnenavn}">
             <td><input type="submit" value="Godkjenn alle"></td>
+            
             </form:form>
         <td><input type="submit" value="Utsett gruppen"></td>
     </table>

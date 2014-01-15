@@ -139,6 +139,7 @@ public class KøKontroller {
         modell.addAttribute("brukere", bean.getBrukereIInnlegg(id));
         System.out.println("kake");
         request.getSession().setAttribute("hjelp", true);
+        request.getSession().setAttribute("emne", emne);
         request.getSession().setAttribute("id", id);
         request.getSession().setAttribute("brukere", bean.getBrukereIInnlegg(id));
        // request.setAttribute("hjelp", true);
@@ -152,5 +153,11 @@ public class KøKontroller {
       //      System.out.println("halp!!!");
       //  }
         return "redirect:studentko.htm?x="+emne;
+    }
+    
+    @RequestMapping(value = "godkjennalle.htm")
+    public String something(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne){
+        request.getSession().setAttribute("hjelp", false);
+    return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
     }
 }
