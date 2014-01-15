@@ -236,6 +236,43 @@ public class TestDB {
         assert(registrert);
     }
     
+    @Test
+    public void registrerØving() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Øving o = new Øving(1, "IFUD1020", 1, true);
+        boolean registrert = database.registrerØving(o);
+        assert(registrert);
+        
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT * FROM oving WHERE ovingsnummer=1 AND emnekode='IFUD1020'");
+        
+        int ovingsnummer = -1;
+        String emnekode = null;
+        int gruppeid = -1;
+        boolean obligatorisk = false;
+
+        while (res.next()) {
+            ovingsnummer = res.getInt("ovingsnummer");
+            emnekode = res.getString("emnekode");
+            gruppeid = res.getInt("gruppeid");
+            obligatorisk = res.getBoolean("obligatorisk");
+        }
+        assertEquals(o.getØvingsnr(), ovingsnummer);
+        assertEquals(o.getEmnekode(), emnekode);
+        assertEquals(o.getGruppeid(), gruppeid);
+        assertEquals(o.getObligatorisk(), obligatorisk);
+        
+    }
+    
+    @Test
+    public void oppdaterØving() {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Øving o = new Øving(10, "TDAT3008", 2, false);
+        boolean oppdatert = database.oppdaterØving(o, 9, "TDAT3008");
+        assert(oppdatert);
+    }
+    
     @After
     public void rivNed() {
         db.shutdown();

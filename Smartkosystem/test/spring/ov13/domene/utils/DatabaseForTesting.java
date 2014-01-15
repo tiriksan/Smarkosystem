@@ -34,11 +34,11 @@ public class DatabaseForTesting {
     private final String sqlSelectBrukertypeIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? AND brukertype=? ORDER BY etternavn";
     private final String sqlInsertBrukerIEmne = "INSERT INTO emne_bruker VALUES(?,?,?)";
-    private final String sqlSelectØving = "SELECT * FROM øving WHERE øvingsnummer=? AND emnekode =?";
-    private final String sqlInsertØving = "INSERT INTO øving VALUES(?,?,?,?)";
-    private final String sqlUpdateØving = "UPDATE øving SET øvingsnr =?, emnekode =?, gruppeid=?, obligatorisk=? WHERE øvingsnr =? AND emnekode=?";
-    private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
-    private final String sqlCountØvinger = "SELECT COUNT(øvingsnummer) as telling FROM øving WHERE emnekode =?";
+    private final String sqlSelectØving = "SELECT * FROM oving WHERE ovingsnummer=? AND emnekode =?";
+    private final String sqlInsertØving = "INSERT INTO oving VALUES(?,?,?,?)";
+    private final String sqlUpdateØving = "UPDATE oving SET ovingsnummer =?, emnekode =?, gruppeid=?, obligatorisk=? WHERE ovingsnummer =? AND emnekode=?";
+    private final String sqlSelectØvingerIEmne = "SELECT * FROM oving WHERE emnekode=?";
+    private final String sqlCountØvinger = "SELECT COUNT(ovingsnummer) as telling FROM oving WHERE emnekode =?";
     private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
     private final String sqlgetKravGruppe = "Select * from kravgruppe where emnekode =?";
     private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(DEFAULT, ?, ?)";
