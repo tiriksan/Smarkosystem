@@ -67,7 +67,8 @@ ${feilmelding}
                                         Rom: ${innlegg.getPlass().getRom()}</br>
                                         Ekstra informasjon: ${innlegg.getKommentar()}
                                         <c:if test="${innlegg.hjelp != null}">
-                                            Får hjelp av: ${innlegg.hjelp.fornavn + " " + innlegg.hjelp.etternavn}
+                                            <br>
+                                            <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
                                         </c:if>
                                         <%--<c:if test="${brukerinnlogg.brukertype != 0}">--%>
                                         <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">

@@ -1083,6 +1083,7 @@ public class Database {
              innlegg.setEier(bruker);
              }
              */
+            åpneForbindelse(); //MAY OR MAY NOT BE NEEDED
             for (int i = 0; i < returnen.size(); i++) {
                 dobbel = forbindelse.prepareStatement(sqlSelectAlleBrukereIInnlegg);
                 System.out.println("Henter fra ID: " + returnen.get(i).getId());
