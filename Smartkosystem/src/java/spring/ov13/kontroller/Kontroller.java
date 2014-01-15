@@ -176,7 +176,7 @@ public class Kontroller {
         
         Bruker bruker = new Bruker();
         Emne emne = new Emne();
-        Kravgruppe kravg = new Kravgruppe();
+        
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
         String emnekoden = null;
@@ -194,14 +194,7 @@ public class Kontroller {
        
         
          
-          ArrayList<Kravgruppe> gr = ub.getKravGruppetilEmne(emnekoden);
-          ArrayList<Integer> grid = new ArrayList<Integer>();
-          for (int i = 0; i < gr.size(); i++) {
-            grid.add(gr.get(i).getGruppeID());
-            
-          }
-          
-           model.addAttribute("allegruppeid", grid);
+         
            
            
         
