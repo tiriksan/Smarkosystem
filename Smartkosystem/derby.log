@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Wed Jan 15 09:58:29 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:48 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -13,12 +13,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:30 CET 2014:
-Shutting down instance a816c00e-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:49 CET 2014:
+Shutting down instance a816c00e-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:30 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance f55fc0a6-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:50 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance ce8780ad-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -30,12 +30,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:31 CET 2014:
-Shutting down instance f55fc0a6-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:50 CET 2014:
+Shutting down instance ce8780ad-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:31 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 5938c13e-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:50 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance cda8814c-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -47,12 +47,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:31 CET 2014:
-Shutting down instance 5938c13e-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:51 CET 2014:
+Shutting down instance cda8814c-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:32 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance d3a1c1d6-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:51 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 9579c1eb-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -64,12 +64,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:32 CET 2014:
-Shutting down instance d3a1c1d6-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:51 CET 2014:
+Shutting down instance 9579c1eb-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:33 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 649ac26e-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:52 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 15fb428a-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -81,12 +81,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:33 CET 2014:
-Shutting down instance 649ac26e-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:52 CET 2014:
+Shutting down instance 15fb428a-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:33 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 0c23c306-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:53 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 3f2d0329-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -98,12 +98,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:33 CET 2014:
-Shutting down instance 0c23c306-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:53 CET 2014:
+Shutting down instance 3f2d0329-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:34 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance ca3cc39e-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:53 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 010f03c8-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -115,12 +115,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:34 CET 2014:
-Shutting down instance ca3cc39e-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:53 CET 2014:
+Shutting down instance 010f03c8-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:35 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 9ee5c436-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:54 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 4ba14467-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -132,12 +132,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:35 CET 2014:
-Shutting down instance 9ee5c436-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:54 CET 2014:
+Shutting down instance 4ba14467-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:35 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 8a1ec4ce-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:55 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 0ee3c506-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -149,12 +149,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:35 CET 2014:
-Shutting down instance 8a1ec4ce-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:55 CET 2014:
+Shutting down instance 0ee3c506-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:36 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 8be7c566-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:55 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 3ad685a5-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -166,12 +166,12 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:36 CET 2014:
-Shutting down instance 8be7c566-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:55 CET 2014:
+Shutting down instance 3ad685a5-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 ----------------------------------------------------------------
-Wed Jan 15 09:58:36 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a440c5fe-0143-951f-8de6-000000566a00 
-on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:56 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance bf798644-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
 Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
@@ -183,5 +183,22 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Jan 15 09:58:37 CET 2014:
-Shutting down instance a440c5fe-0143-951f-8de6-000000566a00 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@4e668387 
+Wed Jan 15 11:34:56 CET 2014:
+Shutting down instance bf798644-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
+----------------------------------------------------------------
+Wed Jan 15 11:34:56 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance 8cccc6e3-0143-9577-bc98-000000251730 
+on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
+Loaded from file:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/konfig/derby-10.10.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_21-b12
+user.dir=/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.9
+derby.system.home=null
+derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Jan 15 11:34:56 CET 2014:
+Shutting down instance 8cccc6e3-0143-9577-bc98-000000251730 on database directory memory:/Users/HJ/Javafiler/NetBeans/Smarkosystem/Smartkosystem/testdb with class loader sun.misc.Launcher$AppClassLoader@75787005 
