@@ -17,6 +17,7 @@ import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import static org.junit.runner.Request.method;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,11 +44,13 @@ public class KøKontroller {
     }
 
     @RequestMapping(value = "/studentko.htm")
-    public String visKø(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x", required = false) String emnekode) {
+    public String visKø(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x", required = false) String emnekode, HttpServletRequest request) {
         if (bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")) {
             return "logginn";
         } else {
-
+         //   String emnemabye = (String)request.getSession().getAttribute("emnenavnvalgt");
+         //   System.out.println("EmneMabye:" + emnemabye);
+            System.out.println("Hjelp: "  + request.getSession().getAttribute("hjelp"));
             UtilsBean ub = new UtilsBean();
 
             ArrayList<Emne> fagene = ub.getFageneTilBruker(bruker.getBrukernavn());
@@ -125,16 +128,19 @@ public class KøKontroller {
     }
     
     @RequestMapping(value = "hjelp.htm")
-    public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x")String emne, @RequestParam(value = "id") int id){
+    public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x")String emne, @RequestParam(value = "id") int id, HttpServletRequest request){
         UtilsBean bean = new UtilsBean();
         System.out.println("Emne: " +emne);
+        
         modell.addAttribute("hjelp", true);
         System.out.println("id: " + id);
         
         modell.addAttribute("id", id);
         modell.addAttribute("brukere", bean.getBrukereIInnlegg(id));
         System.out.println("kake");
-        
+        request.getSession().setAttribute("hjelp", true);
+        request.getSession().setAttribute("id", id);
+       // request.setAttribute("hjelp", true);
         //bean.get
         
             //if(hjelp.equals("hjelp")){
@@ -144,6 +150,6 @@ public class KøKontroller {
        // if(value == "hjelp"){
       //      System.out.println("halp!!!");
       //  }
-        return "studentko";
+        return "redirect:studentko.htm?x="+emne;
     }
 }

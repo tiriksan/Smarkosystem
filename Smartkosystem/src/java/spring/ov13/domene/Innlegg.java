@@ -23,11 +23,12 @@ public class Innlegg {
     private Bruker hjelp;
     private int id;
     private Plassering plass;
+    private String kommentar;
+
     
     
     
-    
-    
+     
     public Innlegg(){
         
     }
@@ -79,6 +80,13 @@ public class Innlegg {
     }
     public void setPlass(Plassering plass2){
         this.plass = plass2;
+    }
+    public String getKommentar() {
+        return kommentar;
+    }
+
+    public void setKommentar(String kommentar) {
+        this.kommentar = kommentar;
     }
     
 }
