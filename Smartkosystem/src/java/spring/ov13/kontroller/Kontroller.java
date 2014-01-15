@@ -175,7 +175,7 @@ public class Kontroller {
         Emne emne = new Emne();
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
-        ArrayList<
+       // ArrayList<
        
         ArrayList<String> emnetabell = new ArrayList<String>();
         

@@ -10,7 +10,7 @@ public class Øving {
     private String emnekode;
     private int gruppeid;
     private boolean obligatorisk;
-    private ArrayList <Integer> gruppeider = new ArrayList<Integer>
+    
     
     
     public Øving(int øvingsnr, String emnekode, int gruppeid, boolean obligatorisk){
