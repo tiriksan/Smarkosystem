@@ -297,7 +297,6 @@ public class Database {
             psInsertFag.setString(2, fag.getEmnenavn());
             psInsertFag.setString(1, fag.getEmnekode());
             psInsertFag.setString(3, "");
-            psInsertFag.executeUpdate();
             for (int i = 0; i < fag.getFaglærer().size(); i++) {
                 psInsertLaerer = forbindelse.prepareStatement(sqlInsertFagLaerer);
                 psInsertLaerer.setString(1, fag.getEmnekode());
