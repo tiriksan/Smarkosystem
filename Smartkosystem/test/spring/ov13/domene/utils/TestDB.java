@@ -9,23 +9,24 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.DataSourceFactory;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
-import spring.ov13.kontroller.LoggInnKontroller;
 
 /**
  * @author HJ
  */
 public class TestDB {
     private EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    private EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).addScript("SKS2.sql").addScript("SKS2Data.sql").build();
+    private EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).addDefaultScripts().build();
 
     @Before
     public void settOpp() {
         builder = new EmbeddedDatabaseBuilder();
-        db = builder.setType(EmbeddedDatabaseType.DERBY).addScript("SKS2.sql").build();
+        db = builder.setType(EmbeddedDatabaseType.DERBY).addDefaultScripts().build();
     }
 
     @Test
@@ -199,10 +200,18 @@ public class TestDB {
         assert (!brukerRegistrertIEmne);
     }
     
+    @Test(expected=SQLException.class)
+    public void test_leggTilEksisterendeBrukerPåEksisterendeFag() {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Bruker bruker = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 0, "NoSoup4U");
+        Emne emne = new Emne("TDAT3003", "3D-programmering");
+        boolean duplikat = database.leggTilBrukerIEmne(emne, bruker, bruker.getBrukertype());
+        assert(!duplikat);
+    }
+    
     @Test
     public void loggInn() {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        LoggInnKontroller login = new LoggInnKontroller();
         String md5Passord = "7c3daa31f887c333291d5cf04e541db5";
         Bruker bruker = new Bruker("test@hist.no", "Herman", "Jensen", 0, "few");
         boolean registrert = database.registrerBruker(bruker);

@@ -23,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @SessionAttributes({"brukerinnlogg"})
 @Controller
@@ -48,9 +49,12 @@ public class KøKontroller {
         if (bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")) {
             return "logginn";
         } else {
-         //   String emnemabye = (String)request.getSession().getAttribute("emnenavnvalgt");
-         //   System.out.println("EmneMabye:" + emnemabye);
-            System.out.println("Hjelp: "  + request.getSession().getAttribute("hjelp"));
+            
+            if(request.getAttribute("hjelp") != null){
+                model.addAttribute("hjelp",true);
+            }
+            
+            
             UtilsBean ub = new UtilsBean();
 
             ArrayList<Emne> fagene = ub.getFageneTilBruker(bruker.getBrukernavn());
@@ -128,36 +132,20 @@ public class KøKontroller {
     }
     
     @RequestMapping(value = "hjelp.htm")
-    public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x")String emne, @RequestParam(value = "id") int id, HttpServletRequest request){
-        UtilsBean bean = new UtilsBean();
-        System.out.println("Emne: " +emne);
-        
-        modell.addAttribute("hjelp", true);
-        System.out.println("id: " + id);
-        
-        modell.addAttribute("id", id);
-        modell.addAttribute("brukere", bean.getBrukereIInnlegg(id));
-        System.out.println("kake");
-        request.getSession().setAttribute("hjelp", true);
+    public String handlePost(@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x")String emne, @RequestParam(value = "id") int id, HttpServletRequest request, RedirectAttributes ra){
+        UtilsBean ub = new UtilsBean();
+
+        ra.addFlashAttribute("hjelp", true);
         request.getSession().setAttribute("emne", emne);
         request.getSession().setAttribute("id", id);
-        request.getSession().setAttribute("brukere", bean.getBrukereIInnlegg(id));
-       // request.setAttribute("hjelp", true);
-        //bean.get
-        
-            //if(hjelp.equals("hjelp")){
-           //     System.out.println("JAAAAA");
-           // }
-        
-       // if(value == "hjelp"){
-      //      System.out.println("halp!!!");
-      //  }
+        request.getSession().setAttribute("brukere", ub.getBrukereIInnlegg(id));
+
         return "redirect:studentko.htm?x="+emne;
     }
     
     @RequestMapping(value = "godkjennalle.htm")
     public String something(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne){
         request.getSession().setAttribute("hjelp", false);
-    return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
+        return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
     }
 }
