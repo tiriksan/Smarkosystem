@@ -161,6 +161,7 @@ public class UtilsBean {
         return db.registrerKøInnlegg(id, kønummer, brukernavn, lokasjon, kommentar);
     }
     
+    
 /*    public static void main(String[] args) {
         UtilsBean ub = new UtilsBean();
         Plassering p = new Plassering("Sukkerhuset", 1, 1, 1, "IFUD1043");
