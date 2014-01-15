@@ -228,12 +228,12 @@ public class Kontroller {
        
        
         
-     if (error.hasErrors()) {
+   /*  if (error.hasErrors()) {
              System.out.println("--------------kommerinniERROOOOOOOOOOOOOOOOOOOOOOOOOOOR-----------");
             //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
           //  return "regov2";
             return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
-        }
+        }*/
         UtilsBean utilsBean = new UtilsBean();
       //utilsBean.oppdaterØving(øving, nr , values[0]);
       //hente inn den oppdaterte øving her // // trenger metode i database.java for å klare det //
