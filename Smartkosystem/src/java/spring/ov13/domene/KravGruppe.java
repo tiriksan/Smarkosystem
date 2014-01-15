@@ -15,12 +15,13 @@ import java.util.ArrayList;
 public class KravGruppe {
 
     private int gruppeID;
-    
     private String emnekode;
     private int antallgodkj;
     
       public KravGruppe(int gruppeID, String emnekode, int antallgodkj){
+          this.gruppeID = gruppeID;
         this.emnekode = emnekode;
+        this.antallgodkj = antallgodkj;
     }
       public KravGruppe(){
           
