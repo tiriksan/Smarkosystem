@@ -144,15 +144,17 @@ public class Kontroller {
     }
  //**************************Registerer emner********************************************
     @RequestMapping(value="/innsettemne.htm")
-    public ModelAndView regEmne(@Validated @ModelAttribute(value = "emne") Emne emne, BindingResult error, Model modell, HttpServletRequest request){
+    public ModelAndView regEmne(@Validated @ModelAttribute(value = "emne") Emne emne, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value = "laerer") String [] laerer){
         System.out.println("-------------------- kommer inn i regEmne---------------");
-       
+        String [] values = request.getParameterValues("laerer");
+              System.out.println("Her skal det komme opp noe nå" + values[0]);
+       /*
         if(error.hasErrors()){
             System.out.println("----------------------- kommer inn i hasErrors()------------");
         modell.addAttribute("Noeerfeil", "En feil har oppstått");
             return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
             }
-       
+       */
         UtilsBean utilsBean = new UtilsBean();
         if(utilsBean.registrerEmne(emne)) {
             System.out.println("----------------------kommer inn i registrerEmne() i db-----------------");

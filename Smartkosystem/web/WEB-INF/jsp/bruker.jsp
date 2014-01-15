@@ -77,10 +77,11 @@
                                 <tr><td><label for="lærer">Faglærer: </label></td><td>
                 
 
-                                    <form:select path="faglærer" id="lærer">
-                                        <form:option value="0" label="Velg faglærer" />
-                                        <form:options items="${allelaerere}" />
-                                    </form:select>
+                                     <select name="laerer" id="laerer">
+                                        <c:forEach items="${allelaerere}" var="fagen">
+                                            <option value="${fagen}">${fagen}</option>
+                                        </c:forEach>
+                                    </select>
 
                             <br>
                             <tr><td colspan="2"><input type="submit" value="Registrer fag"></td></tr>
