@@ -14,19 +14,19 @@ import java.util.ArrayList;
  */
 public class KravGruppe {
 
-    private ArrayList<Integer> gruppeID = new ArrayList<Integer>();
+    private int gruppeID;
     
     private String emnekode;
-    private int Antallgodkj;
+    private int antallgodkj;
     
-      public KravGruppe(String emnekode){
+      public KravGruppe(int gruppeID, String emnekode, int antallgodkj){
         this.emnekode = emnekode;
     }
       public KravGruppe(){
           
     }
  
-    public ArrayList<Integer> getGruppeID() {
+    public int getGruppeID() {
         return gruppeID;
     }
 
@@ -35,10 +35,10 @@ public class KravGruppe {
     }
 
     public int getAntallgodkj() {
-        return Antallgodkj;
+        return antallgodkj;
     }
 
-    public void setGruppeID(ArrayList<Integer> gruppeID) {
+    public void setGruppeID(int gruppeID) {
         this.gruppeID = gruppeID;
     }
 
@@ -47,12 +47,12 @@ public class KravGruppe {
     }
 
     public void setAntallgodkj(int Antallgodkj) {
-        this.Antallgodkj = Antallgodkj;
+        this.antallgodkj = Antallgodkj;
     }
 
     @Override
     public String toString() {
-        return "KravGruppe{" + "gruppeID=" + gruppeID + ", emnekode=" + emnekode + ", Antallgodkj=" + Antallgodkj + '}';
+        return "KravGruppe{" + "gruppeID=" + gruppeID + ", emnekode=" + emnekode + ", Antallgodkj=" + antallgodkj + '}';
     }
     
     

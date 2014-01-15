@@ -701,12 +701,29 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    public synchronized KravGruppe getKravGruppertilEmne(String emnekode) {
+    public synchronized ArrayList<KravGruppe> getKravGruppertilEmne(String emnekode) {
       System.out.println("hent kravgrupper");
       PreparedStatement psSelectKravGruppe = null;
+      int gruppeID;
+      
+      
+      ArrayList<KravGruppe> krav = new ArrayList<KravGruppe>();
+       ResultSet res;
         try{
             åpneForbindelse();
             psSelectKravGruppe = forbindelse.prepareStatement(sqlgetKravGruppe);
+            psSelectKravGruppe.setString(1, emnekode);
+            res = psSelectKravGruppe.executeQuery();
+           
+                 while(res.next()){
+                     KravGruppe k = new KravGruppe(res.getInt("gruppeID"),emnekode,res.getInt("antall"));
+                     krav.add(k);
+                
+             
+                 }
+          
+      
+           
             
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -717,7 +734,7 @@ public class Database {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertArbeidskrav);
         }
-        KravGruppe krav = new KravGruppe();
+       
         return krav;
     }
 
