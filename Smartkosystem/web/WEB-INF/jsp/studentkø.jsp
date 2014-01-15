@@ -61,12 +61,14 @@ ${feilmelding}
                         <c:otherwise>
                             <c:set var="hvorlangt" value="0"/>
                             <c:forEach items="${innleggene}" var="innlegg" varStatus="hvorlangt">
-                                <tr><td class="tdko">
+                                <tr <c:if test="${innlegg.hjelp != null}"> class="hjelp"</c:if>><td class="tdko">
                                         Bygning: ${innlegg.getPlass().getBygning()}</br>
                                         Etasje: ${innlegg.getPlass().getEtasje()}</br>
                                         Rom: ${innlegg.getPlass().getRom()}</br>
                                         Ekstra informasjon: ${innlegg.getKommentar()}
-                                        
+                                        <c:if test="${innlegg.hjelp != null}">
+                                            Får hjelp av: ${innlegg.hjelp.fornavn + " " + innlegg.hjelp.etternavn}
+                                        </c:if>
                                         <%--<c:if test="${brukerinnlogg.brukertype != 0}">--%>
                                         <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
                                             <table>

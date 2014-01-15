@@ -287,3 +287,6 @@ table.menutable {
     margin-top: 20px;
     margin-left: 10px;
 }
+tr.hjelp td.tdko {
+    background-color: #00ff00;
+}
