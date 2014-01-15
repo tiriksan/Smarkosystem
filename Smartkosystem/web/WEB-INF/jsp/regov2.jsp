@@ -27,15 +27,7 @@
                                     </select>
                                     
                                     
-                                    
-                                    <tr><td><label for="gruppeid"> Gruppeid: </label></td><td>
-                
-
-                                    <select name="GruppeId">
-                                        <c:forEach items="${allegruppeid}" var="gruppeid">
-                                            <option value="${gruppeid}">${gruppeid}</option>
-                                        </c:forEach>
-                                    </select>
+                                   
         
         <tr>
                     <td>Obligatorisk:</td>
