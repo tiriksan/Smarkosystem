@@ -111,22 +111,25 @@ public class TestDB {
     @Test
     public void test_registrerEmne() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Emne emne = new Emne("TDAT2001", "Testing & Ballefranserier", "Alle baller må være godkjent");
+        Emne emne = new Emne("IFUD2001", "Testing & Ballefranserier", "Alle baller må være godkjent");
         boolean erFagRegistrert = database.registrerEmne(emne);
         assert (erFagRegistrert);
         
         Connection con = database.getForbindelse();
         Statement stmt = con.createStatement();
-        ResultSet res = stmt.executeQuery("SELECT * FROM emne WHERE emnekode='TDAT2001'");
+        ResultSet res = stmt.executeQuery("SELECT * FROM emne WHERE emnekode='IFUD2001'");
         String emnekode = null;
         String emnenavn = null;
+        String øvingsbeskrivelse = null;
 
         while (res.next()) {
             emnekode = res.getString("emnekode");
             emnenavn = res.getString("emnenavn");
+            øvingsbeskrivelse = res.getString("ovingsbeskrivelse");
         }
         assertEquals(emne.getEmnekode(), emnekode);
         assertEquals(emne.getEmnenavn(), emnenavn);
+        assertEquals(emne.getØvingsbeskrivelse(), øvingsbeskrivelse);
     }
     
     @Test
@@ -212,12 +215,17 @@ public class TestDB {
     }
     
     @Test
-    public void loggInn() {
+    public void loggInn() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        String md5Passord = "7c3daa31f887c333291d5cf04e541db5";
-        Bruker bruker = new Bruker("test@hist.no", "Herman", "Jensen", 0, "");
-        boolean registrert = database.registrerBruker(bruker);
-        assert(registrert && bruker.getPassord().equals(md5Passord));
+        String passord = "";
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT passord FROM bruker WHERE brukernavn='anasky@hist.no'");
+        while (res.next()) {
+        passord = res.getString("passord");
+        }
+        String md5Passord = "46251479872872459f5e4ce64a7d883d";
+        assert(passord.equals(md5Passord));
     }
     
     @Test

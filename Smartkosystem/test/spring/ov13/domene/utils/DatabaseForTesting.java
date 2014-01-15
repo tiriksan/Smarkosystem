@@ -27,7 +27,7 @@ public class DatabaseForTesting {
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
-    private final String sqlInsertFag = "INSERT into EMNE VALUES(?,?,?)";
+    private final String sqlInsertFag = "INSERT INTO emne VALUES(?,?,?)";
     private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, emnekode=? WHERE emnekode=?";
     private final String sqlSelectBrukereIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? ORDER BY etternavn";
@@ -220,11 +220,11 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psUpdateBruker = forbindelse.prepareStatement(sqlUpdateBruker);
-            psUpdateBruker.setString(1, bruker.getBrukernavn());
-            psUpdateBruker.setString(2, bruker.getFornavn());
-            psUpdateBruker.setString(3, bruker.getEtternavn());
+            psUpdateBruker.setString(1, bruker.getFornavn());
+            psUpdateBruker.setString(2, bruker.getEtternavn());
+            psUpdateBruker.setInt(3, bruker.getBrukertype());
             psUpdateBruker.setString(4, bruker.getPassord());
-            psUpdateBruker.setInt(5, bruker.getBrukertype());
+            psUpdateBruker.setString(5, bruker.getBrukernavn());
             int i = psUpdateBruker.executeUpdate();
             if (i > 0) {
                 ok = true;
@@ -284,7 +284,6 @@ public class DatabaseForTesting {
             psInsertFag.setString(1, fag.getEmnekode());
             psInsertFag.setString(2, fag.getEmnenavn());
             psInsertFag.setString(3, fag.getØvingsbeskrivelse());
-            psInsertFag.executeUpdate();
 
             int i = psInsertFag.executeUpdate();
             if (i > 0) {
