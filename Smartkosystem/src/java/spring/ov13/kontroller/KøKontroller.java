@@ -125,8 +125,9 @@ public class KøKontroller {
     }
     
     @RequestMapping(value = "hjelp.htm")
-    public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "id") int id){
+    public String handlePost(Model modell,@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x")String emne, @RequestParam(value = "id") int id){
         UtilsBean bean = new UtilsBean();
+        System.out.println("Emne: " +emne);
         modell.addAttribute("hjelp", true);
         System.out.println("id: " + id);
         
