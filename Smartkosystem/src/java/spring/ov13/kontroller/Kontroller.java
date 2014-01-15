@@ -88,6 +88,7 @@ public class Kontroller {
     @RequestMapping(value = "/registrerBrukereFraFil.htm", method = RequestMethod.POST)
     public String regBrukereFraFil(Model model,@RequestParam(value = "filInnhold", required = true)String tekst, @ModelAttribute(value = "filOpplasting") FilOpplasting filOpp, BindingResult error) {
         
+        filOpp.setFilInnhold(tekst);
         UtilsBean ub = new UtilsBean();
         boolean emneSjekkOk = true;
         ArrayList<Emne> emnerListe = new ArrayList<Emne>();
@@ -102,7 +103,7 @@ public class Kontroller {
                 emnerListe.add(ub.getEmne(emnekoder[i]));
             }
             if (emnerListe != null) {
-                FilLeser fl = new FilLeser(emnerListe);
+                FilLeser fl = new FilLeser(emnerListe, filOpp.getFilInnhold());
                 try {
                     fl.lesFil();
                 } catch (Exception ex) {

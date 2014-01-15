@@ -27,9 +27,11 @@ public class FilLeser {
     private ArrayList<Bruker> brukere = new ArrayList<Bruker>();
     private ArrayList<Emne> emner = null;
     private UtilsBean ub = new UtilsBean();
+    private String filInnhold;
 
-    public FilLeser(ArrayList<Emne> emner) {
+    public FilLeser(ArrayList<Emne> emner, String filInnhold) {
         this.emner = emner;
+        this.filInnhold = filInnhold;
     }
 
     /**
@@ -52,28 +54,7 @@ public class FilLeser {
          * *****************************************************
          */
         while (!riktigValg && !feil) {
-            try {
-                /**
-                 * ****************************************************************
-                 * Sjekker hvilket operativsystem som kjøres og velger hvilken
-                 * stil* som skal brukes når man skal velge fil. *
-                 * *****************************************************************
-                 */
-                if (System.getProperty("os.name").startsWith("Windows")) {
-                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-                }
-
-            } catch (ClassNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (InstantiationException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IllegalAccessException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-            try {
+             try {
                 /**
                  * ******************************************************************************
                  * Oppretter en filvelger, setter innstilliger og lar brukeren
