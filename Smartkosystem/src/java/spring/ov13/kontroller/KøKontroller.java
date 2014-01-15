@@ -157,4 +157,11 @@ public class KøKontroller {
         ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
     }
+    
+    @RequestMapping(value = "utsett.htm")
+    public String utsett(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne){
+        request.getSession().setAttribute("hjelp", false);
+        return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
+    }
+    
 }
