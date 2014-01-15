@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 import spring.ov13.domene.Innlegg;
-import spring.ov13.domene.KravGruppe;
+import spring.ov13.domene.Kravgruppe;
 import spring.ov13.domene.Plassering;
 import spring.ov13.domene.Øving;
 
@@ -54,7 +54,7 @@ public class UtilsBean {
         return db.endrePassord(bruker);
     }
     
-    public ArrayList<KravGruppe> getKravGruppetilEmne(String emnekode){
+    public ArrayList<Kravgruppe> getKravGruppetilEmne(String emnekode){
        return db.getKravGruppertilEmne(emnekode);
         
        

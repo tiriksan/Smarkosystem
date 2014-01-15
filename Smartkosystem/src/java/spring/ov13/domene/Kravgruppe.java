@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package spring.ov13.domene;
 
 import java.util.ArrayList;
@@ -12,21 +11,27 @@ import java.util.ArrayList;
  *
  * @author Bjornars
  */
-public class KravGruppe {
+public class Kravgruppe {
 
     private int gruppeID;
     private String emnekode;
     private int antallgodkj;
-    
-      public KravGruppe(int gruppeID, String emnekode, int antallgodkj){
-          this.gruppeID = gruppeID;
+
+    public Kravgruppe(int gruppeID, String emnekode, int antallgodkj) {
+        this.gruppeID = gruppeID;
         this.emnekode = emnekode;
         this.antallgodkj = antallgodkj;
     }
-      public KravGruppe(){
-          
+    
+    public Kravgruppe(String emnekode, int antallgodkj) {
+        this.emnekode = emnekode;
+        this.antallgodkj = antallgodkj;
     }
- 
+
+    public Kravgruppe() {
+
+    }
+
     public int getGruppeID() {
         return gruppeID;
     }
@@ -55,7 +60,5 @@ public class KravGruppe {
     public String toString() {
         return "KravGruppe{" + "gruppeID=" + gruppeID + ", emnekode=" + emnekode + ", Antallgodkj=" + antallgodkj + '}';
     }
-    
-    
-    
+
 }

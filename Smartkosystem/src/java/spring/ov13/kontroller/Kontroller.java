@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import spring.FilLeser.FilLeser;
-import spring.ov13.domene.KravGruppe;
+import spring.ov13.domene.Kravgruppe;
 import spring.ov13.domene.utils.SendEpost;
 import spring.ov13.domene.Øving;
 
@@ -176,7 +176,7 @@ public class Kontroller {
         
         Bruker bruker = new Bruker();
         Emne emne = new Emne();
-        KravGruppe kravg = new KravGruppe();
+        Kravgruppe kravg = new Kravgruppe();
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
         String emnekoden = null;
@@ -194,7 +194,7 @@ public class Kontroller {
        
         
          
-          ArrayList<KravGruppe> gr = ub.getKravGruppetilEmne(emnekoden);
+          ArrayList<Kravgruppe> gr = ub.getKravGruppetilEmne(emnekoden);
           ArrayList<Integer> grid = new ArrayList<Integer>();
           for (int i = 0; i < gr.size(); i++) {
             grid.add(gr.get(i).getGruppeID());
