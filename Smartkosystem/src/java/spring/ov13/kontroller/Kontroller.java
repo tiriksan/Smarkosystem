@@ -102,7 +102,7 @@ public class Kontroller {
             for (int i = 0; i < emnekoder.length; i++) {
                 emnerListe.add(ub.getEmne(emnekoder[i]));
             }
-            if (emnerListe != null) {
+            if (!emnerListe.isEmpty()) {
                 FilLeser fl = new FilLeser(emnerListe, filOpp.getFilInnhold());
                 try {
                     fl.lesFil();
@@ -110,7 +110,7 @@ public class Kontroller {
                     model.addAttribute("feilmelding", ex.getMessage());
                 }
             } else {
-                if (emnerListe.size() == 0) {
+                if (emnerListe.isEmpty()) {
                     model.addAttribute("feilmelding", "Feilmelding: Du har ikke fyllt inn emnekode(r).");
                 } else {
                     model.addAttribute("feilmelding", "Feil ved registrering inntruffet, emnet/noen av emenene du oppgav eksisterer ikke, vennligst kontroller opplysningene");

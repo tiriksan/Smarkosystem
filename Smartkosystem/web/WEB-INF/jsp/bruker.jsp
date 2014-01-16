@@ -70,13 +70,13 @@
                                                 return function(e) {
                                                     var contents = e.target.result;
                                                     document.getElementById('filInnhold').value= contents;
-                                                    alert(contents);
+                                                    
                                                 };
                                             })(f);
                                             r.readAsText(f,"ISO-8859-1");
                                         }
                                     } else {
-                                        alert("Failed to load files");
+                                        alert("Feil ved lesning av filen.");
                                     }
                                 }
                                 document.getElementById('fileinput').addEventListener('change', readMultipleFiles, false);
