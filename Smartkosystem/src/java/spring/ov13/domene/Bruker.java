@@ -38,9 +38,9 @@ public class Bruker {
     private String passord;
     private ArrayList<Emne> fagene;
     private static final int STUDENT = 1;
-    private static final int FAGLÆRER = 2;
-    private static final int ADMIN = 3;
-    private static final int STUDASS = 4;
+    private static final int STUDASS = 2;
+    private static final int FAGLÆRER = 3;
+    private static final int ADMIN = 4;
 
     public Bruker(String brukernavn, String fornavn, String etternavn, int brukertype, String passord) {
         this.brukernavn = brukernavn;
