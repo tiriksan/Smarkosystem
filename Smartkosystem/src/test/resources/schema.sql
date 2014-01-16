@@ -1,15 +1,3 @@
-DROP TABLE øvinger_i_innlegg;
-DROP TABLE brukere_i_innlegg;
-DROP TABLE lokasjon;
-DROP TABLE køinnlegg;
-DROP TABLE kø;
-DROP TABLE emne_bruker;
-DROP TABLE bruker;
-DROP TABLE øving;
-DROP TABLE kravgruppe;
-DROP TABLE emne;
-
-
 CREATE TABLE emne(
 emnekode VARCHAR(8) PRIMARY KEY NOT NULL,
 emnenavn VARCHAR(64) NOT NULL,
@@ -111,16 +99,3 @@ CONSTRAINT øvinger_i_innlegg_fk2 FOREIGN KEY(øvingsnummer, emnekode) REFERENCE
 CONSTRAINT øvinger_i_innlegg_pk1 PRIMARY KEY(brukernavn, øvingsnummer, emnekode),
 INDEX(brukernavn, øvingsnummer, emnekode)
 ) ENGINE=innoDB;
-
-ALTER TABLE 'øvinger_i_innlegg' ENGINE = InnoDB;
-ALTER TABLE 'brukere_i_innlegg' ENGINE = InnoDB;
-ALTER TABLE 'lokasjon' ENGINE = InnoDB;
-ALTER TABLE 'køinnlegg' ENGINE = InnoDB;
-ALTER TABLE 'kø' ENGINE = InnoDB;
-ALTER TABLE 'emne_bruker' ENGINE = InnoDB;
-ALTER TABLE 'bruker' ENGINE = InnoDB;
-ALTER TABLE 'kravgruppe' ENGINE = InnoDB;
-ALTER TABLE 'øving' ENGINE = InnoDB;
-ALTER TABLE 'emne' ENGINE = InnoDB;
-ALTER TABLE bruker ALTER COLUMN hovedbrukertype SET DEFAULT 1;
-ALTER TABLE emne_bruker ALTER COLUMN brukertype SET DEFAULT 1;

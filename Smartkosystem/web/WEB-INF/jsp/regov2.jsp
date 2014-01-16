@@ -17,17 +17,21 @@
         
 
                                     
-                            <tr><td><label for="emnekode"> Emnekode: </label></td><td>
+                            <tr><td><label for="emnekode"> Emne: </label></td><td>
                 
 
-                                    <select name="emner">
-                                        <option value="0" label="Velg fag" />
-                                        <options items="${allefagene}" />
+                                    <select name="Emner">
+                                        <c:forEach items="${allefagene}" var="fagen">
+                                            <option value="${fagen}">${fagen}</option>
+                                        </c:forEach>
                                     </select>
+                                    
+                                    
+                                   
         
         <tr>
                     <td>Obligatorisk:</td>
-                    <td><checkbox name="obligatorisk" value="true" /></br>
+                    <td><input for="obligatorisk" type=checkbox name="obliga" /></br>
                     <td><errors path="obligatorisk" /></td>
                     
                 </tr>

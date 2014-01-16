@@ -8,28 +8,31 @@ import java.util.ArrayList;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-
 /**
  *
  * @author Undis
  */
 public class Emne {
-  @NotNull
+
+    @NotNull
     private String emnenavn;
-  @Pattern(regexp = "\\b[A-z]{4}[0-9]{4}")
-  @NotNull
+    @Pattern(regexp = "\\b[A-z]{4}[0-9]{4}")
+    @NotNull
     private String emnekode;
+    private String øvingsbeskrivelse;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
     ArrayList<Øving> øvinger = new ArrayList<Øving>();
 
-    public Emne(String emnekode, String emnenavn){
+    public Emne(String emnekode, String emnenavn, String øvingsbeskrivelse) {
         this.emnenavn = emnenavn;
         this.emnekode = emnekode;
+        this.øvingsbeskrivelse = øvingsbeskrivelse;
     }
-    public Emne(){
-        
+
+    public Emne() {
+
     }
-    
+
     public String getEmnenavn() {
         return emnenavn;
     }
@@ -46,15 +49,22 @@ public class Emne {
         this.emnekode = emnekode;
     }
     
-    public ArrayList<Bruker> getFaglærer(){
-                    
-       return faglærer;
-      
-   }
-    public void setFaglærer(ArrayList<Bruker> nye){
+    public String getØvingsbeskrivelse() {
+        return øvingsbeskrivelse;
+    }
+
+    public void setØvingsbeskrivelse(String øvingsbeskrivelse) {
+        this.øvingsbeskrivelse = øvingsbeskrivelse;
+    }
+
+    public ArrayList<Bruker> getFaglærer() {
+
+        return faglærer;
+
+    }
+
+    public void setFaglærer(ArrayList<Bruker> nye) {
         this.faglærer = nye;
     }
-    
 
-    
 }

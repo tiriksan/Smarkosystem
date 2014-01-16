@@ -1,20 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package spring.ov13.domene;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  *
  * @author Bruker
  */
 public class Plassering {
+
+    public Plassering(String bygning, int etasje, int rom, int bord, String emnekode) {
+        this.bygning = bygning;
+        this.etasje = etasje;
+        this.rom = rom;
+        this.bord = bord;
+        this.emnekode = emnekode;
+    }
+    
+    public Plassering() {
+        
+    }
+
     private String bygning;
     private int etasje;
     private int rom;
-    private String kommentar;
+    private int bord;
+    @Pattern(regexp = "\\b[A-z]{4}[0-9]{4}")
+    @NotNull
+    private String emnekode;
 
     public String getBygning() {
         return bygning;
@@ -26,10 +39,6 @@ public class Plassering {
 
     public int getRom() {
         return rom;
-    }
-    
-     public String getKommentar() {
-        return kommentar;
     }
 
     public void setBygning(String bygning) {
@@ -43,16 +52,26 @@ public class Plassering {
     public void setRom(int rom) {
         this.rom = rom;
     }
-    
-     public void setKommentar(String kommentar) {
-        this.kommentar= kommentar;
+
+    public int getBord() {
+        return bord;
+    }
+
+    public void setBord(int bord) {
+        this.bord = bord;
+    }
+
+    public String getEmnekode() {
+        return emnekode;
+    }
+
+    public void setEmnekode(String emnekode) {
+        this.emnekode = emnekode;
     }
 
     @Override
     public String toString() {
         return "Plassering{" + "bygning=" + bygning + ", etasje=" + etasje + ", rom=" + rom + '}';
     }
-    
-    
-    
+
 }

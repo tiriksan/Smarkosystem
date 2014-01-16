@@ -61,24 +61,24 @@ ${feilmelding}
                         <c:otherwise>
                             <c:set var="hvorlangt" value="0"/>
                             <c:forEach items="${innleggene}" var="innlegg" varStatus="hvorlangt">
-
-                                
-                                
-                                <tr><td class="tdko">
+                                <tr <c:if test="${innlegg.hjelp != null}"> class="hjelp"</c:if>><td class="tdko">
                                         Bygning: ${innlegg.getPlass().getBygning()}</br>
                                         Etasje: ${innlegg.getPlass().getEtasje()}</br>
                                         Rom: ${innlegg.getPlass().getRom()}</br>
-                                        Ekstra informasjon: ${innlegg.getPlass().getKommentar()}
-                                        
+                                        Ekstra informasjon: ${innlegg.getKommentar()}
+                                        <c:if test="${innlegg.hjelp != null}">
+                                            <br>
+                                            <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
+                                        </c:if>
                                         <%--<c:if test="${brukerinnlogg.brukertype != 0}">--%>
-                                        <form:form action="hjelp.htm?id=${innlegg.getId()}" method="post">
-                                            <input type="submit" id="hjelp" value="hjelp">
-                                       </form:form>
-                                        
-                                        
-                                        
-                                        
+                                        <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
+                                            <table>
+                                                <tr>
+                                                    <td><input type="submit" id="hjelp" value="hjelp"></td>
+                                                </tr>
+                                            </table>
 
+                                       </form:form>
                                     </td><td class="tdko">
                                         <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
                                             - <c:out value="${hverbruker.getFornavn()}"/> <c:out value="${hverbruker.getEtternavn()}"/></br>
@@ -99,16 +99,6 @@ ${feilmelding}
             </c:otherwise>
 
         </c:choose>
-
-
-
-
-
-
-
-
-
-
     </c:when>        
 
 

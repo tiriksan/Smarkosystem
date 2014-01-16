@@ -52,15 +52,38 @@
             <c:choose>
 
                 <c:when test="${valget eq '2'}">
-                    <form:form action="registrerBrukereFraFil.htm" method="post" modelAttribute="emner">
+                    <form:form action="registrerBrukereFraFil.htm" method="post" modelAttribute="filOpplasting">
 
                         <table>
                             <p>Skriv inn emnekode og emnenavn du ønsker å registrere brukere i:</p>
-                            <tr><td>Emnekoder(adskill med komma(,):  </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-                            <p>Velg så en fil med ny brukere(Du får opp et popup-vindu du kan velge fil fra):</p>
+                            <tr><td>Emnekoder(adskill med komma(,): </td><td><form:input path="emner" /></td><td><form:errors path="emner" /></tr>
+                            
+                            <input type="file" id="fileinput" />
+                            <script>
+                                function readMultipleFiles(evt) {
+                                    //Retrieve all the files from the FileList object
+                                    var files = evt.target.files;
+                                    if (files) {
+                                        for (var i = 0, f; f = files[i]; i++) {
+                                            var r = new FileReader();
+                                            r.onload = (function(f) {
+                                                return function(e) {
+                                                    var contents = e.target.result;
+                                                    document.getElementById('filInnhold').value= contents;
+                                                    alert(contents);
+                                                };
+                                            })(f);
+                                            r.readAsText(f,"ISO-8859-1");
+                                        }
+                                    } else {
+                                        alert("Failed to load files");
+                                    }
+                                }
+                                document.getElementById('fileinput').addEventListener('change', readMultipleFiles, false);
+                            </script>
                             <tr><td colspan="2"><input type="submit" value="Registrer brukere"></td></tr>
                             <tr><td>${feilmelding}</td></tr>
-                            
+                            <input hidden="true" id="filInnhold" name="filInnhold"/>
                         </table>
                     </form:form>
 
@@ -69,20 +92,21 @@
                 <c:when test="${valget eq '3'}">
                     <c:if test="${not empty Noeerfeil}">
                         <c:out value="${Noeerfeil}"/>
-                        </c:if>
+                    </c:if>
                     <form:form action="innsettemne.htm" method="post" modelAttribute="emne" >
                         <table>
                             <tr><td>Fagnavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
                             <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-                                <tr><td><label for="lærer">Faglærer: </label></td><td>
-                
+                            <tr><td><label for="lærer">Faglærer: </label></td><td>
 
-                                    <form:select path="faglærer" id="lærer">
-                                        <form:option value="0" label="Velg faglærer" />
-                                        <form:options items="${allelaerere}" />
-                                    </form:select>
 
-                            <br>
+                                    <select name="laerer" id="laerer">
+                                        <c:forEach items="${allelaerere}" var="fagen">
+                                            <option value="${fagen}">${fagen}</option>
+                                        </c:forEach>
+                                    </select>
+
+                                    <br>
                             <tr><td colspan="2"><input type="submit" value="Registrer fag"></td></tr>
                         </table>
                     </form:form>
@@ -113,17 +137,17 @@
                                     </form:select>
                                 </td></tr>
 
-                                    
+
                             <tr><td><label for="fag">Fag: </label></td><td>
-                
-
-                                    <form:select path="fagene">
-                                        <form:option value="0" label="Velg fag" />
-                                        <form:options items="${allefagene}" />
-                                    </form:select>
 
 
-                                 
+                                    <select name="fagene" id="fagene">
+                                        <c:forEach items="${allefagene}" var="fagen">
+                                            <option value="${fagen}">${fagen}</option>
+                                        </c:forEach>
+                                    </select>
+
+
 
                                     <br>
                             <tr><td colspan="2"><input type="submit" value="Registrer bruker"></td></tr>
