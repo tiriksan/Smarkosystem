@@ -123,7 +123,7 @@ public class Database {
             
            
             
-            int i = psInsertBruker.executeUpdate();
+            int i = psInsertBrukerifag.executeUpdate();
             if (i > 0) {
                 ok = true;
             }

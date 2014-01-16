@@ -37,10 +37,10 @@ public class Bruker {
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,13}$")
     private String passord;
     private ArrayList<Emne> fagene;
-    private static int STUDENT = 1;
-    private static int STUDENTASSISTENT = 2;
-    private static int FAGLÆRER = 3;
-    private static int ADMIN = 4;
+    private static final int STUDENT = 1;
+    private static final int FAGLÆRER = 2;
+    private static final int ADMIN = 3;
+    private static final int STUDASS = 4;
 
     public Bruker(String brukernavn, String fornavn, String etternavn, int brukertype, String passord) {
         this.brukernavn = brukernavn;
