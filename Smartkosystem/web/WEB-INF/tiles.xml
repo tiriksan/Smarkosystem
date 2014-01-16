@@ -57,5 +57,21 @@
         <put-attribute name="title"  value="reg oving"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/regov2.jsp"/>      
     </definition>
+    
+    <definition name="henttekst" extends="baseLayout">
+
+<put-attribute name="title" value="Hent teksten!"/>
+
+<put-attribute name="body" value="/WEB-INF/jsp/test.jsp"/>
+
+</definition>
+
+<definition name="settiko" extends="baseLayout">
+
+<put-attribute name="title" value="Hent teksten!"/>
+
+<put-attribute name="body" value="/WEB-INF/jsp/settiko.jsp"/>
+
+</definition>
 
 </tiles-definitions>

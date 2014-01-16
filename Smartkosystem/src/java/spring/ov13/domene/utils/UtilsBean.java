@@ -177,6 +177,21 @@ public class UtilsBean {
     }
     
     
+    
+    public String[] getUnikeBygg(String emnekode){
+    return db.getUnikeBygg(emnekode);
+} 
+public String[] getUnikeEtasjer(String emnekode, String bygg){
+    return db.getUnikeEtasjer(emnekode, bygg);
+}
+public String[] getUnikeRom(String emnekode, String bygg, String etasje){
+    return db.getUnikeRom(emnekode, bygg, etasje);
+}
+    public String[] getUnikeBord(String emnekode, String bygg, String etasje, String bord){
+        return db.getUnikeBord(emnekode, bygg, etasje, bord);
+    }
+    
+    
 /*    public static void main(String[] args) {
         UtilsBean ub = new UtilsBean();
         Plassering p = new Plassering("Sukkerhuset", 1, 1, 1, "IFUD1043");

@@ -56,6 +56,11 @@ public class Database {
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
     private final String sqlSelectpaabrukertype= "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
     private final String sqlUpdateKøinnleggHjelpBruker = "UPDATE køinnlegg SET hjelp=? WHERE innleggsid=?";
+    private final String sqlSelectDistinctBygg = "SELECT DISTINCT bygg FROM lokasjon WHERE emnekode = ?";
+    private final String sqlSelectDistinctEtasje = "SELECT DISTINCT etasje FROM lokasjon WHERE emnekode = ? AND bygg = ?";
+    private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
+    private final String sqlSelectDistinctBord = "SELECT DISTINCT bord FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ? AND rom = ?";
+    
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -1153,4 +1158,199 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public String[] getUnikeBygg(String emnekode) {
+        System.out.println("updateFagKoAktiv()");
+        PreparedStatement psUpdateFagKoAktiv = null;
+ ArrayList<String> mid = new ArrayList<String>();
+ ResultSet res;
+        
+        try {
+            åpneForbindelse();
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectDistinctBygg);
+
+            psUpdateFagKoAktiv.setString(1, emnekode);
+            
+
+            res = psUpdateFagKoAktiv.executeQuery();
+while(res.next()){
+    mid.add(res.getString("bygg"));
+}
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getFagKoAktiv()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getFagKoAktiv - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFagKoAktiv);
+        }
+        lukkForbindelse();
+        String[] returnen = new String[mid.size()];
+        if(mid.size() > 0){
+        for(int i = 0; i < mid.size(); i++){
+            returnen[i] = mid.get(i);
+        }
+        }
+        return returnen;
+    }
+    
+    
+    
+    
+    
+    
+    public String[] getUnikeEtasjer(String emnekode, String bygg) {
+        System.out.println("updateFagKoAktiv()");
+        PreparedStatement psUpdateFagKoAktiv = null;
+ ArrayList<String> mid = new ArrayList<String>();
+ ResultSet res;
+        
+        try {
+            åpneForbindelse();
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectDistinctEtasje);
+
+            psUpdateFagKoAktiv.setString(1, emnekode);
+            psUpdateFagKoAktiv.setString(2, bygg);
+            
+
+            res = psUpdateFagKoAktiv.executeQuery();
+while(res.next()){
+    mid.add(res.getString("etasje"));
+}
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getFagKoAktiv()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getFagKoAktiv - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFagKoAktiv);
+        }
+        lukkForbindelse();
+        String[] returnen = new String[mid.size()];
+        if(mid.size() > 0){
+        for(int i = 0; i < mid.size(); i++){
+            returnen[i] = mid.get(i);
+        }
+        }
+        return returnen;
+    }
+    
+    
+    
+    
+    
+    
+    
+    public String[] getUnikeRom(String emnekode, String bygg, String etasje) {
+        System.out.println("updateFagKoAktiv()");
+        PreparedStatement psUpdateFagKoAktiv = null;
+ ArrayList<String> mid = new ArrayList<String>();
+ ResultSet res;
+        
+        try {
+            åpneForbindelse();
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectDistinctRom);
+int etasje2 = Integer.parseInt(etasje);
+            psUpdateFagKoAktiv.setString(1, emnekode);
+            psUpdateFagKoAktiv.setString(2, bygg);
+            psUpdateFagKoAktiv.setInt(3, etasje2);
+            
+
+            res = psUpdateFagKoAktiv.executeQuery();
+while(res.next()){
+    mid.add(res.getString("rom"));
+}
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getFagKoAktiv()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getFagKoAktiv - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFagKoAktiv);
+        }
+        lukkForbindelse();
+        String[] returnen = new String[mid.size()];
+        if(mid.size() > 0){
+        for(int i = 0; i < mid.size(); i++){
+            returnen[i] = mid.get(i);
+        }
+        }
+        return returnen;
+    }
+    
+    
+    
+    
+    
+    
+    public String[] getUnikeBord(String emnekode, String bygg, String etasje, String rom) {
+        System.out.println("updateFagKoAktiv()");
+        PreparedStatement psUpdateFagKoAktiv = null;
+ ArrayList<String> mid = new ArrayList<String>();
+ ResultSet res;
+        
+        try {
+            åpneForbindelse();
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectDistinctBord);
+int etasje2 = Integer.parseInt(etasje);
+            psUpdateFagKoAktiv.setString(1, emnekode);
+            psUpdateFagKoAktiv.setString(2, bygg);
+            psUpdateFagKoAktiv.setInt(3, etasje2);
+            psUpdateFagKoAktiv.setString(4, rom);
+            
+
+            res = psUpdateFagKoAktiv.executeQuery();
+while(res.next()){
+    mid.add(res.getString("bord"));
+}
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getFagKoAktiv()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getFagKoAktiv - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFagKoAktiv);
+        }
+        lukkForbindelse();
+        String[] returnen = new String[mid.size()];
+        if(mid.size() > 0){
+        for(int i = 0; i < mid.size(); i++){
+            returnen[i] = mid.get(i);
+        }
+        }
+        return returnen;
+    }
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
 }
