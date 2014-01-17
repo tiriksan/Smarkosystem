@@ -58,7 +58,6 @@ public class UtilsBean {
     public ArrayList<Kravgruppe> getKravGruppetilEmne(String emnekode){
        return db.getKravGruppertilEmne(emnekode);
         
-       
     }
 
     public Bruker get(String brukernavn) {
@@ -69,7 +68,13 @@ public class UtilsBean {
         }
         return null;
     }
-    /*
+    
+    public ArrayList<Bruker> getBrukerePåBokstav(String sokeboksnavn){
+        return db.getBrukerepaabokstav(sokeboksnavn);
+    }
+    
+            
+            /*
      public boolean registrerBruker(Bruker vare){
      return db.registrerBruker(vare);
      }

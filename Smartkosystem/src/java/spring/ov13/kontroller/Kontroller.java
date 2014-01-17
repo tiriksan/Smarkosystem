@@ -168,7 +168,7 @@ public class Kontroller {
         }
         return new ModelAndView("redirect:/bruker.htm?x=3", "modell", modell);
     }
-/*
+
     //****************** Viser siden for Endre Bruker, som har en søkeboks *************************** 
     @RequestMapping(value = "/endreBruker.htm")
     public String visSøkeboks(Model model) {
@@ -177,18 +177,26 @@ public class Kontroller {
 
     }
 
-    //************* sjekker inputten på endre bruker søkemotor *************
-    @RequestMapping(value = "/endreBruker.htm")
-    public String Søkeboks(Model model) {
+  //************* sjekker inputten på endre bruker søkemotor *************
+    @RequestMapping(value = "endrebruker2")
+    public String Søkeboks(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String endrebruker) {
 
+        String navnet = null;
+       // String values = request.getParameterValue("zoom_query");
+        System.out.println(endrebruker);
         UtilsBean ub = new UtilsBean();
-        ArrayList<Bruker> bruk = ub.getAlleBrukere();
+        ArrayList<Bruker> bruk = ub.getBrukerePåBokstav(endrebruker);
+        for (int i = 0; i < bruk.size(); i++) {
+               //brukertabell.add(faget.get(i).getFornavn() + " " + faget.get(i).getEtternavn());
+           System.out.println("Du søkte på følgende navn " + bruk.get(i).getFornavn());
+                }
+        
         // model.addAttribute("navn", fornavn);
 
         return "endreBruker";
 
     }
-*/
+
     //******************* viser registreringen av en ny øving*****************************************************
     @RequestMapping(value = "regov2")
     public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
