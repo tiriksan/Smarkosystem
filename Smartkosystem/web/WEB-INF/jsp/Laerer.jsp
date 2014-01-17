@@ -12,6 +12,27 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+         
+        <form:form action="adminlaerer" method="post" modelAttribute="emne" >
+    <table>
+        <tr><td>ØvingsNr: </td><td><form:input path="øvingsnr" /></td><td><form:errors path="øvingsnr" /></td></tr>
+        
+
+                                    
+                            <tr><td><label for="emnekode"> Emne: </label></td><td>
+                
+
+                                    <select name="Emner">
+                                        <c:forEach items="${allefagene}" var="fagliste">
+                                            <option value="${fagliste}">${fagliste}</option>
+                                        </c:forEach>
+                                    </select>
+        
+        
+      
+        <tr><td colspan="2"><input type="submit" value="visfag"></td></tr>
+    </table>
+    </form:form>
+        
     </body>
 </html>
