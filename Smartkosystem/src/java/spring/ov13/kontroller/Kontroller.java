@@ -273,8 +273,11 @@ public class Kontroller {
         System.out.println("-------------------------KOMMER INN I VISADMINLAERER------------");
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
+        Øving øving = new Øving();
+        
           model.addAttribute("emne", emne);
         ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
+        ArrayList<Øving> øv = ub.
         String emnekoden = null;
        
         ArrayList<String> emnetabell = new ArrayList<String>();
