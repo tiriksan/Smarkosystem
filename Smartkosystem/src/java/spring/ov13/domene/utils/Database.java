@@ -65,7 +65,8 @@ public class Database {
     private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_øvinger VALUES(?,?,?,?)";
     private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
     private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
-
+    private final String sqlSelectOvingIInnlegg = "SELECT * FROM øvinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -1186,6 +1187,38 @@ public class Database {
         return brukere;
 
     }
+
+    public ArrayList<ArrayList<Øving>> getØvingerTilBrukereIInnlegg(int innleggsID, ArrayList<Bruker> brukere) {
+        ArrayList<ArrayList<Øving>> øvinger = new ArrayList();
+        PreparedStatement psSqlSelectØvingerIInnlegg;
+        ResultSet res;
+        try {
+            åpneForbindelse();
+            psSqlSelectØvingerIInnlegg = forbindelse.prepareStatement(sqlSelectOvingIInnlegg);
+            psSqlSelectØvingerIInnlegg.setInt(1, innleggsID);
+            for (int i = 0; i < brukere.size();i++) {
+                psSqlSelectØvingerIInnlegg.setString(2, brukere.get(i).getBrukernavn());
+                res = psSqlSelectØvingerIInnlegg.executeQuery();
+                while(res.next()){
+                    Øving ov = new Øving();
+                    ov.setEmnekode(res.getString("emnekode"));
+                    ov.setØvingsnr(res.getInt("øvingsnummer"));
+                    øvinger.get(i).add(ov);
+                }
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "øvingerIInnlegg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "øvingerIInnlegg - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psUpdateBruker);
+        }
+
+        return øvinger;
+    }
+
 
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         System.out.println("getFulleInnleggTilKo()");
