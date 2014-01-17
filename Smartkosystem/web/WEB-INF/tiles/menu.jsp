@@ -22,9 +22,9 @@
     
     <tr><td class="menuvalg"><a href="<c:url value="/studentko.htm"/>" >Gå til kø</a></td></tr>
     
-<c:if test="${brukerinnlogg.brukertype eq 1}">
+<c:if test="${brukerinnlogg.brukertype eq 3}">
     
-    <tr><td class="menuvalg"><a href="<c:url value="/adminlaerer.htm"/>"><spring:message code="menyvalg6" /></a></td></tr>
+    <tr><td class="menuvalg"><a href="<c:url value="/adminlaerer.htm"/>"><spring:message code="menyvalg7" /></a></td></tr>
 
     
 </c:if>
