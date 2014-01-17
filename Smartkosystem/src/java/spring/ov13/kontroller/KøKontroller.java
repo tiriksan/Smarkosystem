@@ -140,6 +140,7 @@ public class KøKontroller {
         request.getSession().setAttribute("id", id);
         request.getSession().setAttribute("brukere", ub.getBrukereIInnlegg(id));
         ub.setKøinnleggHjelpBruker(bruker, id);
+        request.getSession().setAttribute("innlegg", ub.getInnleggFraID(id));
         return "redirect:studentko.htm?x="+emne;
     }
     

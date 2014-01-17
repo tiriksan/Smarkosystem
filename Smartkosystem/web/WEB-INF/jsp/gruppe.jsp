@@ -15,13 +15,15 @@
 
     <c:out value="Alle medlemmene av gruppen:"></c:out><br>
         <table id="brukertabell">
-        <c:forEach items="${brukere}" var="bruker">
+        <c:forEach begin="0" end="${innlegg.getBrukere().size()-1}" var="i">
             <tr>
                 <td><ul>
                         <li>
-                            ${bruker.getFornavn()}
-                            ${bruker.getEtternavn()}
-                            <%--${bruker.getOvinger()}--%>
+                            ${innlegg.getBrukere().get(i).getFornavn()}
+                            ${innlegg.getBrukere().get(i).getEtternavn()}
+                            <c:forEach begin="0" end="${innlegg.getOvinger().get(i).size()-1}" var="j">
+                                ${innlegg.getOvinger().get(i).get(j).getØvingsnr()} ,
+                            </c:forEach>
                         </li>
                     </ul></td>
                 <td><input type="submit" value="Godkjenn"></td>
