@@ -58,6 +58,12 @@
         <put-attribute name="body"   value="/WEB-INF/jsp/regov2.jsp"/>      
     </definition>
     
+    <definition name="endreBruker" extends="baseLayout">
+        <put-attribute name="title"  value="endre bruker"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/endreBruker.jsp"/>      
+    </definition>
+    
+    
     <definition name="henttekst" extends="baseLayout">
 
 <put-attribute name="title" value="Hent teksten!"/>
