@@ -218,7 +218,7 @@ public class Kontroller {
         ArrayList<String> emnetabell = new ArrayList<String>();
         
         for (int i = 0; i < em.size(); i++) {
-            emnetabell.add(em.get(i).getEmnenavn());
+            emnetabell.add("Emne "+i+": "+em.get(i).getEmnenavn());
            emnekoden = em.get(i).getEmnenavn();
             System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden );
             model.addAttribute("emnekode", emnekoden);
@@ -270,25 +270,23 @@ public class Kontroller {
 //*************************** Viser administrer lærer siden*************************
  @RequestMapping(value = "/adminlaerer.htm")
    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error ) {
-        System.out.println("-------------------------KOMMER INN I VISADMINLAERER------------");
+   
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
         Øving øving = new Øving();
+        String emnekoden = null;
         
-          model.addAttribute("emne", emne);
+        model.addAttribute("emne", emne);
+        
         ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
         ArrayList<Øving> øv = ub.getØvingerIEmnet(emne.getEmnekode());
-        String emnekoden = null;
+        
        
         ArrayList<String> emnetabell = new ArrayList<String>();
         
         for (int i = 0; i < em.size(); i++) {
-            System.out.println("-------------------------KOMMER INN I VISADMINLAERER går i forløkke------------");
             emnetabell.add(em.get(i).getEmnenavn());
            emnekoden = em.get(i).getEmnenavn();
-            System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden );
-            model.addAttribute("emnekode", emnekoden);
-          
         }
         model.addAttribute("allefagene", emnetabell);
        
