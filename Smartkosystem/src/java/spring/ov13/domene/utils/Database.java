@@ -24,7 +24,7 @@ public class Database {
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
-    private final String sQLSelectBrukerPaNavn = "SELECT * FROM bruker WHERE fornavn LIKE %?% or  etternavn LIKE %?% ";
+    private final String sQLSelectBrukerPaNavn= "SELECT Concat(fornavn,+' '+,+etternavn) as navn, bruker.* FROM bruker WHERE Concat(fornavn,+' ',+etternavn) LIKE %?%"; 
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
@@ -97,8 +97,8 @@ public class Database {
         Opprydder.lukkForbindelse(forbindelse);
     }
 
-    public ArrayList<Bruker> getBrukerepaaNavn(String compare) {
-        Bruker b = null;
+    public ArrayList<Bruker> getBrukerepaabokstav(String compare){
+       Bruker b = null;
         ResultSet res;
         System.out.println("getBrukerIFag()");
         PreparedStatement psSelectBruker = null;
@@ -108,7 +108,7 @@ public class Database {
             åpneForbindelse();
             psSelectBruker = forbindelse.prepareStatement(sQLSelectBrukerPaNavn);
             psSelectBruker.setString(1, compare);
-            psSelectBruker.setString(2, compare);
+          
             res = psSelectBruker.executeQuery();
             while (res.next()) {
                 b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
@@ -126,7 +126,7 @@ public class Database {
         lukkForbindelse();
         return BrukerePaaNavn;
 
-    }
+    } 
 
     public ArrayList<Øving> getØvingerIEmnet(String emnekode) {
         Øving øv = null;
