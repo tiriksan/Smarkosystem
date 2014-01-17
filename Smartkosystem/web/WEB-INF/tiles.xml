@@ -73,5 +73,9 @@
 <put-attribute name="body" value="/WEB-INF/jsp/settiko.jsp"/>
 
 </definition>
+   <definition name="adminlaerer" extends="baseLayout">
+        <put-attribute name="title"  value="Admin laerer"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/Laerer.jsp"/>      
+    </definition>
 
 </tiles-definitions>
