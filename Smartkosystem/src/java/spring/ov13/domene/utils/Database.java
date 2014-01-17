@@ -95,6 +95,38 @@ public class Database {
         System.out.println("Lukker databaseforbindelsen");
         Opprydder.lukkForbindelse(forbindelse);
     }
+    
+    public ArrayList<Øving> getØvingerIEmnet(String emnekode){
+        Øving øv = null;
+        ResultSet res;
+        System.out.println("getØvingerIEmnet()");
+        PreparedStatement psSelectØving = null;
+        ArrayList<Øving> ØvingerIEmnet = new ArrayList<Øving>();
+        try{
+            åpneForbindelse();
+            psSelectØving = forbindelse.prepareStatement(sqlSelectØvingerIEmne);
+            psSelectØving.setString(1, emnekode);
+            res = psSelectØving.executeQuery();
+                    while (res.next()) {
+                      
+                øv = new Øving(res.getInt("øvingsnummer"), res.getString("emnekode"), res.getInt("gruppeid"), res.getBoolean("obligatorisk"));
+                ØvingerIEmnet.add(øv);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectBruker);
+        }
+        lukkForbindelse();
+        return ØvingerIEmnet;
+
+    }
+        
+    
 
     public ArrayList<Bruker> getBrukereIEmnet(String emnekode) {
         Bruker b = null;
