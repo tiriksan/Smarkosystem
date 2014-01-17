@@ -24,7 +24,7 @@ public class Database {
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
-    private final String sQLSelectBrukerPaNavn= "SELECT Concat(fornavn,+\' \'+,+etternavn) as navn, bruker.* FROM bruker WHERE Concat(fornavn,+\' \',+etternavn) LIKE %?%"; 
+    private final String sQLSelectBrukerPaNavn= "SELECT Concat(fornavn,+||' '+,+etternavn) as navn, bruker.* FROM bruker WHERE Concat(fornavn,+||' ',+etternavn) LIKE %?%"; 
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
