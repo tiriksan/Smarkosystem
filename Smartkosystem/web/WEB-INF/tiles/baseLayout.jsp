@@ -24,9 +24,7 @@
                     <td id="menubody">
                         <tiles:insertAttribute name="body" />
                     </td>
-                    <td id="gruppe">
-                            <tiles:insertAttribute name="gruppe" />
-                        </td>
+                    
                     
                 </tr>
                 <tr>
