@@ -46,6 +46,7 @@ public class UtilsBean {
         return alleBrukere;
     }
 
+
     public ArrayList<Bruker> getValgteBrukere() {
         return valgteBrukere;
     }
@@ -159,6 +160,9 @@ public class UtilsBean {
 
     public Boolean getFagKoAktiv(String emnekode) {
         return db.getFagKoAktiv(emnekode);
+    }
+        public ArrayList<Øving> getØvingerIEmnet(String emnekode){
+        return db.getØvingerIEmnet(emnekode);
     }
 
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {

@@ -277,7 +277,7 @@ public class Kontroller {
         
           model.addAttribute("emne", emne);
         ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
-        ArrayList<Øving> øv = ub.
+        ArrayList<Øving> øv = ub.getØvingerIEmnet(emne.getEmnekode());
         String emnekoden = null;
        
         ArrayList<String> emnetabell = new ArrayList<String>();
