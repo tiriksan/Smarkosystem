@@ -248,7 +248,7 @@ public class Kontroller {
 
     }
     
-
+//*************************** Viser administrer lærer siden*************************
  @RequestMapping(value = "/adminlaerer.htm")
    public String visLaerer(Model model, @ModelAttribute(value = "emne") Emne emne, BindingResult error) {
         
