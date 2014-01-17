@@ -24,7 +24,7 @@ public class Database {
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
-    private final String sQLSelectBrukerPaNavn= "SELECT * FROM bruker WHERE fornavn LIKE %?% or  etternavn LIKE %?% " ; 
+    private final String sQLSelectBrukerPaNavn= "SELECT Concat(fornavn,+' '+,+etternavn) as navn, bruker.* FROM bruker WHERE Concat(fornavn,+' ',+etternavn) LIKE %?%"; 
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
@@ -64,7 +64,9 @@ public class Database {
     private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
     private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_øvinger VALUES(?,?,?,?)";
     private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
-  
+    private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
+    private final String sqlSelectOvingIInnlegg = "SELECT * FROM øvinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -94,8 +96,8 @@ public class Database {
     private void lukkForbindelse() {
         Opprydder.lukkForbindelse(forbindelse);
     }
-    
-    public ArrayList<Bruker> getBrukerepaaNavn(String compare){
+
+    public ArrayList<Bruker> getBrukerepaabokstav(String compare){
        Bruker b = null;
         ResultSet res;
         System.out.println("getBrukerIFag()");
@@ -106,7 +108,7 @@ public class Database {
             åpneForbindelse();
             psSelectBruker = forbindelse.prepareStatement(sQLSelectBrukerPaNavn);
             psSelectBruker.setString(1, compare);
-            psSelectBruker.setString(2, compare);
+          
             res = psSelectBruker.executeQuery();
             while (res.next()) {
                 b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
@@ -125,21 +127,20 @@ public class Database {
         return BrukerePaaNavn;
 
     } 
-    
-    
-    public ArrayList<Øving> getØvingerIEmnet(String emnekode){
+
+    public ArrayList<Øving> getØvingerIEmnet(String emnekode) {
         Øving øv = null;
         ResultSet res;
         System.out.println("getØvingerIEmnet()");
         PreparedStatement psSelectØving = null;
         ArrayList<Øving> ØvingerIEmnet = new ArrayList<Øving>();
-        try{
+        try {
             åpneForbindelse();
             psSelectØving = forbindelse.prepareStatement(sqlSelectØvingerIEmne);
             psSelectØving.setString(1, emnekode);
             res = psSelectØving.executeQuery();
-                    while (res.next()) {
-                      
+            while (res.next()) {
+
                 øv = new Øving(res.getInt("øvingsnummer"), res.getString("emnekode"), res.getInt("gruppeid"), res.getBoolean("obligatorisk"));
                 ØvingerIEmnet.add(øv);
             }
@@ -156,8 +157,6 @@ public class Database {
         return ØvingerIEmnet;
 
     }
-        
-    
 
     public ArrayList<Bruker> getBrukereIEmnet(String emnekode) {
         Bruker b = null;
@@ -638,6 +637,41 @@ public class Database {
         }
         lukkForbindelse();
         return ok;
+    }
+    
+    public Innlegg getInnleggFraID(int innleggID){
+        Innlegg innlegg = new Innlegg();
+        PreparedStatement psSelectInnlegg = null;
+        try {
+            åpneForbindelse();
+            psSelectInnlegg = forbindelse.prepareStatement(sqlSelectInnleggFraID);
+            psSelectInnlegg.setInt(1, innleggID);
+            ResultSet rs = psSelectInnlegg.executeQuery();
+            rs.next();
+            innlegg.setBrukere(getBrukereIInnlegg(innleggID));
+            innlegg.setOvinger(getØvingerTilBrukereIInnlegg(innleggID, innlegg.getBrukere()));
+            innlegg.setEier(getBruker(rs.getString("eier")));
+            innlegg.setHjelp(getBruker(rs.getString("hjelp")));
+            innlegg.setId(innleggID);
+            innlegg.setKønummer(rs.getInt("kønummer"));
+            Plassering plass = new Plassering(rs.getString("bygg"), rs.getInt("etasje"), rs.getInt("rom"), rs.getInt("bord"), rs.getString("emnekode"));
+            innlegg.setPlass(plass);
+            innlegg.setTid(rs.getLong("tid"));
+            innlegg.setKommentar(rs.getString("kommentar"));
+            innlegg.setEmnekode(rs.getString("emnekode"));
+           
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getInnleggFraID()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getInnleggFraID - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psSelectInnlegg);
+        }
+        lukkForbindelse();
+        
+        return innlegg;
     }
     /*    public synchronized boolean oppdaterØving(Øving øving) {
      boolean ok = false;
@@ -1152,6 +1186,38 @@ public class Database {
         return brukere;
 
     }
+
+    public ArrayList<ArrayList<Øving>> getØvingerTilBrukereIInnlegg(int innleggsID, ArrayList<Bruker> brukere) {
+        ArrayList<ArrayList<Øving>> øvinger = new ArrayList();
+        PreparedStatement psSqlSelectØvingerIInnlegg;
+        ResultSet res;
+        try {
+            åpneForbindelse();
+            psSqlSelectØvingerIInnlegg = forbindelse.prepareStatement(sqlSelectOvingIInnlegg);
+            psSqlSelectØvingerIInnlegg.setInt(1, innleggsID);
+            for (int i = 0; i < brukere.size();i++) {
+                psSqlSelectØvingerIInnlegg.setString(2, brukere.get(i).getBrukernavn());
+                res = psSqlSelectØvingerIInnlegg.executeQuery();
+                while(res.next()){
+                    Øving ov = new Øving();
+                    ov.setEmnekode(res.getString("emnekode"));
+                    ov.setØvingsnr(res.getInt("øvingsnummer"));
+                    øvinger.get(i).add(ov);
+                }
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "øvingerIInnlegg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "øvingerIInnlegg - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psUpdateBruker);
+        }
+
+        return øvinger;
+    }
+
 
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         System.out.println("getFulleInnleggTilKo()");

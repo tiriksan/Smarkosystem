@@ -168,7 +168,9 @@ public class UtilsBean {
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         return db.getFulleInnleggTilKo(emnekode);
     }
-
+    public Innlegg getInnleggFraID(int innleggsID){
+        return db.getInnleggFraID(innleggsID);
+    }
     public ArrayList<Bruker> getBrukereIInnlegg(int id) {
         return db.getBrukereIInnlegg(id);
     }
