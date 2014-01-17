@@ -250,12 +250,12 @@ public class Kontroller {
     
 //*************************** Viser administrer lærer siden*************************
  @RequestMapping(value = "/adminlaerer.htm")
-   public String visLaerer(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
+   public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error ) {
         System.out.println("-------------------------KOMMER INN I VISADMINLAERER------------");
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
           model.addAttribute("emne", emne);
-        ArrayList<Emne> em = ub.getAlleFag();
+        ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
         String emnekoden = null;
        
         ArrayList<String> emnetabell = new ArrayList<String>();
