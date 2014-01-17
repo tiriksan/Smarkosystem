@@ -14,7 +14,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 
-<h3>Endre Fag</h3>
+<h3>Endre Bruker</h3>
 
 
 <form method="get" action="http://www.mysite.com/search.php"> 
