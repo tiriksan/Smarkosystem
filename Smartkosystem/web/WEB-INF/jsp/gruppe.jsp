@@ -11,7 +11,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<c:if test="${hjelp == true}">
+
 
     <c:out value="Alle medlemmene av gruppen:"></c:out><br>
         <table id="brukertabell">
@@ -35,6 +35,6 @@
             <td><input type="submit" id="gkAlle" value="Godkjenn alle"></td>
             </form:form>
     </table>
-</c:if>
+
 
 
