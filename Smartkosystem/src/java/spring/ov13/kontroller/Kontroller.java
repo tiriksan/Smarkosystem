@@ -186,6 +186,8 @@ public class Kontroller {
         System.out.println(endrebruker);
         UtilsBean ub = new UtilsBean();
         ArrayList<Bruker> bruk = ub.getBrukerePåBokstav(endrebruker);
+        System.out.println(bruk.size() + " jerherhheruhre");
+        model.addAttribute("sokeresultat", bruk);
         for (int i = 0; i < bruk.size(); i++) {
                //brukertabell.add(faget.get(i).getFornavn() + " " + faget.get(i).getEtternavn());
            System.out.println("Du søkte på følgende navn " + bruk.get(i).getFornavn());
