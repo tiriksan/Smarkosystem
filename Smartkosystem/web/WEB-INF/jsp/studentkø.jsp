@@ -36,7 +36,7 @@ ${feilmelding}
                 <c:if test = "${aktiv}">
                     Aktiv
                     <c:if test="${brukerinnlogg.brukertype == 1}">
-                        <form:form method="POST" action="stilliko.htm?x=${emnenavnvalgt}">
+                        <form:form method="POST" action="settiko.htm?x=${emnenavnvalgt}">
                             <input type ="submit" value ="Still i kø">
                         </form:form>
                     </c:if>
