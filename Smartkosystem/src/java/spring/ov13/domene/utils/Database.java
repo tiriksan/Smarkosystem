@@ -54,16 +54,16 @@ public class Database {
     private final String sqlInsertFagLaerer = "INSERT into emne_bruker VALUES(?,?,?)";
     private final String sqlInsertKø = "INSERT INTO kø VALUES(?,?,?)";
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
-    private final String sqlSelectpaabrukertype= "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
+    private final String sqlSelectpaabrukertype = "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
     private final String sqlUpdateKøinnleggHjelpBruker = "UPDATE køinnlegg SET hjelp=? WHERE innleggsid=?";
     private final String sqlSelectDistinctBygg = "SELECT DISTINCT bygg FROM lokasjon WHERE emnekode = ?";
     private final String sqlSelectDistinctEtasje = "SELECT DISTINCT etasje FROM lokasjon WHERE emnekode = ? AND bygg = ?";
     private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
     private final String sqlSelectDistinctBord = "SELECT DISTINCT bord FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ? AND rom = ?";
-   private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
-    
-    
-    
+    private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
+    private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_øvinger VALUES(?,?,?,?)";
+    private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
+
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -84,20 +84,18 @@ public class Database {
             // org.apache.derby.jdbc.
             //  Class.forName("org.apache.derby.jdbc.ClientDriver");
             forbindelse = DriverManager.getConnection(dbNavn, dbUser, dbPswrd);
-            System.out.println("Databaseforbindelse opprettet");
         } catch (SQLException e) {
-            Opprydder.skrivMelding(e, "KonstruktÃ¸ren");
+            Opprydder.skrivMelding(e, "Konstruktøren");
             Opprydder.lukkForbindelse(forbindelse);
         }
     }
 
     private void lukkForbindelse() {
-        System.out.println("Lukker databaseforbindelsen");
         Opprydder.lukkForbindelse(forbindelse);
     }
-    
-  public ArrayList<Bruker> getBrukereIEmnet(String emnekode){
-      Bruker b = null;
+
+    public ArrayList<Bruker> getBrukereIEmnet(String emnekode) {
+        Bruker b = null;
         ResultSet res;
         System.out.println("getBrukerIFag()");
         PreparedStatement psSelectBruker = null;
@@ -123,15 +121,14 @@ public class Database {
         }
         lukkForbindelse();
         return BrukereIFaget;
-    
-      
-  }
+
+    }
 
     public synchronized boolean registrerBruker(Bruker bruker) {
         boolean ok = false;
         System.out.println("registrerBruker()");
         PreparedStatement psInsertBruker = null;
-        PreparedStatement psInsertBrukerifag=null;
+        PreparedStatement psInsertBrukerifag = null;
         bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0, 10));
 
         try {
@@ -145,17 +142,14 @@ public class Database {
             psInsertBruker.setInt(5, bruker.getBrukertype());
             psInsertBruker.executeUpdate();
 
-               for (int i = 0; i < bruker.getFagene().size(); i++) {
+            for (int i = 0; i < bruker.getFagene().size(); i++) {
                 psInsertBrukerifag = forbindelse.prepareStatement(sqlInsertBrukerIEmne);
-                psInsertBrukerifag.setString(1,bruker.getFagene().get(i).getEmnekode());
+                psInsertBrukerifag.setString(1, bruker.getFagene().get(i).getEmnekode());
                 psInsertBrukerifag.setString(2, bruker.getBrukernavn());
                 psInsertBrukerifag.setInt(3, bruker.getBrukertype());
                 psInsertBrukerifag.executeUpdate();
             }
-            
-            
-           
-            
+
             int i = psInsertBrukerifag.executeUpdate();
             if (i > 0) {
                 ok = true;
@@ -513,12 +507,73 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
-    
-    
-    
-    
 
+    public synchronized boolean setInnOvingerGodkjent(String godkjenner, String emnekode, String brukernavn, ArrayList<Integer> øvinger) {
+        boolean ok = false;
+        System.out.println("setOvingerGodkjent()");
+        PreparedStatement psSetInnOvingerGodkjent = null;
+
+        try {
+            åpneForbindelse();
+            int j = 0;
+            for (int i = 0; i < øvinger.size(); i++) {
+
+                psSetInnOvingerGodkjent = forbindelse.prepareStatement(sqlInsertOvingerGodkjent);
+                psSetInnOvingerGodkjent.setString(1, godkjenner);
+                psSetInnOvingerGodkjent.setString(2, emnekode);
+                psSetInnOvingerGodkjent.setString(3, brukernavn);
+                psSetInnOvingerGodkjent.setInt(4, øvinger.get(i));
+
+                j += psSetInnOvingerGodkjent.executeUpdate();
+            }
+            if (j >= øvinger.size()) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "SetInnOvingerGodkjent()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "SetInnOvingerGodkjent - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psSetInnOvingerGodkjent);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+
+    public synchronized boolean fjernOvingerGodkjent(String emnekode, String brukernavn, ArrayList<Integer> øvinger) {
+        boolean ok = false;
+        System.out.println("fjernOvingerGodkjent()");
+        PreparedStatement psfjernOvingerGodkjent = null;
+
+        try {
+            åpneForbindelse();
+            int j = 0;
+            for (int i = 0; i < øvinger.size(); i++) {
+
+                psfjernOvingerGodkjent = forbindelse.prepareStatement(sqlDeleteOvingerGodkjent);
+                psfjernOvingerGodkjent.setString(1, emnekode);
+                psfjernOvingerGodkjent.setString(2, brukernavn);
+                psfjernOvingerGodkjent.setInt(3, øvinger.get(i));
+
+                j += psfjernOvingerGodkjent.executeUpdate();
+            }
+            if (j >= øvinger.size()) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "fjernOvingerGodkjent()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "fjernOvingerGodkjent - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psfjernOvingerGodkjent );
+        }
+        lukkForbindelse();
+        return ok;
+    }
     /*    public synchronized boolean oppdaterØving(Øving øving) {
      boolean ok = false;
      System.out.println("oppdaterØving()");
@@ -572,6 +627,7 @@ public class Database {
      return ok;
      }
      */
+
     // emne_bruker //
     public synchronized boolean leggTilBrukerIEmne(Emne emne, Bruker bruker, int brukertype) {
         boolean ok = false;
@@ -695,8 +751,8 @@ public class Database {
         lukkForbindelse();
         return fagListe;
     }
-    
-    public synchronized ArrayList<Bruker> getFaglærerBruker(String fornavn,String etternavn,int brukertype) {
+
+    public synchronized ArrayList<Bruker> getFaglærerBruker(String fornavn, String etternavn, int brukertype) {
         Bruker b = null;
         ResultSet res;
         System.out.println("getFaglærer()");
@@ -726,9 +782,8 @@ public class Database {
         lukkForbindelse();
         return faglærer;
     }
-    
-    // KRAVGRUPPE //
 
+    // KRAVGRUPPE //
     public synchronized boolean registrerKravgruppe(Kravgruppe kg) {
         boolean ok = false;
         System.out.println("registrerKravgruppe()");
@@ -758,29 +813,24 @@ public class Database {
     }
 
     public synchronized ArrayList<Kravgruppe> getKravGruppertilEmne(String emnekode) {
-      System.out.println("hent kravgrupper");
-      PreparedStatement psSelectKravGruppe = null;
-      int gruppeID;
-      
-      
-      ArrayList<Kravgruppe> krav = new ArrayList<Kravgruppe>();
-       ResultSet res;
-        try{
+        System.out.println("hent kravgrupper");
+        PreparedStatement psSelectKravGruppe = null;
+        int gruppeID;
+
+        ArrayList<Kravgruppe> krav = new ArrayList<Kravgruppe>();
+        ResultSet res;
+        try {
             åpneForbindelse();
             psSelectKravGruppe = forbindelse.prepareStatement(sqlgetKravGruppe);
             psSelectKravGruppe.setString(1, emnekode);
             res = psSelectKravGruppe.executeQuery();
-           
-                 while(res.next()){
-                     Kravgruppe k = new Kravgruppe(res.getInt("gruppeID"),emnekode,res.getInt("antall"));
-                     krav.add(k);
-                
-             
-                 }
-          
-      
-           
-            
+
+            while (res.next()) {
+                Kravgruppe k = new Kravgruppe(res.getInt("gruppeID"), emnekode, res.getInt("antall"));
+                krav.add(k);
+
+            }
+
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "registrerArbeidskrav()");
@@ -790,7 +840,7 @@ public class Database {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertKravgruppe);
         }
-       
+
         return krav;
     }
 
@@ -1160,8 +1210,9 @@ public class Database {
         System.out.println("Returnerer liste med størrelse: " + returnen.size());
         return returnen;
     }
+
     //Endre hvem som hjelper et køinnlegg. Null dersom køinnlegget ikke får hjelp
-    public boolean setKøinnleggHjelpBruker(Bruker bruker, int køinnleggid){
+    public boolean setKøinnleggHjelpBruker(Bruker bruker, int køinnleggid) {
         System.out.println("setBrukerHjelperKøinnlegg()");
         //set hjelp(brukvernavn)= bruker where køinnleggid = køinnleggid
         PreparedStatement psUpdateKøinleggHjelpBruker = null;
@@ -1169,9 +1220,9 @@ public class Database {
         try {
             åpneForbindelse();
             psUpdateKøinleggHjelpBruker = forbindelse.prepareStatement(sqlUpdateKøinnleggHjelpBruker);
-            if(bruker!=null){
+            if (bruker != null) {
                 psUpdateKøinleggHjelpBruker.setString(1, bruker.getBrukernavn());
-            } else{
+            } else {
                 psUpdateKøinleggHjelpBruker.setString(1, null);
             }
             psUpdateKøinleggHjelpBruker.setInt(2, køinnleggid);
@@ -1191,36 +1242,23 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     public String[] getUnikeBygg(String emnekode) {
         System.out.println("updateFagKoAktiv()");
         PreparedStatement psUpdateFagKoAktiv = null;
- ArrayList<String> mid = new ArrayList<String>();
- ResultSet res;
-        
+        ArrayList<String> mid = new ArrayList<String>();
+        ResultSet res;
+
         try {
             åpneForbindelse();
             psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectDistinctBygg);
 
             psUpdateFagKoAktiv.setString(1, emnekode);
-            
 
             res = psUpdateFagKoAktiv.executeQuery();
-while(res.next()){
-    mid.add(res.getString("bygg"));
-}
+            while (res.next()) {
+                mid.add(res.getString("bygg"));
+            }
 
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -1233,37 +1271,31 @@ while(res.next()){
         }
         lukkForbindelse();
         String[] returnen = new String[mid.size()];
-        if(mid.size() > 0){
-        for(int i = 0; i < mid.size(); i++){
-            returnen[i] = mid.get(i);
-        }
+        if (mid.size() > 0) {
+            for (int i = 0; i < mid.size(); i++) {
+                returnen[i] = mid.get(i);
+            }
         }
         return returnen;
     }
-    
-    
-    
-    
-    
-    
+
     public String[] getUnikeEtasjer(String emnekode, String bygg) {
         System.out.println("updateFagKoAktiv()");
         PreparedStatement psUpdateFagKoAktiv = null;
- ArrayList<String> mid = new ArrayList<String>();
- ResultSet res;
-        
+        ArrayList<String> mid = new ArrayList<String>();
+        ResultSet res;
+
         try {
             åpneForbindelse();
             psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectDistinctEtasje);
 
             psUpdateFagKoAktiv.setString(1, emnekode);
             psUpdateFagKoAktiv.setString(2, bygg);
-            
 
             res = psUpdateFagKoAktiv.executeQuery();
-while(res.next()){
-    mid.add(res.getString("etasje"));
-}
+            while (res.next()) {
+                mid.add(res.getString("etasje"));
+            }
 
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -1276,39 +1308,32 @@ while(res.next()){
         }
         lukkForbindelse();
         String[] returnen = new String[mid.size()];
-        if(mid.size() > 0){
-        for(int i = 0; i < mid.size(); i++){
-            returnen[i] = mid.get(i);
-        }
+        if (mid.size() > 0) {
+            for (int i = 0; i < mid.size(); i++) {
+                returnen[i] = mid.get(i);
+            }
         }
         return returnen;
     }
-    
-    
-    
-    
-    
-    
-    
+
     public String[] getUnikeRom(String emnekode, String bygg, String etasje) {
         System.out.println("updateFagKoAktiv()");
         PreparedStatement psUpdateFagKoAktiv = null;
- ArrayList<String> mid = new ArrayList<String>();
- ResultSet res;
-        
+        ArrayList<String> mid = new ArrayList<String>();
+        ResultSet res;
+
         try {
             åpneForbindelse();
             psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectDistinctRom);
-int etasje2 = Integer.parseInt(etasje);
+            int etasje2 = Integer.parseInt(etasje);
             psUpdateFagKoAktiv.setString(1, emnekode);
             psUpdateFagKoAktiv.setString(2, bygg);
             psUpdateFagKoAktiv.setInt(3, etasje2);
-            
 
             res = psUpdateFagKoAktiv.executeQuery();
-while(res.next()){
-    mid.add(res.getString("rom"));
-}
+            while (res.next()) {
+                mid.add(res.getString("rom"));
+            }
 
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -1321,39 +1346,33 @@ while(res.next()){
         }
         lukkForbindelse();
         String[] returnen = new String[mid.size()];
-        if(mid.size() > 0){
-        for(int i = 0; i < mid.size(); i++){
-            returnen[i] = mid.get(i);
-        }
+        if (mid.size() > 0) {
+            for (int i = 0; i < mid.size(); i++) {
+                returnen[i] = mid.get(i);
+            }
         }
         return returnen;
     }
-    
-    
-    
-    
-    
-    
+
     public String[] getUnikeBord(String emnekode, String bygg, String etasje, String rom) {
         System.out.println("updateFagKoAktiv()");
         PreparedStatement psUpdateFagKoAktiv = null;
- ArrayList<String> mid = new ArrayList<String>();
- ResultSet res;
-        
+        ArrayList<String> mid = new ArrayList<String>();
+        ResultSet res;
+
         try {
             åpneForbindelse();
             psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectDistinctBord);
-int etasje2 = Integer.parseInt(etasje);
+            int etasje2 = Integer.parseInt(etasje);
             psUpdateFagKoAktiv.setString(1, emnekode);
             psUpdateFagKoAktiv.setString(2, bygg);
             psUpdateFagKoAktiv.setInt(3, etasje2);
             psUpdateFagKoAktiv.setString(4, rom);
-            
 
             res = psUpdateFagKoAktiv.executeQuery();
-while(res.next()){
-    mid.add(res.getString("bord"));
-}
+            while (res.next()) {
+                mid.add(res.getString("bord"));
+            }
 
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -1366,24 +1385,12 @@ while(res.next()){
         }
         lukkForbindelse();
         String[] returnen = new String[mid.size()];
-        if(mid.size() > 0){
-        for(int i = 0; i < mid.size(); i++){
-            returnen[i] = mid.get(i);
-        }
+        if (mid.size() > 0) {
+            for (int i = 0; i < mid.size(); i++) {
+                returnen[i] = mid.get(i);
+            }
         }
         return returnen;
     }
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
 }

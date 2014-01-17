@@ -13,7 +13,7 @@
     </head>
     <body>
          
-        <form:form action="adminlaerer" method="post" modelAttribute="emne" >
+        <form:form action="adminlaerer" method="post" modelAttribute="øving" >
     <table>
         <tr><td>ØvingsNr: </td><td><form:input path="øvingsnr" /></td><td><form:errors path="øvingsnr" /></td></tr>
         

@@ -112,6 +112,18 @@ CONSTRAINT øvinger_i_innlegg_pk1 PRIMARY KEY(brukernavn, øvingsnummer, emnekod
 INDEX(brukernavn, øvingsnummer, emnekode)
 ) ENGINE=innoDB;
 
+CREATE TABLE godkjente_øvinger(
+godkjent_av VARCHAR(50) NOT NULL,
+emnekode VARCHAR(8) NOT NULL,
+brukernavn VARCHAR(64) NOT NULL,
+øvingsnummer INT NOT NULL,
+CONSTRAINT godkjente_øvinger_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT godkjente_øvinger_fk2 FOREIGN KEY(brukernavn) REFERENCES bruker(brukernavn) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT godkjente_øvinger_fk3 FOREIGN KEY(øvingsnummer) REFERENCES øving(øvingsnummer) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT godkjente_øvinger_pk1 PRIMARY KEY(emnekode, brukernavn, øvingsnummer),
+INDEX(emnekode, brukernavn, øvingsnummer)
+) ENGINE=innoDB;
+
 ALTER TABLE 'øvinger_i_innlegg' ENGINE = InnoDB;
 ALTER TABLE 'brukere_i_innlegg' ENGINE = InnoDB;
 ALTER TABLE 'lokasjon' ENGINE = InnoDB;
