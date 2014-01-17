@@ -1198,6 +1198,7 @@ public class Database {
             for (int i = 0; i < brukere.size();i++) {
                 psSqlSelectØvingerIInnlegg.setString(2, brukere.get(i).getBrukernavn());
                 res = psSqlSelectØvingerIInnlegg.executeQuery();
+                øvinger.add(new ArrayList());
                 while(res.next()){
                     Øving ov = new Øving();
                     ov.setEmnekode(res.getString("emnekode"));
