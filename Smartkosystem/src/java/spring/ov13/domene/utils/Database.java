@@ -100,7 +100,7 @@ public class Database {
     public ArrayList<Bruker> getBrukerepaabokstav(String compare){
        Bruker b = null;
         ResultSet res;
-        System.out.println("getBrukerIFag()");
+        System.out.println("getBrukerpåbokstav)");
         PreparedStatement psSelectBruker = null;
         ArrayList<Bruker> BrukerePaaNavn = new ArrayList<Bruker>();
 
@@ -116,7 +116,7 @@ public class Database {
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "getBruker()");
+            Opprydder.skrivMelding(e, "getBrukerpaabokstav()");
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "getBruker - ikke sqlfeil");
         } finally {
