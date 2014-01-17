@@ -96,7 +96,7 @@ public class Database {
         Opprydder.lukkForbindelse(forbindelse);
     }
     
-  public ArrayList<Bruker> getBrukereIFag(String emnekode){
+  public ArrayList<Bruker> getBrukereIEmnet(String emnekode){
       Bruker b = null;
         ResultSet res;
         System.out.println("getBrukerIFag()");
