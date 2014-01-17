@@ -7,22 +7,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-   <script>
-       function javas(kode){
-           window.location = "/adminlaerer.htm?x=" + kode;
-       }
-                                        
-   </script>
+ 
+  
+<script type="text/javascript">
+    
+function submitform(){
+  document.minform.submit();
+}
+</script>
    
    <c:choose>
 <c:when test="${valget eq null}">
- <form:form action="adminlaerer.htm" method="post" modelAttribute="brukerinnlogg" >
+ <form:form action="adminlaerer.htm" method="post" modelAttribute="brukerinnlogg" name="minform">
     <table>
                                     
                             <tr><td><label for="emnekode"> Dine emner: </label></td><td>
                 
 
-                                    <select name="Emner" id="Emner" onchange="javas(this.value)">
+                                    <select name="Emner" id="Emner" onchange="submitform()">
                                         <c:forEach items="${allefagene}" var="fagliste">
                                             <option value="${fagliste}">${fagliste}</option>
                                         </c:forEach>
@@ -35,7 +37,7 @@
  
 </c:when>
 
-       <c:when test="${valget != null}">
-           <h1>BLABLABLA</h1>
-       </c:when>
+       <c:otherwise>
+                            <h1>BLABLABLA</h1>
+       </c:otherwise>
    </c:choose>

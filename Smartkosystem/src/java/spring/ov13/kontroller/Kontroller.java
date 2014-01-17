@@ -78,6 +78,8 @@ public class Kontroller {
 
         return "bruker";
     }
+    
+    
 
 //*******************************Registerer bruker fra fil**********************************
     @RequestMapping(value = "/registrerBrukereFraFil.htm", method = RequestMethod.POST)
@@ -253,7 +255,16 @@ public class Kontroller {
         model.addAttribute("emne", emne);
        model.addAttribute("valget", getValg);
         ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
-       
+                  
+        if (getValg != null) {
+System.out.println("kommer inn i getvalg---------------------------------------------------------------------------");
+                ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
+                ArrayList<String> øvingtabell = new ArrayList<String>();
+                for (int i = 0; i < øv.size(); i++) {
+                    øvingtabell.add(øv.get(i).getØvingsnr() + " " + øv.get(i).getGruppeid());
+                }
+                model.addAttribute("alleovinger", øvingtabell);
+        }
 
         ArrayList<String> emnetabell = new ArrayList<String>();
 
@@ -263,16 +274,7 @@ public class Kontroller {
         }
         model.addAttribute("allefagene", emnetabell);
 
-           if (getValg != null) {
-System.out.println("kommer inn i getvalg---------------------------------------------------------------------------");
-                ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
-                ArrayList<String> øvingtabell = new ArrayList<String>();
-                for (int i = 0; i < øv.size(); i++) {
-                    øvingtabell.add(øv.get(i).getØvingsnr() + " " + øv.get(i).getGruppeid());
-                }
-                model.addAttribute("alleovinger", øvingtabell);
-        }
-        
+
         
         return "adminlaerer";
     }
