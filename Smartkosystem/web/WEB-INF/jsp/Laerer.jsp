@@ -16,14 +16,7 @@
    
    <c:choose>
 <c:when test="${valget eq null}">
-        <c:set var="visfag" value="load"/>
-        <c:set var="visov" value="ikkeload"/>
-</c:when>
-</c:choose>
-    
-
-         
-        <form:form action="adminlaerer" method="post" modelAttribute="brukerinnlogg" >
+ <form:form action="adminlaerer.htm" method="post" modelAttribute="brukerinnlogg" >
     <table>
                                     
                             <tr><td><label for="emnekode"> Dine emner: </label></td><td>
@@ -35,10 +28,14 @@
                                         </c:forEach>
                                     </select>
         
-                                 
-      
-        <tr><td colspan="2"><input type="submit" value="visfag"></td></tr>
+    <tr><td colspan="2"><input type="submit" value="visfag"></td></tr>
     </table>
     </form:form>
         
  
+</c:when>
+
+       <c:when test="${valget != null}">
+           <h1>BLABLABLA</h1>
+       </c:when>
+   </c:choose>
