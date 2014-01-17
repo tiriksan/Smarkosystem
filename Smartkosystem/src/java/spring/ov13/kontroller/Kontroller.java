@@ -184,16 +184,22 @@ public class Kontroller {
         @RequestMapping(value = "/endreBruker.htm")
         public String visSøkeboks(Model model ) {
             
-      //  UtilsBean ub = new UtilsBean();
-        
-     //  ArrayList <Bruker> bruk = ub.getAlleBrukere();
-            
-      //  model.addAttribute("navn", fornavn);
-        
-     
             
             return "endreBruker";
             
+        }
+        
+        
+        //************* sjekker inputten på endre bruker søkemotor *************
+         @RequestMapping(value = "/endreBruker.htm")
+        public String Søkeboks(Model model ) {
+        
+          UtilsBean ub = new UtilsBean();
+         ArrayList <Bruker> bruk = ub.getAlleBrukere();
+        // model.addAttribute("navn", fornavn);
+            
+            return "endreBruker";
+        
         }
     
     
