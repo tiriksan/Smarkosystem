@@ -290,3 +290,67 @@ table.menutable {
 tr.hjelp>td.tdko {
     background-color: #00ff00;
 }
+#bygg {
+    display: block;
+}
+#etasje {
+    display: none;
+}
+#rom {
+    display: none;
+}
+#bord {
+    display: none;
+}
+#vislaster {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+#bygget {
+    width: 150px;
+    text-align: center;
+}
+#etasjene {
+    width: 150px;
+    text-align: center;
+}
+#rommene {
+    width: 150px;
+    text-align: center;
+}
+#bordene {
+    width: 150px;
+    text-align: center;
+}
+td.overleggiko {
+    background-color: #333333;
+    border: 1px solid #808080;
+    color: #FFF;
+    text-align: center;
+    font-family: verdana, Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+td.mainleggiko {
+    text-align: center;
+    vertical-align: top;
+    
+}
+table.ovingene {
+    border: 1px solid black;
+}
+td.overoving {
+    
+    padding-right: 5px;
+    padding-left: 5px;
+    border: 1px solid black;
+    background-color: #333333;
+    color: #FFF;
+    
+}
+td.oving {
+    padding-right: 5px;
+    padding-left: 5px;
+    border: 1px solid black;
+    text-align: center;
+}

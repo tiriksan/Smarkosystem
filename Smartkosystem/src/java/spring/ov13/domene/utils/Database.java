@@ -60,6 +60,8 @@ public class Database {
     private final String sqlSelectDistinctEtasje = "SELECT DISTINCT etasje FROM lokasjon WHERE emnekode = ? AND bygg = ?";
     private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
     private final String sqlSelectDistinctBord = "SELECT DISTINCT bord FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ? AND rom = ?";
+   private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
+    
     
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
@@ -93,6 +95,37 @@ public class Database {
         System.out.println("Lukker databaseforbindelsen");
         Opprydder.lukkForbindelse(forbindelse);
     }
+    
+  public ArrayList<Bruker> getBrukereIEmnet(String emnekode){
+      Bruker b = null;
+        ResultSet res;
+        System.out.println("getBrukerIFag()");
+        PreparedStatement psSelectBruker = null;
+        ArrayList<Bruker> BrukereIFaget = new ArrayList<Bruker>();
+
+        try {
+            åpneForbindelse();
+            psSelectBruker = forbindelse.prepareStatement(sqlSelectBrukereiFag);
+            psSelectBruker.setString(1, emnekode);
+            res = psSelectBruker.executeQuery();
+            while (res.next()) {
+                b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                BrukereIFaget.add(b);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectBruker);
+        }
+        lukkForbindelse();
+        return BrukereIFaget;
+    
+      
+  }
 
     public synchronized boolean registrerBruker(Bruker bruker) {
         boolean ok = false;
