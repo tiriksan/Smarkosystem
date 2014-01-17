@@ -45,8 +45,7 @@ public class Kontroller {
             return "index";
         }
     }
-    
-    
+
 //************************ Viser innleggingssiden ***********************
     @RequestMapping(value = "/bruker.htm")
     public String visInnsetting(Model model, @ModelAttribute("feilmelding") String feil, @RequestParam(value = "x", required = false) String getValg) {
@@ -79,15 +78,11 @@ public class Kontroller {
 
         return "bruker";
     }
-   
-            
-            
-            
-            
+
 //*******************************Registerer bruker fra fil**********************************
     @RequestMapping(value = "/registrerBrukereFraFil.htm", method = RequestMethod.POST)
-    public String regBrukereFraFil(Model model,@RequestParam(value = "filInnhold", required = true)String tekst, @ModelAttribute(value = "filOpplasting") FilOpplasting filOpp, BindingResult error) {
-        
+    public String regBrukereFraFil(Model model, @RequestParam(value = "filInnhold", required = true) String tekst, @ModelAttribute(value = "filOpplasting") FilOpplasting filOpp, BindingResult error) {
+
         filOpp.setFilInnhold(tekst);
         UtilsBean ub = new UtilsBean();
         boolean emneSjekkOk = true;
@@ -120,24 +115,18 @@ public class Kontroller {
         filOpp = null;
         return "redirect:/bruker.htm?x=2";
     }
-    
-    
-    
-    
-    
-    
-    
+
 // ********************Registrer bruker************************
     @RequestMapping(value = "/brukerinnsetning.htm")
-    public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request,@RequestParam(value = "fagene") String [] fagene) {
+    public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value = "fagene") String[] fagene) {
 
-          String [] values = request.getParameterValues("fagene");
-              System.out.println("Her skal det komme opp noe nå " + values[0]);
-             ArrayList<Emne> emneliste = new ArrayList<Emne>();
-              UtilsBean utilsBean = new UtilsBean();
-             Emne returnen = utilsBean.getEmne(values[0]);
-             emneliste.add(returnen);
-     
+        String[] values = request.getParameterValues("fagene");
+        System.out.println("Her skal det komme opp noe nå " + values[0]);
+        ArrayList<Emne> emneliste = new ArrayList<Emne>();
+        UtilsBean utilsBean = new UtilsBean();
+        Emne returnen = utilsBean.getEmne(values[0]);
+        emneliste.add(returnen);
+
         bruker.setFagene(emneliste);
         if (utilsBean.registrerBruker(bruker)) {
             SendEpost se = new SendEpost();
@@ -148,172 +137,135 @@ public class Kontroller {
 
         return "bruker";
     }
- //**************************Registerer emner********************************************
-    @RequestMapping(value="/innsettemne.htm")
-    public ModelAndView regEmne(@Validated @ModelAttribute(value = "emne") Emne emne, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value = "laerer") String [] laerer){
+
+    //**************************Registerer emner********************************************
+    @RequestMapping(value = "/innsettemne.htm")
+    public ModelAndView regEmne(@Validated @ModelAttribute(value = "emne") Emne emne, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value = "laerer") String[] laerer) {
         System.out.println("-------------------- kommer inn i regEmne---------------");
-        String [] values = request.getParameterValues("laerer");
-              System.out.println("Her skal det komme opp noe nå " + values[0]);
-              String[] tabell = values[0].split(" ");
-              String forn = tabell[0];
-              String ettern = tabell[1];
-              System.out.println("fornavn "+forn + " etternavn "+ettern);
-              UtilsBean utilsBean = new UtilsBean();
-             ArrayList<Bruker> returnen = utilsBean.getFaglærerBruker(forn, ettern, 3);
-              
-          
-       /*
-        if(error.hasErrors()){
-            System.out.println("----------------------- kommer inn i hasErrors()------------");
-        modell.addAttribute("Noeerfeil", "En feil har oppstått");
-            return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
-            }
-       */
-        
-       emne.setFaglærer(returnen);
-      
-        if(utilsBean.registrerEmne(emne)) {
+        String[] values = request.getParameterValues("laerer");
+        System.out.println("Her skal det komme opp noe nå " + values[0]);
+        String[] tabell = values[0].split(" ");
+        String forn = tabell[0];
+        String ettern = tabell[1];
+        System.out.println("fornavn " + forn + " etternavn " + ettern);
+        UtilsBean utilsBean = new UtilsBean();
+        ArrayList<Bruker> returnen = utilsBean.getFaglærerBruker(forn, ettern, 3);
+
+        /*
+         if(error.hasErrors()){
+         System.out.println("----------------------- kommer inn i hasErrors()------------");
+         modell.addAttribute("Noeerfeil", "En feil har oppstått");
+         return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
+         }
+         */
+        emne.setFaglærer(returnen);
+
+        if (utilsBean.registrerEmne(emne)) {
             System.out.println("----------------------kommer inn i registrerEmne() i db-----------------");
             modell.addAttribute("melding", "Emne " + emne + " er registrert");
         }
-     return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
+        return new ModelAndView("redirect:/bruker.htm?x=3", "modell", modell);
     }
-    
-    
+
     //****************** Viser siden for Endre Bruker, som har en søkeboks *************************** 
-        @RequestMapping(value = "/endreBruker.htm")
-        public String visSøkeboks(Model model ) {
-            
-            
-            return "endreBruker";
-            
-        }
-        
-        
-        //************* sjekker inputten på endre bruker søkemotor *************
-         @RequestMapping(value = "/endreBruker.htm")
-        public String Søkeboks(Model model ) {
-        
-          UtilsBean ub = new UtilsBean();
-         ArrayList <Bruker> bruk = ub.getAlleBrukere();
+    @RequestMapping(value = "/endreBruker.htm")
+    public String visSøkeboks(Model model) {
+
+        return "endreBruker";
+
+    }
+
+    //************* sjekker inputten på endre bruker søkemotor *************
+    @RequestMapping(value = "/endreBruker.htm")
+    public String Søkeboks(Model model) {
+
+        UtilsBean ub = new UtilsBean();
+        ArrayList<Bruker> bruk = ub.getAlleBrukere();
         // model.addAttribute("navn", fornavn);
-            
-            return "endreBruker";
-        
-        }
-    
-    
-      
-    
-    
-    
-    
-    
-    
+
+        return "endreBruker";
+
+    }
+
     //******************* viser registreringen av en ny øving*****************************************************
-   @RequestMapping(value = "regov2")
-   public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
-        
+    @RequestMapping(value = "regov2")
+    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
+
         Bruker bruker = new Bruker();
         Emne emne = new Emne();
-        
+
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
         String emnekoden = null;
-       
+
         ArrayList<String> emnetabell = new ArrayList<String>();
-        
+
         for (int i = 0; i < em.size(); i++) {
-            emnetabell.add("Emne "+i+": "+em.get(i).getEmnenavn());
-           emnekoden = em.get(i).getEmnenavn();
-            System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden );
+            emnetabell.add("Emne " + i + ": " + em.get(i).getEmnenavn());
+            emnekoden = em.get(i).getEmnenavn();
+            System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden);
             model.addAttribute("emnekode", emnekoden);
-          
+
         }
         model.addAttribute("allefagene", emnetabell);
-       
-        
-         
-         
-           
-           
-        
+
         return "regov2";
     }
-    
+
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23", method = RequestMethod.POST)
-    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value="obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String [] Emner) {
-        
-    String [] values = request.getParameterValues("Emner");
-            System.out.println("Her skal det komme opp noe nå" + values[0]);
-        
-   /*  if (error.hasErrors()) {
-             System.out.println("--------------kommerinniERROOOOOOOOOOOOOOOOOOOOOOOOOOOR-----------");
-            //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-          //  return "regov2";
-            return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
-        }*/
+    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String[] Emner) {
+
+        String[] values = request.getParameterValues("Emner");
+        System.out.println("Her skal det komme opp noe nå" + values[0]);
+
+        /*  if (error.hasErrors()) {
+         System.out.println("--------------kommerinniERROOOOOOOOOOOOOOOOOOOOOOOOOOOR-----------");
+         //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
+         //  return "regov2";
+         return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
+         }*/
         UtilsBean utilsBean = new UtilsBean();
-    
-      øving.setEmnekode(values[0]);
-      øving.setGruppeid(1);
-    System.out.println("HERKOMMERDET------------------"+øving.getObligatorisk());
+
+        øving.setEmnekode(values[0]);
+        øving.setGruppeid(1);
         String hentekode = øving.getEmnekode();
-       System.out.println("EMNEKODE IKKE VÆR NULL!" + hentekode);
-      
+
         if (utilsBean.registrerØving(øving)) {
-            System.out.println("KJEMPESUKSESS-----------------------------------------------------------HURRA FOR SPRING");
             model.addAttribute("melding", "Øving " + øving + " er registrert");
 
         }
 
-       // return "regov2";
-        return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
+        // return "regov2";
+        return new ModelAndView("redirect:/regov2.htm?x=3", "modell", model);
 
     }
-    
+
 //*************************** Viser administrer lærer siden*************************
- @RequestMapping(value = "/adminlaerer.htm")
-   public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error ) {
-   
+    @RequestMapping(value = "/adminlaerer.htm")
+    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error) {
+
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
         Øving øving = new Øving();
         String emnekoden = null;
-        
+
         model.addAttribute("emne", emne);
-        
+
         ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
         ArrayList<Øving> øv = ub.getØvingerIEmnet(emne.getEmnekode());
-        
-       
+
         ArrayList<String> emnetabell = new ArrayList<String>();
-        
+
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
-           emnekoden = em.get(i).getEmnenavn();
+            emnekoden = em.get(i).getEmnenavn();
         }
         model.addAttribute("allefagene", emnetabell);
-       
+
         return "adminlaerer";
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     /*
      @RequestMapping(value = "/bruker.htm")
      public String visVare(Model model) {
