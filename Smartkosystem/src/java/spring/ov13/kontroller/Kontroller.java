@@ -247,8 +247,31 @@ public class Kontroller {
         return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
 
     }
+    
 
-
+ @RequestMapping(value = "/adminlaerer.htm")
+   public String visLaerer(Model model, @ModelAttribute(value = "emne") Emne emne, BindingResult error) {
+        
+        
+       
+        
+        UtilsBean ub = new UtilsBean();
+        ArrayList<Emne> em = ub.getAlleFag();
+        String emnekoden = null;
+       
+        ArrayList<String> emnetabell = new ArrayList<String>();
+        
+        for (int i = 0; i < em.size(); i++) {
+            emnetabell.add(em.get(i).getEmnenavn());
+           emnekoden = em.get(i).getEmnenavn();
+            System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden );
+            model.addAttribute("emnekode", emnekoden);
+          
+        }
+        model.addAttribute("allefagene", emnetabell);
+       
+        return "adminlaerer";
+    }
     
     
     
