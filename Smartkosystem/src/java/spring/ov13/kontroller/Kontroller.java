@@ -178,6 +178,25 @@ public class Kontroller {
         }
      return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
     }
+    
+    
+    //****************** Viser siden for Endre Bruker, som har en søkeboks *************************** 
+        @RequestMapping(value = "/endreBruker.htm")
+        public String visSøkeboks(Model model ) {
+            
+      //  UtilsBean ub = new UtilsBean();
+        
+     //  ArrayList <Bruker> bruk = ub.getAlleBrukere();
+            
+      //  model.addAttribute("navn", fornavn);
+        
+     
+            
+            return "endreBruker";
+            
+        }
+    
+    
       
     
     

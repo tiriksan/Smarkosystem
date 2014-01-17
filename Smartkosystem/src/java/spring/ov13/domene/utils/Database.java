@@ -84,15 +84,13 @@ public class Database {
             // org.apache.derby.jdbc.
             //  Class.forName("org.apache.derby.jdbc.ClientDriver");
             forbindelse = DriverManager.getConnection(dbNavn, dbUser, dbPswrd);
-            System.out.println("Databaseforbindelse opprettet");
         } catch (SQLException e) {
-            Opprydder.skrivMelding(e, "KonstruktÃ¸ren");
+            Opprydder.skrivMelding(e, "Konstruktøren");
             Opprydder.lukkForbindelse(forbindelse);
         }
     }
 
     private void lukkForbindelse() {
-        System.out.println("Lukker databaseforbindelsen");
         Opprydder.lukkForbindelse(forbindelse);
     }
     

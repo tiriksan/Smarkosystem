@@ -24,7 +24,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
 <input type="text" name="zoom_query" style="width:100px; border:0px solid; height:17px; padding:0px 3px; position:relative;"> 
 </td>
 <td style="border-style:solid;border-color:#4B7B9F;border-width:1px;"> 
-<input type="submit" value="" style="border-style: none; background: url('searchbutton3.gif') no-repeat; width: 24px; height: 20px;">
+<input type="submit" value="" style="border-style: none; background: url('resources/bilder/searchbutton3.gif') no-repeat; width: 24px; height: 20px;">
 </td>
 </tr>
 </table>
