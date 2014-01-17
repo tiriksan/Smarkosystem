@@ -9,9 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<c:if test="${hjelp}">
-    <%@include file="gruppe.jsp" %>
-</c:if>
+
 
 ${feilmelding}
 <c:choose>
@@ -32,28 +30,36 @@ ${feilmelding}
         <c:choose>
             <c:when test="${not empty emnenavnvalgt}">
                 <c:out value="Du ser nå køen for faget ${emnenavnvalgt}"/>
+
                 <c:if test="${brukerinnlogg.brukertype == 3}">
                     <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
                         <input type ="submit" value ="Aktiver kø!">
                     </form:form>
                 </c:if>
-                <c:out value="Status: "/>
-                <c:if test = "${aktiv}">
-                    Aktiv
-                    <c:if test="${brukerinnlogg.brukertype == 1}">
-                        <form:form method="POST" action="settiko.htm?x=${emnenavnvalgt}">
-                            <input type ="submit" value ="Still i kø">
-                        </form:form>
+                <table>
+                    <tr>
+                        <td>Status:</td>
+                        <c:if test = "${aktiv}">
+                            <td>Aktiv</td>
+                            <c:if test="${brukerinnlogg.brukertype == 1}">
+                                <form:form method="POST" action="settiko.htm?x=${emnenavnvalgt}">
+                                <input type ="submit" value ="Still i kø">
+                            </form:form>
+                        </c:if>
                     </c:if>
-                </c:if>
-                <c:if test = "${!aktiv}">
-                    Stengt
-                    <c:if test="${brukerinnlogg.brukertype == 1}">
-                        <form:form method="POST" action="stilliko.htm?x=${emnenavnvalgt}">
-                            <input type ="submit" value ="Still i kø" disabled>
-                        </form:form>
+                    <c:if test = "${!aktiv}">
+                        <td>Stengt</td>
+                        <c:if test="${brukerinnlogg.brukertype == 1}">
+                            <form:form method="POST" action="stilliko.htm?x=${emnenavnvalgt}">
+                                <input type ="submit" value ="Still i kø" disabled>
+                            </form:form>
+                        </c:if>
                     </c:if>
+                    </tr>
+                </table>
 
+                <c:if test="${hjelp}">
+                    <%@include file="gruppe.jsp" %>
                 </c:if>
 
                 <table class="hovedko" cellspacing="0" cellpadding="0">
@@ -83,7 +89,7 @@ ${feilmelding}
                                                 </tr>
                                             </table>
 
-                                       </form:form>
+                                        </form:form>
                                     </td><td class="tdko">
                                         <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
                                             - <c:out value="${hverbruker.getFornavn()}"/> <c:out value="${hverbruker.getEtternavn()}"/></br>
