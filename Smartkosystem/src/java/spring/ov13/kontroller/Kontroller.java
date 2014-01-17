@@ -166,7 +166,7 @@ public class Kontroller {
         }
         return new ModelAndView("redirect:/bruker.htm?x=3", "modell", modell);
     }
-
+/*
     //****************** Viser siden for Endre Bruker, som har en søkeboks *************************** 
     @RequestMapping(value = "/endreBruker.htm")
     public String visSøkeboks(Model model) {
@@ -186,7 +186,7 @@ public class Kontroller {
         return "endreBruker";
 
     }
-
+*/
     //******************* viser registreringen av en ny øving*****************************************************
     @RequestMapping(value = "regov2")
     public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
@@ -243,7 +243,7 @@ public class Kontroller {
 
 //*************************** Viser administrer lærer siden*************************
     @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error) {
+    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg) {
 
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
@@ -251,9 +251,9 @@ public class Kontroller {
         String emnekoden = null;
 
         model.addAttribute("emne", emne);
-
+       model.addAttribute("valget", getValg);
         ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
-        ArrayList<Øving> øv = ub.getØvingerIEmnet(emne.getEmnekode());
+       
 
         ArrayList<String> emnetabell = new ArrayList<String>();
 
@@ -263,6 +263,17 @@ public class Kontroller {
         }
         model.addAttribute("allefagene", emnetabell);
 
+           if (getValg != null) {
+System.out.println("kommer inn i getvalg---------------------------------------------------------------------------");
+                ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
+                ArrayList<String> øvingtabell = new ArrayList<String>();
+                for (int i = 0; i < øv.size(); i++) {
+                    øvingtabell.add(øv.get(i).getØvingsnr() + " " + øv.get(i).getGruppeid());
+                }
+                model.addAttribute("alleovinger", øvingtabell);
+        }
+        
+        
         return "adminlaerer";
     }
 

@@ -13,6 +13,13 @@
        }
                                         
    </script>
+   
+   <c:choose>
+<c:when test="${valget eq null}">
+        <c:set var="visfag" value="load"/>
+        <c:set var="visov" value="ikkeload"/>
+</c:when>
+</c:choose>
     
 
          
