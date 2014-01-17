@@ -642,7 +642,6 @@ public class Database {
     public Innlegg getInnleggFraID(int innleggID){
         Innlegg innlegg = new Innlegg();
         PreparedStatement psSelectInnlegg = null;
-        ArrayList<Bruker> brukere = new ArrayList();
         try {
             åpneForbindelse();
             psSelectInnlegg = forbindelse.prepareStatement(sqlSelectInnleggFraID);
@@ -650,7 +649,7 @@ public class Database {
             ResultSet rs = psSelectInnlegg.executeQuery();
             rs.next();
             innlegg.setBrukere(getBrukereIInnlegg(innleggID));
-            //innlegg.setOvinger();
+            innlegg.setOvinger(getØvingerTilBrukereIInnlegg(innleggID, innlegg.getBrukere()));
             innlegg.setEier(getBruker(rs.getString("eier")));
             innlegg.setHjelp(getBruker(rs.getString("hjelp")));
             innlegg.setId(innleggID);
