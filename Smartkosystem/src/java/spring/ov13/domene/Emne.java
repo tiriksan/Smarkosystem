@@ -22,7 +22,8 @@ public class Emne {
     private String øvingsbeskrivelse;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
     ArrayList<Øving> øvinger = new ArrayList<Øving>();
-
+    ArrayList<Bruker> student = new ArrayList<Bruker>();
+    ArrayList<Bruker> studentassistent = new ArrayList<Bruker>();
     public Emne(String emnekode, String emnenavn, String øvingsbeskrivelse) {
         this.emnenavn = emnenavn;
         this.emnekode = emnekode;
@@ -31,6 +32,18 @@ public class Emne {
 
     public Emne() {
 
+    }
+    public ArrayList<Bruker> getStudent(){
+        return student;
+    }
+    public void setStudent(ArrayList<Bruker> student){
+        this.student = student;
+    }
+      public ArrayList<Bruker> getStudentassistent(){
+        return studentassistent;
+    }
+    public void setStudentassistent(ArrayList<Bruker> studentassistent){
+        this.studentassistent = studentassistent;
     }
 
     public String getEmnenavn() {
