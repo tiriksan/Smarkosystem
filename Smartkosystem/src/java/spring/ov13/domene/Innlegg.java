@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package spring.ov13.domene;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import spring.ov13.domene.Bruker;
  * @author Petter-PC
  */
 public class Innlegg {
-    
+
     private ArrayList<Bruker> brukere;
     private ArrayList<ArrayList<Øving>> ovinger;
     private long tid;
@@ -24,63 +23,76 @@ public class Innlegg {
     private int id;
     private Plassering plass;
     private String kommentar;
+    private String emnekode;
 
-    
-    
-    
-     
-    public Innlegg(){
-        
+    public Innlegg() {
+
     }
-    
-    public ArrayList<Bruker> getBrukere(){
+
+    public ArrayList<Bruker> getBrukere() {
         return brukere;
     }
-    public ArrayList<ArrayList<Øving>> getOvinger(){
+
+    public ArrayList<ArrayList<Øving>> getOvinger() {
         return ovinger;
     }
-    public long getTid(){
+
+    public long getTid() {
         return tid;
     }
-    public int getKønummer(){
+
+    public int getKønummer() {
         return kønummer;
     }
-    public Bruker getEier(){
+
+    public Bruker getEier() {
         return eier;
     }
-    public Bruker getHjelp(){
+
+    public Bruker getHjelp() {
         return hjelp;
     }
-    public int getId(){
+
+    public int getId() {
         return id;
     }
-    public Plassering getPlass(){
+
+    public Plassering getPlass() {
         return plass;
     }
-    public void setBrukere(ArrayList<Bruker> brukere2){
+
+    public void setBrukere(ArrayList<Bruker> brukere2) {
         this.brukere = brukere2;
     }
-    public void setOvinger(ArrayList<ArrayList<Øving>> ovinger2){
+
+    public void setOvinger(ArrayList<ArrayList<Øving>> ovinger2) {
         this.ovinger = ovinger2;
     }
-    public void setTid(long tid2){
+
+    public void setTid(long tid2) {
         this.tid = tid2;
     }
-    public void setKønummer(int kønummer2){
+
+    public void setKønummer(int kønummer2) {
         this.kønummer = kønummer2;
     }
-    public void setEier(Bruker eier2){
+
+    public void setEier(Bruker eier2) {
         this.eier = eier2;
     }
-    public void setHjelp(Bruker hjelp2){
+
+    public void setHjelp(Bruker hjelp2) {
         this.hjelp = hjelp2;
     }
-    public void setId(int id2){
+
+    public void setId(int id2) {
         this.id = id2;
     }
-    public void setPlass(Plassering plass2){
+
+    public void setPlass(Plassering plass2) {
         this.plass = plass2;
     }
+
     public String getKommentar() {
         return kommentar;
     }
@@ -88,5 +100,13 @@ public class Innlegg {
     public void setKommentar(String kommentar) {
         this.kommentar = kommentar;
     }
-    
+
+    public String getEmnekode() {
+        return emnekode;
+    }
+
+    public void setEmnekode(String emnekode) {
+        this.emnekode = emnekode;
+    }
+
 }

@@ -24,6 +24,7 @@ public class Database {
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
+    private final String sQLSelectBrukerPaNavn= "SELECT * FROM bruker WHERE fornavn LIKE %?% or  etternavn LIKE %?% " ; 
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
@@ -63,7 +64,7 @@ public class Database {
     private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
     private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_øvinger VALUES(?,?,?,?)";
     private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
-
+  
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -93,6 +94,38 @@ public class Database {
     private void lukkForbindelse() {
         Opprydder.lukkForbindelse(forbindelse);
     }
+    
+    public ArrayList<Bruker> getBrukerepaaNavn(String compare){
+       Bruker b = null;
+        ResultSet res;
+        System.out.println("getBrukerIFag()");
+        PreparedStatement psSelectBruker = null;
+        ArrayList<Bruker> BrukerePaaNavn = new ArrayList<Bruker>();
+
+        try {
+            åpneForbindelse();
+            psSelectBruker = forbindelse.prepareStatement(sQLSelectBrukerPaNavn);
+            psSelectBruker.setString(1, compare);
+            psSelectBruker.setString(2, compare);
+            res = psSelectBruker.executeQuery();
+            while (res.next()) {
+                b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                BrukerePaaNavn.add(b);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectBruker);
+        }
+        lukkForbindelse();
+        return BrukerePaaNavn;
+
+    } 
+    
     
     public ArrayList<Øving> getØvingerIEmnet(String emnekode){
         Øving øv = null;
