@@ -21,10 +21,11 @@ public class Database {
     private String dbPswrd;
     private Connection forbindelse;
 
+    
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
-    private final String sQLSelectBrukerPaNavn= "SELECT * FROM bruker where fornavn = ?"; 
+    private final String sqlSelectBrukerPaNavn= "SELECT * FROM bruker WHERE emnekode =?";
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
@@ -106,7 +107,7 @@ public class Database {
 
         try {
             åpneForbindelse();
-            psSelectBruker = forbindelse.prepareStatement(sQLSelectBrukerPaNavn);
+            psSelectBruker = forbindelse.prepareStatement(sqlSelectBrukerPaNavn);
             psSelectBruker.setString(1, compare);
           
             res = psSelectBruker.executeQuery();
