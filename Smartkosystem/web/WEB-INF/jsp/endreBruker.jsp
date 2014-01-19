@@ -31,15 +31,16 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
         </tr>
     </table></br>
     <table cellspacing="0" cellpadding="0">
-        
-            
-            
+
+        <ul class ="sokeresultat">
+
             <c:forEach items="${sokeresultat}" var="hverbruker" varStatus="k">
-        <tr>        <td class="tdko">
-            ${hverbruker.getFornavn()} ${hverbruker.getEtternavn()}
+                <tr>        <td class="tdko">
+                <li> <a href =  "endreBruker.htm" >${hverbruker.getFornavn()} ${hverbruker.getEtternavn()}</a> </li> 
             </td><td class="tdko"><c:out value="${k.index}"/></td></tr>
-            </c:forEach>
-   
+
+    </c:forEach>
+</ul>
 
 
 
