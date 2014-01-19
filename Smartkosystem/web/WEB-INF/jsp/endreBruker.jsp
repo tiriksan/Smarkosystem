@@ -40,11 +40,21 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
             </td><td class="tdko"><c:out value="${k.index}"/></td></tr>
 
     </c:forEach>
+
 </ul>
 
 
 
-</table>
+        
+        <tr>  
+            <td> 
+                <input type = "text" name="ost" value="${hverbruker.getFornavn()} ${hverbruker.getEtternavn()}">
+            </td>
+        </tr>
+
+
+
+    </table>
 </form>
 
 <td class="tdko">

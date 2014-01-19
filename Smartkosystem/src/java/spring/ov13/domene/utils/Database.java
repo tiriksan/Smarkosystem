@@ -97,8 +97,13 @@ public class Database {
     private void lukkForbindelse() {
         Opprydder.lukkForbindelse(forbindelse);
     }
-
-    public ArrayList<Bruker> getBrukerepaabokstav(String compare){
+// Metode for å hente inn bruker søkt på bokstav //
+    public ArrayList<Bruker> getBrukerepaabokstav(String bokstav){
+        /************************************************************************
+        *   Denne metoden er tilknyttet søkeboksen for endre bruker             *  
+        *   Lagrer en klargjort Sql setning som brukes mot database             *
+         *   Vi lager en ArrayList der vi lagrer Bruker objekter som returneres *
+        *************************************************************************/
        Bruker b = null;
         ResultSet res;
         System.out.println("getBrukerpåbokstav)");
@@ -108,7 +113,7 @@ public class Database {
         try {
             åpneForbindelse();
             psSelectBruker = forbindelse.prepareStatement(sqlSelectBrukerPaNavn);
-            psSelectBruker.setString(1, compare);
+            psSelectBruker.setString(1, bokstav);
           
             res = psSelectBruker.executeQuery();
             while (res.next()) {
