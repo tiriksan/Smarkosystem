@@ -1020,7 +1020,7 @@ public class Database {
 
         PreparedStatement psSelectInnleggFraHjelpEmne = null;
         ResultSet res;
-        Innlegg innlegg = new Innlegg();
+        Innlegg innlegg = null;
 
         try {
             åpneForbindelse();
@@ -1028,8 +1028,10 @@ public class Database {
             psSelectInnleggFraHjelpEmne.setString(1, hjelp);
             psSelectInnleggFraHjelpEmne.setString(2, emnekode);
             res = psSelectInnleggFraHjelpEmne.executeQuery();
-            res.next();
+            if(res.next()){
+            innlegg = new Innlegg();
             innlegg.setId(res.getInt("innleggsid"));
+            }
 
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
