@@ -1286,7 +1286,7 @@ public class Database {
                 Plassering plassering = new Plassering();
                 plassering.setBygning(res.getString("bygg"));
                 plassering.setEtasje(res.getInt("etasje"));
-                plassering.setRom(res.getInt("rom"));
+                plassering.setRom(res.getString("rom"));
                 innlegg.setPlass(plassering);
 
                 // KOMMENTER UT, HENT UT EKTE DIN LATSABB 
