@@ -19,7 +19,7 @@
     </tr>
 </table> 
 
-<table id="brukertabell">
+<table id="brukertabell" width="100%">
     <form:form method="POST" action="godkjennValgte.htm?x=${fag.emnenavn}">
         <tr>
             <td>Navn:</td>
