@@ -95,7 +95,7 @@ ${feilmelding}<br>
             </c:when>
 
             <c:otherwise>
-                <form method="GET" action="studentko.htm?x=${emnenavnvalgt}">
+                <form method="GET" id="emnedrop" action="studentko.htm?x=${emnenavnvalgt}">
                     <select name="x">
                         <c:forEach items="${fagene}" var="fag">
                             <option value="${fag.emnenavn}">${fag.emnekode}</option>
@@ -103,7 +103,7 @@ ${feilmelding}<br>
                             </c:if>
                         </c:forEach>
 
-                    </select><br>
+                    </select>
 
                     <input type="submit" value="Velg">
                 </form>

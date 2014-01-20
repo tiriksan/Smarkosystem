@@ -664,7 +664,7 @@ public class Database {
             String hjelper = rs.getString("hjelp");
             innlegg.setId(innleggID);
             innlegg.setKønummer(rs.getInt("kønummer"));
-            Plassering plass = new Plassering(rs.getString("bygg"), rs.getInt("etasje"), rs.getInt("rom"), rs.getInt("bord"), rs.getString("emnekode"));
+            Plassering plass = new Plassering(rs.getString("bygg"), rs.getInt("etasje"), rs.getString("rom"), rs.getInt("bord"), rs.getString("emnekode"));
             innlegg.setPlass(plass);
             innlegg.setTid(rs.getLong("tid"));
             innlegg.setKommentar(rs.getString("kommentar"));
@@ -1064,7 +1064,7 @@ public class Database {
             psInsertKø.setString(3, brukernavn);
             psInsertKø.setString(4, lokasjon.getBygning());
             psInsertKø.setInt(5, lokasjon.getEtasje());
-            psInsertKø.setInt(6, lokasjon.getRom());
+            psInsertKø.setString(6, lokasjon.getRom());
             psInsertKø.setInt(7, lokasjon.getBord());
             psInsertKø.setString(8, null);
             psInsertKø.setString(9, lokasjon.getEmnekode());
