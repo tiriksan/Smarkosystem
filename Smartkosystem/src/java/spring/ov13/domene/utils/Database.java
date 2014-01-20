@@ -957,7 +957,8 @@ public class Database {
 
         return krav;
     }
-
+    
+    /** denne metoden skal oppdatere en kravgruppe, altså øvinger som hører sammen **
     public boolean oppdaterKravgruppe(KravGruppe kravkruppe){
         boolean ok = false;
          System.out.println("oppdaterKravgruppe()");
@@ -988,7 +989,7 @@ public class Database {
         return ok;
     }
         
-        
+        */
      
     
     
