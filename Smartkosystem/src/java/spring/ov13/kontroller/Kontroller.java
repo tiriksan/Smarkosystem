@@ -208,6 +208,16 @@ public class Kontroller {
         return "endreBruker";
 
     }
+    @RequestMapping(value = "endreBruker4")
+    public String endreBrukeroppl(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtBruker") Bruker brukeren){
+       UtilsBean ub = new UtilsBean();
+       Bruker br = ub.getBruker(brukeren.getBrukernavn());
+       model.addAttribute("brukerTilEndring", br);
+       
+        return "endreBruker";
+
+    }
+    
 
     //******************* viser registreringen av en ny øving*****************************************************
     @RequestMapping(value = "regov2")
