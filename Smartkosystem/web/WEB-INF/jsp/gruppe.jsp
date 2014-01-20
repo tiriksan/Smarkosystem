@@ -15,29 +15,27 @@
 
 <table cellpadding="0" cellspacing="0" width="100%" id="infoheader">
     <tr>
-    <td id="gruppeinfo">#YOLO, #SWAG, #GRUPPE</td>
+        <td id="gruppeinfo">#YOLO, #SWAG, #GRUPPE</td>
     </tr>
 </table> 
 
-<table id="brukertabell" width="100%">
+<table id="brukertabell" width="100%" cellpadding="0" cellspacing="0">
     <form:form method="POST" action="godkjennValgte.htm?x=${fag.emnenavn}">
         <tr>
-            <td>Navn:</td>
-            <td></td>
-            <td>Øvinger som skal godkjennes:</td>
+            <td>Navn</td>
+            <td>Øvinger</td>
 
         </tr>
-        <ul>
-            <c:forEach begin="0" end="${innlegg.getBrukere().size()-1}" var="i">
-                <tr>
-                    <td>
-                <li>
+
+        <c:forEach begin="0" end="${innlegg.getBrukere().size()-1}" var="i">
+            <tr>
+                <td>
+
                     ${innlegg.getBrukere().get(i).getFornavn()}
                     ${innlegg.getBrukere().get(i).getEtternavn()}
 
-                </li>
+
                 </td>
-                <td></td>
                 <td>
                     <c:forEach begin="0" end="${innlegg.getOvinger().get(i).size()-1}" var="j">
                         ${innlegg.getOvinger().get(i).get(j).getØvingsnr()}
@@ -46,10 +44,11 @@
 
                     </c:forEach>
                 </td>
+            </tr>
+        </c:forEach>
+    </table>
+    <table id="gruppetabell" width="100%" cellpadding="0" cellspacing="0">
 
-                </tr>
-            </c:forEach>
-        </ul>
         <tr>
             <td>
                 <input type ="submit" value="Godkjenn valgte">
@@ -67,8 +66,6 @@
             <form:form id="utsett" method="POST" action="utsett.htm?x=${fag.emnenavn}">
                 <input type="submit" value="Utsett">
             </form:form>
-
-
         </td>
         <td>
             <form:form id="utsett" method="POST" action="fjern.htm?x=${fag.emnenavn}">

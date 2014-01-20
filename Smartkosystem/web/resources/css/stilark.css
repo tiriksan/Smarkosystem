@@ -383,11 +383,22 @@ td.admlaerer {
         display: table;
         border-collapse: separate;
         border: 1px solid grey;
+        border-bottom: 0px;
         background-color: #333333;
     }
     
-    
-    
     td#menubody{
         padding-top: 0px;
+    }
+    
+    table#brukertabell td{
+        
+        border-collapse: separate;
+       // border-spacing: 2px;
+        border: 1px solid grey;
+        //border-top: 0px;
+    }
+    
+    table#brukertabell th{
+        text-align: left;
     }
