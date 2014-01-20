@@ -144,7 +144,7 @@ public class Database {
     
     // Metode for å hente inn emne på søkt på bokstav //
 
-    public ArrayList<Bruker> getEmnepaabokstav(String bokstav) {
+    public ArrayList<Emne> getEmnepaabokstav(String bokstav) {
         /**
          * **********************************************************************
          * Denne metoden er tilknyttet søkeboksen for endre emne* Lagrer en
@@ -160,7 +160,7 @@ public class Database {
 
         try {
             åpneForbindelse();
-            psSelectEmne = forbindelse.prepareStatement(sqlSelectEmnePaNavn);
+            psSelectEmne = forbindelse.prepareStatement(sqlSelectEmnePaabokstav );
             System.out.println("hallais emne");
             psSelectEmne.setString(1,"%" + bokstav + "%");
             System.out.println("hallais emne2");
@@ -168,7 +168,7 @@ public class Database {
             res = psSelectEmne.executeQuery();
             while (res.next()) {
                 System.out.println("hallais emne3");
-                b = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                b = new Emne(res.getString("emnekode"),res.getString("emnenavn"),  res.getString("øvingsbeskrivelse"));
                 EmnePaaNavn.add(b);
             }
         } catch (SQLException e) {
