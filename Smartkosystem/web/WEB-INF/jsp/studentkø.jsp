@@ -17,35 +17,36 @@ ${feilmelding}<br>
 
         <c:choose>
             <c:when test="${not empty emnenavnvalgt}">
-                <c:out value="Du ser nå køen for faget ${emnenavnvalgt}"/>
+                <c:if test ="${!hjelp}">
+                    <c:out value="Du ser nå køen for faget ${emnenavnvalgt}"/>
 
-                <c:if test="${brukerinnlogg.brukertype == 3}">
-                    <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
-                        <input type ="submit" value ="Aktiver kø!">
-                    </form:form>
-                </c:if>
-                <table>
-                    <tr>
-                        <td>Status:</td>
-                        <c:if test = "${aktiv}">
-                            <td>Aktiv</td>
+                    <c:if test="${brukerinnlogg.brukertype == 3}">
+                        <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
+                            <input type ="submit" value ="Aktiver kø!">
+                        </form:form>
+                    </c:if>
+                    <table>
+                        <tr>
+                            <td>Status:</td>
+                            <c:if test = "${aktiv}">
+                                <td>Aktiv</td>
+                                <c:if test="${brukerinnlogg.brukertype == 1}">
+                                    <form:form method="POST" action="settiko.htm?x=${emnenavnvalgt}">
+                                    <input type ="submit" value ="Still i kø">
+                                </form:form>
+                            </c:if>
+                        </c:if>
+                        <c:if test = "${!aktiv}">
+                            <td>Stengt</td>
                             <c:if test="${brukerinnlogg.brukertype == 1}">
-                                <form:form method="POST" action="settiko.htm?x=${emnenavnvalgt}">
-                                <input type ="submit" value ="Still i kø">
-                            </form:form>
+                                <form:form method="POST" action="stilliko.htm?x=${emnenavnvalgt}">
+                                    <input type ="submit" value ="Still i kø" disabled>
+                                </form:form>
+                            </c:if>
                         </c:if>
-                    </c:if>
-                    <c:if test = "${!aktiv}">
-                        <td>Stengt</td>
-                        <c:if test="${brukerinnlogg.brukertype == 1}">
-                            <form:form method="POST" action="stilliko.htm?x=${emnenavnvalgt}">
-                                <input type ="submit" value ="Still i kø" disabled>
-                            </form:form>
-                        </c:if>
-                    </c:if>
-                    </tr>
-                </table>
-
+                        </tr>
+                    </table>
+                </c:if>
                 <c:if test="${hjelp}">
                     <%@include file="gruppe.jsp" %>
                 </c:if>
@@ -70,14 +71,15 @@ ${feilmelding}<br>
                                             <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
                                         </c:if>
                                         <c:if test="${brukerinnlogg.brukertype != 0}">
-                                        <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
-                                            <table>
-                                                <tr>
-                                                    <td><input type="submit" id="hjelp" value="hjelp"></td>
-                                                </tr>
-                                            </table>
+                                            <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
+                                                <table>
+                                                    <tr>
+                                                        <td><input type="submit" id="hjelp" value="hjelp" <c:if test="${hjelp}">disabled</c:if>></td>
+                                                        </tr>
+                                                    </table>
 
-                                        </form:form>
+                                            </form:form>
+                                        </c:if>
                                     </td><td class="tdko">
                                         <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
                                             - <c:out value="${hverbruker.getFornavn()}"/> <c:out value="${hverbruker.getEtternavn()}"/></br>
