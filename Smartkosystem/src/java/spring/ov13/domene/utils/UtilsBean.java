@@ -184,7 +184,9 @@ public class UtilsBean {
         return db.setKøinnleggHjelpBruker(bruker, køinnleggid);
     }
     
-    
+    public Innlegg getInnleggFraHjelpEmne(String hjelp, String emnekode){
+        return db.getInnleggFraHjelpEmne(hjelp, emnekode);
+    }
     
     public String[] getUnikeBygg(String emnekode){
     return db.getUnikeBygg(emnekode);
