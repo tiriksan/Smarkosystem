@@ -283,6 +283,7 @@ public class TestDB {
     
     @After
     public void rivNed() {
+        if(db != null)
         db.shutdown();
     }
     
