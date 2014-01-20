@@ -239,7 +239,7 @@ public class Kontroller {
 
   //************* sjekker inputten på endre emne søkemotor *************
     @RequestMapping(value = "endreemne2")
-    public String SøkeboksEmne(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String endreemne, @ModelAttribute(value = "valgtEmne") Bruker valgtEmne) {
+    public String SøkeboksEmne(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String endreemne, @ModelAttribute(value = "valgtEmne") Emne valgtEmne) {
 
         String emnenavnet = null;
        
@@ -250,7 +250,7 @@ public class Kontroller {
         model.addAttribute("sokeresultat", emn);
         for (int i = 0; i < emn.size(); i++) {
                
-           System.out.println("Du søkte på følgende emne " + emn.get(i).getEmnenavn());
+           System.out.println("Du søkte på følgende emne " + emn.get(i).getEmnekode());
                 }
         
 
@@ -260,20 +260,22 @@ public class Kontroller {
     @RequestMapping(value = "endreEmne3")
     public String endreEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Emne emnet){
        UtilsBean ub = new UtilsBean();
-       Emne em = ub.getEmne(emnet.getEmnekode());
+       Emne em = ub.getEmne(emnet.getEmnenavn());
        model.addAttribute("emneTilEndring", em);
-       
+       System.out.println("KOMMER HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIT");
         return "endreEmne";
 
     }
     @RequestMapping(value = "endreEmne4")
-    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtEmne")Emne emnet ){
+    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtemne") Emne emnet ){
+       System.out.println("STILL GOINNGGGG");
        UtilsBean ub = new UtilsBean();
        Emne em = ub.getEmne(emnet.getEmnenavn());
-       em.setEmnekode(emnet.getEmnekode());
+       em.setEmnekode(emnet.getEmnenavn());
        em.setØvingsbeskrivelse(emnet.getØvingsbeskrivelse());
        System.out.println(emnet.getEmnenavn());
        System.out.println(emnet.getEmnekode());
+       
        
        
        if(ub.oppdaterEmne(em,em.getØvingsbeskrivelse())){

@@ -32,44 +32,49 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
     </table></br>
     <table cellspacing="0" cellpadding="0">
 </form>
-        <ul class ="sokeresultat">
-            <form:form action="endreEmne3.htm" modelAttribute="valgtEmne" method="POST">
-            <c:forEach items="${sokeresultat}" var="hvertemne" varStatus="k">
-                <tr>        <td class="tdko">
-                
-                    <form:radiobutton  value="${hvertemne.getEmnenavn()}" path="emnenavn" /> ${hvertemne.getEmnekode()} &nbsp; 
-                
-            </td><td class="tdko"><c:out value="${k.index}"/></td></tr>
+<ul class ="sokeresultat">
+    <form:form action="endreEmne3.htm" modelAttribute="valgtEmne" method="POST">
+        <c:forEach items="${sokeresultat}" var="hvertemne" varStatus="k">
+            <tr>        <td class="tdko">
 
-    </c:forEach>
-    <c:if test="${not empty sokeresultat}">
-                <input type="submit" value="Velg emne"/></c:if>
-                </form:form>
+                    <form:radiobutton  value="${hvertemne.getEmnekode()}" path="emnenavn" /> ${hvertemne.getEmnenavn()} &nbsp; 
+
+                </td><td class="tdko"><c:out value="${k.index}"/></td></tr>
+
+        </c:forEach>
+        <c:if test="${not empty sokeresultat}">
+            <input type="submit" value="Velg emne"/></c:if>
+    </form:form>
 </table>
 </ul>
 <c:if test="${funkafint eq true}">
-                    Oppdatering vellykket!
-                </c:if>
+    Oppdatering vellykket!
+</c:if>
 
-        <c:if test="${not empty emneTilEndring}">
-            <form:form action="endreEmne4.htm" modelAttribute="valgtemne" method="POST">
+   
+    <c:if test="${not empty brukerTilEndring}">
+    <form:form action="endreEmne4.htm" modelAttribute="valgtemne" method="POST">
         <table>
-       <tr>  
-            <td> 
-                <form:input type ="text" readonly="true" name="emneendres" path="emnekode" value="${emneTilEndring.getEmnekode()}"/>
-                <form:input type = "text" name="emneendres" path = "emnenavn" value="${emneTilEndring.getEmnenavn()} "/>
-                <form:input type ="text" name="emneendres" path= "øvingsbeskrivelseendres" value="${emneTilEndring.getØvingsbeskrivelse()}"/>
-                <input type="submit" name="emneendres" value="Lagre endringer">
-                
-            </td>
-        </tr>
+            <tr>  
+                <td> 
+                    <form:input type ="text" name="emneendres" path="emnekode" value="${emneTilEndring.getEmnekode()}"/>
+                    <form:input type = "text" name="emneendres" path = "emnenavn" value="${emneTilEndring.getEmnenavn()} "/>
+                    <form:input type ="text" name="emneendres" path= "øvingsbeskrivelse" value="${emneTilEndring.getØvingsbeskrivelse()}"/>
+                    <input type="submit" name="emneendres" value="Lagre endringer">
+
+                </td>
+            </tr>
 
 
 
-    </table>
-            </form:form>
-        </c:if>
+        </table>
+    </form:form>
 
+</c:if>
+    
+     <c:if test="${empty brukerTilEndring}">
+        Den er tom
+    </c:if>
 
 <td class="tdko">
 
