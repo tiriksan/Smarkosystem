@@ -24,7 +24,7 @@ public class Database {
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
-    private final String sqlSelectBrukerPaNavn = "SELECT * FROM bruker WHERE fornavn =?";
+    private final String sqlSelectBrukerPaNavn = "SELECT concat(fornavn,' ',etternavn) AS navn, bruker.* FROM bruker WHERE concat(fornavn,' ',etternavn) LIKE ?";
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
@@ -116,10 +116,13 @@ public class Database {
         try {
             åpneForbindelse();
             psSelectBruker = forbindelse.prepareStatement(sqlSelectBrukerPaNavn);
-            psSelectBruker.setString(1, bokstav);
+            System.out.println("hallais");
+            psSelectBruker.setString(1,"%" + bokstav + "%");
+            System.out.println("hallais2");
 
             res = psSelectBruker.executeQuery();
             while (res.next()) {
+                System.out.println("hallais3");
                 b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
                 BrukerePaaNavn.add(b);
             }
