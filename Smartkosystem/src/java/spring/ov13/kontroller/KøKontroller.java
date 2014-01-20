@@ -72,6 +72,8 @@ public class KøKontroller {
                 Innlegg innlegg = ub.getInnleggFraHjelpEmne(bruker.getBrukernavn(), emnekode);
                 if(innlegg != null){
                     model.addAttribute("hjelp",true);
+                    request.getSession().setAttribute("emne", emnekode);
+                    request.getSession().setAttribute("id", innlegg.getId());
                     request.getSession().setAttribute("innlegg", ub.getInnleggFraID(innlegg.getId()));
                 }
                 System.out.println(bruker.getBrukertype());
