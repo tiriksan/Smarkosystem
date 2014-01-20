@@ -50,14 +50,11 @@ public class KøKontroller {
         if (bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")) {
             return "logginn";
         } else {
-            
             if(request.getAttribute("hjelp") != null){
                 model.addAttribute("hjelp",true);
             }
-            
-            
             UtilsBean ub = new UtilsBean();
-
+            
             ArrayList<Emne> fagene = ub.getFageneTilBruker(bruker.getBrukernavn());
             if (fagene != null) {
                 if (fagene.size() > 0) {
@@ -72,32 +69,31 @@ public class KøKontroller {
                     return "studentko";
                 }
                 bruker.setBrukertype(ub.getBrukertypeiEmne(bruker.getBrukernavn(),emnekode));
+                Innlegg innlegg = ub.getInnleggFraHjelpEmne(bruker, emnekode);
+                request.getSession().setAttribute("innlegg", ub.getInnleggFraID(innlegg.getId()));
                 System.out.println(bruker.getBrukertype());
                 boolean open = ub.getFagKoAktiv(emnekode);
                 model.addAttribute("aktiv", open);
-                System.out.println("Open: " + open);
                 model.addAttribute("emnenavnvalgt", emnekode);
                 if (open == false) {
                     model.addAttribute("IngenAktiv", "Det er ingen aktiv kø for dette faget");
                 } else {
                     ArrayList<Innlegg> innleggene = new ArrayList<Innlegg>();
-                    innleggene = ub.getFulleInnleggTilKo(emnekode);
+                    innleggene = ub.getFulleInnleggTilKo(emnekode);  //henter ut alle innlegene til køen med valgt emnekode
                     System.out.println(innleggene.size() + "er størrelsen på tabellen");
                     ArrayList<String> ovingtekster = new ArrayList<String>();
                     for (int i = 0; i < innleggene.size(); i++) {
-
                         String tekstenforinnlegg = "";
                         ArrayList<Integer> nummeriliste = new ArrayList<Integer>();
                         for (int a = 0; a < innleggene.get(i).getOvinger().size(); a++) { // Finner ArrayList<Øving> per bruker
-
                             for (int k = 0; k < innleggene.get(i).getOvinger().get(a).size(); k++) { // Henter alle øvingene per bruker
-
                                 boolean funnet = false;
                                 for (int e = 0; e < nummeriliste.size(); e++) {
                                     if (nummeriliste.get(e) == innleggene.get(i).getOvinger().get(a).get(k).getØvingsnr()) {
                                         funnet = true;
                                     }
                                 }
+                                //lager til teksten som skal vises under øvinger
                                 if (funnet == false) {
                                     if (innleggene.get(i).getOvinger().get(a).size() == 1) {
                                         tekstenforinnlegg += innleggene.get(i).getOvinger().get(a).get(k).getØvingsnr() + "";
@@ -110,24 +106,18 @@ public class KøKontroller {
                                             tekstenforinnlegg += innleggene.get(i).getOvinger().get(a).get(k).getØvingsnr() + ", ";
                                         }
                                     }
-
                                     nummeriliste.add(innleggene.get(i).getOvinger().get(a).get(k).getØvingsnr());
-
                                 }
                             }
-
                         }
               // tekstenforinnlegg += innleggene.get(i).getEier().getBrukernavn();
-
+                        System.out.println("tekstenforinnlegg: " + tekstenforinnlegg);
                         ovingtekster.add(tekstenforinnlegg);
-
                     }
                     model.addAttribute("ovingtekster", ovingtekster);
                     model.addAttribute("innleggene", innleggene);
                 }
-
             }
-
             return "studentko";
         }
     }
@@ -206,6 +196,8 @@ public class KøKontroller {
     @RequestMapping(value = "utsett.htm")
     public String utsett(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne){
         request.getSession().setAttribute("hjelp", false);
+        UtilsBean ub = new UtilsBean();
+        ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
     }
     
