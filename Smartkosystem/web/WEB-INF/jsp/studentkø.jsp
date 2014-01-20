@@ -11,7 +11,7 @@
 
 
 
-${feilmelding}<br>
+${feilmelding}
 <c:choose>
     <c:when test="${not empty fagene}">
 
@@ -65,16 +65,17 @@ ${feilmelding}<br>
                                         Bygning: ${innlegg.getPlass().getBygning()}</br>
                                         Etasje: ${innlegg.getPlass().getEtasje()}</br>
                                         Rom: ${innlegg.getPlass().getRom()}</br>
+                                        Tid i kø: ${innlegg.getTid()} min<br>
                                         Ekstra informasjon: ${innlegg.getKommentar()}
                                         <c:if test="${innlegg.hjelp != null}">
                                             <br>
                                             <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
                                         </c:if>
-                                        <c:if test="${brukerinnlogg.brukertype != 0}">
+                                            <c:if test="${brukerinnlogg.brukertype > 1}">
                                             <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
                                                 <table>
                                                     <tr>
-                                                        <td><input type="submit" id="hjelp" value="hjelp" <c:if test="${hjelp}">disabled</c:if>></td>
+                                                        <td><input type="submit" id="hjelp" value="hjelp" <c:if test="${hjelp || innlegg.hjelp != null}">disabled</c:if>></td>
                                                         </tr>
                                                     </table>
 

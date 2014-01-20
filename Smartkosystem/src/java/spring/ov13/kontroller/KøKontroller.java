@@ -157,6 +157,7 @@ public class KøKontroller {
         }
         
         ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
+        ub.fjernKoInnleggFraID((Integer)request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
     }
     
@@ -194,6 +195,7 @@ public class KøKontroller {
         
         
         ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
+        ub.fjernKoInnleggFraID((Integer)request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
         
     }
@@ -203,6 +205,14 @@ public class KøKontroller {
         request.getSession().setAttribute("hjelp", false);
         UtilsBean ub = new UtilsBean();
         ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
+        return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
+    }
+    @RequestMapping(value = "fjern.htm")
+    public String fjern(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne){
+        request.getSession().setAttribute("hjelp", false);
+        UtilsBean ub = new UtilsBean();
+        ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
+        ub.fjernKoInnleggFraID((Integer)request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
     }
     

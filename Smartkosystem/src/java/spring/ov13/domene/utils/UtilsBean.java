@@ -187,6 +187,9 @@ public class UtilsBean {
     public Innlegg getInnleggFraHjelpEmne(String hjelp, String emnekode){
         return db.getInnleggFraHjelpEmne(hjelp, emnekode);
     }
+    public boolean fjernKoInnleggFraID(int koID){
+        return db.fjernKoInnlegg(koID);
+    }
     
     public String[] getUnikeBygg(String emnekode){
     return db.getUnikeBygg(emnekode);

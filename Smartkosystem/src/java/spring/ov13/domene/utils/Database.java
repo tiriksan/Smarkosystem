@@ -63,11 +63,12 @@ public class Database {
     private final String sqlSelectDistinctBord = "SELECT DISTINCT bord FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ? AND rom = ?";
     private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
     private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_øvinger VALUES(?,?,?,?)";
-    private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
+    private final String sqlDeleteOvingerGodkjent = "DELETE From godkjente_øvinger WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
     private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
     private final String sqlSelectOvingIInnlegg = "SELECT * FROM øvinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
     private final String sqlSelectInnleggFraHjelpEmne = "SELECT * FROM køinnlegg WHERE hjelp = ? AND emnekode = ?";
-
+    private final String  sqlDeleteKoInnleggFraID = "DELETE from køinnlegg WHERE innleggsid = ?";
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -1178,6 +1179,32 @@ public class Database {
         lukkForbindelse();
         return returnen;
     }
+     public boolean fjernKoInnlegg(int koID) {
+        System.out.println("fjernKoInnlegg()");
+        PreparedStatement psfjernKoInnlegg = null;
+        boolean ok = false;
+        try {
+            åpneForbindelse();
+            psfjernKoInnlegg = forbindelse.prepareStatement(sqlDeleteKoInnleggFraID);
+
+            psfjernKoInnlegg.setInt(1, koID);
+            
+           int i = psfjernKoInnlegg.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "fjernKoInnlegg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "fjernKoInnlegg - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psfjernKoInnlegg);
+        }
+        lukkForbindelse();
+        return ok;
+    }
 
     public boolean erBrukerIFag(String brukernavn, String emnekode) {
         System.out.println("erBrukerIFag()");
@@ -1314,74 +1341,26 @@ public class Database {
                 Bruker eier = new Bruker();
                 eier.setBrukernavn(res.getString("eier"));
                 innlegg.setEier(eier);
-                innlegg.setBrukere(null); //TODO
+                //innlegg.setBrukere(null); //TODO
                 innlegg.setHjelp(getBruker(res.getString("hjelp"))); //TODO
                 innlegg.setKønummer(res.getInt("kønummer"));
-                innlegg.setOvinger(null); //TODO
-                innlegg.setTid(0);  //TODO
+                //innlegg.setOvinger(null); //TODO
+                innlegg.setTid((System.currentTimeMillis() - res.getTimestamp("tid").getTime())/60000);  //TODO
                 innlegg.setId(res.getInt("innleggsid"));
                 Plassering plassering = new Plassering();
                 plassering.setBygning(res.getString("bygg"));
                 plassering.setEtasje(res.getInt("etasje"));
                 plassering.setRom(res.getString("rom"));
                 innlegg.setPlass(plassering);
-
-                // KOMMENTER UT, HENT UT EKTE DIN LATSABB 
-                ArrayList<Øving> ovinger = new ArrayList<Øving>();
-                Øving øving1 = new Øving();
-                øving1.setEmnekode(emnekode);
-                øving1.setØvingsnr(1);
-                ovinger.add(øving1);
-
-                if (res.getString("eier").equals("petterlu@stud.hist.no")) {
-
-                    Øving øving2 = new Øving();
-                    øving2.setEmnekode(emnekode);
-                    øving2.setØvingsnr(2);
-                    ovinger.add(øving2);
-                }
-                Øving øving3 = new Øving();
-                øving3.setEmnekode(emnekode);
-                øving3.setØvingsnr(3);
-                ovinger.add(øving3);
-
-                Øving øving4 = new Øving();
-                øving4.setEmnekode(emnekode);
-                øving4.setØvingsnr(4);
-
-                ovinger.add(øving4);
-                // KOMMENTER UT, HENT UT EKTE DIN LATSABB - OVER AND OUT 
-
-                //innlegg.setEier(null);
-                // Plassering plass = new Plassering();
-                //plass.setBygning("MAIN HALL");
-                //plass.setEtasje(2);
-                //plass.setRom(1408);
-                //plass.setKommentar("Vi sitter på rommet like utenfor automaten.");
-                //innlegg.setPlass(plass);
-                ArrayList<ArrayList<Øving>> alleov = new ArrayList<ArrayList<Øving>>();
-                alleov.add(ovinger);
-                innlegg.setOvinger(alleov);
+                innlegg.setKommentar(res.getString("kommentar"));
+                
                 returnen.add(innlegg);
-
             }
 
-            /*
             
-             PreparedStatement trippel = forbindelse.prepareStatement(sqlSelectBruker);
-             trippel.setString(1, res.getString("brukernavn"));
-             ResultSet set = trippel.executeQuery();
-             while(set.next()){
-             Bruker bruker = new Bruker();
-             bruker.setBrukernavn(set.getString("brukernavn"));
-             bruker.setBrukertype(set.getInt("hovedbrukertype"));
-             bruker.setFornavn(set.getString("fornavn"));
-             bruker.setEtternavn(set.getString("etternavn"));
-             innlegg.setEier(bruker);
-             }
-             */
-            åpneForbindelse(); //MAY OR MAY NOT BE NEEDED
+             //MAY OR MAY NOT BE NEEDED
             for (int i = 0; i < returnen.size(); i++) {
+                åpneForbindelse();
                 dobbel = forbindelse.prepareStatement(sqlSelectAlleBrukereIInnlegg);
                 System.out.println("Henter fra ID: " + returnen.get(i).getId());
                 dobbel.setInt(1, returnen.get(i).getId());
@@ -1404,8 +1383,10 @@ public class Database {
 
                 }
                 returnen.get(i).setBrukere(brukerne);
+                lukkForbindelse();
+                returnen.get(i).setOvinger(getØvingerTilBrukereIInnlegg(returnen.get(i).getId(), brukerne));
             }
-
+            
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "getFulleInnleggTilKo()");

@@ -373,6 +373,21 @@ td.admlaerer {
         margin-left: 50px;
     }
     
-    #gruppeinfo{
+    td#gruppeinfo{
+        font-family: 'Roboto', helvetica, arial, sans-serif;
         
+        color: whitesmoke;
+    }
+    
+    table#infoheader{
+        display: table;
+        border-collapse: separate;
+        border: 1px solid grey;
+        background-color: #333333;
+    }
+    
+    
+    
+    td#menubody{
+        padding-top: 0px;
     }
