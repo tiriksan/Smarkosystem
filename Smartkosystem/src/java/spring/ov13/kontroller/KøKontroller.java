@@ -157,6 +157,7 @@ public class KøKontroller {
         }
         
         ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
+        ub.fjernKoInnleggFraID((Integer)request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
     }
     
@@ -194,6 +195,7 @@ public class KøKontroller {
         
         
         ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
+        ub.fjernKoInnleggFraID((Integer)request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
         
     }

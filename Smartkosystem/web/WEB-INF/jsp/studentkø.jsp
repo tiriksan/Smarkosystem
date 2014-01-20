@@ -65,6 +65,7 @@ ${feilmelding}<br>
                                         Bygning: ${innlegg.getPlass().getBygning()}</br>
                                         Etasje: ${innlegg.getPlass().getEtasje()}</br>
                                         Rom: ${innlegg.getPlass().getRom()}</br>
+                                        Tid i kø: ${innlegg.getTid()} min<br>
                                         Ekstra informasjon: ${innlegg.getKommentar()}
                                         <c:if test="${innlegg.hjelp != null}">
                                             <br>
