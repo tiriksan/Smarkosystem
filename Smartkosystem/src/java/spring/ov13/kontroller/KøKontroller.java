@@ -69,8 +69,9 @@ public class KøKontroller {
                     return "studentko";
                 }
                 bruker.setBrukertype(ub.getBrukertypeiEmne(bruker.getBrukernavn(),emnekode));
-                Innlegg innlegg = ub.getInnleggFraHjelpEmne(bruker, emnekode);
-                if(innlegg != null){
+                Innlegg innlegg = ub.getInnleggFraHjelpEmne(bruker.getBrukernavn(), emnekode);
+                if(innlegg.getId() != 0){
+                    model.addAttribute("hjelp",true);
                     request.getSession().setAttribute("innlegg", ub.getInnleggFraID(innlegg.getId()));
                 }
                 System.out.println(bruker.getBrukertype());
