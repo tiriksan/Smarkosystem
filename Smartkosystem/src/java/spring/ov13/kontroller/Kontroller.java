@@ -209,11 +209,11 @@ public class Kontroller {
 
     }
     @RequestMapping(value = "endreBruker4")
-    public String endreBrukeroppl(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtBruker") Bruker brukeren){
+    public String endreBrukeroppl(Model model, HttpServletRequest request, @ModelAttribute(value = "endretBruker") Bruker brukeren){
        UtilsBean ub = new UtilsBean();
        ub.oppdaterBruker(brukeren);
        
-        return "endretBruker";
+        return "endreBruker";
 
     }
     
