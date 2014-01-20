@@ -957,6 +957,40 @@ public class Database {
         return krav;
     }
 
+    public boolean oppdaterKravgruppe(KravGruppe kravkruppe){
+        boolean ok = false;
+         System.out.println("oppdaterKravgruppe()");
+        PreparedStatement psUpdateKravGruppe = null;
+
+        try {
+            åpneForbindelse();
+            psUpdateKravGruppe = forbindelse.prepareStatement(sqlUpdateKravGruppe);
+            psUpdateKravGruppe.setString(1, kravgruppe.getGruppeID());
+            psUpdateKravGruppe.setString(2, kravgruppe.getEmnekode());
+            psUpdateKravGruppe.setInt(3, kravgruppe.getAntGodkjent());
+            
+            int i = psUpdateKravGruppe.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "oppdaterKravGruppe()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "oppdaterKravGruppe - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+           
+        }
+        lukkForbindelse();
+        return ok;
+    }
+        
+        
+     
+    
+    
     public ArrayList<String> getInfoTilBruker(String brukernavn) {
         System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;
