@@ -31,7 +31,7 @@ public class Database {
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
     private final String sqlInsertFag = "INSERT INTO emne VALUES(?,?,?)";
-    private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, emnekode=? WHERE emnekode=?";
+    private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, øvingsbeskrivelse=? WHERE emnekode=?";
     private final String sqlSelectEmnePaabokstav = "SELECT concat(emnekode,'-',emnenavn) AS navn, emne.* FROM emne WHERE concat(emnekode,'-',emnenavn) LIKE ?";
     private final String sqlSelectBrukereIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? ORDER BY etternavn";
@@ -379,6 +379,8 @@ public class Database {
         lukkForbindelse();
         return brukerListe;
     }
+    
+    
 
     public synchronized boolean oppdaterBruker(Bruker bruker) {
         boolean ok = false;
@@ -536,7 +538,7 @@ public class Database {
 
     
     // er det heldig å oppdatere en primarykey? 
-    public synchronized boolean oppdaterEmne(Emne emne, String emnekode) {
+    public synchronized boolean oppdaterEmne(Emne emne, String øvingsbeskrivelse) {
         boolean ok = false;
         System.out.println("oppdaterFag()");
         PreparedStatement psUpdateFag = null;
@@ -545,8 +547,8 @@ public class Database {
             åpneForbindelse();
             psUpdateFag = forbindelse.prepareStatement(sqlUpdateFag);
             psUpdateFag.setString(1, emne.getEmnenavn());
-            psUpdateFag.setString(2, emne.getEmnekode());
-            psUpdateFag.setString(3, emnekode);
+            psUpdateFag.setString(2, øvingsbeskrivelse);
+            psUpdateFag.setString(3, emne.getEmnekode());
             int i = psUpdateFag.executeUpdate();
             if (i > 0) {
                 ok = true;
