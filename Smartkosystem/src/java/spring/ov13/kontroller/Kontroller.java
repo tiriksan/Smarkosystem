@@ -172,14 +172,15 @@ public class Kontroller {
     //****************** Viser siden for Endre Bruker, som har en søkeboks *************************** 
     @RequestMapping(value = "/endreBruker.htm")
     public String visSøkeboks(Model model) {
-
+        Bruker valgtBruker = new Bruker();
+        model.addAttribute("valgtBruker", valgtBruker);
         return "endreBruker";
 
     }
 
   //************* sjekker inputten på endre bruker søkemotor *************
     @RequestMapping(value = "endrebruker2")
-    public String Søkeboks(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String endrebruker) {
+    public String Søkeboks(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String endrebruker, @ModelAttribute(value = "valgtBruker") Bruker valgtBruker) {
 
         String navnet = null;
        // String values = request.getParameterValue("zoom_query");
@@ -195,6 +196,15 @@ public class Kontroller {
         
         // model.addAttribute("navn", fornavn);
 
+        return "endreBruker";
+
+    }
+    @RequestMapping(value = "endreBruker3")
+    public String endreBruker(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtBruker") Bruker brukeren){
+       UtilsBean ub = new UtilsBean();
+       Bruker br = ub.getBruker(brukeren.getBrukernavn());
+       model.addAttribute("brukerTilEndring", br);
+       
         return "endreBruker";
 
     }

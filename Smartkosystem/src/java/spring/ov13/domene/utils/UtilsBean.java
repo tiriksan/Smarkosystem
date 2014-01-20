@@ -50,6 +50,9 @@ public class UtilsBean {
     public ArrayList<Bruker> getValgteBrukere() {
         return valgteBrukere;
     }
+    public Bruker getBruker(String brukernavn){
+        return db.getBruker(brukernavn);
+    }
 
     public boolean endrePassord(Bruker bruker) {
         return db.endrePassord(bruker);

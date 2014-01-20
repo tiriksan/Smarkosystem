@@ -31,31 +31,42 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
         </tr>
     </table></br>
     <table cellspacing="0" cellpadding="0">
-
+</form>
         <ul class ="sokeresultat">
-
+            <form:form action="endreBruker3.htm" modelAttribute="valgtBruker" method="POST">
             <c:forEach items="${sokeresultat}" var="hverbruker" varStatus="k">
                 <tr>        <td class="tdko">
-                <li> <a href =  "endreBruker.htm" >${hverbruker.getFornavn()} ${hverbruker.getEtternavn()}</a> </li> 
+              <%-- <li> <a href =  "endreBruker.htm" >${hverbruker.getFornavn()} ${hverbruker.getEtternavn()}</a> </li> --%>
+                
+                    <form:radiobutton  value="${hverbruker.getBrukernavn()}" path="brukernavn" /> ${hverbruker.getFornavn()} &nbsp; ${hverbruker.getEtternavn()} 
+                
             </td><td class="tdko"><c:out value="${k.index}"/></td></tr>
 
     </c:forEach>
-
+    <c:if test="${not empty sokeresultat}">
+                <input type="submit" value="Endre bruker"/></c:if>
+                </form:form>
+</table>
 </ul>
 
 
-
-        
-        <tr>  
+        <c:if test="${not empty brukerTilEndring}">
+            <form:form action="endreBruker4.htm" modelAttribute="endretBruker" method="POST">
+        <table>
+       <tr>  
             <td> 
-                <input type = "text" name="ost" value="${hverbruker.getFornavn()} ${hverbruker.getEtternavn()}">
+                <input type = "text" name="brukerendres" value="${brukerTilEndring.getFornavn()} ">
+                <input type ="text" name="brukerendres" value="${brukerTilEndring.getEtternavn()}">
+                <input type ="text" readonly="true" name="brukerendres" value="${brukerTilEndring.getBrukernavn()}">
             </td>
         </tr>
 
 
 
     </table>
-</form>
+            </form:form>
+        </c:if>
+
 
 <td class="tdko">
 
