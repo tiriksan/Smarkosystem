@@ -51,6 +51,17 @@ public class DatabaseForTesting {
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
     private final String sqlInsertKø = "INSERT INTO kø VALUES(?,?,?)";
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
+    private final String sqlSelectpaabrukertype = "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
+    private final String sqlUpdateKøinnleggHjelpBruker = "UPDATE køinnlegg SET hjelp=? WHERE innleggsid=?";
+    private final String sqlSelectDistinctBygg = "SELECT DISTINCT bygg FROM lokasjon WHERE emnekode = ?";
+    private final String sqlSelectDistinctEtasje = "SELECT DISTINCT etasje FROM lokasjon WHERE emnekode = ? AND bygg = ?";
+    private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
+    private final String sqlSelectDistinctBord = "SELECT DISTINCT bord FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ? AND rom = ?";
+    private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
+    private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_øvinger VALUES(?,?,?,?)";
+    private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
+    private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
+    private final String sqlSelectOvingIInnlegg = "SELECT * FROM øvinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
 
     /*    public DatabaseForTesting(String dbNavn, String dbUser, String dbPswrd) {
      this.dbNavn = dbNavn;
@@ -995,6 +1006,188 @@ public class DatabaseForTesting {
         }
         lukkForbindelse();
         System.out.println("Returnerer liste med størrelse: " + returnen.size());
+        return returnen;
+    }
+
+    //Endre hvem som hjelper et køinnlegg. Null dersom køinnlegget ikke får hjelp
+    public boolean setKøinnleggHjelpBruker(Bruker bruker, int køinnleggid) {
+        System.out.println("setBrukerHjelperKøinnlegg()");
+        //set hjelp(brukvernavn)= bruker where køinnleggid = køinnleggid
+        PreparedStatement psUpdateKøinleggHjelpBruker = null;
+        boolean ok = false;
+        try {
+            åpneForbindelse();
+            psUpdateKøinleggHjelpBruker = forbindelse.prepareStatement(sqlUpdateKøinnleggHjelpBruker);
+            if (bruker != null) {
+                psUpdateKøinleggHjelpBruker.setString(1, bruker.getBrukernavn());
+            } else {
+                psUpdateKøinleggHjelpBruker.setString(1, null);
+            }
+            psUpdateKøinleggHjelpBruker.setInt(2, køinnleggid);
+            int i = psUpdateKøinleggHjelpBruker.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "updateKøinnleggHjelpBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "updateKøinnleggHjelpBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateKøinleggHjelpBruker);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+
+    public String[] getUnikeBygg(String emnekode) {
+        System.out.println("getUnikeBygg()");
+        PreparedStatement psGetUnikeBygg = null;
+        ArrayList<String> mid = new ArrayList<String>();
+        ResultSet res;
+
+        try {
+            åpneForbindelse();
+            psGetUnikeBygg = forbindelse.prepareStatement(sqlSelectDistinctBygg);
+
+            psGetUnikeBygg.setString(1, emnekode);
+
+            res = psGetUnikeBygg.executeQuery();
+            while (res.next()) {
+                mid.add(res.getString("bygg"));
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getUnikeBygg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getUnikeBygg - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psGetUnikeBygg);
+        }
+        lukkForbindelse();
+        String[] returnen = new String[mid.size()];
+        if (mid.size() > 0) {
+            for (int i = 0; i < mid.size(); i++) {
+                returnen[i] = mid.get(i);
+            }
+        }
+        return returnen;
+    }
+
+    public String[] getUnikeEtasjer(String emnekode, String bygg) {
+        System.out.println("getUnikeEtasjer()");
+        PreparedStatement psGetUnikeEtasjer = null;
+        ArrayList<String> mid = new ArrayList<String>();
+        ResultSet res;
+
+        try {
+            åpneForbindelse();
+            psGetUnikeEtasjer = forbindelse.prepareStatement(sqlSelectDistinctEtasje);
+
+            psGetUnikeEtasjer.setString(1, emnekode);
+            psGetUnikeEtasjer.setString(2, bygg);
+
+            res = psGetUnikeEtasjer.executeQuery();
+            while (res.next()) {
+                mid.add(res.getString("etasje"));
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getUnikeEtasjer()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getUnikeEtasjer - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psGetUnikeEtasjer);
+        }
+        lukkForbindelse();
+        String[] returnen = new String[mid.size()];
+        if (mid.size() > 0) {
+            for (int i = 0; i < mid.size(); i++) {
+                returnen[i] = mid.get(i);
+            }
+        }
+        return returnen;
+    }
+
+    public String[] getUnikeRom(String emnekode, String bygg, String etasje) {
+        System.out.println("getUnikeRom()");
+        PreparedStatement psGetUnikeRom = null;
+        ArrayList<String> mid = new ArrayList<String>();
+        ResultSet res;
+
+        try {
+            åpneForbindelse();
+            psGetUnikeRom = forbindelse.prepareStatement(sqlSelectDistinctRom);
+            int etasje2 = Integer.parseInt(etasje);
+            psGetUnikeRom.setString(1, emnekode);
+            psGetUnikeRom.setString(2, bygg);
+            psGetUnikeRom.setInt(3, etasje2);
+
+            res = psGetUnikeRom.executeQuery();
+            while (res.next()) {
+                mid.add(res.getString("rom"));
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getUnikeRom()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getUnikeRom - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psGetUnikeRom);
+        }
+        lukkForbindelse();
+        String[] returnen = new String[mid.size()];
+        if (mid.size() > 0) {
+            for (int i = 0; i < mid.size(); i++) {
+                returnen[i] = mid.get(i);
+            }
+        }
+        return returnen;
+    }
+
+    public String[] getUnikeBord(String emnekode, String bygg, String etasje, String rom) {
+        System.out.println("getUnikeBord()");
+        PreparedStatement psGetUnikeBord = null;
+        ArrayList<String> mid = new ArrayList<String>();
+        ResultSet res;
+
+        try {
+            åpneForbindelse();
+            psGetUnikeBord = forbindelse.prepareStatement(sqlSelectDistinctBord);
+            int etasje2 = Integer.parseInt(etasje);
+            psGetUnikeBord.setString(1, emnekode);
+            psGetUnikeBord.setString(2, bygg);
+            psGetUnikeBord.setInt(3, etasje2);
+            psGetUnikeBord.setString(4, rom);
+
+            res = psGetUnikeBord.executeQuery();
+            while (res.next()) {
+                mid.add(res.getString("bord"));
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getUnikeBord()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getUnikeBord - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psGetUnikeBord);
+        }
+        lukkForbindelse();
+        String[] returnen = new String[mid.size()];
+        if (mid.size() > 0) {
+            for (int i = 0; i < mid.size(); i++) {
+                returnen[i] = mid.get(i);
+            }
+        }
         return returnen;
     }
 

@@ -16,6 +16,7 @@ import spring.ov13.domene.Øving;
 import spring.ov13.domene.utils.UtilsBean;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import static org.junit.runner.Request.method;
@@ -131,6 +132,8 @@ public class KøKontroller {
         }
     }
     
+    
+    
     @RequestMapping(value = "hjelp.htm")
     public String handlePost(@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x")String emne, @RequestParam(value = "id") int id, HttpServletRequest request, RedirectAttributes ra){
         UtilsBean ub = new UtilsBean();
@@ -145,18 +148,59 @@ public class KøKontroller {
     }
     
     @RequestMapping(value = "godkjennalle.htm")
-    public String something(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne){
+    public String godkjennAlle(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne,@ModelAttribute("brukerinnlogg") Bruker bruker){
         request.getSession().setAttribute("hjelp", false);
         UtilsBean ub = new UtilsBean();
-        /*
-        for(bruker b : brukereiinnlegg){
-        godkjenn
         
+        Innlegg innlegg = ub.getInnleggFraID((Integer)request.getSession().getAttribute("id"));
+        for(Bruker b : innlegg.getBrukere()){
+            ArrayList<Integer> ovnr = new ArrayList();
+            for(Øving ov : innlegg.getOvinger().get(innlegg.getBrukere().indexOf(b))){
+                ovnr.add(ov.getØvingsnr());
+            }
+            ub.setInnOvingerGodkjent(bruker.getBrukernavn(), (String)request.getSession().getAttribute("emne"), b.getBrukernavn(), ovnr);
         }
         
-        */
         ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
+    }
+    
+    
+    @RequestMapping("godkjennValgte.htm")
+    public String godkjentValgte(Model modell, HttpServletRequest request, @RequestParam(value = "x")String emne,@ModelAttribute("brukerinnlogg") Bruker bruker){
+        UtilsBean ub = new UtilsBean();
+        System.out.println("EMNE2" + request.getParameter("x"));
+        System.out.println("EMNE? " + emne);
+        System.out.println(request.getSession().getAttribute("emne"));
+        Enumeration<String> paramNames = request.getParameterNames();
+        System.out.println("HERERERE");
+        String brukernavnMedListe = "";
+        ArrayList<Integer> liste = new ArrayList();
+        while(paramNames.hasMoreElements()){
+            String[] verdier = paramNames.nextElement().split(",");
+            if(verdier.length>1){
+            System.out.println(verdier[0] + ", "  /*verdier[1]*/);
+            if(!verdier[0].equals(brukernavnMedListe)){
+                
+                if(!liste.isEmpty()){
+                    ub.setInnOvingerGodkjent(bruker.getBrukernavn(), (String)request.getSession().getAttribute("emne"), brukernavnMedListe, liste);
+                }
+                brukernavnMedListe = verdier[0];
+                liste = new ArrayList();
+                
+            } 
+            liste.add(Integer.parseInt(verdier[1]));
+            }
+        }
+        if(!liste.isEmpty()){
+            ub.setInnOvingerGodkjent(bruker.getBrukernavn(), (String)request.getSession().getAttribute("emne"), brukernavnMedListe, liste);
+        }
+        request.getSession().setAttribute("hjelp", false);
+        
+        
+        ub.setKøinnleggHjelpBruker(null, (Integer)request.getSession().getAttribute("id"));
+        return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");   
+        
     }
     
     @RequestMapping(value = "utsett.htm")

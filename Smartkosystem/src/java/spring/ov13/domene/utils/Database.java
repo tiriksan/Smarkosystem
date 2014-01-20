@@ -21,10 +21,11 @@ public class Database {
     private String dbPswrd;
     private Connection forbindelse;
 
+    
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
-    private final String sQLSelectBrukerPaNavn= "SELECT Concat(fornavn,+\' \'+,+etternavn) as navn, bruker.* FROM bruker WHERE Concat(fornavn,+\' \',+etternavn) LIKE %?%"; 
+    private final String sqlSelectBrukerPaNavn= "SELECT * FROM bruker WHERE fornavn =?";
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
@@ -96,8 +97,13 @@ public class Database {
     private void lukkForbindelse() {
         Opprydder.lukkForbindelse(forbindelse);
     }
-
-    public ArrayList<Bruker> getBrukerepaabokstav(String compare){
+// Metode for å hente inn bruker søkt på bokstav //
+    public ArrayList<Bruker> getBrukerepaabokstav(String bokstav){
+        /************************************************************************
+        *   Denne metoden er tilknyttet søkeboksen for endre bruker             *  
+        *   Lagrer en klargjort Sql setning som brukes mot database             *
+         *   Vi lager en ArrayList der vi lagrer Bruker objekter som returneres *
+        *************************************************************************/
        Bruker b = null;
         ResultSet res;
         System.out.println("getBrukerpåbokstav)");
@@ -106,8 +112,8 @@ public class Database {
 
         try {
             åpneForbindelse();
-            psSelectBruker = forbindelse.prepareStatement(sQLSelectBrukerPaNavn);
-            psSelectBruker.setString(1, compare);
+            psSelectBruker = forbindelse.prepareStatement(sqlSelectBrukerPaNavn);
+            psSelectBruker.setString(1, bokstav);
           
             res = psSelectBruker.executeQuery();
             while (res.next()) {

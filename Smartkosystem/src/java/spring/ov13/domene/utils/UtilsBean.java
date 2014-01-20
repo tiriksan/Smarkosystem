@@ -59,7 +59,7 @@ public class UtilsBean {
        return db.getKravGruppertilEmne(emnekode);
         
     }
-
+//ENDRE PÅ DENNE?
     public Bruker get(String brukernavn) {
         for (Bruker b : alleBrukere) {
             if (b.getBrukernavn().equals(brukernavn)) {
@@ -67,6 +67,9 @@ public class UtilsBean {
             }
         }
         return null;
+    }
+    public boolean setInnOvingerGodkjent(String godkjenner, String emnekode, String brukernavn, ArrayList<Integer> øvinger){
+        return db.setInnOvingerGodkjent(godkjenner, emnekode, brukernavn, øvinger);
     }
     
     public ArrayList<Bruker> getBrukerePåBokstav(String sokeboksnavn){
@@ -115,15 +118,6 @@ public class UtilsBean {
 
     public boolean leggTilBrukereIEmner(ArrayList<Emne> emner, ArrayList<Bruker> brukere) {
         return db.leggTilBrukereIEmner(emner, brukere);
-    }
-
-    public Emne hent(String fagnavn) {
-        for (Emne f : alleFag) {
-            if (f.getEmnenavn().equals(fagnavn)) {
-                return f;
-            }
-        }
-        return null;
     }
 
     public ArrayList<Bruker> getFaglærerBruker(String fornavn, String etternavn, int brukertype){

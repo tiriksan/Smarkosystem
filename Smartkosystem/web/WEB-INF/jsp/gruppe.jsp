@@ -11,32 +11,63 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
+<br>
+Alle medlemmene av gruppen:
+<br>
+
+<table id="brukertabell">
+    <form:form method="POST" action="godkjennValgte.htm?x=${fag.emnenavn}">
+        <tr>
+            <td>Navn:</td>
+            <td></td>
+            <td>Øvinger som skal godkjennes:</td>
+
+        </tr>
+        <ul>
+            <c:forEach begin="0" end="${innlegg.getBrukere().size()-1}" var="i">
+                <tr>
+                    <td>
+                <li>
+                    ${innlegg.getBrukere().get(i).getFornavn()}
+                    ${innlegg.getBrukere().get(i).getEtternavn()}
+
+                </li>
+                </td>
+                <td></td>
+                <td>
+                    <c:forEach begin="0" end="${innlegg.getOvinger().get(i).size()-1}" var="j">
+                        ${innlegg.getOvinger().get(i).get(j).getØvingsnr()}
+
+                        <input  type="checkbox" name="${innlegg.getBrukere().get(i).getBrukernavn()},${innlegg.getOvinger().get(i).get(j).getØvingsnr()}" />
+
+                    </c:forEach>
+                </td>
+
+                </tr>
+            </c:forEach>
+        </ul>
+        <tr>
+            <td>
+                <input type ="submit" value="Godkjenn valgte">
+            </td>
+
+        </form:form>
+
+        <form:form  method="POST" action="godkjennalle.htm?x=${fag.emnenavn}">
+            <td>
+                <input type="submit" id="gkAlle" value="Godkjenn alle">
+            </td>
+        </form:form> 
+
+        <td>
+            <form:form id="utsett" method="POST" action="utsett.htm?x=${fag.emnenavn}">
+                <input type="submit" value="utsett">
+            </form:form>
 
 
-    <c:out value="Alle medlemmene av gruppen:"></c:out><br>
-        <table id="brukertabell">
-        <c:forEach begin="0" end="${innlegg.getBrukere().size()-1}" var="i">
-            <tr>
-                <td><ul>
-                        <li>
-                            ${innlegg.getBrukere().get(i).getFornavn()}
-                            ${innlegg.getBrukere().get(i).getEtternavn()}
-                            <c:forEach begin="0" end="${innlegg.getOvinger().get(i).size()-1}" var="j">
-                                ${innlegg.getOvinger().get(i).get(j).getØvingsnr()} ,
-                            </c:forEach>
-                        </li>
-                    </ul></td>
-                <td><input type="submit" value="Godkjenn"></td>
-            </tr>
-        </c:forEach>
-            <form:form method="POST" action="utsett.htm?x=${fag.emnenavn}">
-                <td><input type="submit" value="utsett"></td>
-            </form:form>
-                
-            <form:form method="POST" action="godkjennalle.htm?x=${fag.emnenavn}">
-            <td><input type="submit" id="gkAlle" value="Godkjenn alle"></td>
-            </form:form>
-    </table>
+        </td>
+    </tr>
+</table>
 
 
 
