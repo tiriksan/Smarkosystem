@@ -147,10 +147,10 @@ public class Database {
     public ArrayList<Emne> getEmnepaabokstav(String bokstav) {
         /**
          * **********************************************************************
-         * Denne metoden er tilknyttet søkeboksen for endre emne* Lagrer en
-         * klargjort Sql setning som brukes mot database * Vi lager en ArrayList
-         * der vi lagrer Emne objekter som returneres *
-        ************************************************************************
+         * Denne metoden er tilknyttet søkeboksen for endre emne* Lagrer en     *
+         * klargjort Sql setning som brukes mot database.  Vi lager en ArrayList*
+         * der vi lagrer Emne objekter som returneres                           *
+        *************************************************************************
          */
         Emne b = null;
         ResultSet res;
@@ -534,6 +534,8 @@ public class Database {
         return fagListe;
     }
 
+    
+    // er det heldig å oppdatere en primarykey? 
     public synchronized boolean oppdaterEmne(Emne emne, String emnekode) {
         boolean ok = false;
         System.out.println("oppdaterFag()");
