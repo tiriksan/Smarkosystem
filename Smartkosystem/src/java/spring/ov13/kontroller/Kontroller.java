@@ -276,7 +276,7 @@ public class Kontroller {
        System.out.println(emnet.getEmnekode());
        
        
-       if(ub.oppdaterEmne(em)){
+       if(ub.oppdaterEmne(em,em.getEmnekode())){
            System.out.println("funka med emne også");
            model.addAttribute("funkafint", true);
        }
