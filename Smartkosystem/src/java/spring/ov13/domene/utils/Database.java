@@ -207,12 +207,11 @@ public class Database {
         try {
             åpneForbindelse();
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
-            psInsertBruker.setString(1, bruker.getBrukernavn());
-            psInsertBruker.setString(2, bruker.getFornavn());
-            psInsertBruker.setString(3, bruker.getEtternavn());
-            System.out.println(bruker.getPassord());
-            psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
-            psInsertBruker.setInt(5, bruker.getBrukertype());
+            psInsertBruker.setString(1, bruker.getFornavn());
+            psInsertBruker.setString(2, bruker.getEtternavn());
+             psInsertBruker.setInt(3, bruker.getBrukertype());
+             psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
+            psInsertBruker.setString(5, bruker.getBrukernavn());
             psInsertBruker.executeUpdate();
 
             for (int i = 0; i < bruker.getFagene().size(); i++) {
@@ -338,11 +337,11 @@ public class Database {
         try {
             åpneForbindelse();
             psUpdateBruker = forbindelse.prepareStatement(sqlUpdateBruker);
-            psUpdateBruker.setString(1, bruker.getBrukernavn());
-            psUpdateBruker.setString(2, bruker.getFornavn());
-            psUpdateBruker.setString(3, bruker.getEtternavn());
-            psUpdateBruker.setInt(4, bruker.getBrukertype());
-            psUpdateBruker.setString(5, bruker.getPassord());
+            psUpdateBruker.setString(1, bruker.getFornavn());
+            psUpdateBruker.setString(2, bruker.getEtternavn());
+            psUpdateBruker.setInt(3, bruker.getBrukertype());
+            psUpdateBruker.setString(4, bruker.md5(bruker.getPassord()));
+            psUpdateBruker.setString(5, bruker.getBrukernavn());
             int i = psUpdateBruker.executeUpdate();
             if (i > 0) {
                 ok = true;
