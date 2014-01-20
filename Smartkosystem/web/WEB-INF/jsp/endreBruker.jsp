@@ -51,13 +51,13 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
 
 
         <c:if test="${not empty brukerTilEndring}">
-            <form:form action="endreBruker4.htm" modelAttribute="endretBruker" method="POST">
+            <form:form action="endreBruker4.htm" modelAttribute="valgtBruker" method="POST">
         <table>
        <tr>  
             <td> 
-                <input type = "text" name="brukerendres" value="${brukerTilEndring.getFornavn()} ">
-                <input type ="text" name="brukerendres" value="${brukerTilEndring.getEtternavn()}">
-                <input type ="text" readonly="true" name="brukerendres" value="${brukerTilEndring.getBrukernavn()}">
+                <form:input type = "text" name="brukerendres" path = "fornavn" value="${brukerTilEndring.getFornavn()} "/>
+                <form:input type ="text" name="brukerendres" path="etternavn" value="${brukerTilEndring.getEtternavn()}"/>
+                <form:input type ="text" readonly="true" name="brukerendres" path= "brukernavn" value="${brukerTilEndring.getBrukernavn()}"/>
                 <input type="submit" name="brukerendres" value="Lagre endringer">
             </td>
         </tr>
