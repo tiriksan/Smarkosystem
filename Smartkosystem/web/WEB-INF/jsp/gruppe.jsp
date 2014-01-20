@@ -13,8 +13,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<table>
-    <td id="gruppeinfo">Ekstra informasjon om gruppen</td>
+<table cellpadding="0" cellspacing="0" width="100%" id="infoheader">
+    <tr>
+    <td id="gruppeinfo">#YOLO, #SWAG, #GRUPPE</td>
+    </tr>
 </table> 
 
 <table id="brukertabell">

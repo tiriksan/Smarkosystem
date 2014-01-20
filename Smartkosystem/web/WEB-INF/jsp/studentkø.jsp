@@ -11,7 +11,7 @@
 
 
 
-${feilmelding}<br>
+${feilmelding}
 <c:choose>
     <c:when test="${not empty fagene}">
 
@@ -71,7 +71,7 @@ ${feilmelding}<br>
                                             <br>
                                             <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
                                         </c:if>
-                                        <c:if test="${brukerinnlogg.brukertype != 0}">
+                                            <c:if test="${brukerinnlogg.brukertype > 1}">
                                             <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
                                                 <table>
                                                     <tr>
