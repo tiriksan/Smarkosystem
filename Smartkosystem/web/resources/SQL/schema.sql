@@ -90,13 +90,13 @@ CONSTRAINT ovinger_i_innlegg_fk2 FOREIGN KEY(ovingsnummer, emnekode) REFERENCES 
 CONSTRAINT ovinger_i_innlegg_pk1 PRIMARY KEY(brukernavn, ovingsnummer, emnekode)
 );
 
-CREATE TABLE godkjente_ovinger(
-godkjent_av VARCHAR(50) NOT NULL,
-emnekode VARCHAR(8) NOT NULL,
-brukernavn VARCHAR(64) NOT NULL,
-ovingsnummer INT NOT NULL,
-CONSTRAINT godkjente_ovinger_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT godkjente_ovinger_fk2 FOREIGN KEY(brukernavn) REFERENCES bruker(brukernavn) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT godkjente_ovinger_fk3 FOREIGN KEY(ovingsnummer) REFERENCES oving(ovingsnummer) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT godkjente_ovinger_pk1 PRIMARY KEY(emnekode, brukernavn, ovingsnummer)
-)
+--CREATE TABLE godkjente_ovinger(
+--godkjent_av VARCHAR(64) NOT NULL,
+--emnekode VARCHAR(8) NOT NULL,
+--brukernavn VARCHAR(64) NOT NULL,
+--ovingsnummer INT NOT NULL,
+--CONSTRAINT godkjente_ovinger_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode),
+--CONSTRAINT godkjente_ovinger_fk2 FOREIGN KEY(brukernavn) REFERENCES bruker(brukernavn),
+--CONSTRAINT godkjente_ovinger_fk3 FOREIGN KEY(ovingsnummer) REFERENCES oving(ovingsnummer),
+--CONSTRAINT godkjente_ovinger_pk1 PRIMARY KEY(emnekode, brukernavn, ovingsnummer)
+--);

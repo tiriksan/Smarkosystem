@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
  */
 public class Plassering {
 
-    public Plassering(String bygning, int etasje, int rom, int bord, String emnekode) {
+    public Plassering(String bygning, int etasje, String rom, int bord, String emnekode) {
         this.bygning = bygning;
         this.etasje = etasje;
         this.rom = rom;
@@ -23,7 +23,7 @@ public class Plassering {
 
     private String bygning;
     private int etasje;
-    private int rom;
+    private String rom;
     private int bord;
     @Pattern(regexp = "\\b[A-z]{4}[0-9]{4}")
     @NotNull
@@ -37,7 +37,7 @@ public class Plassering {
         return etasje;
     }
 
-    public int getRom() {
+    public String getRom() {
         return rom;
     }
 
@@ -49,7 +49,7 @@ public class Plassering {
         this.etasje = etasje;
     }
 
-    public void setRom(int rom) {
+    public void setRom(String rom) {
         this.rom = rom;
     }
 

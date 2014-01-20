@@ -20,7 +20,7 @@ import spring.ov13.domene.*;
  */
 public class TestDB {
     //private EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    private EmbeddedDatabase db; // = builder.setType(EmbeddedDatabaseType.DERBY).addDefaultScripts().build();
+    private EmbeddedDatabase db;// = builder.setType(EmbeddedDatabaseType.DERBY).addDefaultScripts().build();
 
     @Before
     public void settOpp() {
@@ -62,7 +62,7 @@ public class TestDB {
     @Test
     public void test_registrerEksisterendeBruker() {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Bruker b = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 3, "NoSoup4U");
+        Bruker b = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 1, "NoSoup4U");
         boolean erBrukerRegistrert = database.registrerBruker(b);
         assert (!erBrukerRegistrert);
 
@@ -273,8 +273,17 @@ public class TestDB {
         assert(oppdatert);
     }
     
+    @Test
+    public void test_hjelpGruppe() {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Bruker b = database.getBruker("laerer@hist.no");
+        boolean oppdatert = database.setKøinnleggHjelpBruker(b, 1);
+        assert(oppdatert);
+    }
+    
     @After
     public void rivNed() {
+        if(db != null)
         db.shutdown();
     }
     

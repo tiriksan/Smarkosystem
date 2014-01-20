@@ -10,10 +10,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<br>
-Alle medlemmene av gruppen:
-<br>
+<table>
+    <td id="gruppeinfo">Ekstra informasjon om gruppen</td>
+</table> 
 
 <table id="brukertabell">
     <form:form method="POST" action="godkjennValgte.htm?x=${fag.emnenavn}">

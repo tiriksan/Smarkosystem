@@ -651,6 +651,7 @@ public class Database {
     }
 
     public Innlegg getInnleggFraID(int innleggID) {
+        System.out.println("Innleggid: " + innleggID);
         Innlegg innlegg = new Innlegg();
         PreparedStatement psSelectInnlegg = null;
         try {
@@ -659,10 +660,8 @@ public class Database {
             psSelectInnlegg.setInt(1, innleggID);
             ResultSet rs = psSelectInnlegg.executeQuery();
             rs.next();
-            innlegg.setBrukere(getBrukereIInnlegg(innleggID));
-            innlegg.setOvinger(getØvingerTilBrukereIInnlegg(innleggID, innlegg.getBrukere()));
-            innlegg.setEier(getBruker(rs.getString("eier")));
-            innlegg.setHjelp(getBruker(rs.getString("hjelp")));
+            String eier = rs.getString("eier");
+            String hjelper = rs.getString("hjelp");
             innlegg.setId(innleggID);
             innlegg.setKønummer(rs.getInt("kønummer"));
             Plassering plass = new Plassering(rs.getString("bygg"), rs.getInt("etasje"), rs.getInt("rom"), rs.getInt("bord"), rs.getString("emnekode"));
@@ -670,7 +669,11 @@ public class Database {
             innlegg.setTid(rs.getLong("tid"));
             innlegg.setKommentar(rs.getString("kommentar"));
             innlegg.setEmnekode(rs.getString("emnekode"));
-
+            lukkForbindelse();
+            innlegg.setEier(getBruker(eier));
+            innlegg.setHjelp(getBruker(hjelper));
+            innlegg.setBrukere(getBrukereIInnlegg(innleggID));
+            innlegg.setOvinger(getØvingerTilBrukereIInnlegg(innleggID, innlegg.getBrukere()));
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "getInnleggFraID()");
@@ -1286,7 +1289,7 @@ public class Database {
                 Plassering plassering = new Plassering();
                 plassering.setBygning(res.getString("bygg"));
                 plassering.setEtasje(res.getInt("etasje"));
-                plassering.setRom(res.getInt("rom"));
+                plassering.setRom(res.getString("rom"));
                 innlegg.setPlass(plassering);
 
                 // KOMMENTER UT, HENT UT EKTE DIN LATSABB 

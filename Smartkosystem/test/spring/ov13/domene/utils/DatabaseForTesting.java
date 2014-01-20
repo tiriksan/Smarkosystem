@@ -817,7 +817,7 @@ public class DatabaseForTesting {
             psInsertKø.setString(3, brukernavn);
             psInsertKø.setString(4, lokasjon.getBygning());
             psInsertKø.setInt(5, lokasjon.getEtasje());
-            psInsertKø.setInt(6, lokasjon.getRom());
+            psInsertKø.setString(6, lokasjon.getRom());
             psInsertKø.setInt(7, lokasjon.getBord());
             psInsertKø.setString(8, null);
             psInsertKø.setString(9, lokasjon.getEmnekode());
@@ -947,7 +947,7 @@ public class DatabaseForTesting {
                 Plassering plass = new Plassering();
                 plass.setBygning("MAIN HALL");
                 plass.setEtasje(2);
-                plass.setRom(1408);
+                plass.setRom("1408");
                 innlegg.setPlass(plass);
                 ArrayList<ArrayList<Øving>> alleov = new ArrayList<ArrayList<Øving>>();
                 alleov.add(ovinger);
