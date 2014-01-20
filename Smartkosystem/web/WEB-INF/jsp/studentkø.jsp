@@ -11,21 +11,9 @@
 
 
 
-${feilmelding}
+${feilmelding}<br>
 <c:choose>
     <c:when test="${not empty fagene}">
-
-        <c:forEach items="${fagene}" var="fag">
-            <a href="<c:url value="/studentko.htm?x=${fag.emnenavn}"/>">${fag.emnekode}</a>
-
-            <c:if test="${not empty emnekodevalgt}">
-
-
-
-            </c:if>
-
-
-        </c:forEach>
 
         <c:choose>
             <c:when test="${not empty emnenavnvalgt}">
@@ -81,7 +69,7 @@ ${feilmelding}
                                             <br>
                                             <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
                                         </c:if>
-                                        <%--<c:if test="${brukerinnlogg.brukertype != 0}">--%>
+                                        <c:if test="${brukerinnlogg.brukertype != 0}">
                                         <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
                                             <table>
                                                 <tr>
@@ -105,8 +93,18 @@ ${feilmelding}
             </c:when>
 
             <c:otherwise>
-                Du må velge et fag.    
+                <form method="GET" action="studentko.htm?x=${emnenavnvalgt}">
+                    <select name="x">
+                        <c:forEach items="${fagene}" var="fag">
+                            <option value="${fag.emnenavn}">${fag.emnekode}</option>
+                            <c:if test="${not empty emnekodevalgt}">
+                            </c:if>
+                        </c:forEach>
 
+                    </select><br>
+
+                    <input type="submit" value="Velg">
+                </form>
             </c:otherwise>
 
         </c:choose>
