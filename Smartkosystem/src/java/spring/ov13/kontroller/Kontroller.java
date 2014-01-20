@@ -260,7 +260,7 @@ public class Kontroller {
     @RequestMapping(value = "endreEmne3")
     public String endreEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Emne emnet){
        UtilsBean ub = new UtilsBean();
-       Emne em = ub.getEmne(emnet.getEmnenavn());
+       Emne em = ub.getEmne(emnet.getEmnekode());
        model.addAttribute("emneTilEndring", em);
        
         return "endreEmne";

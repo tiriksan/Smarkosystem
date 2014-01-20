@@ -56,9 +56,9 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
         <table>
        <tr>  
             <td> 
-                <form:input type = "text" name="emneendres" path = "emnenavn" value="$emneTilEndring.getEmnenavn()} "/>
-                <form:input type ="text" name="emneendres" path="emnekode" value="${emneTilEndring.getEmnekode()}"/>
-                <form:input type ="text" name="emnerendres" path= "øvingsbeskrivelseendres" value="${emneTilEndring.getØvingsbeskrivelse()}"/>
+                <form:input type ="text" readonly="true" name="emneendres" path="emnekode" value="${emneTilEndring.getEmnekode()}"/>
+                <form:input type = "text" name="emneendres" path = "emnenavn" value="${emneTilEndring.getEmnenavn()} "/>
+                <form:input type ="text" name="emneendres" path= "øvingsbeskrivelseendres" value="${emneTilEndring.getØvingsbeskrivelse()}"/>
                 <input type="submit" name="emneendres" value="Lagre endringer">
                 
             </td>

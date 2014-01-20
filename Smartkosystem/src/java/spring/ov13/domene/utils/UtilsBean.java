@@ -114,6 +114,10 @@ public class UtilsBean {
     public Emne getEmne(String emnekode) {
         return db.getFag(emnekode);
     }
+    
+    public ArrayList<Emne> getEmnePåBokstav(String bokstav){
+        return db.getEmnepaabokstav(bokstav);
+    }
 
     public ArrayList<Emne> getValgteEmner() {
         return valgteEmner;
