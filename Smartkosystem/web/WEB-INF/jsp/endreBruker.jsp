@@ -48,7 +48,9 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
                 </form:form>
 </table>
 </ul>
-
+<c:if test="${funkafint eq true}">
+                    Oppdatering vellykket!
+                </c:if>
 
         <c:if test="${not empty brukerTilEndring}">
             <form:form action="endreBruker4.htm" modelAttribute="valgtBruker" method="POST">
@@ -59,6 +61,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
                 <form:input type ="text" name="brukerendres" path="etternavn" value="${brukerTilEndring.getEtternavn()}"/>
                 <form:input type ="text" readonly="true" name="brukerendres" path= "brukernavn" value="${brukerTilEndring.getBrukernavn()}"/>
                 <input type="submit" name="brukerendres" value="Lagre endringer">
+                
             </td>
         </tr>
 

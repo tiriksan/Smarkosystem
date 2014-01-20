@@ -216,10 +216,12 @@ public class Kontroller {
        br.setEtternavn(bruker.getEtternavn());
        System.out.println(br.getFornavn());
        System.out.println(bruker.getFornavn());
+       
        //ub.oppdaterBruker(br);
        
        if(ub.oppdaterBruker(br)){
            System.out.println("funka");
+           model.addAttribute("funkafint", true);
        }
        //Bruker oppdatertbruker = ub.getBruker(br);
        System.out.println(br.getFornavn());
