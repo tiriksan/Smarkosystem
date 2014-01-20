@@ -140,6 +140,52 @@ public class Database {
         return BrukerePaaNavn;
 
     }
+    
+    // Metode for å hente inn emne på søkt på bokstav //
+
+    public ArrayList<Bruker> getEmnepaabokstav(String bokstav) {
+        /**
+         * **********************************************************************
+         * Denne metoden er tilknyttet søkeboksen for endre emne* Lagrer en
+         * klargjort Sql setning som brukes mot database * Vi lager en ArrayList
+         * der vi lagrer Emne objekter som returneres *
+        ************************************************************************
+         */
+        Emne b = null;
+        ResultSet res;
+        System.out.println("getEmnepåbokstav)");
+        PreparedStatement psSelectEmne= null;
+        ArrayList<Emne> EmnePaaNavn = new ArrayList<Emne>();
+
+        try {
+            åpneForbindelse();
+            psSelectEmne = forbindelse.prepareStatement(sqlSelectEmnePaNavn);
+            System.out.println("hallais emne");
+            psSelectEmne.setString(1,"%" + bokstav + "%");
+            System.out.println("hallais emne2");
+
+            res = psSelectEmne.executeQuery();
+            while (res.next()) {
+                System.out.println("hallais emne3");
+                b = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                EmnePaaNavn.add(b);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getEmnepaabokstav()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getEmne - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            
+        }
+        lukkForbindelse();
+        return EmnePaaNavn;
+
+    }
+    
+    
+    
 
     public ArrayList<Øving> getØvingerIEmnet(String emnekode) {
         Øving øv = null;

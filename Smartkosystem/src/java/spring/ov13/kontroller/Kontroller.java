@@ -217,16 +217,73 @@ public class Kontroller {
        System.out.println(br.getFornavn());
        System.out.println(bruker.getFornavn());
        
-       //ub.oppdaterBruker(br);
-       
        if(ub.oppdaterBruker(br)){
            System.out.println("funka");
            model.addAttribute("funkafint", true);
        }
-       //Bruker oppdatertbruker = ub.getBruker(br);
        System.out.println(br.getFornavn());
        
         return "endreBruker";
+
+    }
+    
+    //************ Viser siden for ENDRE emne som har en søkeboks ***************************
+    
+     @RequestMapping(value = "/endreEmne.htm")
+    public String visSøkeboksEmne(Model model) {
+        Emne valgtEmne= new Emne();
+        model.addAttribute("valgtEmne", valgtEmne);
+        return "endreEmne";
+
+    }
+
+  //************* sjekker inputten på endre emne søkemotor *************
+    @RequestMapping(value = "endreemne2")
+    public String SøkeboksEmne(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String endreemne, @ModelAttribute(value = "valgtEmne") Bruker valgtEmne) {
+
+        String emnenavnet = null;
+       
+        System.out.println(endreemne);
+        UtilsBean ub = new UtilsBean();
+        ArrayList<Emne> emn = ub.getEmnePåBokstav(endreemne);
+        System.out.println(emn.size() + " jabbadabba");
+        model.addAttribute("sokeresultat", emn);
+        for (int i = 0; i < emn.size(); i++) {
+               
+           System.out.println("Du søkte på følgende emne " + emn.get(i).getEmnenavn());
+                }
+        
+
+        return "endreEmne";
+
+    }
+    @RequestMapping(value = "endreEmne3")
+    public String endreEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Emne emnet){
+       UtilsBean ub = new UtilsBean();
+       Emne em = ub.getEmne(emnet.getEmnenavn());
+       model.addAttribute("emneTilEndring", em);
+       
+        return "endreEmne";
+
+    }
+    @RequestMapping(value = "endreEmne4")
+    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtEmne")Emne emnet ){
+       UtilsBean ub = new UtilsBean();
+       Emne em = ub.getEmne(emnet.getEmnenavn());
+       em.setEmnekode(emnet.getEmnekode());
+       em.setØvingsbeskrivelse(emnet.getØvingsbeskrivelse());
+       System.out.println(emnet.getEmnenavn());
+       System.out.println(emnet.getEmnekode());
+       
+       
+       if(ub.oppdaterEmne(em)){
+           System.out.println("funka med emne også");
+           model.addAttribute("funkafint", true);
+       }
+       
+       System.out.println(em.getEmnenavn());
+       
+        return "endreEmne";
 
     }
     

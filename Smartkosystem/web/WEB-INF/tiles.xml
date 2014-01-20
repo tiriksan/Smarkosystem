@@ -63,6 +63,11 @@
         <put-attribute name="body"   value="/WEB-INF/jsp/endreBruker.jsp"/>      
     </definition>
     
+    <definition name="endreEmne" extends="baseLayout">
+        <put-attribute name="title"  value="endre emne"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/endreEmne.jsp"/>      
+    </definition>
+    
     
     <definition name="henttekst" extends="baseLayout">
 
