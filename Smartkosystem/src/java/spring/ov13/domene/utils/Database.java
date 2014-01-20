@@ -67,7 +67,8 @@ public class Database {
     private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
     private final String sqlSelectOvingIInnlegg = "SELECT * FROM øvinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
     private final String sqlSelectInnleggFraHjelpEmne = "SELECT * FROM køinnlegg WHERE hjelp = ? AND emnekode = ?";
-
+    private final String  sqlDeleteKoInnleggFraID = "DELETE * from køinnlegg WHERE innleggsid = ?";
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -1143,6 +1144,32 @@ public class Database {
         }
         lukkForbindelse();
         return returnen;
+    }
+     public boolean fjernKoInnlegg(int koID) {
+        System.out.println("fjernKoInnlegg()");
+        PreparedStatement psfjernKoInnlegg = null;
+        boolean ok = false;
+        try {
+            åpneForbindelse();
+            psfjernKoInnlegg = forbindelse.prepareStatement(sqlDeleteKoInnleggFraID);
+
+            psfjernKoInnlegg.setInt(1, koID);
+            
+           int i = psfjernKoInnlegg.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "fjernKoInnlegg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "fjernKoInnlegg - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psfjernKoInnlegg);
+        }
+        lukkForbindelse();
+        return ok;
     }
 
     public boolean erBrukerIFag(String brukernavn, String emnekode) {
