@@ -75,7 +75,7 @@ ${feilmelding}
                                             <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
                                                 <table>
                                                     <tr>
-                                                        <td><input type="submit" id="hjelp" value="hjelp" <c:if test="${hjelp}">disabled</c:if>></td>
+                                                        <td><input type="submit" id="hjelp" value="hjelp" <c:if test="${hjelp || innlegg.hjelp != null}">disabled</c:if>></td>
                                                         </tr>
                                                     </table>
 

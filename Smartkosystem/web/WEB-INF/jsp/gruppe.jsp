@@ -65,10 +65,15 @@
 
         <td>
             <form:form id="utsett" method="POST" action="utsett.htm?x=${fag.emnenavn}">
-                <input type="submit" value="utsett">
+                <input type="submit" value="Utsett">
             </form:form>
 
 
+        </td>
+        <td>
+            <form:form id="utsett" method="POST" action="fjern.htm?x=${fag.emnenavn}">
+                <input type="submit" value="Fjern">
+            </form:form>
         </td>
     </tr>
 </table>
