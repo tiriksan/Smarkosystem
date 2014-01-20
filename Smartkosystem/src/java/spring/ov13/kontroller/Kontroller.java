@@ -265,37 +265,50 @@ public class Kontroller {
 
 //*************************** Viser administrer lærer siden*************************
     @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg) {
+    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getOvingValg) {
 
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
         Øving øving = new Øving();
         String emnekoden = null;
-
-        model.addAttribute("emne", emne);
-       model.addAttribute("valget", getValg);
-        ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
+       
+      model.addAttribute("øving",øving);
+       model.addAttribute("emne", emne);
+       model.addAttribute("valg", getValg);
+       model.addAttribute("ovingvalg", getOvingValg);
+        
+       
+       ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
+ 
+       
                   
-        if (getValg != null) {
-System.out.println("kommer inn i getvalg---------------------------------------------------------------------------");
+  if (getValg != null) {
+
                 ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
-                ArrayList<String> øvingtabell = new ArrayList<String>();
+                ArrayList<Øving> øvingtabell1 = new ArrayList<Øving>();
+                
                 for (int i = 0; i < øv.size(); i++) {
-                    øvingtabell.add(øv.get(i).getØvingsnr() + " " + øv.get(i).getGruppeid());
+                    System.out.println("Her kommer den utskriften................................"+øv.get(i));
+                   øvingtabell1.add(øv.get(i));
+                    
                 }
-                model.addAttribute("alleovinger", øvingtabell);
+                model.addAttribute("alleovinger", øvingtabell1);
+               
         }
 
+    
         ArrayList<String> emnetabell = new ArrayList<String>();
-
+            emnetabell.add("Velg emne");
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
             emnekoden = em.get(i).getEmnenavn();
         }
         model.addAttribute("allefagene", emnetabell);
 
+        if(getOvingValg != null){
+            
+        }
 
-        
         return "adminlaerer";
     }
 

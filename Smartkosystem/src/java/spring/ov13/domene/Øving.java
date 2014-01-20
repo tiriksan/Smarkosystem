@@ -54,5 +54,8 @@ public class Øving {
     public void setObligatorisk(boolean obligatorisk) {
         this.obligatorisk = obligatorisk;
     }
+    public String toString(){
+        return øvingsnr + " " + gruppeid;
+    }
    
 }

@@ -123,15 +123,6 @@ public class UtilsBean {
         return db.leggTilBrukereIEmner(emner, brukere);
     }
 
-    public Emne hent(String fagnavn) {
-        for (Emne f : alleFag) {
-            if (f.getEmnenavn().equals(fagnavn)) {
-                return f;
-            }
-        }
-        return null;
-    }
-
     public ArrayList<Bruker> getFaglærerBruker(String fornavn, String etternavn, int brukertype){
         return db.getFaglærerBruker(fornavn, etternavn, brukertype);
     }

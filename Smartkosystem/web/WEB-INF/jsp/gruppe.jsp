@@ -15,7 +15,7 @@
 Alle medlemmene av gruppen:
 <br>
 
-    <table id="brukertabell">
+<table id="brukertabell">
     <form:form method="POST" action="godkjennValgte.htm?x=${fag.emnenavn}">
         <tr>
             <td>Navn:</td>
@@ -23,15 +23,16 @@ Alle medlemmene av gruppen:
             <td>Øvinger som skal godkjennes:</td>
 
         </tr>
-        <c:forEach begin="0" end="${innlegg.getBrukere().size()-1}" var="i">
-            <tr>
-                <td><ul>
-                        <li>
-                            ${innlegg.getBrukere().get(i).getFornavn()}
-                            ${innlegg.getBrukere().get(i).getEtternavn()}
+        <ul>
+            <c:forEach begin="0" end="${innlegg.getBrukere().size()-1}" var="i">
+                <tr>
+                    <td>
+                <li>
+                    ${innlegg.getBrukere().get(i).getFornavn()}
+                    ${innlegg.getBrukere().get(i).getEtternavn()}
 
-                        </li>
-                    </ul></td>
+                </li>
+                </td>
                 <td></td>
                 <td>
                     <c:forEach begin="0" end="${innlegg.getOvinger().get(i).size()-1}" var="j">
@@ -42,8 +43,9 @@ Alle medlemmene av gruppen:
                     </c:forEach>
                 </td>
 
-            </tr>
-        </c:forEach>
+                </tr>
+            </c:forEach>
+        </ul>
         <tr>
             <td>
                 <input type ="submit" value="Godkjenn valgte">
