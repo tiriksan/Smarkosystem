@@ -44,7 +44,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
 
     </c:forEach>
     <c:if test="${not empty sokeresultat}">
-                <input type="submit" value="Endre bruker"/></c:if>
+                <input type="submit" value="Velg bruker"/></c:if>
                 </form:form>
 </table>
 </ul>
@@ -58,6 +58,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
                 <input type = "text" name="brukerendres" value="${brukerTilEndring.getFornavn()} ">
                 <input type ="text" name="brukerendres" value="${brukerTilEndring.getEtternavn()}">
                 <input type ="text" readonly="true" name="brukerendres" value="${brukerTilEndring.getBrukernavn()}">
+                <input type="submit" name="brukerendres" value="Lagre endringer">
             </td>
         </tr>
 
