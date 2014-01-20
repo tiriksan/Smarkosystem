@@ -70,7 +70,9 @@ public class KøKontroller {
                 }
                 bruker.setBrukertype(ub.getBrukertypeiEmne(bruker.getBrukernavn(),emnekode));
                 Innlegg innlegg = ub.getInnleggFraHjelpEmne(bruker, emnekode);
-                request.getSession().setAttribute("innlegg", ub.getInnleggFraID(innlegg.getId()));
+                if(innlegg != null){
+                    request.getSession().setAttribute("innlegg", ub.getInnleggFraID(innlegg.getId()));
+                }
                 System.out.println(bruker.getBrukertype());
                 boolean open = ub.getFagKoAktiv(emnekode);
                 model.addAttribute("aktiv", open);
