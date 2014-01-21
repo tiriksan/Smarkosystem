@@ -30,15 +30,18 @@ public class BrukerOversiktKontroller {
     }
 
     @RequestMapping(value = "/valgtBrukeroversikt.htm")
-    public String sendVidereTilBrukerOversikt(Model model, HttpServletRequest request) {
+    public String sendVidereTilBrukerOversikt(Model model, HttpServletRequest request,@RequestParam(value = "emnekode", required = false) String emnekode) {
         
-        String emnekode = (String) request.getAttribute("emnekode");
+        //String emnekode = (String) request.getAttribute("emnekode");
+        System.out.println("EMneKOde: " + emnekode);
         UtilsBean ub = new UtilsBean();
         ArrayList<Bruker> studenter = new ArrayList<Bruker>();
+        System.out.println("here?");
         studenter = ub.getStudenterIEmnet(emnekode);
         model.addAttribute("studenter", studenter);
-        request.getSession().setAttribute("emne", emnekode);
-
+        System.out.println("here2?");
+        request.getSession().setAttribute("emne", ub.getEmne(emnekode));
+        System.out.println("here2?");
         return "velgEmne";
     }
 

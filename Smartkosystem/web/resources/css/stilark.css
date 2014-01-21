@@ -381,6 +381,7 @@ td.admlaerer {
     
     tr#thGruppe{
         background-color: #808080;
+        border-bottom-color: #333333;
     }
     
     tr.brukerSkille{
@@ -431,7 +432,6 @@ td.admlaerer {
         position: relative; right: 2px;
     }
     
-   /* table#ovingKomnt{
-        float: right;
-        position: relative; bottom: 50px;
-    } */
+    p#overEmnedrop{
+        padding-left: 50px;
+    }
