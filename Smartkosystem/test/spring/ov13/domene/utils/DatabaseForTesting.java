@@ -44,13 +44,13 @@ public class DatabaseForTesting {
     private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(DEFAULT, ?, ?)";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
-    private final String sqlSelectFagKoAktiv = "SELECT * FROM kø WHERE emnekode = ?";
-    private final String sqlUpdateFagKoAktiv = "UPDATE kø SET aktiv = ? WHERE emnekode = ?";
+    private final String sqlSelectFagKoAktiv = "SELECT * FROM ko WHERE emnekode = ?";
+    private final String sqlUpdateFagKoAktiv = "UPDATE ko SET aktiv = ? WHERE emnekode = ?";
     private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg WHERE aktiv = 1";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
     private final String sqlInsertKø = "INSERT INTO ko VALUES(?,?,?)";
-    private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
+    private final String sqlInsertKøInnlegg = "INSERT INTO koinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
     private final String sqlSelectpaabrukertype = "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
     private final String sqlUpdateKøinnleggHjelpBruker = "UPDATE koinnlegg SET hjelp=? WHERE innleggsid=?";
     private final String sqlSelectDistinctBygg = "SELECT DISTINCT bygg FROM lokasjon WHERE emnekode = ?";
@@ -58,8 +58,8 @@ public class DatabaseForTesting {
     private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
     private final String sqlSelectDistinctBord = "SELECT DISTINCT bord FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ? AND rom = ?";
     private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
-    private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_øvinger VALUES(?,?,?,?)";
-    private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
+    private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_ovinger VALUES(?,?,?,?)";
+    private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND ovingsnummer = ?";
     private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
     private final String sqlSelectOvingIInnlegg = "SELECT * FROM øvinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
 
@@ -1190,6 +1190,103 @@ public class DatabaseForTesting {
             }
         }
         return returnen;
+    }
+
+    public ArrayList<ArrayList<Øving>> getØvingerTilBrukereIInnlegg(int innleggsID, ArrayList<Bruker> brukere) {
+        ArrayList<ArrayList<Øving>> øvinger = new ArrayList();
+        PreparedStatement psSqlSelectØvingerIInnlegg;
+        ResultSet res;
+        try {
+            åpneForbindelse();
+            psSqlSelectØvingerIInnlegg = forbindelse.prepareStatement(sqlSelectOvingIInnlegg);
+            psSqlSelectØvingerIInnlegg.setInt(1, innleggsID);
+            for (int i = 0; i < brukere.size(); i++) {
+                psSqlSelectØvingerIInnlegg.setString(2, brukere.get(i).getBrukernavn());
+                res = psSqlSelectØvingerIInnlegg.executeQuery();
+                øvinger.add(new ArrayList());
+                while (res.next()) {
+                    Øving ov = new Øving();
+                    ov.setEmnekode(res.getString("emnekode"));
+                    ov.setØvingsnr(res.getInt("øvingsnummer"));
+                    øvinger.get(i).add(ov);
+                }
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "øvingerIInnlegg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "øvingerIInnlegg - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psUpdateBruker);
+        }
+
+        return øvinger;
+    }
+
+    public synchronized boolean setInnOvingerGodkjent(String godkjenner, String emnekode, String brukernavn, int øving) {
+        boolean ok = false;
+        System.out.println("setOvingerGodkjent()");
+        PreparedStatement psSetInnOvingerGodkjent = null;
+
+        try {
+            åpneForbindelse();
+            int j = 0;
+
+            psSetInnOvingerGodkjent = forbindelse.prepareStatement(sqlInsertOvingerGodkjent);
+            psSetInnOvingerGodkjent.setString(1, godkjenner);
+            psSetInnOvingerGodkjent.setString(2, emnekode);
+            psSetInnOvingerGodkjent.setString(3, brukernavn);
+            psSetInnOvingerGodkjent.setInt(4, øving);
+
+            j += psSetInnOvingerGodkjent.executeUpdate();
+            if (j > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "SetInnOvingerGodkjent()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "SetInnOvingerGodkjent - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psSetInnOvingerGodkjent);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+
+    public synchronized boolean fjernOvingerGodkjent(String emnekode, String brukernavn, ArrayList<Integer> øvinger) {
+        boolean ok = false;
+        System.out.println("fjernOvingerGodkjent()");
+        PreparedStatement psfjernOvingerGodkjent = null;
+
+        try {
+            åpneForbindelse();
+            int j = 0;
+            for (int i = 0; i < øvinger.size(); i++) {
+
+                psfjernOvingerGodkjent = forbindelse.prepareStatement(sqlDeleteOvingerGodkjent);
+                psfjernOvingerGodkjent.setString(1, emnekode);
+                psfjernOvingerGodkjent.setString(2, brukernavn);
+                psfjernOvingerGodkjent.setInt(3, øvinger.get(i));
+
+                j += psfjernOvingerGodkjent.executeUpdate();
+            }
+            if (j >= øvinger.size()) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "fjernOvingerGodkjent()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "fjernOvingerGodkjent - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psfjernOvingerGodkjent );
+        }
+        lukkForbindelse();
+        return ok;
     }
 
 }
