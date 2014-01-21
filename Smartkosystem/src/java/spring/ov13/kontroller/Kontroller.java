@@ -346,7 +346,7 @@ public class Kontroller {
 
 //*************************** Viser administrer lærer siden*************************
         @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getOvingValg, HttpServletRequest request, @RequestParam(value="emne")Øving[] øvinga) {
+    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getOvingValg, HttpServletRequest request ) {
 
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
@@ -421,9 +421,14 @@ public class Kontroller {
         model.addAttribute("allefagene", emnetabell);
 
         if(oppdater != null){
+            String [] ob = new String[10];
+           //hent ut obligatorisk valgt //
+            for (int i=0; i<10; i++){
+            ob [i]= request.getParameter("obliga");
+            System.out.println(ob[i]);
+            }
             
            
-            System.out.println(øvinga[0]);
         }
         
         

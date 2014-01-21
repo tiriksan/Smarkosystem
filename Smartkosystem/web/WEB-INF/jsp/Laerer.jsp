@@ -65,7 +65,7 @@
                     <tr> <td> <input type="submit" value="Oppdater" name="oppdaterbeskrivelse" /></td> </tr>
                 </table>
             </div>
-
+   
             <div class="admlaererdiv">
                 <table>
                     <thead>
@@ -75,15 +75,17 @@
                             <th>Velg</th>
                         </tr>
                     <tbody>
+                      
                         <c:forEach items="${alleovinger}" var="admin">
 
                             <tr>
                                 <td class="admlaerer"><!--<a href="admlaerer.htm?y={admin.øvingsnr}">-->${admin.øvingsnr} </a></td>
 
-                                <td class="admlaerer"><input type="checkbox" id="oblig" <c:if test="${admin.obligatorisk eq true}">checked</c:if>></td>
+                                <td class="admlaerer"><input type="checkbox" name="obliga" id="oblig" <c:if test="${admin.obligatorisk eq true}">checked</c:if>></td>
 
-                                    <td class="admlaerer"><input type="checkbox" id="oblig"></td>
+                                    <td class="admlaerer"><input type="checkbox" name ="obliga" id="oblig"></td>
                                 </tr>
+                   
 
                         </c:forEach>
                                 
