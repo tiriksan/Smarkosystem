@@ -427,6 +427,18 @@ public class Kontroller {
 
         return "adminlaerer";
     }
+    
+      //**** kontroller for å sjekke input fra læreradmin siden. Denne siden skal sjekke hva som er valgt på lærer admin 
+    //**** siden, for så å lagre valgte øvinger i kravgrupper. **********************************
+    @RequestMapping(value="adminlaerer2", method = RequestMethod.POST)
+    public String LaererInput(Model model, @RequestParam(value = "x", required = false) String getValg, BindingResult error) {
+
+        Emne emne = new Emne();
+        model.addAttribute("emne", emne);
+        return "adminlaerer";
+        
+    }
+    
     /*
      @RequestMapping(value = "/bruker.htm")
      public String visVare(Model model) {
