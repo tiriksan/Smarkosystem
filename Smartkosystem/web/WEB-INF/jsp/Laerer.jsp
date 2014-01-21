@@ -81,10 +81,11 @@
                             <tr>
                                 <td class="admlaerer"><!--<a href="admlaerer.htm?y={admin.øvingsnr}">-->${admin.øvingsnr} </a></td>
 
-                                <td class="admlaerer"><input type="checkbox" name="obliga" id="oblig" <c:if test="${admin.obligatorisk eq true}">checked</c:if>></td>
+                                <td class="admlaerer"><input type="checkbox"  name="obliga" id="oblig" <c:if test="${admin.obligatorisk eq true}">checked</c:if>></td>
 
-                                    <td class="admlaerer"><input type="checkbox" name ="obliga" id="oblig"></td>
+                                    <td class="admlaerer"><input type="checkbox"  name ="valg" id="oblig"></td>
                                 </tr>
+                              
                    
 
                         </c:forEach>

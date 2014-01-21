@@ -355,6 +355,7 @@ public class Kontroller {
         String emnekoden = null;
         String oppdater = request.getParameter("oppdater");
         String oppdaterbeskrivelse = request.getParameter("oppdaterbeskrivelse");
+        ArrayList<Øving> øvingtabell1 = new ArrayList<Øving>();
        
       model.addAttribute("øving",øving);
        model.addAttribute("emne", emne);
@@ -393,7 +394,7 @@ public class Kontroller {
                 model.addAttribute("emnevalg", valgtEmne);
                 
                 ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
-                ArrayList<Øving> øvingtabell1 = new ArrayList<Øving>();
+                
                 
                 for (int i = 0; i < øv.size(); i++) {
                     System.out.println("Her kommer den utskriften................................"+øv.get(i));
@@ -421,15 +422,27 @@ public class Kontroller {
         model.addAttribute("allefagene", emnetabell);
 
         if(oppdater != null){
-            String [] ob = new String[10];
+          //String [] ob = new String[7];
            //hent ut obligatorisk valgt //
-            for (int i=0; i<10; i++){
-            ob [i]= request.getParameter("obliga");
-            System.out.println(ob[i]);
-            }
+            
+          // for (int i=0; i<10; i++){
+             String [] ob = request.getParameterValues("obliga");
+                 System.out.println(ob.length);
+             
+                 System.out.println(ob[0]);
+                 System.out.println(ob[1]);
+                System.out.println(ob[2]);      
+             }
+           // ob = request.getParameter("obliga");
+             
+             
+          /*  System.out.println(ob[0]);
+            System.out.println(ob[1]);
+            System.out.println(ob[2]);*/
             
            
-        }
+        
+        
         
         
         
