@@ -39,7 +39,7 @@ public class BrukerOversiktKontroller {
         model.addAttribute("studenter", studenter);
         request.getSession().setAttribute("emne", emnekode);
 
-        return "brukeroversikt";
+        return "velgEmne";
     }
 
 }
