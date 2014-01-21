@@ -304,7 +304,7 @@ public class Kontroller {
         ArrayList<String> emnetabell = new ArrayList<String>();
 
         for (int i = 0; i < em.size(); i++) {
-            emnetabell.add("Emne " + i + ": " + em.get(i).getEmnenavn());
+            emnetabell.add(em.get(i).getEmnenavn());
             emnekoden = em.get(i).getEmnenavn();
             System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden);
             model.addAttribute("emnekode", emnekoden);
@@ -333,6 +333,7 @@ public class Kontroller {
         øving.setEmnekode(values[0]);
         øving.setGruppeid(1);
         String hentekode = øving.getEmnekode();
+        System.out.println("----------------------------------------------------------------------"+hentekode);
 
         if (utilsBean.registrerØving(øving)) {
             model.addAttribute("melding", "Øving " + øving + " er registrert");
