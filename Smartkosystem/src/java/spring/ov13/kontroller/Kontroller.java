@@ -354,7 +354,7 @@ public class Kontroller {
         Øving øving = new Øving();
         String emnekoden = null;
         String oppdater = request.getParameter("oppdater");
-        String oppdaterbeskrivelse = request.getParameter("oppdaterbeskrivelse");
+        String oppdaterbeskrivelse = request.getParameter("beskrivelseinput");
        
       model.addAttribute("øving",øving);
        model.addAttribute("emne", emne);
@@ -381,11 +381,10 @@ public class Kontroller {
         }
       */
        String emnesendt = getValg;
-        if(oppdaterbeskrivelse != null){
+        if(oppdater != null){
             
-            System.out.println("Beskrivelse INPUT-...............................øøøøøøøøøøøøøøøøøø");
-            String øvingsbeskrivelse = request.getParameter("beskrivelseinput");
-            ub.oppdaterØvingsBeskrivelse(emnesendt,øvingsbeskrivelse);
+         
+            ub.oppdaterØvingsBeskrivelse(emnesendt,oppdaterbeskrivelse);
         }
 
       
@@ -413,7 +412,7 @@ public class Kontroller {
   */      
         
         ArrayList<String> emnetabell = new ArrayList<String>();
-            emnetabell.add("Velg emne");
+            emnetabell.add(getValg);
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
             emnekoden = em.get(i).getEmnenavn();
@@ -440,22 +439,7 @@ public class Kontroller {
     
       //**** kontroller for å sjekke input fra læreradmin siden. Denne siden skal sjekke hva som er valgt på lærer admin 
     //**** siden, for så å lagre valgte øvinger i kravgrupper. **********************************
-    @RequestMapping(value="adminlaerer", method = RequestMethod.POST)
-    public String LaererInput(Model model,  HttpServletRequest request, @RequestParam(value = "x", required = true) String [] getValg, BindingResult error) {
 
-        Emne emne = new Emne();
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + getValg[0]);
-        
-       // String[] values = request.getParameterValues("x");
-        
-        
-        
-        
-        
-        
-        return "adminlaerer";
-        
-    }
     
     /*
      @RequestMapping(value = "/bruker.htm")
