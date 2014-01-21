@@ -346,7 +346,7 @@ public class Kontroller {
 
 //*************************** Viser administrer lærer siden*************************
         @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getOvingValg,HttpServletRequest request) {
+    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getOvingValg, HttpServletRequest request, @RequestParam(value="emne")Øving[] øvinga) {
 
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
@@ -420,9 +420,14 @@ public class Kontroller {
         }
         model.addAttribute("allefagene", emnetabell);
 
-        if(getOvingValg != null){
+        if(oppdater != null){
             
+           
+            System.out.println(øvinga[0]);
         }
+        
+        
+        
        
 
         return "adminlaerer";
@@ -430,11 +435,19 @@ public class Kontroller {
     
       //**** kontroller for å sjekke input fra læreradmin siden. Denne siden skal sjekke hva som er valgt på lærer admin 
     //**** siden, for så å lagre valgte øvinger i kravgrupper. **********************************
-    @RequestMapping(value="adminlaerer2", method = RequestMethod.POST)
-    public String LaererInput(Model model, @RequestParam(value = "x", required = false) String getValg, BindingResult error) {
+    @RequestMapping(value="adminlaerer", method = RequestMethod.POST)
+    public String LaererInput(Model model,  HttpServletRequest request, @RequestParam(value = "x", required = true) String [] getValg, BindingResult error) {
 
         Emne emne = new Emne();
-        model.addAttribute("emne", emne);
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + getValg[0]);
+        
+       // String[] values = request.getParameterValues("x");
+        
+        
+        
+        
+        
+        
         return "adminlaerer";
         
     }
