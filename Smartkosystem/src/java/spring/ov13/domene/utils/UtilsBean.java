@@ -15,7 +15,6 @@ public class UtilsBean {
     private ArrayList<Bruker> valgteBrukere = null;
     private ArrayList<Emne> alleFag = null;
     private ArrayList<Emne> valgteEmner = null;
-    
 
     public UtilsBean() {
         System.out.println("starting utilbean");
@@ -46,23 +45,28 @@ public class UtilsBean {
         return alleBrukere;
     }
 
+    public ArrayList<Bruker> getStudenterIEmnet(String emnekode) {
+        return db.getStudenterIEmnet(emnekode);
+    }
 
     public ArrayList<Bruker> getValgteBrukere() {
         return valgteBrukere;
     }
-    public Bruker getBruker(String brukernavn){
+
+    public Bruker getBruker(String brukernavn) {
         return db.getBruker(brukernavn);
     }
 
     public boolean endrePassord(Bruker bruker) {
         return db.endrePassord(bruker);
     }
-    
-    public ArrayList<Kravgruppe> getKravGruppetilEmne(String emnekode){
-       return db.getKravGruppertilEmne(emnekode);
-        
+
+    public ArrayList<Kravgruppe> getKravGruppetilEmne(String emnekode) {
+        return db.getKravGruppertilEmne(emnekode);
+
     }
 //ENDRE PÅ DENNE?
+
     public Bruker get(String brukernavn) {
         for (Bruker b : alleBrukere) {
             if (b.getBrukernavn().equals(brukernavn)) {
@@ -71,19 +75,20 @@ public class UtilsBean {
         }
         return null;
     }
-    public boolean setInnOvingerGodkjent(String godkjenner, String emnekode, String brukernavn, ArrayList<Integer> øvinger){
+
+    public boolean setInnOvingerGodkjent(String godkjenner, String emnekode, String brukernavn, ArrayList<Integer> øvinger) {
         return db.setInnOvingerGodkjent(godkjenner, emnekode, brukernavn, øvinger);
     }
-    public boolean sjekkOvingErGodkjent(String brukernavn, String emnekode, int ovingsnr){
+
+    public boolean sjekkOvingErGodkjent(String brukernavn, String emnekode, int ovingsnr) {
         return db.sjekkOmOvingErGodkjent(brukernavn, emnekode, ovingsnr);
     }
-    
-    public ArrayList<Bruker> getBrukerePåBokstav(String sokeboksnavn){
+
+    public ArrayList<Bruker> getBrukerePåBokstav(String sokeboksnavn) {
         return db.getBrukerepaabokstav(sokeboksnavn);
     }
-    
-            
-            /*
+
+    /*
      public boolean registrerBruker(Bruker vare){
      return db.registrerBruker(vare);
      }
@@ -91,7 +96,6 @@ public class UtilsBean {
      return db.slettBruker(v);
      }
      */
-
     public boolean oppdaterBruker(Bruker b) {
         return db.oppdaterBruker(b);
     }
@@ -117,12 +121,12 @@ public class UtilsBean {
     public Emne getEmne(String emnekode) {
         return db.getFag(emnekode);
     }
-    
-    public boolean oppdaterEmne(Emne emne, String emnekode){
+
+    public boolean oppdaterEmne(Emne emne, String emnekode) {
         return db.oppdaterEmne(emne, emnekode);
     }
-    
-    public ArrayList<Emne> getEmnePåBokstav(String bokstav){
+
+    public ArrayList<Emne> getEmnePåBokstav(String bokstav) {
         return db.getEmnepaabokstav(bokstav);
     }
 
@@ -134,10 +138,10 @@ public class UtilsBean {
         return db.leggTilBrukereIEmner(emner, brukere);
     }
 
-    public ArrayList<Bruker> getFaglærerBruker(String fornavn, String etternavn, int brukertype){
+    public ArrayList<Bruker> getFaglærerBruker(String fornavn, String etternavn, int brukertype) {
         return db.getFaglærerBruker(fornavn, etternavn, brukertype);
     }
-    
+
     public ArrayList<Bruker> getAlleBrukereAvBrukertype(int brukertype) {
         return db.getAlleBrukereAvBrukertype(brukertype);
     }
@@ -149,7 +153,6 @@ public class UtilsBean {
     public boolean oppdaterØving(Øving o, int øvingsnr, String emnekode) {
         return db.oppdaterØving(o, øvingsnr, emnekode);
     }
-    
 
     public boolean erBrukerIFag(String brukernavn, String emnekode) {
         return db.erBrukerIFag(brukernavn, emnekode);
@@ -174,16 +177,19 @@ public class UtilsBean {
     public Boolean getFagKoAktiv(String emnekode) {
         return db.getFagKoAktiv(emnekode);
     }
-        public ArrayList<Øving> getØvingerIEmnet(String emnekode){
+
+    public ArrayList<Øving> getØvingerIEmnet(String emnekode) {
         return db.getØvingerIEmnet(emnekode);
     }
 
     public ArrayList<Innlegg> getFulleInnleggTilKo(String emnekode) {
         return db.getFulleInnleggTilKo(emnekode);
     }
-    public Innlegg getInnleggFraID(int innleggsID){
+
+    public Innlegg getInnleggFraID(int innleggsID) {
         return db.getInnleggFraID(innleggsID);
     }
+
     public ArrayList<Bruker> getBrukereIInnlegg(int id) {
         return db.getBrukereIInnlegg(id);
     }
@@ -191,38 +197,43 @@ public class UtilsBean {
     public boolean registrerKøInnlegg(int id, int kønummer, String brukernavn, Plassering lokasjon, String kommentar) {
         return db.registrerKøInnlegg(id, kønummer, brukernavn, lokasjon, kommentar);
     }
-    public boolean setKøinnleggHjelpBruker(Bruker bruker, int køinnleggid){
+
+    public boolean setKøinnleggHjelpBruker(Bruker bruker, int køinnleggid) {
         return db.setKøinnleggHjelpBruker(bruker, køinnleggid);
     }
-    
-    public Innlegg getInnleggFraHjelpEmne(String hjelp, String emnekode){
+
+    public Innlegg getInnleggFraHjelpEmne(String hjelp, String emnekode) {
         return db.getInnleggFraHjelpEmne(hjelp, emnekode);
     }
-    public boolean fjernKoInnleggFraID(int koID){
+
+    public boolean fjernKoInnleggFraID(int koID) {
         return db.fjernKoInnlegg(koID);
     }
-    
-    public String[] getUnikeBygg(String emnekode){
-    return db.getUnikeBygg(emnekode);
-} 
-public String[] getUnikeEtasjer(String emnekode, String bygg){
-    return db.getUnikeEtasjer(emnekode, bygg);
-}
-public String[] getUnikeRom(String emnekode, String bygg, String etasje){
-    return db.getUnikeRom(emnekode, bygg, etasje);
-}
-    public String[] getUnikeBord(String emnekode, String bygg, String etasje, String bord){
+
+    public String[] getUnikeBygg(String emnekode) {
+        return db.getUnikeBygg(emnekode);
+    }
+
+    public String[] getUnikeEtasjer(String emnekode, String bygg) {
+        return db.getUnikeEtasjer(emnekode, bygg);
+    }
+
+    public String[] getUnikeRom(String emnekode, String bygg, String etasje) {
+        return db.getUnikeRom(emnekode, bygg, etasje);
+    }
+
+    public String[] getUnikeBord(String emnekode, String bygg, String etasje, String bord) {
         return db.getUnikeBord(emnekode, bygg, etasje, bord);
     }
-         public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
-             return db.oppdaterØvingsBeskrivelse(emnekode, ovingsbeskrivelse);
-         }
-    
-    
-/*    public static void main(String[] args) {
-        UtilsBean ub = new UtilsBean();
-        Plassering p = new Plassering("Sukkerhuset", 1, 1, 1, "IFUD1043");
-        ub.registrerKøInnlegg(50, 1, "haakon.jarle.hassel@gmail.com", p, "HJELP!");
+
+    public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
+        return db.oppdaterØvingsBeskrivelse(emnekode, ovingsbeskrivelse);
     }
-*/    
+
+    /*    public static void main(String[] args) {
+     UtilsBean ub = new UtilsBean();
+     Plassering p = new Plassering("Sukkerhuset", 1, 1, 1, "IFUD1043");
+     ub.registrerKøInnlegg(50, 1, "haakon.jarle.hassel@gmail.com", p, "HJELP!");
+     }
+     */
 }
