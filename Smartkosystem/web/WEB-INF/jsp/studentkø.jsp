@@ -96,6 +96,7 @@ ${feilmelding}
             </c:when>
 
             <c:otherwise>
+                <p id="overEmnedrop">Velg ønsket fag!</p>
                 <form method="GET" id="emnedrop" action="studentko.htm?x=${emnenavnvalgt}">
                     <select name="x">
                         <c:forEach items="${fagene}" var="fag">

@@ -27,7 +27,7 @@
         </tr>
 
         <c:forEach begin="0" end="${innlegg.getBrukere().size()-1}" var="i">
-            <tr>
+            <tr <c:if test="${i%2==1}"> class="brukerSkille"</c:if>>
                 <td>
                     ${innlegg.getBrukere().get(i).getFornavn()}
                     ${innlegg.getBrukere().get(i).getEtternavn()}

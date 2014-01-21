@@ -286,7 +286,7 @@ public class TestDB {
         for (int i = 0; i < brukere.size(); i++) {
             avbrudd = res.next();
             Bruker b = brukere.get(i);
-            assertEquals(b.getBrukertype(), res.getString("hovedbrukertype"));
+            assertEquals(b.getBrukertype(), res.getInt("hovedbrukertype"));
             assert (avbrudd);
         }
         assert (brukere.size() == 2);
@@ -295,8 +295,9 @@ public class TestDB {
     @Test
     public void test_hjelpGruppe() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Bruker b = database.getBruker("laerer@hist.no");
+        Bruker b = new Bruker("laerer@hist.no", "Kjell Toft", "Hansen", 3, "");
         boolean oppdatert = database.setKøinnleggHjelpBruker(b, 1);
+        assert(oppdatert);
 
         Connection con = database.getForbindelse();
         Statement stmt = con.createStatement();
@@ -309,7 +310,6 @@ public class TestDB {
         }
 
         assertEquals(b.getBrukernavn(), brukernavn);
-        assert (oppdatert);
     }
 
     @Test

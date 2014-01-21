@@ -29,6 +29,7 @@ public class Database {
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
+    private final String sqlUpdageOvingsbeskrivelse = "UPDATE emne set øvingsbeskrivelse=? where emnekode=?";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
     private final String sqlInsertFag = "INSERT INTO emne VALUES(?,?,?)";
     private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, øvingsbeskrivelse=? WHERE emnekode=?";
@@ -71,7 +72,7 @@ public class Database {
     private final String sqlDeleteKoInnleggFraID = "DELETE from køinnlegg WHERE innleggsid = ?";
     private final String sqlSjekkOmOvingErGodkjent = "SELECT * FROM godkjente_øvinger WHERE brukernavn = ? AND emnekode = ? AND øvingsnummer = ?";
     private final String sqlSelectStudenterIEmne = "Select * FROM bruker JOIN (emne_bruker) ON (bruker.brukernavn = emne_bruker.brukernavn) WHERE emne_bruker.emnekode = ? AND emne_bruker.brukertype = 1 ORDER BY bruker.etternavn";
-    
+
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -109,7 +110,7 @@ public class Database {
          * Denne metoden er tilknyttet søkeboksen for endre bruker * Lagrer en
          * klargjort Sql setning som brukes mot database * Vi lager en ArrayList
          * der vi lagrer Bruker objekter som returneres *
-        ************************************************************************
+         * ***********************************************************************
          */
         Bruker b = null;
         ResultSet res;
@@ -121,7 +122,7 @@ public class Database {
             åpneForbindelse();
             psSelectBruker = forbindelse.prepareStatement(sqlSelectBrukerPaNavn);
             System.out.println("hallais");
-            psSelectBruker.setString(1,"%" + bokstav + "%");
+            psSelectBruker.setString(1, "%" + bokstav + "%");
             System.out.println("hallais2");
 
             res = psSelectBruker.executeQuery();
@@ -143,34 +144,33 @@ public class Database {
         return BrukerePaaNavn;
 
     }
-    
-    // Metode for å hente inn emne på søkt på bokstav //
 
+    // Metode for å hente inn emne på søkt på bokstav //
     public ArrayList<Emne> getEmnepaabokstav(String bokstav) {
         /**
          * **********************************************************************
-         * Denne metoden er tilknyttet søkeboksen for endre emne* Lagrer en     *
-         * klargjort Sql setning som brukes mot database.  Vi lager en ArrayList*
-         * der vi lagrer Emne objekter som returneres                           *
-        *************************************************************************
+         * Denne metoden er tilknyttet søkeboksen for endre emne* Lagrer en *
+         * klargjort Sql setning som brukes mot database. Vi lager en ArrayList*
+         * der vi lagrer Emne objekter som returneres *
+         * ************************************************************************
          */
         Emne b = null;
         ResultSet res;
         System.out.println("getEmnepåbokstav)");
-        PreparedStatement psSelectEmne= null;
+        PreparedStatement psSelectEmne = null;
         ArrayList<Emne> EmnePaaNavn = new ArrayList<Emne>();
 
         try {
             åpneForbindelse();
-            psSelectEmne = forbindelse.prepareStatement(sqlSelectEmnePaabokstav );
+            psSelectEmne = forbindelse.prepareStatement(sqlSelectEmnePaabokstav);
             System.out.println("hallais emne");
-            psSelectEmne.setString(1,"%" + bokstav + "%");
+            psSelectEmne.setString(1, "%" + bokstav + "%");
             System.out.println("hallais emne2");
 
             res = psSelectEmne.executeQuery();
             while (res.next()) {
                 System.out.println("hallais emne3");
-                b = new Emne(res.getString("emnekode"),res.getString("emnenavn"),  res.getString("øvingsbeskrivelse"));
+                b = new Emne(res.getString("emnekode"), res.getString("emnenavn"), res.getString("øvingsbeskrivelse"));
                 EmnePaaNavn.add(b);
             }
         } catch (SQLException e) {
@@ -180,15 +180,12 @@ public class Database {
             Opprydder.skrivMelding(e, "getEmne - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            
+
         }
         lukkForbindelse();
         return EmnePaaNavn;
 
     }
-    
-    
-    
 
     public ArrayList<Øving> getØvingerIEmnet(String emnekode) {
         Øving øv = null;
@@ -262,8 +259,8 @@ public class Database {
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
             psInsertBruker.setString(1, bruker.getFornavn());
             psInsertBruker.setString(2, bruker.getEtternavn());
-             psInsertBruker.setInt(3, bruker.getBrukertype());
-             psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
+            psInsertBruker.setInt(3, bruker.getBrukertype());
+            psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
             psInsertBruker.setString(5, bruker.getBrukernavn());
             psInsertBruker.executeUpdate();
 
@@ -381,7 +378,7 @@ public class Database {
         lukkForbindelse();
         return brukerListe;
     }
-    
+
     public ArrayList<Bruker> getStudenterIEmnet(String emnekode) {
         Bruker b = null;
         ResultSet res;
@@ -566,7 +563,6 @@ public class Database {
         return fagListe;
     }
 
-    
     // er det heldig å oppdatere en primarykey? 
     public synchronized boolean oppdaterEmne(Emne emne, String øvingsbeskrivelse) {
         boolean ok = false;
@@ -731,7 +727,8 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-     public synchronized boolean sjekkOmOvingErGodkjent(String brukenavn, String emnekode, int ovingsnr) {
+
+    public synchronized boolean sjekkOmOvingErGodkjent(String brukenavn, String emnekode, int ovingsnr) {
         boolean ok = false;
         System.out.println("sjekkOmOvingErGodkjent");
         PreparedStatement psSjekkOmOvingErGodkjent = null;
@@ -739,11 +736,11 @@ public class Database {
 
         try {
             åpneForbindelse();
-           
+
             psSjekkOmOvingErGodkjent = forbindelse.prepareStatement(sqlSjekkOmOvingErGodkjent);
-            
+
             res = psSjekkOmOvingErGodkjent.executeQuery();
-             
+
             if (res.next()) {
                 ok = true;
             }
@@ -1066,42 +1063,30 @@ public class Database {
 
         return krav;
     }
-    
-    /** denne metoden skal oppdatere en kravgruppe, altså øvinger som hører sammen **
-    public boolean oppdaterKravgruppe(KravGruppe kravkruppe){
-        boolean ok = false;
-         System.out.println("oppdaterKravgruppe()");
-        PreparedStatement psUpdateKravGruppe = null;
 
-        try {
-            åpneForbindelse();
-            psUpdateKravGruppe = forbindelse.prepareStatement(sqlUpdateKravGruppe);
-            psUpdateKravGruppe.setString(1, kravgruppe.getGruppeID());
-            psUpdateKravGruppe.setString(2, kravgruppe.getEmnekode());
-            psUpdateKravGruppe.setInt(3, kravgruppe.getAntGodkjent());
-            
-            int i = psUpdateKravGruppe.executeUpdate();
-            if (i > 0) {
-                ok = true;
-            }
-
-        } catch (SQLException e) {
-            Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "oppdaterKravGruppe()");
-        } catch (Exception e) {
-            Opprydder.skrivMelding(e, "oppdaterKravGruppe - ikke sqlfeil");
-        } finally {
-            Opprydder.settAutoCommit(forbindelse);
-           
-        }
-        lukkForbindelse();
-        return ok;
-    }
-        
-        */
-     
-    
-    
+    /**
+     * denne metoden skal oppdatere en kravgruppe, altså øvinger som hører
+     * sammen ** public boolean oppdaterKravgruppe(KravGruppe kravkruppe){
+     * boolean ok = false; System.out.println("oppdaterKravgruppe()");
+     * PreparedStatement psUpdateKravGruppe = null;
+     *
+     * try { åpneForbindelse(); psUpdateKravGruppe =
+     * forbindelse.prepareStatement(sqlUpdateKravGruppe);
+     * psUpdateKravGruppe.setString(1, kravgruppe.getGruppeID());
+     * psUpdateKravGruppe.setString(2, kravgruppe.getEmnekode());
+     * psUpdateKravGruppe.setInt(3, kravgruppe.getAntGodkjent());
+     *
+     * int i = psUpdateKravGruppe.executeUpdate(); if (i > 0) { ok = true; }
+     *
+     * } catch (SQLException e) { Opprydder.rullTilbake(forbindelse);
+     * Opprydder.skrivMelding(e, "oppdaterKravGruppe()"); } catch (Exception e)
+     * { Opprydder.skrivMelding(e, "oppdaterKravGruppe - ikke sqlfeil"); }
+     * finally { Opprydder.settAutoCommit(forbindelse);
+     *
+     * }
+     * lukkForbindelse(); return ok; }
+     *
+     */
     public ArrayList<String> getInfoTilBruker(String brukernavn) {
         System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;
@@ -1179,9 +1164,9 @@ public class Database {
             psSelectInnleggFraHjelpEmne.setString(1, hjelp);
             psSelectInnleggFraHjelpEmne.setString(2, emnekode);
             res = psSelectInnleggFraHjelpEmne.executeQuery();
-            if(res.next()){
-            innlegg = new Innlegg();
-            innlegg.setId(res.getInt("innleggsid"));
+            if (res.next()) {
+                innlegg = new Innlegg();
+                innlegg.setId(res.getInt("innleggsid"));
             }
 
         } catch (SQLException e) {
@@ -1290,7 +1275,8 @@ public class Database {
         lukkForbindelse();
         return returnen;
     }
-     public boolean fjernKoInnlegg(int koID) {
+
+    public boolean fjernKoInnlegg(int koID) {
         System.out.println("fjernKoInnlegg()");
         PreparedStatement psfjernKoInnlegg = null;
         boolean ok = false;
@@ -1299,8 +1285,8 @@ public class Database {
             psfjernKoInnlegg = forbindelse.prepareStatement(sqlDeleteKoInnleggFraID);
 
             psfjernKoInnlegg.setInt(1, koID);
-            
-           int i = psfjernKoInnlegg.executeUpdate();
+
+            int i = psfjernKoInnlegg.executeUpdate();
             if (i > 0) {
                 ok = true;
             }
@@ -1456,7 +1442,7 @@ public class Database {
                 innlegg.setHjelp(getBruker(res.getString("hjelp"))); //TODO
                 innlegg.setKønummer(res.getInt("kønummer"));
                 //innlegg.setOvinger(null); //TODO
-                innlegg.setTid((System.currentTimeMillis() - res.getTimestamp("tid").getTime())/60000);  //TODO
+                innlegg.setTid((System.currentTimeMillis() - res.getTimestamp("tid").getTime()) / 60000);  //TODO
                 innlegg.setId(res.getInt("innleggsid"));
                 Plassering plassering = new Plassering();
                 plassering.setBygning(res.getString("bygg"));
@@ -1464,12 +1450,11 @@ public class Database {
                 plassering.setRom(res.getString("rom"));
                 innlegg.setPlass(plassering);
                 innlegg.setKommentar(res.getString("kommentar"));
-                
+
                 returnen.add(innlegg);
             }
 
-            
-             //MAY OR MAY NOT BE NEEDED
+            //MAY OR MAY NOT BE NEEDED
             for (int i = 0; i < returnen.size(); i++) {
                 åpneForbindelse();
                 dobbel = forbindelse.prepareStatement(sqlSelectAlleBrukereIInnlegg);
@@ -1497,7 +1482,7 @@ public class Database {
                 lukkForbindelse();
                 returnen.get(i).setOvinger(getØvingerTilBrukereIInnlegg(returnen.get(i).getId(), brukerne));
             }
-            
+
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "getFulleInnleggTilKo()");
@@ -1693,35 +1678,32 @@ public class Database {
         }
         return returnen;
     }
-     public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
-       String ok = null;
+
+    public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
+        String ok = null;
         System.out.println("oppdaterBruker()");
         PreparedStatement psUpdateEmne = null;
-
         try {
             åpneForbindelse();
-            psUpdateEmne = forbindelse.prepareStatement(sqlUpdateBruker);
+            psUpdateEmne = forbindelse.prepareStatement(sqlUpdageOvingsbeskrivelse);
             psUpdateEmne.setString(1, ovingsbeskrivelse);
             psUpdateEmne.setString(2, emnekode);
-           
-         
             int i = psUpdateEmne.executeUpdate();
             if (i > 0) {
                 ok = ovingsbeskrivelse;
-                System.out.println("inne i if(i=0) " +ovingsbeskrivelse);
+                System.out.println("inne i if(i=0) " + ovingsbeskrivelse);
             }
-
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "oppdaterØvingsBeskrivelse()");
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "oppdaterØvingsbeskrivelse - ikke sqlfeil");
         } finally {
-            Opprydder.settAutoCommit(forbindelse);
-            //Opprydder.lukkSetning(psUpdateBruker);
+            Opprydder.settAutoCommit(forbindelse); 
+//Opprydder.lukkSetning(psUpdateBruker); 
         }
         lukkForbindelse();
-        return ok;
+        return ok; 
     }
 
-}
+        }

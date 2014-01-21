@@ -361,14 +361,14 @@ td.admlaerer {
     border: 1px solid black;
     text-align: center;
     }
-    
+  /*  
       div.admlaererdiv{
     background-color: lightblue;
     width: 111px;
     margin-left: 100px;
     margin-top: -20px;
     }
-    
+    */
     #emnedrop{
         margin-left: 50px;
     }
@@ -379,6 +379,14 @@ td.admlaerer {
         color: whitesmoke;
     }
     
+    tr#thGruppe{
+        background-color: #808080;
+        border-bottom-color: #333333;
+    }
+    
+    tr.brukerSkille{
+        background-color: #AAA;
+    }
     
     table#infoheader{
         display: table;
@@ -424,7 +432,6 @@ td.admlaerer {
         position: relative; right: 2px;
     }
     
-   /* table#ovingKomnt{
-        float: right;
-        position: relative; bottom: 50px;
-    } */
+    p#overEmnedrop{
+        padding-left: 50px;
+    }
