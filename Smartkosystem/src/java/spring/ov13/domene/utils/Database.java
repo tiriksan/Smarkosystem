@@ -1080,7 +1080,7 @@ public class Database {
         return returnen;
     }
 
-    public synchronized boolean registrerKø(String emnekode, boolean aktiv) {
+    public synchronized boolean registrerKø(int køId, String emnekode, boolean aktiv) {
         boolean ok = false;
         System.out.println("registrerKø()");
         PreparedStatement psInsertKø = null;
@@ -1088,8 +1088,9 @@ public class Database {
         try {
             åpneForbindelse();
             psInsertKø = forbindelse.prepareStatement(sqlInsertKø);
-            psInsertKø.setString(1, emnekode);
-            psInsertKø.setBoolean(2, aktiv);
+            psInsertKø.setInt(1, køId);
+            psInsertKø.setString(2, emnekode);
+            psInsertKø.setBoolean(3, aktiv);
 
             int i = psInsertKø.executeUpdate();
             if (i > 0) {

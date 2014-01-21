@@ -95,8 +95,7 @@ CONSTRAINT ovinger_i_innlegg_pk1 PRIMARY KEY(brukernavn, ovingsnummer, emnekode)
 --emnekode VARCHAR(8) NOT NULL,
 --brukernavn VARCHAR(64) NOT NULL,
 --ovingsnummer INT NOT NULL,
---CONSTRAINT godkjente_ovinger_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode),
---CONSTRAINT godkjente_ovinger_fk2 FOREIGN KEY(brukernavn) REFERENCES bruker(brukernavn),
---CONSTRAINT godkjente_ovinger_fk3 FOREIGN KEY(ovingsnummer) REFERENCES oving(ovingsnummer),
+--CONSTRAINT godkjente_ovinger_fk1 FOREIGN KEY(brukernavn) REFERENCES bruker(brukernavn),
+--CONSTRAINT godkjente_ovinger_fk2 FOREIGN KEY(emnekode, ovingsnummer) REFERENCES oving(emnekode, ovingsnummer),
 --CONSTRAINT godkjente_ovinger_pk1 PRIMARY KEY(emnekode, brukernavn, ovingsnummer)
 --);

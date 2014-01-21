@@ -315,7 +315,6 @@ public class TestDB {
     @Test
     public void test_getBrukereIInnlegg() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        
         ArrayList<Bruker> brukere = database.getBrukereIInnlegg(1);
 
         Connection con = database.getForbindelse();
@@ -327,17 +326,48 @@ public class TestDB {
         
         for (int i = 0; i < brukere.size(); i++) {
             avbrudd = res.next();
+            
             brukernavn = res.getString("brukernavn");
             Bruker b1 = database.getBruker(brukernavn);
             Bruker b2 = brukere.get(i);
+            System.out.println(b1.getBrukernavn() + " " + b2.getBrukernavn());
             assert(avbrudd);
             assertEquals(b1.getBrukernavn(), b2.getBrukernavn());
             assertEquals(b1.getBrukertype(), b2.getBrukertype());
             assertEquals(b1.getEtternavn(), b2.getEtternavn());
             assertEquals(b1.getFornavn(), b2.getFornavn());
         }
-        
-        
+    }
+    
+    @Test
+    public void test_registrerKø() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        boolean registrert = database.registrerKø(6, "TDAT3003", false);
+        assert (registrert);
+
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT * FROM ko WHERE konummer=6");
+
+        int kønummer = -1;
+        String emnekode = null;
+        boolean aktiv = true;
+
+        while (res.next()) {
+            kønummer = res.getInt("konummer");
+            emnekode = res.getString("emnekode");
+            aktiv = res.getBoolean("aktiv");
+        }
+        assertEquals(6, kønummer);
+        assertEquals("TDAT3003", emnekode);
+        assertEquals(false, aktiv);
+    }
+    
+    @Test()
+    public void test_registrerKøPåIkkeEksisterendeEmne() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        boolean duplikat = database.registrerKø(6, "MAIN", false);
+        assert (!duplikat);
     }
 
     @After
