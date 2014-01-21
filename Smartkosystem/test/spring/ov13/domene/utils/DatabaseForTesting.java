@@ -49,7 +49,7 @@ public class DatabaseForTesting {
     private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg WHERE aktiv = 1";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
-    private final String sqlInsertKø = "INSERT INTO kø VALUES(?,?,?)";
+    private final String sqlInsertKø = "INSERT INTO ko VALUES(?,?,?)";
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
     private final String sqlSelectpaabrukertype = "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
     private final String sqlUpdateKøinnleggHjelpBruker = "UPDATE koinnlegg SET hjelp=? WHERE innleggsid=?";
@@ -776,7 +776,7 @@ public class DatabaseForTesting {
         return ok;
     }
 
-    public synchronized boolean registrerKø(String emnekode, boolean aktiv) {
+    public synchronized boolean registrerKø(int køId, String emnekode, boolean aktiv) {
         boolean ok = false;
         System.out.println("registrerKø()");
         PreparedStatement psInsertKø = null;
@@ -784,8 +784,9 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psInsertKø = forbindelse.prepareStatement(sqlInsertKø);
-            psInsertKø.setString(1, emnekode);
-            psInsertKø.setBoolean(2, aktiv);
+            psInsertKø.setInt(1, køId);
+            psInsertKø.setString(2, emnekode);
+            psInsertKø.setBoolean(3, aktiv);
 
             int i = psInsertKø.executeUpdate();
             if (i > 0) {

@@ -345,13 +345,16 @@ public class Kontroller {
     }
 
 //*************************** Viser administrer lærer siden*************************
-    @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getOvingValg) {
+        @RequestMapping(value = "/adminlaerer.htm")
+    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getOvingValg,HttpServletRequest request) {
 
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
+        Emne valgtEmne = new Emne();
         Øving øving = new Øving();
         String emnekoden = null;
+        String oppdater = request.getParameter("oppdater");
+        String oppdaterbeskrivelse = request.getParameter("oppdaterbeskrivelse");
        
       model.addAttribute("øving",øving);
        model.addAttribute("emne", emne);
@@ -360,11 +363,35 @@ public class Kontroller {
         
        
        ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
- 
-       
+        Emne valgtemne = new Emne();
+
+        
+      
+      
                   
   if (getValg != null) {
+      /*
+        if(oppdater !=null){
+            ArrayList<Øving> øvingsliste = ub.getØvingerIEmnet(getValg);
+            if(øvingsliste!=null){
+                for(Øving ø: øvingsliste){
+                    System.out.println("oppdatering av " + ø + ":" + ub.oppdaterØving(ø, øvingsnrpåendretcheckbox, emnekoden));
+                }
+            }
+        }
+      */
+       String emnesendt = getValg;
+        if(oppdaterbeskrivelse != null){
+            
+            System.out.println("Beskrivelse INPUT-...............................øøøøøøøøøøøøøøøøøø");
+            String øvingsbeskrivelse = request.getParameter("beskrivelseinput");
+            ub.oppdaterØvingsBeskrivelse(emnesendt,øvingsbeskrivelse);
+        }
 
+      
+                valgtEmne = ub.getEmne(getValg);
+                model.addAttribute("emnevalg", valgtEmne);
+                
                 ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
                 ArrayList<Øving> øvingtabell1 = new ArrayList<Øving>();
                 
@@ -374,10 +401,17 @@ public class Kontroller {
                     
                 }
                 model.addAttribute("alleovinger", øvingtabell1);
-               
+                 
+                
         }
-
-    
+/*
+        ArrayList<Emne> emnet = new ArrayList<Emne>();
+        for(int i=0; i<em.size();i++){
+            emnet.add(em.get(i));
+        }
+        model.addAttribute("beskrivelse",emnet);
+  */      
+        
         ArrayList<String> emnetabell = new ArrayList<String>();
             emnetabell.add("Velg emne");
         for (int i = 0; i < em.size(); i++) {
@@ -389,10 +423,10 @@ public class Kontroller {
         if(getOvingValg != null){
             
         }
+       
 
         return "adminlaerer";
     }
-
     /*
      @RequestMapping(value = "/bruker.htm")
      public String visVare(Model model) {

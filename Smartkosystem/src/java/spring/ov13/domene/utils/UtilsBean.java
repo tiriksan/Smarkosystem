@@ -211,6 +211,9 @@ public String[] getUnikeRom(String emnekode, String bygg, String etasje){
     public String[] getUnikeBord(String emnekode, String bygg, String etasje, String bord){
         return db.getUnikeBord(emnekode, bygg, etasje, bord);
     }
+         public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
+             return db.oppdaterØvingsBeskrivelse(emnekode, ovingsbeskrivelse);
+         }
     
     
 /*    public static void main(String[] args) {

@@ -1080,7 +1080,7 @@ public class Database {
         return returnen;
     }
 
-    public synchronized boolean registrerKø(String emnekode, boolean aktiv) {
+    public synchronized boolean registrerKø(int køId, String emnekode, boolean aktiv) {
         boolean ok = false;
         System.out.println("registrerKø()");
         PreparedStatement psInsertKø = null;
@@ -1088,8 +1088,9 @@ public class Database {
         try {
             åpneForbindelse();
             psInsertKø = forbindelse.prepareStatement(sqlInsertKø);
-            psInsertKø.setString(1, emnekode);
-            psInsertKø.setBoolean(2, aktiv);
+            psInsertKø.setInt(1, køId);
+            psInsertKø.setString(2, emnekode);
+            psInsertKø.setBoolean(3, aktiv);
 
             int i = psInsertKø.executeUpdate();
             if (i > 0) {
@@ -1633,6 +1634,36 @@ public class Database {
             }
         }
         return returnen;
+    }
+     public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
+       String ok = null;
+        System.out.println("oppdaterBruker()");
+        PreparedStatement psUpdateEmne = null;
+
+        try {
+            åpneForbindelse();
+            psUpdateEmne = forbindelse.prepareStatement(sqlUpdateBruker);
+            psUpdateEmne.setString(1, ovingsbeskrivelse);
+            psUpdateEmne.setString(2, emnekode);
+           
+         
+            int i = psUpdateEmne.executeUpdate();
+            if (i > 0) {
+                ok = ovingsbeskrivelse;
+                System.out.println("inne i if(i=0) " +ovingsbeskrivelse);
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "oppdaterØvingsBeskrivelse()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "oppdaterØvingsbeskrivelse - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psUpdateBruker);
+        }
+        lukkForbindelse();
+        return ok;
     }
 
 }
