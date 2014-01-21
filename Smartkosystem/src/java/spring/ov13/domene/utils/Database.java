@@ -72,6 +72,7 @@ public class Database {
     private final String sqlDeleteKoInnleggFraID = "DELETE from køinnlegg WHERE innleggsid = ?";
     private final String sqlSjekkOmOvingErGodkjent = "SELECT * FROM godkjente_øvinger WHERE brukernavn = ? AND emnekode = ? AND øvingsnummer = ?";
     private final String sqlSelectStudenterIEmne = "Select * FROM bruker JOIN (emne_bruker) ON (bruker.brukernavn = emne_bruker.brukernavn) WHERE emne_bruker.emnekode = ? AND emne_bruker.brukertype = 1 ORDER BY bruker.etternavn";
+    private final String sqlGetGodkjentOvingerForBrukerIEmne = "SELECT B.øvingsnummer, A.øvingsnummer as godkjent from (select * from godkjente_øvinger where brukernavn = ? and emnekode = ?) as A right outer join (select * from `øving` where `øving`.emnekode = ?) AS B on(A.emnekode = B.emnekode and A.øvingsnummer = B.øvingsnummer)";
 
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -755,6 +756,44 @@ public class Database {
         }
         lukkForbindelse();
         return ok;
+    }
+
+    public synchronized int[] getGodkjentOvingerForBrukerIEmne(String brukernavn, String emnekode, int antØving) {
+        int[] utTab = new int[antØving];
+        System.out.println("getGodkjentOvingerForBrukerIEmne");
+        PreparedStatement psGetGodkjentOvingerForBrukerIEmne = null;
+        ResultSet res;
+
+        try {
+            åpneForbindelse();
+
+            psGetGodkjentOvingerForBrukerIEmne = forbindelse.prepareStatement(sqlGetGodkjentOvingerForBrukerIEmne);
+
+            psGetGodkjentOvingerForBrukerIEmne.setString(1, brukernavn);
+            psGetGodkjentOvingerForBrukerIEmne.setString(2, emnekode);
+            psGetGodkjentOvingerForBrukerIEmne.setString(3, emnekode);
+
+            res = psGetGodkjentOvingerForBrukerIEmne.executeQuery();
+            int i = 0;
+            while (res.next()) {
+                if (res.getInt("godkjent") > 0) {
+                    utTab[i] = 1;
+                } else {
+                    utTab[i] = 0;
+                }
+                i++;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getGodkjentOvingerForBrukerIEmne()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getGodkjentOvingerForBrukerIEmne - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psSjekkOmOvingErGodkjent);
+        }
+        lukkForbindelse();
+        return utTab;
     }
 
     public Innlegg getInnleggFraID(int innleggID) {
@@ -1699,11 +1738,11 @@ public class Database {
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "oppdaterØvingsbeskrivelse - ikke sqlfeil");
         } finally {
-            Opprydder.settAutoCommit(forbindelse); 
+            Opprydder.settAutoCommit(forbindelse);
 //Opprydder.lukkSetning(psUpdateBruker); 
         }
         lukkForbindelse();
-        return ok; 
+        return ok;
     }
 
-        }
+}

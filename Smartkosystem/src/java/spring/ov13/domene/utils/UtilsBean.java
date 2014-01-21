@@ -84,6 +84,10 @@ public class UtilsBean {
         return db.sjekkOmOvingErGodkjent(brukernavn, emnekode, ovingsnr);
     }
 
+    public int[] getGodkjentOvingerForBrukerIEmne(String brukernavn, String emnekode, int antØving) {
+        return db.getGodkjentOvingerForBrukerIEmne(brukernavn, emnekode, antØving);
+    }
+
     public ArrayList<Bruker> getBrukerePåBokstav(String sokeboksnavn) {
         return db.getBrukerepaabokstav(sokeboksnavn);
     }
