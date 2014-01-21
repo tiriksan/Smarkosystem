@@ -87,6 +87,9 @@ public class UtilsBean {
     public int[] getGodkjentOvingerForBrukerIEmne(String brukernavn, String emnekode, int antØving) {
         return db.getGodkjentOvingerForBrukerIEmne(brukernavn, emnekode, antØving);
     }
+    public int getAntOvingerIEmne(String emnekode){
+        return db.getAntOvingerIEmne(emnekode);
+    }
 
     public ArrayList<Bruker> getBrukerePåBokstav(String sokeboksnavn) {
         return db.getBrukerepaabokstav(sokeboksnavn);

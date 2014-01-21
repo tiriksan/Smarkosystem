@@ -757,6 +757,34 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
+    public int getAntOvingerIEmne(String emnekode) {
+        int ut = 0;
+        System.out.println("getAntOvingerIEmne");
+        PreparedStatement psGetAntOvingerIEmne = null;
+        ResultSet res;
+
+        try {
+            åpneForbindelse();
+
+            psGetAntOvingerIEmne = forbindelse.prepareStatement(sqlCountØvinger);
+
+            res = psGetAntOvingerIEmne.executeQuery();
+
+            if (res.next()) {
+                ut = res.getInt("tellering");
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getAntOvingerIEmne()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getAntOvingerIEmne - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psGetAntOvingerIEmne);
+        }
+        lukkForbindelse();
+        return ut;
+    }
 
     public synchronized int[] getGodkjentOvingerForBrukerIEmne(String brukernavn, String emnekode, int antØving) {
         int[] utTab = new int[antØving];
