@@ -69,11 +69,11 @@
     </definition>
     <definition name="velgEmne" extends="baseLayout">
         <put-attribute name="title"  value="Velg Emne"/>
-        <put-attribute name="body"   value="/WEB-INF/jsp/brukerovingsoversikt.jsp"/>      
+        <put-attribute name="body"   value="/WEB-INF/jsp/brukerovingoversikt.jsp"/>      
     </definition>
     <definition name="brukeroversikt" extends="baseLayout">
         <put-attribute name="title"  value="Brukeroversikt"/>
-        <put-attribute name="body"   value="/WEB-INF/jsp/brukerovingsoversikt.jsp"/>      
+        <put-attribute name="body"   value="/WEB-INF/jsp/brukerovingoversikt.jsp"/>      
     </definition>
     
     
