@@ -10,6 +10,22 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
+<c:if test="${emne == null}">
+    <form method="POST" id="emnedrop" action="valgtBrukerovesikt.htm">
+        <select name="emnekode">
+                        <c:forEach items="${fagene}" var="fag">
+                            <option value="${fag.emnenavn}">${fag.emnekode}</option>
+                            <c:if test="${not empty emnekodevalgt}">
+                            </c:if>
+                        </c:forEach>
+
+                    </select>
+
+                    <input type="submit" value="Velg">
+                </form>
+</c:if>
+
+<c:if test="${emne != null}">
 <div>
     ${emne.emnekode + ", " + emne.emnenavn}
     
@@ -52,4 +68,5 @@
             </tr>
         </c:forEach>
     </table>
+</c:if>
 </c:if>

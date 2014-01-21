@@ -67,6 +67,14 @@
         <put-attribute name="title"  value="endre emne"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/endreEmne.jsp"/>      
     </definition>
+    <definition name="velgEmne" extends="baseLayout">
+        <put-attribute name="title"  value="Velg Emne"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/brukerovingsoversikt.jsp"/>      
+    </definition>
+    <definition name="brukeroversikt" extends="baseLayout">
+        <put-attribute name="title"  value="Brukeroversikt"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/brukerovingsoversikt.jsp"/>      
+    </definition>
     
     
     <definition name="henttekst" extends="baseLayout">
