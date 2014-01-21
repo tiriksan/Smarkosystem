@@ -70,6 +70,7 @@ public class Database {
     private final String sqlSelectInnleggFraHjelpEmne = "SELECT * FROM køinnlegg WHERE hjelp = ? AND emnekode = ?";
     private final String sqlDeleteKoInnleggFraID = "DELETE from køinnlegg WHERE innleggsid = ?";
     private final String sqlSjekkOmOvingErGodkjent = "SELECT * FROM godkjente_øvinger WHERE brukernavn = ? AND emnekode = ? AND øvingsnummer = ?";
+    private final String sqlSelectStudenterIEmne = "Select * FROM bruker JOIN (emne_bruker) ON (bruker.brukernavn = emne_bruker.brukernavn) WHERE emne_bruker.emnekode = ? AND emne_bruker.brukertype = 1 ORDER BY bruker.etternavn";
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -381,7 +382,35 @@ public class Database {
         return brukerListe;
     }
     
-    
+    public ArrayList<Bruker> getStudenterIEmnet(String emnekode) {
+        Bruker b = null;
+        ResultSet res;
+        System.out.println("getStudenterIEmnet()");
+        PreparedStatement psSelectStudenterIEmnet = null;
+        ArrayList<Bruker> studenterIEmnet = new ArrayList<Bruker>();
+
+        try {
+            åpneForbindelse();
+            psSelectStudenterIEmnet = forbindelse.prepareStatement(sqlSelectStudenterIEmne);
+            psSelectStudenterIEmnet.setString(1, emnekode);
+            res = psSelectStudenterIEmnet.executeQuery();
+            while (res.next()) {
+                b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                studenterIEmnet.add(b);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getStudenterIEmnet()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getStudenterIEmnet - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectStudenterIEmnet);
+        }
+        lukkForbindelse();
+        return studenterIEmnet;
+
+    }
 
     public synchronized boolean oppdaterBruker(Bruker bruker) {
         boolean ok = false;
