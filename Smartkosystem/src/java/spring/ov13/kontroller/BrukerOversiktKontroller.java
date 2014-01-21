@@ -41,7 +41,7 @@ public class BrukerOversiktKontroller {
         
         request.getSession().setAttribute("emne", ub.getEmne(emnekode));
         int antØvinger = ub.getAntOvingerIEmne(emnekode);
-        Object[][] alleBrukereGodkjenteOvinger = new Object [studenter.size()][antØvinger];
+        int[][] alleBrukereGodkjenteOvinger = new int [studenter.size()][antØvinger];
         int[] godkjenteOvinger;
         
         for (int i = 0; i < studenter.size(); i++) {
@@ -50,7 +50,8 @@ public class BrukerOversiktKontroller {
                 alleBrukereGodkjenteOvinger[i][j] = godkjenteOvinger[j];
             }
         }
-        model.addAttribute("alleGodkjenteOviner", alleBrukereGodkjenteOvinger);
+        System.out.println(alleBrukereGodkjenteOvinger.length);
+        model.addAttribute("aGO", alleBrukereGodkjenteOvinger);
         
         return "velgEmne";
     }

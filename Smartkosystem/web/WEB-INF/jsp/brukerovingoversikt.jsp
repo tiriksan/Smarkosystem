@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:if test="${emne == null}">
@@ -53,15 +54,16 @@
         </c:forEach>
     </ul>
     <c:if test="${brukerinnlogg.brukertype>1}">
-        <table>
-            <c:forEach items="${studenter}" var="student">
+        <table width="100%">
+            <c:forEach begin="0" end="${studenter.size()}" var="student">
                 <tr>
                     <td>
-                        ${student.fornavn}&nbsp;${student.etternavn}
+                        ${studenter[student].fornavn}&nbsp;${studenter[student].etternavn}
                     </td>
                     <td>
-                        <c:forEach begin="1" end="${antØvinger}" var = "i">
-                            <div <c:if test="${godkjenteØvinger[i-1]==1}">class="godkjent"</c:if>>${i}</div>
+
+                        <c:forEach begin="1" end="${fn:length(aGO[student])}" var = "i">
+                            <td <c:if test="${aGO[student][i-1]==1}">class="godkjent"</c:if>>${i}</td> 
                         </c:forEach>
                     </td>
                 </tr>

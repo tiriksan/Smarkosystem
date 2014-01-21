@@ -767,11 +767,11 @@ public class Database {
             åpneForbindelse();
 
             psGetAntOvingerIEmne = forbindelse.prepareStatement(sqlCountØvinger);
-
+            psGetAntOvingerIEmne.setString(1, emnekode);
             res = psGetAntOvingerIEmne.executeQuery();
 
             if (res.next()) {
-                ut = res.getInt("tellering");
+                ut = res.getInt("telling");
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -803,7 +803,9 @@ public class Database {
 
             res = psGetGodkjentOvingerForBrukerIEmne.executeQuery();
             int i = 0;
+            System.out.println("AntØvinger: " + antØving);
             while (res.next()) {
+                System.out.println(i);
                 if (res.getInt("godkjent") > 0) {
                     utTab[i] = 1;
                 } else {
