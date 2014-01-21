@@ -9,9 +9,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-
 <c:if test="${emne == null}">
-    <form method="POST" id="emnedrop" action="valgtBrukeroversikt.htm">
+    <form method="GET" id="emnedrop" action="valgtBrukeroversikt.htm">
         <select name="emnekode">
                         <c:forEach items="${fagene}" var="fag">
                             <option value="${fag.emnenavn}">${fag.emnekode}</option>
@@ -27,13 +26,13 @@
 
 <c:if test="${emne != null}">
 <div>
-    ${emne.emnekode + ", " + emne.emnenavn}
+    ${emne.emnekode}&nbsp;${emne.emnenavn}
     
     <c:if test="${brukerinnlogg.brukertype == 1}">
         <table>
             <tr>
                 <td>
-                    ${brukerinnlogg.fornavn + " " + brukerinnlogg.etternavn}
+                    ${brukerinnlogg.fornavn}&nbsp;${brukerinnlogg.etternavn}
                 </td>
                 <td>
                     <%--                   <c:forEach items="${ovinger}" var="oving">
@@ -58,7 +57,7 @@
         <c:forEach items="${studenter}" var="student">
             <tr>
                 <td>
-                    ${student.fornavn + " " + student.etternavn}
+                    ${student.fornavn}&nbsp;${student.etternavn}
                 </td>
                 <td>
                     <%--            <c:forEach items="${}">
