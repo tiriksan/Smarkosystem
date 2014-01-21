@@ -11,7 +11,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <c:if test="${emne == null}">
-    <form method="POST" id="emnedrop" action="valgtBrukerovesikt.htm">
+    <form method="POST" id="emnedrop" action="valgtBrukeroversikt.htm">
         <select name="emnekode">
                         <c:forEach items="${fagene}" var="fag">
                             <option value="${fag.emnenavn}">${fag.emnekode}</option>
