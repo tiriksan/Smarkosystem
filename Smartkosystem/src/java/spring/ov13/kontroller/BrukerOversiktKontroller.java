@@ -1,6 +1,7 @@
 package spring.ov13.kontroller;
 
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,25 +14,27 @@ import spring.ov13.domene.utils.UtilsBean;
 /**
  * @author Sindre
  */
-
 @SessionAttributes("brukerinnlogg")
 @Controller
 public class BrukerOversiktKontroller {
-    
+
+    @RequestMapping(value = "/velgEmneBrukeroversikt.htm")
+    public String velgEmneBrukerOversikt(HttpServletRequest request) {
+        request.getSession().setAttribute("emne", null);
+        return "velgEmne";
+    }
+
     @RequestMapping(value = "/valgtBrukeroversikt.htm")
-    public String sendVidereTilBrukerOversikt(Model model, @RequestParam(value = "x") String emnekode){
+    public String sendVidereTilBrukerOversikt(Model model, HttpServletRequest request) {
         
+        String emnekode = (String) request.getAttribute("emnekode");
         UtilsBean ub = new UtilsBean();
         ArrayList<Bruker> studenter = new ArrayList<Bruker>();
         studenter = ub.getStudenterIEmnet(emnekode);
         model.addAttribute("studenter", studenter);
-        
-        return "brukeroversikt.htm";
-    }
-    
-    @RequestMapping(value = "/brukeroversikt.htm")
-    public String visBrukerOversikt(Model model, @RequestParam(value = "x") String emnekode) {
-        return "brukeroversikt.htm";
+        request.getSession().setAttribute("emne", emnekode);
+
+        return "brukeroversikt";
     }
 
 }
