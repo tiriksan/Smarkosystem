@@ -32,16 +32,26 @@ public class BrukerOversiktKontroller {
     @RequestMapping(value = "/valgtBrukeroversikt.htm")
     public String sendVidereTilBrukerOversikt(Model model, HttpServletRequest request,@RequestParam(value = "emnekode", required = false) String emnekode) {
         
-        //String emnekode = (String) request.getAttribute("emnekode");
-        System.out.println("EMneKOde: " + emnekode);
+        
         UtilsBean ub = new UtilsBean();
         ArrayList<Bruker> studenter = new ArrayList<Bruker>();
-        System.out.println("here?");
+        
         studenter = ub.getStudenterIEmnet(emnekode);
         model.addAttribute("studenter", studenter);
-        System.out.println("here2?");
+        
         request.getSession().setAttribute("emne", ub.getEmne(emnekode));
-        System.out.println("here2?");
+        int antØvinger = ub.getAntOvingerIEmne(emnekode);
+        Object[][] alleBrukereGodkjenteOvinger = new Object [studenter.size()][antØvinger];
+        int[] godkjenteOvinger;
+        
+        for (int i = 0; i < studenter.size(); i++) {
+         godkjenteOvinger = ub.getGodkjentOvingerForBrukerIEmne(studenter.get(i).getBrukernavn(), emnekode, antØvinger);
+            for (int j = 0; j < antØvinger; j++) {
+                alleBrukereGodkjenteOvinger[i][j] = godkjenteOvinger[j];
+            }
+        }
+        model.addAttribute("alleGodkjenteOviner", alleBrukereGodkjenteOvinger);
+        
         return "velgEmne";
     }
 
