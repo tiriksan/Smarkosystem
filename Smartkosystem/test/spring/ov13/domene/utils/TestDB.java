@@ -426,6 +426,49 @@ public class TestDB {
         assertEquals(brukernavn, "hansol@hist.no");
         assertEquals(ovingsnummer, 2);
     }
+    
+    @Test
+    public void test_registrerKøInnlegg() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Plassering lok = new Plassering("AITeL", 1, "KA124",  8, "TDAT3003");
+        boolean registrert = database.registrerKøInnlegg(4, 1, "hansol@hist.no", lok, "Hallo? Noen her?");
+        assert(registrert);
+        
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT * FROM koinnlegg WHERE innleggsid = 4");
+        
+        int innleggsid = -1;
+        int køid = -1;
+        String brukernavn = null;
+        String bygg = null;
+        int etg = -1;
+        String rom = null;
+        int bord = -1;
+        String emnekode = null;
+        String kommentar = null;
+        
+        while (res.next()) {
+            innleggsid = res.getInt("innleggsid");
+            køid = res.getInt("konummer");
+            brukernavn = res.getString("eier");
+            bygg = res.getString("bygg");
+            etg = res.getInt("etasje");
+            rom = res.getString("rom");
+            bord = res.getInt("bord");
+            emnekode = res.getString("emnekode");
+            kommentar = res.getString("kommentar");
+        }
+        assertEquals(4, innleggsid);
+        assertEquals(1, køid);
+        assertEquals("hansol@hist.no", brukernavn);
+        assertEquals("AITeL", bygg);
+        assertEquals(1, etg);
+        assertEquals("KA124", rom);
+        assertEquals(8, bord);
+        assertEquals("TDAT3003", emnekode);
+        assertEquals("Hallo? Noen her?", kommentar);
+    }
 
     @After
     public void rivNed() {

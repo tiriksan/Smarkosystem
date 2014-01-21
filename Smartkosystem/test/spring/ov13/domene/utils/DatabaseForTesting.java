@@ -60,8 +60,13 @@ public class DatabaseForTesting {
     private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
     private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_ovinger VALUES(?,?,?,?)";
     private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND ovingsnummer = ?";
-    private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
-    private final String sqlSelectOvingIInnlegg = "SELECT * FROM øvinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
+    private final String sqlSelectInnleggFraID = "SELECT * FROM koinnlegg WHERE innleggsid = ?";
+    private final String sqlSelectOvingIInnlegg = "SELECT * FROM ovinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
+    private final String sqlSelectInnleggFraHjelpEmne = "SELECT * FROM koinnlegg WHERE hjelp = ? AND emnekode = ?";
+    private final String sqlDeleteKoInnleggFraID = "DELETE from koinnlegg WHERE innleggsid = ?";
+    private final String sqlSjekkOmOvingErGodkjent = "SELECT * FROM godkjente_øvinger WHERE brukernavn = ? AND emnekode = ? AND øvingsnummer = ?";
+    private final String sqlSelectStudenterIEmne = "Select * FROM bruker JOIN (emne_bruker) ON (bruker.brukernavn = emne_bruker.brukernavn) WHERE emne_bruker.emnekode = ? AND emne_bruker.brukertype = 1 ORDER BY bruker.etternavn";
+    private final String sqlGetGodkjentOvingerForBrukerIEmne = "SELECT B.ovingsnummer, A.ovingsnummer as godkjent from (select * from godkjente_ovinger where brukernavn = ? and emnekode = ?) as A right outer join (select * from `oving` where `oving`.emnekode = ?) AS B on(A.emnekode = B.emnekode and A.ovingsnummer = B.ovingsnummer)";
 
     /*    public DatabaseForTesting(String dbNavn, String dbUser, String dbPswrd) {
      this.dbNavn = dbNavn;
@@ -1287,6 +1292,162 @@ public class DatabaseForTesting {
         }
         lukkForbindelse();
         return ok;
+    }
+    
+    public synchronized Innlegg getInnleggFraHjelpEmne(String hjelp, String emnekode) {
+
+        PreparedStatement psSelectInnleggFraHjelpEmne = null;
+        ResultSet res;
+        Innlegg innlegg = null;
+
+        try {
+            åpneForbindelse();
+            psSelectInnleggFraHjelpEmne = forbindelse.prepareStatement(sqlSelectInnleggFraHjelpEmne);
+            psSelectInnleggFraHjelpEmne.setString(1, hjelp);
+            psSelectInnleggFraHjelpEmne.setString(2, emnekode);
+            res = psSelectInnleggFraHjelpEmne.executeQuery();
+            if (res.next()) {
+                innlegg = new Innlegg();
+                innlegg.setId(res.getInt("innleggsid"));
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getInnleggFraHjelpEmne()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getInnleggFraHjelpEmne - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectInnleggFraHjelpEmne);
+        }
+        lukkForbindelse();
+        return innlegg;
+    }
+    
+    public boolean fjernKoInnlegg(int koID) {
+        System.out.println("fjernKoInnlegg()");
+        PreparedStatement psfjernKoInnlegg = null;
+        boolean ok = false;
+        try {
+            åpneForbindelse();
+            psfjernKoInnlegg = forbindelse.prepareStatement(sqlDeleteKoInnleggFraID);
+
+            psfjernKoInnlegg.setInt(1, koID);
+
+            int i = psfjernKoInnlegg.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "fjernKoInnlegg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "fjernKoInnlegg - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psfjernKoInnlegg);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+    public synchronized boolean sjekkOmOvingErGodkjent(String brukenavn, String emnekode, int ovingsnr) {
+        boolean ok = false;
+        System.out.println("sjekkOmOvingErGodkjent");
+        PreparedStatement psSjekkOmOvingErGodkjent = null;
+        ResultSet res;
+
+        try {
+            åpneForbindelse();
+
+            psSjekkOmOvingErGodkjent = forbindelse.prepareStatement(sqlSjekkOmOvingErGodkjent);
+
+            res = psSjekkOmOvingErGodkjent.executeQuery();
+
+            if (res.next()) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "sjekkOmOvingErGodkjent()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "sjekkOmOvingErGodkjent - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psSjekkOmOvingErGodkjent);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+    public ArrayList<Bruker> getStudenterIEmnet(String emnekode) {
+        Bruker b = null;
+        ResultSet res;
+        System.out.println("getStudenterIEmnet()");
+        PreparedStatement psSelectStudenterIEmnet = null;
+        ArrayList<Bruker> studenterIEmnet = new ArrayList<Bruker>();
+
+        try {
+            åpneForbindelse();
+            psSelectStudenterIEmnet = forbindelse.prepareStatement(sqlSelectStudenterIEmne);
+            psSelectStudenterIEmnet.setString(1, emnekode);
+            res = psSelectStudenterIEmnet.executeQuery();
+            while (res.next()) {
+                b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                studenterIEmnet.add(b);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getStudenterIEmnet()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getStudenterIEmnet - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectStudenterIEmnet);
+        }
+        lukkForbindelse();
+        return studenterIEmnet;
+
+    }
+    
+    public synchronized int[] getGodkjentOvingerForBrukerIEmne(String brukernavn, String emnekode, int antØving) {
+        int[] utTab = new int[antØving];
+        System.out.println("getGodkjentOvingerForBrukerIEmne");
+        PreparedStatement psGetGodkjentOvingerForBrukerIEmne = null;
+        ResultSet res;
+
+        try {
+            åpneForbindelse();
+
+            psGetGodkjentOvingerForBrukerIEmne = forbindelse.prepareStatement(sqlGetGodkjentOvingerForBrukerIEmne);
+
+            psGetGodkjentOvingerForBrukerIEmne.setString(1, brukernavn);
+            psGetGodkjentOvingerForBrukerIEmne.setString(2, emnekode);
+            psGetGodkjentOvingerForBrukerIEmne.setString(3, emnekode);
+
+            res = psGetGodkjentOvingerForBrukerIEmne.executeQuery();
+            int i = 0;
+            System.out.println("AntØvinger: " + antØving);
+            while (res.next()) {
+                System.out.println(i);
+                if (res.getInt("godkjent") > 0) {
+                    utTab[i] = 1;
+                } else {
+                    utTab[i] = 0;
+                }
+                i++;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getGodkjentOvingerForBrukerIEmne()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getGodkjentOvingerForBrukerIEmne - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psSjekkOmOvingErGodkjent);
+        }
+        lukkForbindelse();
+        return utTab;
     }
 
 }
