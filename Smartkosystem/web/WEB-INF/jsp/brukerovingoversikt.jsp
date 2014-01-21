@@ -12,60 +12,60 @@
 <c:if test="${emne == null}">
     <form method="GET" id="emnedrop" action="valgtBrukeroversikt.htm">
         <select name="emnekode">
-                        <c:forEach items="${fagene}" var="fag">
-                            <option value="${fag.emnenavn}">${fag.emnekode}</option>
-                            <c:if test="${not empty emnekodevalgt}">
-                            </c:if>
-                        </c:forEach>
+            <c:forEach items="${fagene}" var="fag">
+                <option value="${fag.emnenavn}">${fag.emnekode}</option>
+                <c:if test="${not empty emnekodevalgt}">
+                </c:if>
+            </c:forEach>
 
-                    </select>
+        </select>
 
-                    <input type="submit" value="Velg">
-                </form>
+        <input type="submit" value="Velg">
+    </form>
 </c:if>
 
 <c:if test="${emne != null}">
-<div>
-    ${emne.emnekode}&nbsp;${emne.emnenavn}
-    
-    <c:if test="${brukerinnlogg.brukertype == 1}">
+    <div>
+        ${emne.emnekode}&nbsp;${emne.emnenavn}
+
+        <c:if test="${brukerinnlogg.brukertype == 1}">
+            <table>
+                <tr>
+                    <td>
+                        ${brukerinnlogg.fornavn}&nbsp;${brukerinnlogg.etternavn}
+                    </td>
+                    <td>
+                        <%--                   <c:forEach items="${ovinger}" var="oving">
+                            <div <c:if test="${sjekkGodkjent(emne.emnekode,brukerinnlogg.brukernavn,oving.øvingsnr)}">class="godkjentoving"</c:if>>${oving.øvingsnr}</div>
+                        </c:forEach> --%>
+                    </td>
+                </tr>
+            </table>
+        </c:if>
+
+    </div>
+    <div>Arbeidskrav i dette faget</div>
+    <ul>
+        <c:forEach items="${arbeidskrav}" var="krav">
+            <li>
+                <%--TODO WHEN ARBEIDSKRAV--%>
+            </li>
+        </c:forEach>
+    </ul>
+    <c:if test="${brukerinnlogg.brukertype>1}">
         <table>
-            <tr>
-                <td>
-                    ${brukerinnlogg.fornavn}&nbsp;${brukerinnlogg.etternavn}
-                </td>
-                <td>
-                    <%--                   <c:forEach items="${ovinger}" var="oving">
-                        <div <c:if test="${sjekkGodkjent(emne.emnekode,brukerinnlogg.brukernavn,oving.øvingsnr)}">class="godkjentoving"</c:if>>${oving.øvingsnr}</div>
-                    </c:forEach> --%>
-                </td>
-            </tr>
+            <c:forEach items="${studenter}" var="student">
+                <tr>
+                    <td>
+                        ${student.fornavn}&nbsp;${student.etternavn}
+                    </td>
+                    <td>
+                        <c:forEach begin="1" end="${antØvinger}" var = "i">
+                            <div <c:if test="${godkjenteØvinger[i-1]==1}">class="godkjent"</c:if>>${i}</div>
+                        </c:forEach>
+                    </td>
+                </tr>
+            </c:forEach>
         </table>
     </c:if>
-    
-</div>
-<div>Arbeidskrav i dette faget</div>
-<ul>
-    <c:forEach items="${arbeidskrav}" var="krav">
-        <li>
-            <%--TODO WHEN ARBEIDSKRAV--%>
-        </li>
-    </c:forEach>
-</ul>
-<c:if test="${brukerinnlogg.brukertype>1}">
-    <table>
-        <c:forEach items="${studenter}" var="student">
-            <tr>
-                <td>
-                    ${student.fornavn}&nbsp;${student.etternavn}
-                </td>
-                <td>
-                    <%--            <c:forEach items="${}">
-                        
-                    </c:forEach> --%>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
-</c:if>
 </c:if>

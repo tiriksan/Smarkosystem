@@ -27,7 +27,7 @@
         <put-attribute name="title"  value="Endre passord"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/endrepassord.jsp"/>      
     </definition>
-        <definition name="logginn" extends="baseLayout">
+    <definition name="logginn" extends="baseLayout">
         <put-attribute name="title"  value="Logg inn"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/logginn.jsp"/>      
     </definition>
@@ -53,7 +53,7 @@
         <put-attribute name="body"   value="/WEB-INF/jsp/studentkø.jsp"/>      
     </definition>
     
-     <definition name="regov2" extends="baseLayout">
+    <definition name="regov2" extends="baseLayout">
         <put-attribute name="title"  value="reg oving"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/regov2.jsp"/>      
     </definition>
@@ -68,31 +68,21 @@
         <put-attribute name="body"   value="/WEB-INF/jsp/endreEmne.jsp"/>      
     </definition>
     <definition name="velgEmne" extends="baseLayout">
-        <put-attribute name="title"  value="Velg Emne"/>
-        <put-attribute name="body"   value="/WEB-INF/jsp/brukerovingoversikt.jsp"/>      
-    </definition>
-    <definition name="brukeroversikt" extends="baseLayout">
         <put-attribute name="title"  value="Brukeroversikt"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/brukerovingoversikt.jsp"/>      
     </definition>
-    
-    
     <definition name="henttekst" extends="baseLayout">
+        <put-attribute name="title" value="Hent teksten!"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/test.jsp"/>
+    </definition>
+    <definition name="settiko" extends="baseLayout">
 
-<put-attribute name="title" value="Hent teksten!"/>
+        <put-attribute name="title" value="Hent teksten!"/>
 
-<put-attribute name="body" value="/WEB-INF/jsp/test.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/settiko.jsp"/>
 
-</definition>
-
-<definition name="settiko" extends="baseLayout">
-
-<put-attribute name="title" value="Hent teksten!"/>
-
-<put-attribute name="body" value="/WEB-INF/jsp/settiko.jsp"/>
-
-</definition>
-   <definition name="adminlaerer" extends="baseLayout">
+    </definition>
+    <definition name="adminlaerer" extends="baseLayout">
         <put-attribute name="title"  value="Admin laerer"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/Laerer.jsp"/>      
     </definition>
