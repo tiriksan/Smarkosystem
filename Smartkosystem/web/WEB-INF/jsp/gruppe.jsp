@@ -15,28 +15,24 @@
 
 <table cellpadding="0" cellspacing="0" width="100%" id="infoheader">
     <tr>
-        <td id="gruppeinfo">#YOLO, #SWAG, #GRUPPE</td>
+        <td id="gruppeinfo">Informasjon om gruppen</td>
     </tr>
 </table> 
 
 <table id="brukertabell" width="100%" cellpadding="0" cellspacing="0">
     <form:form method="POST" action="godkjennValgte.htm?x=${fag.emnenavn}">
-        <tr>
-            <td>Navn</td>
-            <td>Øvinger</td>
-
+        <tr id="thGruppe">
+            <td> Navn</td>
+            <td> Øvinger</td>
         </tr>
 
         <c:forEach begin="0" end="${innlegg.getBrukere().size()-1}" var="i">
             <tr>
                 <td>
-
                     ${innlegg.getBrukere().get(i).getFornavn()}
                     ${innlegg.getBrukere().get(i).getEtternavn()}
-
-
                 </td>
-                <td>
+                <td id="ovingcelle" width="41.8%">
                     <c:forEach begin="0" end="${innlegg.getOvinger().get(i).size()-1}" var="j">
                         ${innlegg.getOvinger().get(i).get(j).getØvingsnr()}
 
@@ -47,33 +43,43 @@
             </tr>
         </c:forEach>
     </table>
-    <table id="gruppetabell" width="100%" cellpadding="0" cellspacing="0">
+    <table id="gruppetabell" width="58.3%" cellpadding="0" cellspacing="0">
 
         <tr>
             <td>
-                <input type ="submit" value="Godkjenn valgte">
+                <input type ="submit" id="gkValgte" value="Godkjenn valgte">
             </td>
 
         </form:form>
+            
+            <td>
+            <form:form id="utsett" method="POST" action="utsett.htm?x=${fag.emnenavn}">
+                <input type="submit" id="utsett" value="Utsett">
+            </form:form>
+        </td>
+        </tr><tr>
 
         <form:form  method="POST" action="godkjennalle.htm?x=${fag.emnenavn}">
             <td>
                 <input type="submit" id="gkAlle" value="Godkjenn alle">
             </td>
         </form:form> 
-
+        
         <td>
-            <form:form id="utsett" method="POST" action="utsett.htm?x=${fag.emnenavn}">
-                <input type="submit" value="Utsett">
-            </form:form>
-        </td>
-        <td>
-            <form:form id="utsett" method="POST" action="fjern.htm?x=${fag.emnenavn}">
-                <input type="submit" value="Fjern">
+            <form:form method="POST" action="fjern.htm?x=${fag.emnenavn}">
+                <input type="submit" id="fjern" value="Fjern">
             </form:form>
         </td>
     </tr>
 </table>
+
+<%--
+<table id="ovingKomnt" width="41.7%">
+    <tr>
+        <td>kommentar</td>
+    </tr>
+</table>
+--%>
 
 
 
