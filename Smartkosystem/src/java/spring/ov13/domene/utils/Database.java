@@ -1635,5 +1635,35 @@ public class Database {
         }
         return returnen;
     }
+     public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
+       String ok = null;
+        System.out.println("oppdaterBruker()");
+        PreparedStatement psUpdateEmne = null;
+
+        try {
+            åpneForbindelse();
+            psUpdateEmne = forbindelse.prepareStatement(sqlUpdateBruker);
+            psUpdateEmne.setString(1, ovingsbeskrivelse);
+            psUpdateEmne.setString(2, emnekode);
+           
+         
+            int i = psUpdateEmne.executeUpdate();
+            if (i > 0) {
+                ok = ovingsbeskrivelse;
+                System.out.println("inne i if(i=0) " +ovingsbeskrivelse);
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "oppdaterØvingsBeskrivelse()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "oppdaterØvingsbeskrivelse - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psUpdateBruker);
+        }
+        lukkForbindelse();
+        return ok;
+    }
 
 }
