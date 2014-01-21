@@ -74,6 +74,9 @@ public class UtilsBean {
     public boolean setInnOvingerGodkjent(String godkjenner, String emnekode, String brukernavn, ArrayList<Integer> øvinger){
         return db.setInnOvingerGodkjent(godkjenner, emnekode, brukernavn, øvinger);
     }
+    public boolean sjekkOvingErGodkjent(String brukernavn, String emnekode, int ovingsnr){
+        return db.sjekkOmOvingErGodkjent(brukernavn, emnekode, ovingsnr);
+    }
     
     public ArrayList<Bruker> getBrukerePåBokstav(String sokeboksnavn){
         return db.getBrukerepaabokstav(sokeboksnavn);

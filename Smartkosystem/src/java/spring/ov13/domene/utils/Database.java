@@ -68,7 +68,8 @@ public class Database {
     private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
     private final String sqlSelectOvingIInnlegg = "SELECT * FROM øvinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
     private final String sqlSelectInnleggFraHjelpEmne = "SELECT * FROM køinnlegg WHERE hjelp = ? AND emnekode = ?";
-    private final String  sqlDeleteKoInnleggFraID = "DELETE from køinnlegg WHERE innleggsid = ?";
+    private final String sqlDeleteKoInnleggFraID = "DELETE from køinnlegg WHERE innleggsid = ?";
+    private final String sqlSjekkOmOvingErGodkjent = "SELECT * FROM godkjente_øvinger WHERE brukernavn = ? AND emnekode = ? AND øvingsnummer = ?";
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -697,6 +698,34 @@ public class Database {
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psfjernOvingerGodkjent );
+        }
+        lukkForbindelse();
+        return ok;
+    }
+     public synchronized boolean sjekkOmOvingErGodkjent(String brukenavn, String emnekode, int ovingsnr) {
+        boolean ok = false;
+        System.out.println("sjekkOmOvingErGodkjent");
+        PreparedStatement psSjekkOmOvingErGodkjent = null;
+        ResultSet res;
+
+        try {
+            åpneForbindelse();
+           
+            psSjekkOmOvingErGodkjent = forbindelse.prepareStatement(sqlSjekkOmOvingErGodkjent);
+            
+            res = psSjekkOmOvingErGodkjent.executeQuery();
+             
+            if (res.next()) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "sjekkOmOvingErGodkjent()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "sjekkOmOvingErGodkjent - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psSjekkOmOvingErGodkjent);
         }
         lukkForbindelse();
         return ok;

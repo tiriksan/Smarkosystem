@@ -274,7 +274,7 @@ public class TestDB {
         boolean oppdatert = database.oppdaterØving(o, 9, "TDAT3008");
         assert (oppdatert);
     }
-    
+
     @Test
     public void test_getAlleBrukereAvBrukertype() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
@@ -287,9 +287,9 @@ public class TestDB {
             avbrudd = res.next();
             Bruker b = brukere.get(i);
             assertEquals(b.getBrukertype(), res.getString("hovedbrukertype"));
-            assert(avbrudd);
+            assert (avbrudd);
         }
-        assert(brukere.size() == 2);
+        assert (brukere.size() == 2);
     }
 
     @Test
@@ -303,15 +303,15 @@ public class TestDB {
         ResultSet res = stmt.executeQuery("SELECT * FROM koinnlegg WHERE innleggsid = 1");
 
         String brukernavn = null;
-        
+
         while (res.next()) {
             brukernavn = res.getString("hjelp");
         }
-        
+
         assertEquals(b.getBrukernavn(), brukernavn);
         assert (oppdatert);
     }
-    
+
     @Test
     public void test_getBrukereIInnlegg() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
@@ -323,22 +323,22 @@ public class TestDB {
 
         String brukernavn = null;
         boolean avbrudd = false;
-        
+
         for (int i = 0; i < brukere.size(); i++) {
             avbrudd = res.next();
-            
+
             brukernavn = res.getString("brukernavn");
             Bruker b1 = database.getBruker(brukernavn);
             Bruker b2 = brukere.get(i);
             System.out.println(b1.getBrukernavn() + " " + b2.getBrukernavn());
-            assert(avbrudd);
+            assert (avbrudd);
             assertEquals(b1.getBrukernavn(), b2.getBrukernavn());
             assertEquals(b1.getBrukertype(), b2.getBrukertype());
             assertEquals(b1.getEtternavn(), b2.getEtternavn());
             assertEquals(b1.getFornavn(), b2.getFornavn());
         }
     }
-    
+
     @Test
     public void test_registrerKø() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
@@ -362,12 +362,69 @@ public class TestDB {
         assertEquals("TDAT3003", emnekode);
         assertEquals(false, aktiv);
     }
-    
-    @Test()
+
+    @Test
     public void test_registrerKøPåIkkeEksisterendeEmne() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        boolean duplikat = database.registrerKø(6, "MAIN", false);
-        assert (!duplikat);
+        boolean registrert = database.registrerKø(6, "MAIN", false);
+        assert (!registrert);
+    }
+
+    @Test
+    public void test_setFagkøAktiv() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+
+        boolean oppdatert = database.updateFagKoAktiv("TDAT3003", false);
+        assert (oppdatert);
+
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT * FROM ko WHERE konummer=1");
+
+        int kønummer = -1;
+        String emnekode = null;
+        boolean aktiv = true;
+
+        while (res.next()) {
+            kønummer = res.getInt("konummer");
+            emnekode = res.getString("emnekode");
+            aktiv = res.getBoolean("aktiv");
+        }
+        assertEquals(1, kønummer);
+        assertEquals("TDAT3003", emnekode);
+        assertEquals(false, aktiv);
+    }
+
+    @Test
+    public void test_godkjennOvinger() throws SQLException {
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        ArrayList<Bruker> brukere = database.getBrukereIInnlegg(2);
+
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT hjelp, emnekode, brukernavn, ovingsnummer FROM ovinger_i_innlegg NATURAL JOIN brukere_i_innlegg NATURAL JOIN koinnlegg WHERE innleggsid=2");
+
+        boolean registrert;
+        while (res.next()) {
+            registrert = database.setInnOvingerGodkjent(res.getString("hjelp"), res.getString("emnekode"), res.getString("brukernavn"), res.getInt("ovingsnummer"));
+            assert (registrert);
+        }
+
+        res = stmt.executeQuery("SELECT * FROM godkjente_ovinger WHERE brukernavn = 'hansol@hist.no'");
+        String hjelp = null;
+        String emnekode = null;
+        String brukernavn = null;
+        int ovingsnummer = -1;
+        while (res.next()) {
+            hjelp = res.getString("godkjent_av");
+            emnekode = res.getString("emnekode");
+            brukernavn = res.getString("brukernavn");
+            ovingsnummer = res.getInt("ovingsnummer");
+        }
+        assertEquals(hjelp, "laerer@hist.no");
+        assertEquals(emnekode, "TDAT3008");
+        assertEquals(brukernavn, "hansol@hist.no");
+        assertEquals(ovingsnummer, 2);
     }
 
     @After
