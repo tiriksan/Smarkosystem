@@ -62,7 +62,7 @@
                         <td>Beskrivelse: </td>
                         <td><form:input path="${emne.øvingsbeskrivelse}" value="${emne.øvingsbeskrivelse}" name="beskrivelseinput" /></td>
                     </tr>
-                    <tr> <td> <input type="submit" value="Oppdater" name="oppdater" /></td> </tr>
+                    <tr> <td> <input type="submit" value="Oppdater" name="oppdater2" /></td> </tr>
                 </table>
             </div>
    

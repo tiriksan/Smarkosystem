@@ -354,7 +354,8 @@ public class Kontroller {
         Øving øving = new Øving();
         String emnekoden = null;
         String oppdater = request.getParameter("oppdater");
-        String oppdaterbeskrivelse = request.getParameter("oppdaterbeskrivelse");
+        String oppdater2 = request.getParameter("oppdater2");
+        String oppdaterbeskrivelse = request.getParameter("beskrivelseinput");
         ArrayList<Øving> øvingtabell1 = new ArrayList<Øving>();
        
       model.addAttribute("øving",øving);
@@ -382,10 +383,10 @@ public class Kontroller {
         }
       */
        String emnesendt = getValg;
-        if(oppdaterbeskrivelse != null){
+        if(oppdater2 != null){
+            System.out.println("--------------------------- KNAPPEN FOR BESKRIVELSE ER TRYKKET INN");
             
-            String øvingsbeskrivelse = request.getParameter("beskrivelseinput");
-            ub.oppdaterØvingsBeskrivelse(emnesendt,øvingsbeskrivelse);
+            ub.oppdaterØvingsBeskrivelse(emnesendt,oppdaterbeskrivelse);
         }
 
       
