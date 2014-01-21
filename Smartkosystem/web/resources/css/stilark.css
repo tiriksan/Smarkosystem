@@ -379,6 +379,13 @@ td.admlaerer {
         color: whitesmoke;
     }
     
+    tr#thGruppe{
+        background-color: #808080;
+    }
+    
+    tr.brukerSkille{
+        background-color: #AAA;
+    }
     
     table#infoheader{
         display: table;
