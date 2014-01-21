@@ -384,7 +384,6 @@ public class Kontroller {
        String emnesendt = getValg;
         if(oppdaterbeskrivelse != null){
             
-            System.out.println("Beskrivelse INPUT-...............................øøøøøøøøøøøøøøøøøø");
             String øvingsbeskrivelse = request.getParameter("beskrivelseinput");
             ub.oppdaterØvingsBeskrivelse(emnesendt,øvingsbeskrivelse);
         }
@@ -397,7 +396,6 @@ public class Kontroller {
                 
                 
                 for (int i = 0; i < øv.size(); i++) {
-                    System.out.println("Her kommer den utskriften................................"+øv.get(i));
                    øvingtabell1.add(øv.get(i));
                     
                 }
@@ -414,7 +412,7 @@ public class Kontroller {
   */      
         
         ArrayList<String> emnetabell = new ArrayList<String>();
-            emnetabell.add("Velg emne");
+            emnetabell.add(getValg);
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
             emnekoden = em.get(i).getEmnenavn();
