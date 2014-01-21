@@ -427,12 +427,17 @@ public class Kontroller {
             
           // for (int i=0; i<10; i++){
              String [] ob = request.getParameterValues("obliga");
-                 System.out.println(ob.length);
+                 System.out.println("lengden av oblig " + ob.length);
+                   //  System.out.println(ob[0]);
+                   //  System.out.println(ob[1]);
+                     for(String s : ob){
+                         System.out.println(s);
+                     }
+                 }
+        
+             //    System.out.println(ob[1]);
+              //  System.out.println(ob[2]);      
              
-                 System.out.println(ob[0]);
-                 System.out.println(ob[1]);
-                System.out.println(ob[2]);      
-             }
            // ob = request.getParameter("obliga");
              
              
@@ -444,7 +449,7 @@ public class Kontroller {
         
         
         
-        
+
         
        
 
