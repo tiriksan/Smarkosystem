@@ -426,11 +426,17 @@ public class Kontroller {
             
           // for (int i=0; i<10; i++){
              String [] ob = request.getParameterValues("obliga");
+             String [] velg = request.getParameterValues("valget");
+             
                  System.out.println("lengden av oblig " + ob.length);
+                 System.out.println("lengden av oblig " + velg.length);
                    //  System.out.println(ob[0]);
                    //  System.out.println(ob[1]);
                      for(String s : ob){
                          System.out.println(s);
+                     }
+                     for(String a : velg){
+                         System.out.println(a);
                      }
                  }
         

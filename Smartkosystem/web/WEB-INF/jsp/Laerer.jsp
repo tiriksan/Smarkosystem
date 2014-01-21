@@ -83,7 +83,7 @@
 
                                 <td class="admlaerer"><input type="checkbox" value="${admin.øvingsnr}"  name="obliga" id="oblig" <c:if test="${admin.obligatorisk eq true}">checked</c:if>></td>
 
-                                    <td class="admlaerer"><input type="checkbox"  name ="valg" id="oblig"></td>
+                                    <td class="admlaerer"><input type="checkbox"  value="${admin.øvingsnr}" name ="valget" id="valge"></td>
                                 </tr>
                               
                    
