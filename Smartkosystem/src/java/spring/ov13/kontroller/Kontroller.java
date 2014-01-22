@@ -346,7 +346,7 @@ public class Kontroller {
 
 //*************************** Viser administrer lærer siden*************************
         @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getOvingValg, HttpServletRequest request ) {
+    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAlleAntall, HttpServletRequest request ) {
 
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
@@ -361,7 +361,7 @@ public class Kontroller {
       model.addAttribute("øving",øving);
        model.addAttribute("emne", emne);
        model.addAttribute("valg", getValg);
-       model.addAttribute("ovingvalg", getOvingValg);
+       model.addAttribute("velgAntall", getAlleAntall);
         
        
        ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
@@ -420,21 +420,20 @@ public class Kontroller {
         }
         model.addAttribute("allefagene", emnetabell);
 
-        if(oppdater != null){
-          //String [] ob = new String[7];
-           //hent ut obligatorisk valgt //
-            
-          // for (int i=0; i<10; i++){
+           if(oppdater != null){
+     ArrayList<String> antallet = new ArrayList();
+     antallet.add("Velg antall");
              String [] ob = request.getParameterValues("obliga");
-   
-             
-                 System.out.println("lengden av oblig " + ob.length);
-      
-                   //  System.out.println(ob[0]);
-                   //  System.out.println(ob[1]);
-                     for(String s : ob){
-                         System.out.println(s);
-                     }
+
+             for(int i =1; i<ob.length+1;i++){
+                 String a = String.valueOf(i);
+                 antallet.add(a);
+                 System.out.println("HENTYER GETVALGANTALLET___________________________________"+getAntall);
+             }
+             int a = antallet.size();
+             model.addAttribute("iftest",a);
+            model.addAttribute("alleAntall", antallet);
+            
                         int r = ub.getØvingerIEmnet(emnekoden).size();
             int mid[] = new int[r];
             for(int k=0; k<ub.getØvingerIEmnet(emnekoden).size(); k++){
