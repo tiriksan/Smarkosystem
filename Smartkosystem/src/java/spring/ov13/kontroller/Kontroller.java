@@ -487,25 +487,6 @@ public class Kontroller {
       
    
     
-      //**** kontroller for å sjekke input fra læreradmin siden. Denne siden skal sjekke hva som er valgt på lærer admin 
-    //**** siden, for så å lagre valgte øvinger i kravgrupper. **********************************
-    @RequestMapping(value="adminlaerer", method = RequestMethod.POST)
-    public String LaererInput(Model model,  HttpServletRequest request, @RequestParam(value = "x", required = true) String [] getValg, BindingResult error) {
-
-        Emne emne = new Emne();
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + getValg[0]);
-        
-       // String[] values = request.getParameterValues("x");
-        
-        
-        
-        
-        
-        
-        return "adminlaerer";
-        
-    }
-    
     /*
      @RequestMapping(value = "/bruker.htm")
      public String visVare(Model model) {
