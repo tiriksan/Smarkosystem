@@ -76,8 +76,10 @@ public class SettIKøKontroller {
     
     
         @RequestMapping(value = "/test.htm")
-  @ResponseBody
+ @ResponseBody
     public String what(@RequestParam(value = "bygg") String bygg, @RequestParam(value = "etasje") String etasje, @RequestParam(value = "rom") String rom, @RequestParam(value = "emnekode") String emnekode){
+        
+        
         UtilsBean ub = new UtilsBean();
         if(!rom.equals("-1") && !etasje.equals("-1") && !bygg.equals("-1")) {
             //Returner ny tabell med bord
@@ -110,9 +112,11 @@ public class SettIKøKontroller {
           }
           returnen += "</select>";
             return returnen;
-        } else {
+          
+    } else {
         return "En feil oppsto";
         }
+            
     }
     
     
