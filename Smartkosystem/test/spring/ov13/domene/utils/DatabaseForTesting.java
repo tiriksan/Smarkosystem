@@ -148,9 +148,13 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psSelectBruker = forbindelse.prepareStatement(sqlSelectBruker);
+            psSelectBruker.setString(1, "anasky@hist.no");
             res = psSelectBruker.executeQuery();
+            System.out.println("this is res " +res);
             while (res.next()) {
+                System.out.println("inni while");
                 b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                System.out.println("getBruker_test " + b);
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
