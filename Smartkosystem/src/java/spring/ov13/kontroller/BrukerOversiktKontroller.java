@@ -37,16 +37,19 @@ public class BrukerOversiktKontroller {
         ArrayList<Bruker> studenter = new ArrayList<Bruker>();
         innloggetBruker.setBrukertype(ub.getBrukertypeiEmne(innloggetBruker.getBrukernavn(), emnekode));
         int antØvinger = ub.getAntOvingerIEmne(emnekode);
+        request.getSession().setAttribute("emne", ub.getEmne(emnekode));
+        System.out.println("Brukertype her: " + innloggetBruker.getBrukertype());
         if (innloggetBruker.getBrukertype() == 1) {
-            
+            System.out.println("here1");
             int[] godkjenteOvinger = ub.getGodkjentOvingerForBrukerIEmne(innloggetBruker.getBrukernavn(), emnekode, antØvinger);
             model.addAttribute("ovinger", godkjenteOvinger);
+            System.out.println(godkjenteOvinger);
         } else {
 
             studenter = ub.getStudenterIEmnet(emnekode);
             model.addAttribute("studenter", studenter);
 
-            request.getSession().setAttribute("emne", ub.getEmne(emnekode));
+            
             int[][] alleBrukereGodkjenteOvinger = new int[studenter.size()][antØvinger];
             int[] godkjenteOvinger;
 

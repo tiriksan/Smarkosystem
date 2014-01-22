@@ -65,6 +65,11 @@ public class UtilsBean {
         return db.getKravGruppertilEmne(emnekode);
 
     }
+    
+    
+    public boolean registrerKravGruppe(Kravgruppe kravgruppe){
+        return db.registrerKravgruppe(kravgruppe);
+    }
 //ENDRE PÅ DENNE?
 
     public Bruker get(String brukernavn) {
