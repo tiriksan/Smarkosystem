@@ -272,13 +272,13 @@ public class Kontroller {
        UtilsBean ub = new UtilsBean();
        Emne em = ub.getEmne(emnet.getEmnenavn());
        em.setEmnekode(emnet.getEmnenavn());
-       em.setØvingsbeskrivelse(emnet.getØvingsbeskrivelse());
+       em.setBeskrivelse(emnet.getBeskrivelse());
        System.out.println(emnet.getEmnenavn());
        System.out.println(emnet.getEmnekode());
        
        
        
-       if(ub.oppdaterEmne(em,em.getØvingsbeskrivelse())){
+       if(ub.oppdaterEmne(em,em.getBeskrivelse())){
            System.out.println("funka med emne også");
            model.addAttribute("funkafint", true);
        }

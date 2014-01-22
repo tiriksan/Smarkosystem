@@ -294,5 +294,5 @@ function slett(navn, emnekode){
             
         </td></tr>
     <tr><td class="mainleggiko" colspan="2"></br><input type="submit"></br>
-            <textarea id="hidden" name="hidden" style="display: none;"></textarea><input type="hidden" value="${emnekode}" name="emnekode"></form></td></tr></table>
+            <textarea id="hidden" name="hidden" style="display: none;">,${brukerinnlogg.getBrukernavn()}</textarea><input type="hidden" value="${emnekode}" name="emnekode"></form></td></tr></table>
 
