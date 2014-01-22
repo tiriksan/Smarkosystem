@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.ov13.domene.Bruker;
@@ -29,13 +30,13 @@ public class BrukerOversiktKontroller {
         return "velgEmne";
     }
 
-    @RequestMapping(value = "/valgtBrukeroversikt.htm")
-    public String sendVidereTilBrukerOversikt(Model model, HttpServletRequest request,@RequestParam(value = "emnekode", required = false) String emnekode) {
+    @RequestMapping(value = "/valgtBrukeroversikt.htm", method = RequestMethod.POST)
+    public String sendVidereTilBrukerOversikt(Model model,@ModelAttribute(value = "brukerinnlogg") Bruker innloggetBruker, HttpServletRequest request,@RequestParam(value = "emnekode", required = false) String emnekode) {
         
         
         UtilsBean ub = new UtilsBean();
         ArrayList<Bruker> studenter = new ArrayList<Bruker>();
-        
+        innloggetBruker.setBrukertype(ub.getBrukertypeiEmne(innloggetBruker.getBrukernavn(),emnekode));
         studenter = ub.getStudenterIEmnet(emnekode);
         model.addAttribute("studenter", studenter);
         
@@ -50,7 +51,6 @@ public class BrukerOversiktKontroller {
                 alleBrukereGodkjenteOvinger[i][j] = godkjenteOvinger[j];
             }
         }
-        System.out.println(alleBrukereGodkjenteOvinger.length);
         model.addAttribute("aGO", alleBrukereGodkjenteOvinger);
         
         return "velgEmne";

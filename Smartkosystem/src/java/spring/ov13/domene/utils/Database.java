@@ -794,18 +794,13 @@ public class Database {
 
         try {
             åpneForbindelse();
-
             psGetGodkjentOvingerForBrukerIEmne = forbindelse.prepareStatement(sqlGetGodkjentOvingerForBrukerIEmne);
-
             psGetGodkjentOvingerForBrukerIEmne.setString(1, brukernavn);
             psGetGodkjentOvingerForBrukerIEmne.setString(2, emnekode);
             psGetGodkjentOvingerForBrukerIEmne.setString(3, emnekode);
-
             res = psGetGodkjentOvingerForBrukerIEmne.executeQuery();
             int i = 0;
-            System.out.println("AntØvinger: " + antØving);
             while (res.next()) {
-                System.out.println(i);
                 if (res.getInt("godkjent") > 0) {
                     utTab[i] = 1;
                 } else {
