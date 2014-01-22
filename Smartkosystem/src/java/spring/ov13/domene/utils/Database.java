@@ -29,10 +29,10 @@ public class Database {
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
-    private final String sqlUpdageOvingsbeskrivelse = "UPDATE emne set øvingsbeskrivelse=? where emnekode=?";
+    private final String sqlUpdageOvingsbeskrivelse = "UPDATE emne set beskrivelse=? where emnekode=?";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
     private final String sqlInsertFag = "INSERT INTO emne VALUES(?,?,?)";
-    private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, øvingsbeskrivelse=? WHERE emnekode=?";
+    private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, beskrivelse=? WHERE emnekode=?";
     private final String sqlSelectEmnePaabokstav = "SELECT concat(emnekode,'-',emnenavn) AS navn, emne.* FROM emne WHERE concat(emnekode,'-',emnenavn) LIKE ?";
     private final String sqlSelectBrukereIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? ORDER BY etternavn";
@@ -173,7 +173,7 @@ public class Database {
             res = psSelectEmne.executeQuery();
             while (res.next()) {
                 System.out.println("hallais emne3");
-                b = new Emne(res.getString("emnekode"), res.getString("emnenavn"), res.getString("øvingsbeskrivelse"));
+                b = new Emne(res.getString("emnekode"), res.getString("emnenavn"), res.getString("beskrivelse"));
                 EmnePaaNavn.add(b);
             }
         } catch (SQLException e) {
@@ -522,7 +522,7 @@ public class Database {
             psSelectFag.setString(1, fagkode);
             res = psSelectFag.executeQuery();
             while (res.next()) {
-                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"), res.getString("øvingsbeskrivelse"));
+                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"), res.getString("beskrivelse"));
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -547,7 +547,7 @@ public class Database {
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleFag);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"));
+                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("beskrivelse"));
                 if (fagListe == null) {
                     fagListe = new ArrayList<Emne>();
                 }
@@ -567,7 +567,7 @@ public class Database {
     }
 
     // er det heldig å oppdatere en primarykey? 
-    public synchronized boolean oppdaterEmne(Emne emne, String øvingsbeskrivelse) {
+    public synchronized boolean oppdaterEmne(Emne emne, String beskrivelse) {
         boolean ok = false;
         System.out.println("oppdaterFag()");
         PreparedStatement psUpdateFag = null;
@@ -576,7 +576,7 @@ public class Database {
             åpneForbindelse();
             psUpdateFag = forbindelse.prepareStatement(sqlUpdateFag);
             psUpdateFag.setString(1, emne.getEmnenavn());
-            psUpdateFag.setString(2, øvingsbeskrivelse);
+            psUpdateFag.setString(2, beskrivelse);
             psUpdateFag.setString(3, emne.getEmnekode());
             int i = psUpdateFag.executeUpdate();
             if (i > 0) {
@@ -1295,7 +1295,7 @@ public class Database {
             psSelectAlle.setString(1, brukernavn);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"));
+                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("beskrivelse"));
                 if (fagListe == null) {
                     fagListe = new ArrayList<Emne>();
                 }
@@ -1745,19 +1745,19 @@ public class Database {
         return returnen;
     }
 
-    public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
+    public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String beskrivelse) {
         String ok = null;
         System.out.println("oppdaterBruker()");
         PreparedStatement psUpdateEmne = null;
         try {
             åpneForbindelse();
             psUpdateEmne = forbindelse.prepareStatement(sqlUpdageOvingsbeskrivelse);
-            psUpdateEmne.setString(1, ovingsbeskrivelse);
+            psUpdateEmne.setString(1, beskrivelse);
             psUpdateEmne.setString(2, emnekode);
             int i = psUpdateEmne.executeUpdate();
             if (i > 0) {
-                ok = ovingsbeskrivelse;
-                System.out.println("inne i if(i=0) " + ovingsbeskrivelse);
+                ok = beskrivelse;
+                System.out.println("inne i if(i=0) " + beskrivelse);
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
