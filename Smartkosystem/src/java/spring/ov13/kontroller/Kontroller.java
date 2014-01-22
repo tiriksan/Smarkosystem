@@ -426,18 +426,41 @@ public class Kontroller {
             
           // for (int i=0; i<10; i++){
              String [] ob = request.getParameterValues("obliga");
-             String [] velg = request.getParameterValues("valget");
+   
              
                  System.out.println("lengden av oblig " + ob.length);
-                 System.out.println("lengden av oblig " + velg.length);
+      
                    //  System.out.println(ob[0]);
                    //  System.out.println(ob[1]);
                      for(String s : ob){
                          System.out.println(s);
                      }
-                     for(String a : velg){
-                         System.out.println(a);
-                     }
+                        int r = ub.getØvingerIEmnet(emnekoden).size();
+            int mid[] = new int[r];
+            for(int k=0; k<ub.getØvingerIEmnet(emnekoden).size(); k++){
+                if(k<Integer.parseInt(ob[k])){
+                    mid[k]=k;
+                    System.out.println("Greit " + k);
+                }else{
+                    mid[k]= Integer.parseInt(ob[k]);
+                    System.out.println("Greit2 " + mid[k]);
+                }
+                
+            }
+            Kravgruppe krav = new Kravgruppe();
+            krav.setEmnekode(emnekoden);
+            krav.setAntallgodkj(1); ////////////////// fiks dette etter
+            ub.getØvingerIEmnet(emnekoden);
+            for (int i = 1; i < ub.getØvingerIEmnet(emnekoden).size(); i++) {
+                if (ub.getØvingerIEmnet(emnekoden).get(i).getØvingsnr() == Integer.parseInt(ob[i-1])) {
+                    krav.setGruppeID(i);
+                    ub.registrerKravgruppe(krav);
+                    ub.getØvingerIEmnet(emnekoden).get(i).setGruppeid(i);
+                    ub.oppdaterØving(ub.getØvingerIEmnet(emnekoden).get(i),Integer.parseInt(ob[i]) , emnekoden);
+                    
+
+                }
+            }
                  }
         
              //    System.out.println(ob[1]);
