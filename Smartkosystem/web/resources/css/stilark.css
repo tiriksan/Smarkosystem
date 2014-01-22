@@ -438,12 +438,16 @@ td.admlaerer {
     td.godkjent{
         color: #00ff00;
     }
-       #valget {
+      #valget {
         postion : absolute;
         margin-top : 5px;
     }
-    #leggtilov{
-        margin-top: 10px;
+     #leggtilov{
+        margin-top: -24px;
+        margin-left: 80%;
+        margin-right: 5px;
+        border: 1px solid black;
+        text-align:center;
     }
         #ovingoversikttd{
         border: solid;

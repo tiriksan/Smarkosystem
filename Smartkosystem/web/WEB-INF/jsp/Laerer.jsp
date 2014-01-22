@@ -18,11 +18,7 @@
     function submitform() {
         document.minform.submit();
     }
-    function fnctcheckbox() {
-        if (document.getElementById("valget").checked)
-            document.getElementById("checkboxer").value = "<c:out value='${admin.øvingsnr}'/>";
-        document.minform.submit();
-    }
+
 </script>
 
 <c:choose>
@@ -52,16 +48,24 @@
     <c:otherwise>
 
         <form:form action="adminlaerer.htm" method="post" modelAttribute="brukerinnlogg" name="minform">
-        
-                <select name="x" id="x" onchange="submitform()">
-                    <c:forEach items="${allefagene}" var="fagliste">
-                        <option value="${fagliste}">${fagliste}</option>
-                    </c:forEach>
-                </select>
-          
-            <div class="leggtilov">
-                <a href="regov2.htm">Legg til øving</a>
-            </div>
+           <table>
+                <tr>
+                    <td>
+                    Velg Emne: 
+                    </td>
+                    <td>
+                        <select name="x" id="x" onchange="submitform()">
+                            <c:forEach items="${allefagene}" var="fagliste">
+                                <option value="${fagliste}">${fagliste}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        <div class="leggtilov" id="leggtilov">
+            <a href="regov2.htm">Legg til ny øving</a>
+        </div>   
+
             
             
             
@@ -73,7 +77,7 @@
                 <table>
                     <tr>
                         <td>Beskrivelse: </td>
-                        <td><form:input path="${emne.øvingsbeskrivelse}" value="${emne.øvingsbeskrivelse}" name="beskrivelseinput" /></td>
+                        <td><form:input path="${emne.beskrivelse}" value="${emne.beskrivelse}" name="beskrivelseinput" /></td>
 
                         <td> <input type="submit" value="Oppdater" name="oppdater2" /></td> </tr>
                 </table>
