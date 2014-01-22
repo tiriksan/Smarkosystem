@@ -60,6 +60,29 @@ public class TestDB {
         assertEquals(b.getBrukertype(), brukertype);
         assertEquals(b.md5(b.getPassord()), passord);
     }
+    
+    @Test
+    public void test_getBruker() throws SQLException{
+        System.out.println("start");
+        DatabaseForTesting database = new DatabaseForTesting(db);
+        Bruker b = new Bruker("anasky@hist.no", "Anakin", "Skywalker", 1, "NoSoup4U");
+        
+        Connection con = database.getForbindelse();
+        Statement stmt = con.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT * FROM bruker WHERE brukernavn='anasky@hist.no'");
+        
+        String brukernavn = null;
+        while(res.next()){
+        
+        
+        brukernavn = res.getString("brukernavn");
+        System.out.println("bolle " + brukernavn);
+        Bruker b1 = database.getBruker(brukernavn);
+        System.out.println("bolle1 " + b1);
+        
+            assertEquals(brukernavn, b1.getBrukernavn());
+        }
+    }
 
     @Test
     public void test_registrerEksisterendeBruker() {
@@ -328,9 +351,11 @@ public class TestDB {
             avbrudd = res.next();
 
             brukernavn = res.getString("brukernavn");
+            System.out.println("kake1 " + brukernavn); //anakin shows
             Bruker b1 = database.getBruker(brukernavn);
+            System.out.println("kake2" + b1);
             Bruker b2 = brukere.get(i);
-            System.out.println(b1.getBrukernavn() + " " + b2.getBrukernavn());
+            System.out.println(b1.getBrukernavn() + " kake3 " + b2.getBrukernavn());
             assert (avbrudd);
             assertEquals(b1.getBrukernavn(), b2.getBrukernavn());
             assertEquals(b1.getBrukertype(), b2.getBrukertype());

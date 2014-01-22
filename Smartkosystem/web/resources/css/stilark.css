@@ -445,6 +445,29 @@ td.admlaerer {
     #leggtilov{
         margin-top: 10px;
     }
+        #ovingoversikttd{
+        border: solid;
+        border-spacing: 1px;
+        border-color: #000000;
+        border-right: none;
+    }
+    #ovingoversiktrad{
+        background-color: gainsboro;
+    }
+    #ovingoversikttabell{
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+    td.tdoving{
+        width: 19px;
+        border: solid;
+        border-color: #000000;
+        border-spacing: 1px;
+        border-right: none;
+        
+        text-align: center;
+
+    }
 
     
     

@@ -238,8 +238,8 @@ public class UtilsBean {
         return db.getUnikeBord(emnekode, bygg, etasje, bord);
     }
 
-    public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
-        return db.oppdaterØvingsBeskrivelse(emnekode, ovingsbeskrivelse);
+    public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String beskrivelse) {
+        return db.oppdaterØvingsBeskrivelse(emnekode, beskrivelse);
     }
     
     
@@ -292,7 +292,9 @@ return true;
 }
 
 
-    
+    public boolean mekkeinnlegg(){
+        return db.mekkeinnlegg();
+    }
     
 
     /*    public static void main(String[] args) {
