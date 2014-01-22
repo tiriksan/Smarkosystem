@@ -30,16 +30,14 @@
         ${emne.emnekode}&nbsp;${emne.emnenavn}
 
         <c:if test="${brukerinnlogg.brukertype == 1}">
-            <table>
-                <tr>
-                    <td>
+            <table width="100%" cellspacing="0" cellpadding="0" id="ovingoversikttabell">
+                <tr id="ovingoversiktrad">
+                    <td id="ovingoversikttd">
                         ${brukerinnlogg.fornavn}&nbsp;${brukerinnlogg.etternavn}
                     </td>
-                    <td>
-                        <c:forEach begin="1" end="${fn:length(ovinger)-1}" var="oving">
-                            <div <c:if test="${ovinger[oving-1]==1}">class="godkjent"</c:if>>${oving}</div>
-                        </c:forEach>
-                    </td>
+                    <c:forEach begin="1" end="${fn:length(ovinger)}" var="oving">
+                        <td class="tdoving<c:if test="${ovinger[oving-1]==1}"> godkjent</c:if>">${oving}</td>
+                    </c:forEach>
                 </tr>
             </table>
         </c:if>
@@ -63,8 +61,8 @@
                     <td>
 
                         <c:forEach begin="1" end="${fn:length(aGO[student])}" var = "i">
-                            <td <c:if test="${aGO[student][i-1]==1}">class="godkjent"</c:if>>${i}</td> 
-                        </c:forEach>
+                        <td <c:if test="${aGO[student][i-1]==1}">class="godkjent"</c:if>>${i}</td> 
+                    </c:forEach>
                     </td>
                 </tr>
             </c:forEach>
