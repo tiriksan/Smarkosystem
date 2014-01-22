@@ -154,7 +154,7 @@ public class TestDB {
         }
         assertEquals(emne.getEmnekode(), emnekode);
         assertEquals(emne.getEmnenavn(), emnenavn);
-        assertEquals(emne.getØvingsbeskrivelse(), øvingsbeskrivelse);
+        assertEquals(emne.getBeskrivelse(), øvingsbeskrivelse);
     }
 
     @Test
