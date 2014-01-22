@@ -642,7 +642,7 @@ public class DatabaseForTesting {
             res = psSelectKravGruppe.executeQuery();
 
             while (res.next()) {
-                Kravgruppe k = new Kravgruppe(res.getInt("gruppeID"), emnekode, res.getInt("antall"));
+                Kravgruppe k = new Kravgruppe(res.getInt("gruppeID"), emnekode, res.getInt("antall"), res.getString("beskrivelse"));
                 krav.add(k);
 
             }
