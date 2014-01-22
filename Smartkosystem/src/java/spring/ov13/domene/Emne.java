@@ -23,9 +23,19 @@ public class Emne {
     ArrayList<Øving> øvinger = new ArrayList<Øving>();
     ArrayList<Bruker> student = new ArrayList<Bruker>();
     ArrayList<Bruker> studentassistent = new ArrayList<Bruker>();
-    public Emne(String emnekode, String emnenavn) {
+    private String øvingsbeskrivelse;
+
+    public String getØvingsbeskrivelse() {
+        return øvingsbeskrivelse;
+    }
+
+    public void setØvingsbeskrivelse(String øvingsbeskrivelse) {
+        this.øvingsbeskrivelse = øvingsbeskrivelse;
+    }
+    public Emne(String emnekode, String emnenavn, String øvingsbeskrivelse) {
         this.emnenavn = emnenavn;
         this.emnekode = emnekode;
+        this.øvingsbeskrivelse = øvingsbeskrivelse;
     }
 
     public Emne() {
