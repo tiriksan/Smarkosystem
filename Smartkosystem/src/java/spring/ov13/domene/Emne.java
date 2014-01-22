@@ -19,15 +19,13 @@ public class Emne {
     @Pattern(regexp = "\\b[A-z]{4}[0-9]{4}")
     @NotNull
     private String emnekode;
-    private String øvingsbeskrivelse;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
     ArrayList<Øving> øvinger = new ArrayList<Øving>();
     ArrayList<Bruker> student = new ArrayList<Bruker>();
     ArrayList<Bruker> studentassistent = new ArrayList<Bruker>();
-    public Emne(String emnekode, String emnenavn, String øvingsbeskrivelse) {
+    public Emne(String emnekode, String emnenavn) {
         this.emnenavn = emnenavn;
         this.emnekode = emnekode;
-        this.øvingsbeskrivelse = øvingsbeskrivelse;
     }
 
     public Emne() {
@@ -62,14 +60,6 @@ public class Emne {
         this.emnekode = emnekode;
     }
     
-    public String getØvingsbeskrivelse() {
-        return øvingsbeskrivelse;
-    }
-
-    public void setØvingsbeskrivelse(String øvingsbeskrivelse) {
-        this.øvingsbeskrivelse = øvingsbeskrivelse;
-    }
-
     public ArrayList<Bruker> getFaglærer() {
 
         return faglærer;
