@@ -438,6 +438,14 @@ td.admlaerer {
     td.godkjent{
         color: #00ff00;
     }
+       #valget {
+        postion : absolute;
+        margin-top : 5px;
+    }
+    #leggtilov{
+        margin-top: 10px;
+    }
+
     
     
 #bygg {

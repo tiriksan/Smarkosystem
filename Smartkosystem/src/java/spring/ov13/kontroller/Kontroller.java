@@ -346,7 +346,7 @@ public class Kontroller {
 
 //*************************** Viser administrer lærer siden*************************
         @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAlleAntall, HttpServletRequest request ) {
+    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAntall, HttpServletRequest request ) {
 
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
@@ -361,8 +361,7 @@ public class Kontroller {
       model.addAttribute("øving",øving);
        model.addAttribute("emne", emne);
        model.addAttribute("valg", getValg);
-       model.addAttribute("velgAntall", getAlleAntall);
-        
+          
        
        ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
         Emne valgtemne = new Emne();
@@ -430,6 +429,8 @@ public class Kontroller {
                  antallet.add(a);
                  System.out.println("HENTYER GETVALGANTALLET___________________________________"+getAntall);
              }
+             
+             
              int a = antallet.size();
              model.addAttribute("iftest",a);
             model.addAttribute("alleAntall", antallet);
@@ -453,7 +454,7 @@ public class Kontroller {
             for (int i = 1; i < ub.getØvingerIEmnet(emnekoden).size(); i++) {
                 if (ub.getØvingerIEmnet(emnekoden).get(i).getØvingsnr() == Integer.parseInt(ob[i-1])) {
                     krav.setGruppeID(i);
-                    ub.registrerKravgruppe(krav);
+                    ub.registrerKravGruppe(krav);
                     ub.getØvingerIEmnet(emnekoden).get(i).setGruppeid(i);
                     ub.oppdaterØving(ub.getØvingerIEmnet(emnekoden).get(i),Integer.parseInt(ob[i]) , emnekoden);
                     
