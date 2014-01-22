@@ -20,10 +20,11 @@ public class Kravgruppe {
 
     
 
-    public Kravgruppe(int gruppeID, String emnekode, int antallgodkj) {
+    public Kravgruppe(int gruppeID, String emnekode, int antallgodkj, String beskrivelse) {
         this.gruppeID = gruppeID;
         this.emnekode = emnekode;
         this.antallgodkj = antallgodkj;
+        this.beskrivelse = beskrivelse;
     }
     
     public Kravgruppe(String emnekode, int antallgodkj) {
