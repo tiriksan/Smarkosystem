@@ -64,11 +64,11 @@
     <c:if test="${brukerinnlogg.brukertype>1}">
         <div>Arbeidskrav i dette faget</div>
         <table>
-            <c:forEach items="${arbeidskrav}" var="krav">
+            <c:forEach items="${kravgrupper}" var="krav">
                 <tr>
-                    <%--TODO WHEN ARBEIDSKRAV--%>
-                <tr>
-                </c:forEach>
+                    <td>${krav.beskrivelse}</td>
+                </tr>
+            </c:forEach>
         </table>
         <table width="100%">
             <c:forEach begin="0" end="${studenter.size()}" var="student">
