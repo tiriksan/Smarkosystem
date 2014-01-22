@@ -288,27 +288,23 @@ public class SettIKøKontroller {
             brukerne.add(bruker);
         }
         ArrayList<Øving> ovperpers = new ArrayList<Øving>();
-        int karsjekk = 0;
-        int sistekar = brukerne.size()-1;
+        
+        
         for(int i = 0; i < brukerne.size()*antallovinger; i++){
             double mid = i/antallovinger;
             int hvilkenkar = (int) Math.floor(mid);
             int hvilkenoving = i%antallovinger;
-            if(karsjekk != hvilkenkar){
+            
+                        
                 
-                brukerne.get(karsjekk).setØvinger(ovperpers);
-                
-                ovperpers = new ArrayList<Øving>();
-                karsjekk = hvilkenkar;
-                
-            }
+            
             for(int a = 0; a < ovinger.length; a++){
                 
                 if(i == Integer.parseInt(ovinger[a])){
                     
                     Øving ov = new Øving();
                     ov.setEmnekode(emnekode);
-                    ov.setØvingsnr(hvilkenoving);
+                    ov.setØvingsnr(hvilkenoving+1);
                     ovperpers.add(ov);
                 }
                 
@@ -316,10 +312,18 @@ public class SettIKøKontroller {
             }
             
             
+            if(i%antallovinger == antallovinger-1){
+                        brukerne.get(hvilkenkar).setØvinger(ovperpers);
+                
+                ovperpers = new ArrayList<Øving>();
+        
+            }
+            
+            
             
         }
         
-        brukerne.get(sistekar).setØvinger(ovperpers);
+        
         
         
         
@@ -333,7 +337,7 @@ public class SettIKøKontroller {
         plass.setRom(rom);
         plass.setBord(Integer.parseInt(bord));
         
-        //ub.mekkeinnlegg(plass, brukerne, emnekode, beskrivelse);
+        ub.mekkeinnlegg(plass, brukerne, emnekode, beskrivelse);
         
         
         

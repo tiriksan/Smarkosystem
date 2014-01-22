@@ -292,8 +292,8 @@ return true;
 }
 
 
-    public boolean mekkeinnlegg(){
-        return db.mekkeinnlegg();
+    public boolean mekkeinnlegg(Plassering plass, ArrayList<Bruker> brukerne, String emnekode, String beskrivelse){
+        return db.mekkeinnlegg(plass, brukerne, emnekode, beskrivelse);
     }
     
 

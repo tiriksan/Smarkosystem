@@ -75,7 +75,13 @@ public class Database {
     private final String sqlGetGodkjentOvingerForBrukerIEmne = "SELECT B.øvingsnummer, A.øvingsnummer as godkjent from (select * from godkjente_øvinger where brukernavn = ? and emnekode = ?) as A right outer join (select * from `øving` where `øving`.emnekode = ?) AS B on(A.emnekode = B.emnekode and A.øvingsnummer = B.øvingsnummer)";
     private final String sqlSelectAlleUgjorteOvinger = "SELECT * FROM bruker a, øving b WHERE b.emnekode = ? AND a.brukernavn = ? AND NOT EXISTS (select * from godkjente_øvinger c WHERE b.emnekode = c.emnekode AND b.`øvingsnummer` = c.`øvingsnummer` AND a.brukernavn = c.brukernavn)";
     private final String sqlSelectCountOvingerIFag = "SELECT count(*) AS tall FROM øving WHERE emnekode = ?";
-
+    private final String sqlSelectSisteInnleggsid = "SELECT * FROM køinnlegg ORDER BY innleggsid DESC limit 1";
+    private final String sqlSelectSisteKo = "SELECT * FROM kø WHERE emnekode = ? ORDER BY kønummer DESC limit 1";
+    private final String sqlInsertBrukereIInnlegg = "INSERT INTO brukere_i_innlegg VALUES(?,?)";
+    private final String sqlInsertOvingerIInnlegg = "INSERT INTO øvinger_i_innlegg VALUES(?,?, ?, ?)";
+    
+    
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -1873,14 +1879,110 @@ while(res.next()){
     
     
     
+    public boolean mekkeinnlegg(Plassering plass, ArrayList<Bruker> brukerne, String emnekode, String beskrivelse){
+        
     
-    public boolean mekkeinnlegg(){
+        System.out.println("mekkeinnlegg()");
+        PreparedStatement psUpdateFagKoAktiv = null;
+ boolean returnen = true;
+ ResultSet res;
+        System.out.println("Jeg kom inn her");
+        try {
+            åpneForbindelse();
+            
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectSisteInnleggsid);
+            res = psUpdateFagKoAktiv.executeQuery();
+            int innleggsid = 0;
+            while(res.next()){
+                innleggsid = res.getInt("innleggsid");
+            }
+            innleggsid++;
+            
+            int konummer = 0;
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectSisteKo);
+            psUpdateFagKoAktiv.setString(1, emnekode);
+            res = psUpdateFagKoAktiv.executeQuery();
+            while(res.next()){
+                konummer = res.getInt("kønummer");
+            }
+            
+            
+            
+            
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlInsertKøInnlegg);
+
+            psUpdateFagKoAktiv.setInt(1, innleggsid);
+            psUpdateFagKoAktiv.setInt(2, konummer);
+            psUpdateFagKoAktiv.setString(3, brukerne.get(0).getBrukernavn());
+            psUpdateFagKoAktiv.setString(4, plass.getBygning());
+            psUpdateFagKoAktiv.setInt(5, plass.getEtasje());
+            psUpdateFagKoAktiv.setString(6, plass.getRom());
+            psUpdateFagKoAktiv.setInt(7, plass.getBord());
+            psUpdateFagKoAktiv.setString(8, emnekode);
+            psUpdateFagKoAktiv.setString(9, "");
+            psUpdateFagKoAktiv.setString(10, beskrivelse);
+            
+           System.out.println("Og her"); 
+            
+            
+            
+            
+            
+            
+            
+
+            int mid = psUpdateFagKoAktiv.executeUpdate();
+            
+            boolean sofarok = false;
+            if(mid > 0){
+                sofarok = true;
+            }
+            
+            
+            
+            for(int i = 0; i < brukerne.size(); i++){
+                psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlInsertBrukereIInnlegg);
+                psUpdateFagKoAktiv.setInt(1, innleggsid);
+                psUpdateFagKoAktiv.setString(2, brukerne.get(i).getBrukernavn());
+                psUpdateFagKoAktiv.executeUpdate();
+            
+                
+                for(int a = 0; a < brukerne.get(i).getØvinger().size(); a++){
+                                psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlInsertOvingerIInnlegg);
+                psUpdateFagKoAktiv.setInt(1, innleggsid);
+                psUpdateFagKoAktiv.setString(2, brukerne.get(i).getBrukernavn());
+                psUpdateFagKoAktiv.setInt(3, brukerne.get(i).getØvinger().get(a).getØvingsnr());
+                psUpdateFagKoAktiv.setString(4, emnekode);
+                psUpdateFagKoAktiv.executeUpdate();
+                    
+                    
+                    
+                    
+                }
+                
+            }
+
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getFagKoAktiv()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getFagKoAktiv - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFagKoAktiv);
+        }
+        lukkForbindelse();
         
-        
-        return true;
+        return returnen;
     }
     
     
     
-}
+    
+    
+    
+    
+    }
+    
 
