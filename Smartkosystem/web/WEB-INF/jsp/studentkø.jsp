@@ -22,7 +22,12 @@ ${feilmelding}
 
                     <c:if test="${brukerinnlogg.brukertype == 3}">
                         <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
-                            <input type ="submit" value ="Aktiver kø!">
+                            <c:if test = "${aktiv}">
+                                <input type ="submit" value ="Aktiver kø!">
+                            </c:if>
+                            <c:if test = "${!aktiv}">
+                                <input type ="submit" value ="Steng kø!">
+                            </c:if>
                         </form:form>
                     </c:if>
                     <table>
@@ -71,7 +76,7 @@ ${feilmelding}
                                             <br>
                                             <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
                                         </c:if>
-                                            <c:if test="${brukerinnlogg.brukertype > 1}">
+                                        <c:if test="${brukerinnlogg.brukertype > 1}">
                                             <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
                                                 <table>
                                                     <tr>
