@@ -42,7 +42,7 @@
             </table>
             <div>Arbeidskrav i dette faget</div>
             <table>
-                <c:forEach items="${arbeidskrav}" var="krav">
+                <c:forEach items="${kravgrupper}" var="krav">
                     <tr>
                         <td>${krav.beskrivelse}</td>
                         <td>
