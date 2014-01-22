@@ -361,14 +361,9 @@ td.admlaerer {
     border: 1px solid black;
     text-align: center;
     }
-  /*  
-      div.admlaererdiv{
-    background-color: lightblue;
-    width: 111px;
-    margin-left: 100px;
-    margin-top: -20px;
+    #admlaer{
+        margin-top:10px;
     }
-    */
     #emnedrop{
         margin-left: 50px;
     }
@@ -441,6 +436,9 @@ td.admlaerer {
       #valget {
         postion : absolute;
         margin-top : 5px;
+    }
+    #labeladmlaerer{
+        margin-top:10px;
     }
      #leggtilov{
         margin-top: -24px;
