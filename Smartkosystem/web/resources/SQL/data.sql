@@ -43,17 +43,17 @@ INSERT INTO lokasjon VALUES('AITeL', 2, 'KA205', 12, 'TDAT3008');
 INSERT INTO ko VALUES(1, 'TDAT3003', TRUE);
 INSERT INTO ko VALUES(2, 'TDAT3008', DEFAULT);
 
--- INSERT INTO koinnlegg VALUES(1, DEFAULT, 1, 'anasky@hist.no', 'AITeL', 2, 'KA205', 11, '', 'TDAT3003', 'Godkjenning');
--- INSERT INTO koinnlegg VALUES(2, DEFAULT, 1, 'anasky@hist.no', 'AITeL', 2, 'KA205', 11, 'laerer@hist.no', 'TDAT3008', 'Godkjenning');
+INSERT INTO koinnlegg VALUES(1, DEFAULT, 1, 'anasky@hist.no', 'AITeL', 2, 'KA205', 11, '', 'TDAT3003', 'Godkjenning');
+INSERT INTO koinnlegg VALUES(2, DEFAULT, 1, 'anasky@hist.no', 'AITeL', 2, 'KA205', 11, 'laerer@hist.no', 'TDAT3008', 'Godkjenning');
 
--- INSERT INTO brukere_i_innlegg VALUES(1, 'hansol@hist.no');
--- INSERT INTO brukere_i_innlegg VALUES(1, 'anasky@hist.no');
--- INSERT INTO brukere_i_innlegg VALUES(2, 'hansol@hist.no');
--- INSERT INTO brukere_i_innlegg VALUES(2, 'anasky@hist.no');
+INSERT INTO brukere_i_innlegg VALUES(1, 'hansol@hist.no');
+INSERT INTO brukere_i_innlegg VALUES(1, 'anasky@hist.no');
+INSERT INTO brukere_i_innlegg VALUES(2, 'hansol@hist.no');
+INSERT INTO brukere_i_innlegg VALUES(2, 'anasky@hist.no');
 
--- INSERT INTO ovinger_i_innlegg VALUES(1, 'anasky@hist.no', 2, 'TDAT3003');
--- INSERT INTO ovinger_i_innlegg VALUES(1, 'anasky@hist.no', 3, 'TDAT3003');
--- INSERT INTO ovinger_i_innlegg VALUES(1, 'hansol@hist.no', 3, 'TDAT3003');
--- INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 1, 'TDAT3008');
--- INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 2, 'TDAT3008');
--- INSERT INTO ovinger_i_innlegg VALUES(2, 'hansol@hist.no', 2, 'TDAT3008');
+INSERT INTO ovinger_i_innlegg VALUES(1, 'anasky@hist.no', 2, 'TDAT3003');
+INSERT INTO ovinger_i_innlegg VALUES(1, 'anasky@hist.no', 3, 'TDAT3003');
+INSERT INTO ovinger_i_innlegg VALUES(1, 'hansol@hist.no', 3, 'TDAT3003');
+INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 1, 'TDAT3008');
+INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 2, 'TDAT3008');
+INSERT INTO ovinger_i_innlegg VALUES(2, 'hansol@hist.no', 2, 'TDAT3008');

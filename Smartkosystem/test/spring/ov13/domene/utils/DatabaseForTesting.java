@@ -608,9 +608,10 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psInsertKravgruppe = forbindelse.prepareStatement(sqlInsertKravgruppe);
-            psInsertKravgruppe.setString(1, kg.getEmnekode());
-            psInsertKravgruppe.setInt(2, kg.getAntallgodkj());
-            psInsertKravgruppe.setString(3, kg.getBeskrivelse());
+            psInsertKravgruppe.setInt(1, kg.getGruppeID());
+            psInsertKravgruppe.setString(2, kg.getEmnekode());
+            psInsertKravgruppe.setInt(3, kg.getAntallgodkj());
+            psInsertKravgruppe.setString(4, kg.getBeskrivelse());
 
             int i = psInsertKravgruppe.executeUpdate();
             if (i > 0) {
