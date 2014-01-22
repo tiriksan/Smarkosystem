@@ -16,10 +16,10 @@ INSERT INTO emne_bruker VALUES('TDAT3008', 'hansol@hist.no', 1);
 INSERT INTO emne_bruker VALUES('IFUD1042', 'anasky@hist.no', 2);
 INSERT INTO emne_bruker VALUES('TDAT3003', 'laerer@hist.no', 3);
 
-INSERT INTO kravgruppe VALUES(DEFAULT, 'TDAT3003', 5);
-INSERT INTO kravgruppe VALUES(DEFAULT, 'TDAT3008', 3);
-INSERT INTO kravgruppe VALUES(DEFAULT, 'TDAT3008', 2);
-INSERT INTO kravgruppe VALUES(DEFAULT, 'IFUD1020', 1);
+INSERT INTO kravgruppe VALUES(1, 'TDAT3003', 5, 'Du må ha 5 av 8 godkjent');
+INSERT INTO kravgruppe VALUES(2, 'TDAT3008', 3, 'Minst tre av disse må være gjort');
+INSERT INTO kravgruppe VALUES(3, 'TDAT3008', 2, 'To øvinger må være godkjent');
+INSERT INTO kravgruppe VALUES(4, 'IFUD1020', 1, 'Du må ha minst en av disse godkjent');
 
 INSERT INTO oving VALUES(1, 'TDAT3003', 1, DEFAULT), (2, 'TDAT3003', 1, DEFAULT), (3, 'TDAT3003', 1, DEFAULT),
 (4, 'TDAT3003', 1, TRUE), (5, 'TDAT3003', 1, DEFAULT), (6, 'TDAT3003', 1, TRUE), (7, 'TDAT3003', 1, DEFAULT),
@@ -43,17 +43,17 @@ INSERT INTO lokasjon VALUES('AITeL', 2, 'KA205', 12, 'TDAT3008');
 INSERT INTO ko VALUES(1, 'TDAT3003', TRUE);
 INSERT INTO ko VALUES(2, 'TDAT3008', DEFAULT);
 
-INSERT INTO koinnlegg VALUES(1, DEFAULT, 1, 'anasky@hist.no', 'AITeL', 2, 'KA205', 11, '', 'TDAT3003', 'Godkjenning');
-INSERT INTO koinnlegg VALUES(2, DEFAULT, 1, 'anasky@hist.no', 'AITeL', 2, 'KA205', 11, 'laerer@hist.no', 'TDAT3008', 'Godkjenning');
+-- INSERT INTO koinnlegg VALUES(1, DEFAULT, 1, 'anasky@hist.no', 'AITeL', 2, 'KA205', 11, '', 'TDAT3003', 'Godkjenning');
+-- INSERT INTO koinnlegg VALUES(2, DEFAULT, 1, 'anasky@hist.no', 'AITeL', 2, 'KA205', 11, 'laerer@hist.no', 'TDAT3008', 'Godkjenning');
 
-INSERT INTO brukere_i_innlegg VALUES(1, 'hansol@hist.no');
-INSERT INTO brukere_i_innlegg VALUES(1, 'anasky@hist.no');
-INSERT INTO brukere_i_innlegg VALUES(2, 'hansol@hist.no');
-INSERT INTO brukere_i_innlegg VALUES(2, 'anasky@hist.no');
+-- INSERT INTO brukere_i_innlegg VALUES(1, 'hansol@hist.no');
+-- INSERT INTO brukere_i_innlegg VALUES(1, 'anasky@hist.no');
+-- INSERT INTO brukere_i_innlegg VALUES(2, 'hansol@hist.no');
+-- INSERT INTO brukere_i_innlegg VALUES(2, 'anasky@hist.no');
 
-INSERT INTO ovinger_i_innlegg VALUES(1, 'anasky@hist.no', 2, 'TDAT3003');
-INSERT INTO ovinger_i_innlegg VALUES(1, 'anasky@hist.no', 3, 'TDAT3003');
-INSERT INTO ovinger_i_innlegg VALUES(1, 'hansol@hist.no', 3, 'TDAT3003');
-INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 1, 'TDAT3008');
-INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 2, 'TDAT3008');
-INSERT INTO ovinger_i_innlegg VALUES(2, 'hansol@hist.no', 2, 'TDAT3008');
+-- INSERT INTO ovinger_i_innlegg VALUES(1, 'anasky@hist.no', 2, 'TDAT3003');
+-- INSERT INTO ovinger_i_innlegg VALUES(1, 'anasky@hist.no', 3, 'TDAT3003');
+-- INSERT INTO ovinger_i_innlegg VALUES(1, 'hansol@hist.no', 3, 'TDAT3003');
+-- INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 1, 'TDAT3008');
+-- INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 2, 'TDAT3008');
+-- INSERT INTO ovinger_i_innlegg VALUES(2, 'hansol@hist.no', 2, 'TDAT3008');

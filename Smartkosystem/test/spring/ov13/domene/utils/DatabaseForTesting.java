@@ -41,7 +41,7 @@ public class DatabaseForTesting {
     private final String sqlCountØvinger = "SELECT COUNT(ovingsnummer) as telling FROM oving WHERE emnekode =?";
     private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
     private final String sqlgetKravGruppe = "Select * from kravgruppe where emnekode =?";
-    private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(DEFAULT, ?, ?)";
+    private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(?, ?, ?, ?)";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
     private final String sqlSelectFagKoAktiv = "SELECT * FROM ko WHERE emnekode = ?";
@@ -610,6 +610,7 @@ public class DatabaseForTesting {
             psInsertKravgruppe = forbindelse.prepareStatement(sqlInsertKravgruppe);
             psInsertKravgruppe.setString(1, kg.getEmnekode());
             psInsertKravgruppe.setInt(2, kg.getAntallgodkj());
+            psInsertKravgruppe.setString(3, kg.getBeskrivelse());
 
             int i = psInsertKravgruppe.executeUpdate();
             if (i > 0) {

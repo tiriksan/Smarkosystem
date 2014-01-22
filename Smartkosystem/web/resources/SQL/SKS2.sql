@@ -83,12 +83,11 @@ INDEX(innleggsid, brukernavn)
 ) ENGINE=innoDB;
 
 CREATE TABLE kravgruppe(
-gruppeid INT NOT NULL,
+gruppeid INT PRIMARY KEY NOT NULL,
 emnekode VARCHAR(8) NOT NULL,
 antall INT NOT NULL,
 beskrivelse VARCHAR(256),
 CONSTRAINT kravgruppe_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT kravgruppe_pk1 PRIMARY KEY(gruppeid, emnekode),
 INDEX(gruppeid)
 ) ENGINE=innoDB;
 
@@ -140,3 +139,5 @@ ALTER TABLE bruker ALTER COLUMN hovedbrukertype SET DEFAULT 1;
 ALTER TABLE emne_bruker ALTER COLUMN brukertype SET DEFAULT 1;
 ALTER TABLE emne ADD COLUMN beskrivelse VARCHAR(256) NOT NULL;
 ALTER TABLE øving MODIFY COLUMN gruppeid INT;
+ALTER TABLE kravgruppe ADD PRIMARY KEY(gruppeid);
+ALTER TABLE øving ADD CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid);

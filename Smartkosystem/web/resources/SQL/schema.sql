@@ -64,10 +64,11 @@ CONSTRAINT brukere_i_innlegg_pk1 PRIMARY KEY(innleggsid, brukernavn)
 );
 
 CREATE TABLE kravgruppe(
-gruppeid INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+gruppeid INT PRIMARY KEY NOT NULL,
 emnekode VARCHAR(8) NOT NULL,
-antall INT NOT NULL,
-CONSTRAINT kravgruppe_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode)  
+antall INT,
+beskrivelse VARCHAR(256) NOT NULL,
+CONSTRAINT kravgruppe_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode)
 );
 
 CREATE TABLE oving(
