@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.ov13.domene.Bruker;
+import spring.ov13.domene.Øving;
 import spring.ov13.domene.utils.UtilsBean;
+import java.util.ArrayList;
+import java.lang.Math;
 @SessionAttributes({"brukerinnlogg"})
 @Controller
 public class SettIKøKontroller {
@@ -23,10 +26,44 @@ public class SettIKøKontroller {
     @RequestMapping(value = "settiko.htm")
     public String metode(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x") String emnekode){
         
+        
+        
+        
+        
+        
                 UtilsBean ub = new UtilsBean();
+                
+                
+                
+                ArrayList<Bruker> brukerne = new ArrayList<Bruker>();
+                
+                brukerne.add(bruker);
+                ArrayList<Bruker> mid = ub.getBrukereIEmnet(emnekode);
+                ArrayList<Bruker> brukerneiliste = new ArrayList<Bruker>();
+                for(int i = 0; i < mid.size(); i++){
+                    for(int a = 0; a < brukerne.size(); a++){
+                        System.out.println("Sjekker: " + mid.get(i).getBrukernavn() + " - " + brukerne.get(a).getBrukernavn());
+                        if(!mid.get(i).getBrukernavn().equals(brukerne.get(a).getBrukernavn())){
+                          brukerneiliste.add(mid.get(i));
+                          
+                            
+                        }
+                    }
+                }
+                
+                for(int i = 0; i < brukerne.size(); i++){
+                brukerne.get(i).setØvinger(ub.getUgjorteØvinger(emnekode, brukerne.get(i).getBrukernavn()));    
+                }
+                
+        int antallovinger = ub.getAntallOvingerIFag(emnekode);
+                
+                
         String[] byggene = ub.getUnikeBygg(emnekode);
         model.addAttribute("byggene", byggene);
     model.addAttribute("emnekode", emnekode);    
+    model.addAttribute("brukerne", brukerne);
+    model.addAttribute("brukerneiliste", brukerneiliste);
+    model.addAttribute("antallovinger", antallovinger);
         return "settiko";
     }
     
@@ -77,6 +114,220 @@ public class SettIKøKontroller {
         }
     }
     
+    
+    
+    @RequestMapping(value = "/leggtilstudent.htm")
+  @ResponseBody
+    public String leggtilstud(@RequestParam(value = "brukernavn") String brukernavn,@RequestParam(value = "emnekode") String emnekode){
+        
+        UtilsBean ub = new UtilsBean();
+        if(ub.sjekkString(brukernavn)){
+            
+        ArrayList<String> brukernavnene = new ArrayList<String>();
+        String[] splitten = brukernavn.split(",");
+        if(splitten.length > 0){
+        for(int i = 0; i < splitten.length; i++){
+         if(splitten[i].length() > 3){
+             brukernavnene.add(splitten[i]);
+         }   
+        }
+        }
+        
+        ArrayList<Bruker> brukernavnene2 = new ArrayList<Bruker>();
+        
+        for(int i = 0; i < brukernavnene.size(); i++){
+            brukernavnene2.add(ub.getBruker(brukernavnene.get(i)));
+        }
+        
+
+        
+     ArrayList<Bruker> brukerne2 = ub.getBrukereIEmnet(emnekode);
+     ArrayList<Bruker> brukerne = new ArrayList<Bruker>();
+     for(int i = 0; i < brukerne2.size(); i++){
+         boolean funnet = false;
+         for(int a = 0; a < brukernavnene.size(); a++){
+             
+             if(brukerne2.get(i).getBrukernavn().equals(brukernavnene.get(a))){
+                funnet = true;
+             }
+         }
+         if(funnet == false){
+             brukerne.add(brukerne2.get(i));
+         }
+     }
+     
+    for(int i = 0; i < brukernavnene2.size(); i++){
+                brukernavnene2.get(i).setØvinger(ub.getUgjorteØvinger(emnekode, brukernavnene2.get(i).getBrukernavn()));    
+                }
+                
+        int antallovinger = ub.getAntallOvingerIFag(emnekode);
+        
+        System.out.println("Antall øvinger:" + antallovinger);
+     
+        
+        
+        // Konstruering av selve oppbyggingen til autorefresh-div
+     String returnen = "";
+     
+     
+     
+     returnen +=  "<table width=\"100%\"><tr><td>Studenter: <select id=\"studgruppe\" name=\"studgruppe\" onchange=\"leggtilstudent(this.value, '" + emnekode + "');\"><option value=\"-1\">Velg studenter i gruppen</option>";
+                                     int check = 0;       
+                                                    for(int i = 0; i < brukerne.size(); i++){
+                                                        returnen += "<option value=\"" + brukerne.get(i).getBrukernavn() + "\">" + brukerne.get(i).getFornavn() + " " + brukerne.get(i).getEtternavn() + "</option>";
+                                                    }
+                                                    
+                                        returnen += "</select></td></tr>";
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                    for(int i = 0; i < brukernavnene2.size(); i++){
+                                        String ekstra = "<a href=\"#\" onclick=\"slett('" + brukernavnene2.get(i).getBrukernavn() + "', '" + emnekode + "');\">X</a> ";
+                                        returnen += "<tr><td width=\"40%\" class=\"mainbrukeroversikt\">";
+                                                if(i != 0){
+                                                    returnen += ekstra;
+                                                }
+                                                returnen += brukernavnene2.get(i).getFornavn() + " " + brukernavnene2.get(i).getEtternavn() + "</td><td><table class=\"ovingene\" cellspacing=0 cellpadding=0><tr>";
+                                        
+                                        for(int a = 0; a < antallovinger; a++){
+                                            boolean funnet = false;
+                                            
+                                            for(int b = 0; b < brukernavnene2.get(i).getØvinger().size(); b++){
+                                                if(brukernavnene2.get(i).getØvinger().get(b).getØvingsnr() == a+1){ // Kan skje feil her
+                                                    funnet = true;
+                                                }
+                                            }
+                                            int nr = a+1;
+                                            if(funnet == false){
+                                                returnen += "<td class=\"overovinggodkjent\">#" + nr + "</td>";
+                                            } else {
+                                                returnen += "<td class=\"overoving\">#" + nr + "</td>";
+                                            }
+                                            
+                                        }
+                                        returnen += "</tr><tr>";
+                                        
+                                          for(int a = 0; a < antallovinger; a++){
+                                            boolean funnet = false;
+                                            for(int b = 0; b < brukernavnene2.get(i).getØvinger().size(); b++){
+                                                if(brukernavnene2.get(i).getØvinger().get(b).getØvingsnr() == a+1){ // Kan skje feil her
+                                                    funnet = true;
+                                                }
+                                            }
+                                            
+                                            if(funnet == false){
+                                                returnen += "<td class=\"oving\"><input type=checkbox disabled></td>";
+                                            } else {
+                                                returnen += "<td class=\"oving\"><input type=checkbox name=\"oving[]\" value=\"" + check + "\"></td>";
+                                            }
+                                            check++;
+                                        }
+                                        returnen += "</tr></table></td></tr>";
+                                        
+                                        
+                                        
+                                        
+                                    }    
+                                        returnen += "</table>";
+                                        
+      
+            
+        return returnen;    
+            
+        } else {
+            
+            return "";
+        }
+        
+        
+    }
+    
+    
+    
+    
+    
+    @RequestMapping(value = "/submitko.htm")
+    public String submiten(@RequestParam(value = "bygget", required = false) String bygget, @RequestParam(value = "etasjene", required = false) String etasje, @RequestParam(value = "rommene", required = false) String rom, @RequestParam(value = "bordene", required = false) String bord, @RequestParam(value = "hidden") String brukernavn, @RequestParam(value = "oving[]") String[] ovinger, @RequestParam(value = "emnekode", required = true) String emnekode){
+        
+        
+        boolean stop = false;
+       System.out.println(bygget + " " + etasje + " " + rom + " " + bord + " " + brukernavn + " " + ovinger.length); 
+       
+       UtilsBean ub = new UtilsBean();
+       
+       int antallovinger = ub.getAntallOvingerIFag(emnekode);
+       if(antallovinger == 0){
+           stop = true;
+       }
+       
+        ArrayList<String> brukernavnene = new ArrayList<String>();
+        String[] splitten = brukernavn.split(",");
+        if(splitten.length > 0){
+        for(int i = 0; i < splitten.length; i++){
+         if(splitten[i].length() > 3){
+             brukernavnene.add(splitten[i]);
+         }   
+        }
+        }
+       
+       
+        ArrayList<Bruker> brukerne = new ArrayList<Bruker>();
+        for(int i = 0; i < brukernavnene.size(); i++){
+            Bruker bruker = new Bruker();
+            bruker.setBrukernavn(brukernavnene.get(i));
+            brukerne.add(bruker);
+        }
+        ArrayList<Øving> ovperpers = new ArrayList<Øving>();
+        int karsjekk = 0;
+        int sistekar = brukerne.size()-1;
+        for(int i = 0; i < brukerne.size()*antallovinger; i++){
+            double mid = i/antallovinger;
+            int hvilkenkar = (int) Math.floor(mid);
+            int hvilkenoving = i%antallovinger;
+            if(karsjekk != hvilkenkar){
+                
+                brukerne.get(karsjekk).setØvinger(ovperpers);
+                
+                ovperpers = new ArrayList<Øving>();
+                karsjekk = hvilkenkar;
+                
+            }
+            for(int a = 0; a < ovinger.length; a++){
+                
+                if(i == Integer.parseInt(ovinger[a])){
+                    
+                    Øving ov = new Øving();
+                    ov.setEmnekode(emnekode);
+                    ov.setØvingsnr(hvilkenoving);
+                    ovperpers.add(ov);
+                }
+                
+                    
+            }
+            
+            
+            
+        }
+        
+        brukerne.get(sistekar).setØvinger(ovperpers);
+        
+        
+        
+        
+        
+        
+        
+        return "redirect:/studentko.htm";
+    }
     
     
     

@@ -63,7 +63,7 @@ public class Database {
     private final String sqlSelectDistinctEtasje = "SELECT DISTINCT etasje FROM lokasjon WHERE emnekode = ? AND bygg = ?";
     private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
     private final String sqlSelectDistinctBord = "SELECT DISTINCT bord FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ? AND rom = ?";
-    private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
+       private final String sqlSelectBrukereiFag = "Select * from emne_bruker, bruker where emnekode =? AND bruker.brukernavn = emne_bruker.brukernavn ORDER by bruker.etternavn ASC";
     private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_øvinger VALUES(?,?,?,?)";
     private final String sqlDeleteOvingerGodkjent = "DELETE From godkjente_øvinger WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
     private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
@@ -73,6 +73,8 @@ public class Database {
     private final String sqlSjekkOmOvingErGodkjent = "SELECT * FROM godkjente_øvinger WHERE brukernavn = ? AND emnekode = ? AND øvingsnummer = ?";
     private final String sqlSelectStudenterIEmne = "Select * FROM bruker JOIN (emne_bruker) ON (bruker.brukernavn = emne_bruker.brukernavn) WHERE emne_bruker.emnekode = ? AND emne_bruker.brukertype = 1 ORDER BY bruker.etternavn";
     private final String sqlGetGodkjentOvingerForBrukerIEmne = "SELECT B.øvingsnummer, A.øvingsnummer as godkjent from (select * from godkjente_øvinger where brukernavn = ? and emnekode = ?) as A right outer join (select * from `øving` where `øving`.emnekode = ?) AS B on(A.emnekode = B.emnekode and A.øvingsnummer = B.øvingsnummer)";
+    private final String sqlSelectAlleUgjorteOvinger = "SELECT * FROM bruker a, øving b WHERE b.emnekode = ? AND a.brukernavn = ? AND NOT EXISTS (select * from godkjente_øvinger c WHERE b.emnekode = c.emnekode AND b.`øvingsnummer` = c.`øvingsnummer` AND a.brukernavn = c.brukernavn)";
+    private final String sqlSelectCountOvingerIFag = "SELECT count(*) AS tall FROM øving WHERE emnekode = ?";
 
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -1770,4 +1772,107 @@ public class Database {
         return ok;
     }
 
+    
+    
+        
+    public ArrayList<Øving> getUgjorteØvinger(String emnekode, String brukernavn) {
+        System.out.println("updateFagKoAktiv()");
+        PreparedStatement psUpdateFagKoAktiv = null;
+ ArrayList<Øving> returnen = new ArrayList<Øving>();
+ ResultSet res;
+        
+        try {
+            åpneForbindelse();
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectAlleUgjorteOvinger);
+
+            psUpdateFagKoAktiv.setString(1, emnekode);
+            psUpdateFagKoAktiv.setString(2, brukernavn);
+            
+
+            res = psUpdateFagKoAktiv.executeQuery();
+            
+    
+         
+while(res.next()){
+    
+    
+    Øving øving = new Øving();
+    øving.setEmnekode(emnekode);
+    øving.setGruppeid(res.getInt("gruppeid"));
+    øving.setObligatorisk(res.getBoolean("obligatorisk"));
+    øving.setØvingsnr(res.getInt("øvingsnummer"));
+    returnen.add(øving);
 }
+
+
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getFagKoAktiv()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getFagKoAktiv - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFagKoAktiv);
+        }
+        lukkForbindelse();
+        
+        return returnen;
+    }
+    
+    
+    
+    
+    
+
+    
+    
+
+    public int getAntallOvingerIFag(String emnekode) {
+        System.out.println("updateFagKoAktiv()");
+        PreparedStatement psUpdateFagKoAktiv = null;
+ int returnen = 0;
+ ResultSet res;
+        
+        try {
+            åpneForbindelse();
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlSelectCountOvingerIFag);
+
+            psUpdateFagKoAktiv.setString(1, emnekode);
+            
+            
+
+            res = psUpdateFagKoAktiv.executeQuery();
+            
+    
+         
+while(res.next()){
+    
+    returnen = res.getInt("tall");
+}
+
+
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getFagKoAktiv()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getFagKoAktiv - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFagKoAktiv);
+        }
+        lukkForbindelse();
+        
+        return returnen;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+}
+

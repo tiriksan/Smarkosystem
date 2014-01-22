@@ -37,6 +37,7 @@ public class Bruker {
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,13}$")
     private String passord;
     private ArrayList<Emne> fagene;
+        private ArrayList<Øving> øvinger;
     private static final int STUDENT = 1;
     private static final int STUDASS = 2;
     private static final int FAGLÆRER = 3;
@@ -108,6 +109,16 @@ public class Bruker {
     public String toString() {
         return brukernavn + " " + fornavn + " " + etternavn + " " + brukertype + " " + passord;
     }
+    
+    
+        public ArrayList<Øving> getØvinger(){
+        return øvinger;
+    }
+    public void setØvinger(ArrayList<Øving> øvinger2){
+        this.øvinger = øvinger2;
+    }
+    
+    
 
     public boolean sjekkominnskrevet2() {
         return fornavn != null && etternavn != null && brukernavn != null && (brukertype >= 0 || brukertype <= 4) && !fornavn.equals("") && !etternavn.equals("") && !brukernavn.equals("");
@@ -126,4 +137,8 @@ public class Bruker {
         return sendinn;
     }
 
+    
+    
+    
+    
 }

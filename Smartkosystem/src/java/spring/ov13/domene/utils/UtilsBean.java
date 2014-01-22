@@ -236,6 +236,59 @@ public class UtilsBean {
     public synchronized String oppdaterØvingsBeskrivelse(String emnekode, String ovingsbeskrivelse) {
         return db.oppdaterØvingsBeskrivelse(emnekode, ovingsbeskrivelse);
     }
+    
+    
+    
+public ArrayList<Øving> getUgjorteØvinger(String emnekode, String brukernavn){
+return db.getUgjorteØvinger(emnekode, brukernavn);
+}
+
+public int getAntallOvingerIFag(String emnekode){
+    return db.getAntallOvingerIFag(emnekode);
+}
+
+public ArrayList<Bruker> getBrukereIEmnet(String emnekode){
+    return db.getBrukereIEmnet(emnekode);
+}
+
+
+
+private ArrayList<Character> ulovlig = new ArrayList<Character>();
+
+
+
+public boolean sjekkString(String sjekk){
+    
+    ulovlig.add('!');
+    ulovlig.add('"');
+    ulovlig.add('<');
+    ulovlig.add('>');
+    ulovlig.add('/');
+    ulovlig.add('\'');
+    ulovlig.add('?');
+    ulovlig.add('%');
+    ulovlig.add('\\');
+    ulovlig.add(':');
+    ulovlig.add(';');
+    
+    
+    for(int i = 0; i < sjekk.length(); i++){
+        
+        
+        if(ulovlig.contains(sjekk.charAt(i))){
+            return false;
+            
+        }
+        
+    }
+    
+    
+return true;    
+}
+
+
+    
+    
 
     /*    public static void main(String[] args) {
      UtilsBean ub = new UtilsBean();
