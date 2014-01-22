@@ -40,18 +40,36 @@
                     </c:forEach>
                 </tr>
             </table>
+            <div>Arbeidskrav i dette faget</div>
+            <table>
+                <c:forEach items="${arbeidskrav}" var="krav">
+                    <tr>
+                        <td>${krav.beskrivelse}</td>
+                        <td>
+                            <%--TODO      <c:if test="${erGodkjent}">
+                                Krav oppnådd
+                            </c:if>
+                            <c:if test="${!erGodkjent}">
+                                Krav ikke oppnådd
+                            </c:if>--%>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
         </c:if>
 
     </div>
-    <div>Arbeidskrav i dette faget</div>
-    <ul>
-        <c:forEach items="${arbeidskrav}" var="krav">
-            <li>
-                <%--TODO WHEN ARBEIDSKRAV--%>
-            </li>
-        </c:forEach>
-    </ul>
+
+
     <c:if test="${brukerinnlogg.brukertype>1}">
+        <div>Arbeidskrav i dette faget</div>
+        <table>
+            <c:forEach items="${arbeidskrav}" var="krav">
+                <tr>
+                    <%--TODO WHEN ARBEIDSKRAV--%>
+                <tr>
+                </c:forEach>
+        </table>
         <table width="100%">
             <c:forEach begin="0" end="${studenter.size()}" var="student">
                 <tr>
