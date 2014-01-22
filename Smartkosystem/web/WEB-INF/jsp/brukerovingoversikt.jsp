@@ -36,9 +36,9 @@
                         ${brukerinnlogg.fornavn}&nbsp;${brukerinnlogg.etternavn}
                     </td>
                     <td>
-                        <%--                   <c:forEach items="${ovinger}" var="oving">
-                            <div <c:if test="${sjekkGodkjent(emne.emnekode,brukerinnlogg.brukernavn,oving.øvingsnr)}">class="godkjentoving"</c:if>>${oving.øvingsnr}</div>
-                        </c:forEach> --%>
+                        <c:forEach begin="1" end="${fn:length(ovinger)-1}" var="oving">
+                            <div <c:if test="${ovinger[oving-1]==1}">class="godkjent"</c:if>>${oving}</div>
+                        </c:forEach>
                     </td>
                 </tr>
             </table>
