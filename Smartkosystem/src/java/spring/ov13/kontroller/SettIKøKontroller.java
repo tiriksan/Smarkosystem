@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Øving;
+import spring.ov13.domene.Plassering;
 import spring.ov13.domene.utils.UtilsBean;
 import java.util.ArrayList;
 import java.lang.Math;
@@ -256,7 +257,7 @@ public class SettIKøKontroller {
     
     
     @RequestMapping(value = "/submitko.htm")
-    public String submiten(@RequestParam(value = "bygget", required = false) String bygget, @RequestParam(value = "etasjene", required = false) String etasje, @RequestParam(value = "rommene", required = false) String rom, @RequestParam(value = "bordene", required = false) String bord, @RequestParam(value = "hidden") String brukernavn, @RequestParam(value = "oving[]") String[] ovinger, @RequestParam(value = "emnekode", required = true) String emnekode){
+    public String submiten(@RequestParam(value = "bygget", required = false) String bygget, @RequestParam(value = "etasjene", required = false) String etasje, @RequestParam(value = "rommene", required = false) String rom, @RequestParam(value = "bordene", required = false) String bord, @RequestParam(value = "hidden") String brukernavn, @RequestParam(value = "oving[]") String[] ovinger, @RequestParam(value = "emnekode", required = true) String emnekode, @RequestParam(value = "hjelp") String beskrivelse){
         
         
         boolean stop = false;
@@ -322,6 +323,17 @@ public class SettIKøKontroller {
         
         
         
+    
+        // VALIDERING VIKTIGVIKTIG! Sjekk om lokasjon eksisterer, sjekk øvinger opp mot hver enkelt person blabla
+        
+        
+        Plassering plass = new Plassering();
+        plass.setBygning(bygget);
+        plass.setEtasje(Integer.parseInt(etasje));
+        plass.setRom(rom);
+        plass.setBord(Integer.parseInt(bord));
+        
+        //ub.mekkeinnlegg(plass, brukerne, emnekode, beskrivelse);
         
         
         

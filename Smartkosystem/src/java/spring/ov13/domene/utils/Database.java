@@ -1873,6 +1873,13 @@ while(res.next()){
     
     
     
+    public boolean mekkeinnlegg(){
+        
+        
+        return true;
+    }
+    
+    
     
 }
 

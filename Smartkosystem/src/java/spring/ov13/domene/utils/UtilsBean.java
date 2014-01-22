@@ -287,7 +287,9 @@ return true;
 }
 
 
-    
+    public boolean mekkeinnlegg(){
+        return db.mekkeinnlegg();
+    }
     
 
     /*    public static void main(String[] args) {
