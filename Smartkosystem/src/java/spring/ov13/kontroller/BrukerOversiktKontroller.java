@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
+import spring.ov13.domene.Kravgruppe;
 import spring.ov13.domene.utils.UtilsBean;
 
 /**
@@ -38,7 +39,8 @@ public class BrukerOversiktKontroller {
         innloggetBruker.setBrukertype(ub.getBrukertypeiEmne(innloggetBruker.getBrukernavn(), emnekode));
         int antØvinger = ub.getAntOvingerIEmne(emnekode);
         request.getSession().setAttribute("emne", ub.getEmne(emnekode));
-        System.out.println("Brukertype her: " + innloggetBruker.getBrukertype());
+        ArrayList<Kravgruppe> kravgrupper = ub.getKravGruppetilEmne(emnekode);
+        model.addAttribute("kravgrupper", kravgrupper);
         if (innloggetBruker.getBrukertype() == 1) {
             System.out.println("here1");
             int[] godkjenteOvinger = ub.getGodkjentOvingerForBrukerIEmne(innloggetBruker.getBrukernavn(), emnekode, antØvinger);

@@ -16,11 +16,15 @@ public class Kravgruppe {
     private int gruppeID;
     private String emnekode;
     private int antallgodkj;
+    private String beskrivelse;
 
-    public Kravgruppe(int gruppeID, String emnekode, int antallgodkj) {
+    
+
+    public Kravgruppe(int gruppeID, String emnekode, int antallgodkj, String beskrivelse) {
         this.gruppeID = gruppeID;
         this.emnekode = emnekode;
         this.antallgodkj = antallgodkj;
+        this.beskrivelse = beskrivelse;
     }
     
     public Kravgruppe(String emnekode, int antallgodkj) {
@@ -54,6 +58,14 @@ public class Kravgruppe {
 
     public void setAntallgodkj(int Antallgodkj) {
         this.antallgodkj = Antallgodkj;
+    }
+    
+    public String getBeskrivelse() {
+        return beskrivelse;
+    }
+
+    public void setBeskrivelse(String beskrivelse) {
+        this.beskrivelse = beskrivelse;
     }
 
     @Override

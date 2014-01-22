@@ -419,22 +419,44 @@ public class Kontroller {
         }
         model.addAttribute("allefagene", emnetabell);
 
-           if(oppdater != null){
-     ArrayList<String> antallet = new ArrayList();
-     antallet.add("Velg antall");
-             String [] ob = request.getParameterValues("obliga");
+          
+           
+           
+           if (oppdater != null) {
+            System.out.println("Han tytjepelk han kom inj");
+            ArrayList<String> antallet = new ArrayList();
+            antallet.add("Velg antall");
+            String[] ob = request.getParameterValues("obliga");
 
-             for(int i =1; i<ob.length+1;i++){
-                 String a = String.valueOf(i);
-                 antallet.add(a);
-                 System.out.println("HENTYER GETVALGANTALLET___________________________________"+getAntall);
-             }
-             
-             
-             int a = antallet.size();
-             model.addAttribute("iftest",a);
+          
+            for (int i = 1; i < ob.length + 1; i++) {
+                String a = String.valueOf(i);
+                antallet.add(a);
+                System.out.println("HENTYER GETVALGANTALLET___________________________________" + getAntall);
+
+            }
+
+            int a = antallet.size();
+            model.addAttribute("iftest", a);
             model.addAttribute("alleAntall", antallet);
+
             
+            if (getAntall != null) {
+                Kravgruppe kr = new Kravgruppe();
+            kr.setAntallgodkj(Integer.parseInt(getAntall));
+             kr.setGruppeID(4);
+                for (int i = 1; i < ob.length + 1; i++) {
+                    ub.registrerKravGruppe(kr);
+                   
+                    øvingtabell1.get(i - 1).setGruppeid(4);
+                    ub.oppdaterØving(øvingtabell1.get(Integer.parseInt(ob[i - 1])), Integer.parseInt(ob[i - 1]), emnekoden);
+                }
+            }
+
+        }
+                return "adminlaerer";
+    }
+            /*
                         int r = ub.getØvingerIEmnet(emnekoden).size();
             int mid[] = new int[r];
             for(int k=0; k<ub.getØvingerIEmnet(emnekoden).size(); k++){
@@ -445,8 +467,10 @@ public class Kontroller {
                     mid[k]= Integer.parseInt(ob[k]);
                     System.out.println("Greit2 " + mid[k]);
                 }
-                
+               
             }
+            
+            
             Kravgruppe krav = new Kravgruppe();
             krav.setEmnekode(emnekoden);
             krav.setAntallgodkj(1); ////////////////// fiks dette etter
@@ -477,31 +501,10 @@ public class Kontroller {
         
         
         
-
         
        
-
-        return "adminlaerer";
-    }
-    
-      //**** kontroller for å sjekke input fra læreradmin siden. Denne siden skal sjekke hva som er valgt på lærer admin 
-    //**** siden, for så å lagre valgte øvinger i kravgrupper. **********************************
-    @RequestMapping(value="adminlaerer", method = RequestMethod.POST)
-    public String LaererInput(Model model,  HttpServletRequest request, @RequestParam(value = "x", required = true) String [] getValg, BindingResult error) {
-
-        Emne emne = new Emne();
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + getValg[0]);
-        
-       // String[] values = request.getParameterValues("x");
-        
-        
-        
-        
-        
-        
-        return "adminlaerer";
-        
-    }
+      
+   
     
     /*
      @RequestMapping(value = "/bruker.htm")

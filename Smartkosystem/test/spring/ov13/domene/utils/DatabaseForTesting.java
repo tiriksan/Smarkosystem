@@ -303,7 +303,7 @@ public class DatabaseForTesting {
             psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
             psInsertFag.setString(1, fag.getEmnekode());
             psInsertFag.setString(2, fag.getEmnenavn());
-            psInsertFag.setString(3, fag.getØvingsbeskrivelse());
+            psInsertFag.setString(3, fag.getBeskrivelse());
 
             int i = psInsertFag.executeUpdate();
             if (i > 0) {
@@ -334,7 +334,7 @@ public class DatabaseForTesting {
             psSelectFag.setString(1, fagkode);
             res = psSelectFag.executeQuery();
             while (res.next()) {
-                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"), res.getString("øvingsbeskrivelse"));
+                f = new Emne(res.getString("emnekode"), res.getString("emnenavn"), res.getString("beskrivelse"));
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
@@ -359,7 +359,7 @@ public class DatabaseForTesting {
             psSelectAlle = forbindelse.prepareStatement(sqlSelectAlleFag);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"));
+                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("beskrivelse"));
                 if (fagListe == null) {
                     fagListe = new ArrayList<Emne>();
                 }
@@ -642,7 +642,7 @@ public class DatabaseForTesting {
             res = psSelectKravGruppe.executeQuery();
 
             while (res.next()) {
-                Kravgruppe k = new Kravgruppe(res.getInt("gruppeID"), emnekode, res.getInt("antall"));
+                Kravgruppe k = new Kravgruppe(res.getInt("gruppeID"), emnekode, res.getInt("antall"), res.getString("beskrivelse"));
                 krav.add(k);
 
             }
@@ -707,7 +707,7 @@ public class DatabaseForTesting {
             psSelectAlle.setString(1, brukernavn);
             res = psSelectAlle.executeQuery();
             while (res.next()) {
-                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("øvingsbeskrivelse"));
+                Emne f = new Emne(res.getString("emnenavn"), res.getString("emnekode"), res.getString("beskrivelse"));
                 if (fagListe == null) {
                     fagListe = new ArrayList<Emne>();
                 }
