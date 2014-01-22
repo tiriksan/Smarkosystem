@@ -419,22 +419,41 @@ public class Kontroller {
         }
         model.addAttribute("allefagene", emnetabell);
 
-           if(oppdater != null){
-     ArrayList<String> antallet = new ArrayList();
-     antallet.add("Velg antall");
-             String [] ob = request.getParameterValues("obliga");
+          
+           
+           
+           if (oppdater != null) {
+            System.out.println("Han tytjepelk han kom inj");
+            ArrayList<String> antallet = new ArrayList();
+            antallet.add("Velg antall");
+            String[] ob = request.getParameterValues("obliga");
 
-             for(int i =1; i<ob.length+1;i++){
-                 String a = String.valueOf(i);
-                 antallet.add(a);
-                 System.out.println("HENTYER GETVALGANTALLET___________________________________"+getAntall);
-             }
-             
-             
-             int a = antallet.size();
-             model.addAttribute("iftest",a);
+          
+            for (int i = 1; i < ob.length + 1; i++) {
+                String a = String.valueOf(i);
+                antallet.add(a);
+                System.out.println("HENTYER GETVALGANTALLET___________________________________" + getAntall);
+
+            }
+
+            int a = antallet.size();
+            model.addAttribute("iftest", a);
             model.addAttribute("alleAntall", antallet);
-              }
+
+            
+            if (getAntall != null) {
+                Kravgruppe kr = new Kravgruppe();
+            kr.setAntallgodkj(Integer.parseInt(getAntall));
+             kr.setGruppeID(4);
+                for (int i = 1; i < ob.length + 1; i++) {
+                    ub.registrerKravGruppe(kr);
+                   
+                    øvingtabell1.get(i - 1).setGruppeid(4);
+                    ub.oppdaterØving(øvingtabell1.get(Integer.parseInt(ob[i - 1])), Integer.parseInt(ob[i - 1]), emnekoden);
+                }
+            }
+
+        }
                 return "adminlaerer";
     }
             /*
