@@ -434,7 +434,10 @@ public class Kontroller {
              int a = antallet.size();
              model.addAttribute("iftest",a);
             model.addAttribute("alleAntall", antallet);
-            
+              }
+                return "adminlaerer";
+    }
+            /*
                         int r = ub.getØvingerIEmnet(emnekoden).size();
             int mid[] = new int[r];
             for(int k=0; k<ub.getØvingerIEmnet(emnekoden).size(); k++){
@@ -445,8 +448,10 @@ public class Kontroller {
                     mid[k]= Integer.parseInt(ob[k]);
                     System.out.println("Greit2 " + mid[k]);
                 }
-                
+               
             }
+            
+            
             Kravgruppe krav = new Kravgruppe();
             krav.setEmnekode(emnekoden);
             krav.setAntallgodkj(1); ////////////////// fiks dette etter
@@ -477,12 +482,10 @@ public class Kontroller {
         
         
         
-
         
        
-
-        return "adminlaerer";
-    }
+      
+   
     
       //**** kontroller for å sjekke input fra læreradmin siden. Denne siden skal sjekke hva som er valgt på lærer admin 
     //**** siden, for så å lagre valgte øvinger i kravgrupper. **********************************

@@ -29,17 +29,18 @@
     <c:when test="${valg eq null}">
         <form:form action="adminlaerer.htm" method="post" modelAttribute="brukerinnlogg" name="minform">
             <table>
-
                 <tr>
                     <td>
-
-
+                    Velg Emne: 
+                    </td>
+                    <td>
                         <select name="x" id="x" onchange="submitform()">
                             <c:forEach items="${allefagene}" var="fagliste">
                                 <option value="${fagliste}">${fagliste}</option>
                             </c:forEach>
                         </select>
-                    </td></tr>
+                    </td>
+                </tr>
             </table>
         </form:form>
         <div class="leggtilov" id="leggtilov">
@@ -51,16 +52,23 @@
     <c:otherwise>
 
         <form:form action="adminlaerer.htm" method="post" modelAttribute="brukerinnlogg" name="minform">
-            <div class="nedtrekkslisteadm">
+        
                 <select name="x" id="x" onchange="submitform()">
                     <c:forEach items="${allefagene}" var="fagliste">
                         <option value="${fagliste}">${fagliste}</option>
                     </c:forEach>
                 </select>
-            </div>
+          
             <div class="leggtilov">
                 <a href="regov2.htm">Legg til øving</a>
             </div>
+            
+            
+            
+            
+            
+            
+            
             <div id="labeladmlaerer">
                 <table>
                     <tr>
