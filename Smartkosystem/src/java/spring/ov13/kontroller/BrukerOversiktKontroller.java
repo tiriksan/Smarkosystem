@@ -40,7 +40,9 @@ public class BrukerOversiktKontroller {
         int antØvinger = ub.getAntOvingerIEmne(emnekode);
         request.getSession().setAttribute("emne", ub.getEmne(emnekode));
         ArrayList<Kravgruppe> kravgrupper = ub.getKravGruppetilEmne(emnekode);
+        ArrayList<Boolean> godkjenteKrav = ub.getBrukerGodkjentArbeidskrabIEmne(innloggetBruker.getBrukernavn(),  emnekode);
         model.addAttribute("kravgrupper", kravgrupper);
+        model.addAttribute("godkjentKrav", godkjenteKrav);
         if (innloggetBruker.getBrukertype() == 1) {
             System.out.println("here1");
             int[] godkjenteOvinger = ub.getGodkjentOvingerForBrukerIEmne(innloggetBruker.getBrukernavn(), emnekode, antØvinger);

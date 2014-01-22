@@ -41,17 +41,17 @@
                 </tr>
             </table>
             <div>Arbeidskrav i dette faget</div>
-            <table>
-                <c:forEach items="${kravgrupper}" var="krav">
+            <table width="100%">
+                <c:forEach begin="0" end="${fn:length(kravgrupper)-1}" var="krav">
                     <tr>
-                        <td>${krav.beskrivelse}</td>
+                        <td>${kravgrupper.get(krav).beskrivelse}</td>
                         <td>
-                            <%--TODO      <c:if test="${erGodkjent}">
+                            <c:if test="${godkjentKrav.get(krav)}">
                                 Krav oppnådd
                             </c:if>
-                            <c:if test="${!erGodkjent}">
+                            <c:if test="${!godkjentKrav.get(krav)}">
                                 Krav ikke oppnådd
-                            </c:if>--%>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
@@ -71,7 +71,7 @@
             </c:forEach>
         </table>
         <table width="100%">
-            <c:forEach begin="0" end="${studenter.size()}" var="student">
+            <c:forEach begin="0" end="${studenter.size()-1}" var="student">
                 <tr>
                     <td>
                         ${studenter[student].fornavn}&nbsp;${studenter[student].etternavn}
