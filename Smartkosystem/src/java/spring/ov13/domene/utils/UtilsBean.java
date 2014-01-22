@@ -175,7 +175,7 @@ public class UtilsBean {
     }
     
     public ArrayList<Boolean> getBrukerGodkjentArbeidskrabIEmne(String brukernavn, String emnekode){
-        return db.getBrukerGodkjentArbeidskrabIEmne(brukernavn, emnekode);
+        return db.getBrukerGodkjentArbeidskravIEmne(brukernavn, emnekode);
     }
 
     public boolean updateFagKoAktiv(String emnekode, boolean aktiv) {
