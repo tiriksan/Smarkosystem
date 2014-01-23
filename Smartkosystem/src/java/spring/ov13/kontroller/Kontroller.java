@@ -295,8 +295,6 @@ public class Kontroller {
     @RequestMapping(value = "regov2")
     public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
 
-        Bruker bruker = new Bruker();
-        Emne emne = new Emne();
 
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
