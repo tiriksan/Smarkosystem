@@ -304,7 +304,7 @@ public class Kontroller {
         ArrayList<String> emnetabell = new ArrayList<String>();
 
         for (int i = 0; i < em.size(); i++) {
-            emnetabell.add("Emne " + i + ": " + em.get(i).getEmnenavn());
+            emnetabell.add(em.get(i).getEmnenavn());
             emnekoden = em.get(i).getEmnenavn();
             System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden);
             model.addAttribute("emnekode", emnekoden);
@@ -317,7 +317,7 @@ public class Kontroller {
 
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23", method = RequestMethod.POST)
-    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving,@ModelAttribute(value ="brukerinnlogg")Bruker bruker, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String[] Emner) {
+    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, /*@ModelAttribute(value ="brukerinnlogg") Bruker bruker,*/ BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String[] Emner) {
 
         String[] values = request.getParameterValues("Emner");
         System.out.println("Her skal det komme opp noe nå" + values[0]);
@@ -583,6 +583,119 @@ public class Kontroller {
      }
      return "vare";
      }*/
+    
+    
+    @RequestMapping(value = "/oppdaterselect.htm")
+    @ResponseBody
+    public String oppdater(@RequestParam(value = "x") String alle, @RequestParam(value = "emnekode") String emnekode){
+        String returnen = "";
+        UtilsBean ub = new UtilsBean();
+        ArrayList<Øving> øvinger = ub.getØvingerIEmnet(emnekode);
+        
+        ArrayList<Øving> fordel1 = new ArrayList<Øving>();
+        ArrayList<Øving> fordel2 = new ArrayList<Øving>();
+        
+        System.out.println(alle);
+                ArrayList<String> alleovingsnr = new ArrayList<String>();
+        String[] splitten = alle.split(",");
+        if(splitten.length > 0){
+        for(int i = 0; i < splitten.length; i++){
+         if(!splitten[i].equals(",")){
+             alleovingsnr.add(splitten[i]);
+         }
+     
+        }
+        } else{ 
+            System.out.println("Her kom jeg");
+            alleovingsnr.add(alle);
+        }
+        
+        
+        System.out.println("Størrelse på øvinger fra db: " + øvinger.size() + ", Størrelse på antall hentet ut fra js: " + alleovingsnr.size());
+        
+        
+        for(int i = 0; i < øvinger.size(); i++){
+            boolean funnet = false;
+            int hvor = 0;
+            for(int a = 0; a < alleovingsnr.size(); a++){
+                System.out.println("Her kom jeg, er jeg i loop?");
+                if(øvinger.get(i).getØvingsnr() == Integer.parseInt(alleovingsnr.get(a))){
+                    funnet = true;
+                    hvor = a;
+                    
+                    
+                    
+                }
+            }
+            if(funnet == false){
+               Øving ov = new Øving();
+               ov.setØvingsnr(hvor+1);
+               fordel2.add(ov);
+               System.out.println("Jeg la til i fordel2 - " + funnet);
+            } else {
+                Øving ov = new Øving();
+                    ov.setØvingsnr(øvinger.get(i).getØvingsnr());
+                    fordel1.add(ov);
+                    System.out.println("Jeg la til i fordel1 - " + alleovingsnr.get(hvor));
+            }
+            
+        }
+        
+        
+        
+        
+        returnen += "<table><thead><tr><th>Øving</th><th>Obligatorisk</th></tr>"
+                + "<tbody>";
+        
+        
+        returnen += "Alle i fordel1: ";
+        for(int i = 0; i < fordel1.size(); i++){
+            returnen += fordel1.get(i).getØvingsnr() + ", ";
+        }
+        
+        
+        
+        returnen += "Alle i fordel2: ";
+        for(int i = 0; i < fordel2.size(); i++){
+            returnen += fordel2.get(i).getØvingsnr() + ", ";
+        }
+        
+        
+        for(int i = 0; i < fordel2.size(); i++){
+            returnen += "<tr><td class=\"admlaerer\">" + fordel2.get(i) + "</td>"
+                    + "<td class=\"admlaerer\"><input type=\"checkbox\" value=\"" + fordel2.get(i) + "\" name=\"obliga\" id=\"oblig\" onchange=\"endreselect(this.value, '" + emnekode + "');\"></td></tr>";
+            
+            
+        }
+
+        
+        returnen += "                    <tr><td> <input type=\"submit\" value=\"Gå videre\" name=\"oppdater\" /></td>\n" +
+"                        \n" +
+"                        <td>   \n" +
+"                            <select name=\"valget\" id=\"valget\" onchange=\"submitform()\">";
+        
+        
+        
+        if(fordel1.size() > 0){
+            
+            for(int i = 0; i < fordel1.size(); i++){
+                                                        returnen += "                                        <option value=\"${antall}\">" + fordel1.get(i) + "</option>";
+            }
+            
+            
+            
+        }
+        
+        returnen += "</select>\n" +
+"                            \n" +
+"                        </td>  \n" +
+"                    </tr>\n" +
+"                    </tbody>\n" +
+"                </table>";
+        
+        
+        return returnen;
+    }
 
     @InitBinder
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
