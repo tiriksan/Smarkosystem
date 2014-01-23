@@ -466,7 +466,7 @@ td.admlaerer {
         border-color: #000000;
         border-spacing: 1px;
         border-right: none;
-        
+            
         text-align: center;
 
     }
@@ -530,6 +530,12 @@ td.overoving {
     background-color: #DDDDDD;
     color: #000;
     
+}
+td.kravgk{
+    background-color: #00ff00
+}
+td.kravikkgk{
+    background-color: #ff0000;
 }
 td.overovinggodkjent {
     

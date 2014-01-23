@@ -239,13 +239,13 @@ public class Kontroller {
 
   //************* sjekker inputten på endre emne søkemotor *************
     @RequestMapping(value = "endreemne2")
-    public String SøkeboksEmne(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String endreemne, @ModelAttribute(value = "valgtEmne") Emne valgtEmne) {
+    public String SøkeboksEmne(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String soketekst, @ModelAttribute(value = "valgtEmne") Emne valgtEmne) {
 
         String emnenavnet = null;
        
-        System.out.println(endreemne);
+        System.out.println(soketekst);
         UtilsBean ub = new UtilsBean();
-        ArrayList<Emne> emn = ub.getEmnePåBokstav(endreemne);
+        ArrayList<Emne> emn = ub.getEmnePåBokstav(soketekst);
         System.out.println(emn.size() + " jabbadabba");
         model.addAttribute("sokeresultat", emn);
         for (int i = 0; i < emn.size(); i++) {
