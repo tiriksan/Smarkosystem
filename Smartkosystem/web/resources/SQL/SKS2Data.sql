@@ -13,6 +13,12 @@ INSERT INTO emne_bruker VALUES('TDAT3003', 'anasky@hist.no', 1);
 INSERT INTO emne_bruker VALUES('TDAT3003', 'hansol@hist.no', 1);
 INSERT INTO emne_bruker VALUES('TDAT3008', 'hansol@hist.no', 1);
 INSERT INTO emne_bruker VALUES('IFUD1042', 'anasky@hist.no', 2);
+INSERT INTO emne_bruker VALUES('IFUD1043', 'sksmailsender@gmail.com', 3);
+INSERT INTO emne_bruker VALUES('IFUD1043', 'haakon.jarle.hassel@gmail.com', 1);
+INSERT INTO emne_bruker VALUES('IFUD1043', 'petterlu@stud.hist.no', 3);
+INSERT INTO emne_bruker VALUES('TDAT1001', 'sksmailsender@gmail.com', 3);
+INSERT INTO emne_bruker VALUES('TDAT1001', 'haakon.jarle.hassel@gmail.com', 2);
+INSERT INTO emne_bruker VALUES('TDAT1001', 'petterlu@stud.hist.no', 1);
 
 INSERT INTO kravgruppe VALUES(DEFAULT, 'TDAT3003', 5);
 INSERT INTO kravgruppe VALUES(DEFAULT, 'TDAT3008', 3);

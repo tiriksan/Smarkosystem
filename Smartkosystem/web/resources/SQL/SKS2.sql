@@ -97,7 +97,7 @@ emnekode VARCHAR(8) NOT NULL,
 gruppeid INT,
 obligatorisk BOOLEAN DEFAULT FALSE,
 CONSTRAINT øving_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid) ON DELETE CASCADE,
+CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid) ON DELETE SET NULL,
 CONSTRAINT øving_pk1 PRIMARY KEY(øvingsnummer, emnekode),
 INDEX(øvingsnummer, emnekode)
 ) ENGINE=innoDB;
@@ -140,4 +140,5 @@ ALTER TABLE emne_bruker ALTER COLUMN brukertype SET DEFAULT 1;
 ALTER TABLE emne ADD COLUMN beskrivelse VARCHAR(256) NOT NULL;
 ALTER TABLE øving MODIFY COLUMN gruppeid INT;
 ALTER TABLE kravgruppe ADD PRIMARY KEY(gruppeid);
-ALTER TABLE øving ADD CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid);
+ALTER TABLE øving DROP FOREIGN KEY øving_fk2;
+ALTER TABLE øving ADD CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid) ON DELETE SET NULL;
