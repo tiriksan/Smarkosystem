@@ -571,8 +571,8 @@ public class Database {
         return fagListe;
     }
 
-    // er det heldig å oppdatere en primarykey? 
-    public synchronized boolean oppdaterEmne(Emne emne, String beskrivelse) {
+    
+    public synchronized boolean oppdaterEmne(Emne emne) {
         boolean ok = false;
         System.out.println("oppdaterFag()");
         PreparedStatement psUpdateFag = null;
@@ -581,7 +581,7 @@ public class Database {
             åpneForbindelse();
             psUpdateFag = forbindelse.prepareStatement(sqlUpdateFag);
             psUpdateFag.setString(1, emne.getEmnenavn());
-            psUpdateFag.setString(2, beskrivelse);
+            psUpdateFag.setString(2, emne.getBeskrivelse());
             psUpdateFag.setString(3, emne.getEmnekode());
             int i = psUpdateFag.executeUpdate();
             if (i > 0) {

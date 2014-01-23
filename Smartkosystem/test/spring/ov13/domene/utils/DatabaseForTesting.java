@@ -1563,7 +1563,7 @@ public class DatabaseForTesting {
         return returnen;
     }
 
-    public ArrayList<Boolean> getBrukerGodkjentArbeidskrabIEmne(String brukernavn, String emnekode) {
+    public ArrayList<Boolean> getBrukerGodkjentArbeidskravIEmne(String brukernavn, String emnekode) {
         PreparedStatement psSelectBGAIE = null;
         ArrayList<Boolean> lista = null;
         try {

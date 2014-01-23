@@ -267,7 +267,7 @@ public class Kontroller {
 
     }
     @RequestMapping(value = "endreEmne4")
-    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtemne") Emne emnet ){
+    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtEmne") Emne emnet ){
        System.out.println("STILL GOINNGGGG");
        UtilsBean ub = new UtilsBean();
        Emne em = ub.getEmne(emnet.getEmnenavn());
@@ -278,7 +278,7 @@ public class Kontroller {
        
        
        
-       if(ub.oppdaterEmne(em,em.getBeskrivelse())){
+       if(ub.oppdaterEmne(em)){
            System.out.println("funka med emne også");
            model.addAttribute("funkafint", true);
        }

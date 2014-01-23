@@ -134,8 +134,8 @@ public class UtilsBean {
         return db.getFag(emnekode);
     }
 
-    public boolean oppdaterEmne(Emne emne, String emnekode) {
-        return db.oppdaterEmne(emne, emnekode);
+    public boolean oppdaterEmne(Emne emne) {
+        return db.oppdaterEmne(emne);
     }
 
     public ArrayList<Emne> getEmnePåBokstav(String bokstav) {
