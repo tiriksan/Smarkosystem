@@ -53,3 +53,4 @@ INSERT INTO øvinger_i_innlegg VALUES(1, 'haakon.jarle.hassel@gmail.com', 2, 'IF
 INSERT INTO øvinger_i_innlegg VALUES(1, 'haakon.jarle.hassel@gmail.com', 3, 'IFUD1043');
 INSERT INTO øvinger_i_innlegg VALUES(2, 'sksmailsender@gmail.com', 2, 'IFUD1043');
 INSERT INTO øvinger_i_innlegg VALUES(3, 'petterlu@stud.hist.no', 1, 'TDAT1001');
+INSERT INTO øvinger_i_innlegg VALUES(3, 'haakon.jarle.hassel@gmail.com', 2, 'TDAT1001');

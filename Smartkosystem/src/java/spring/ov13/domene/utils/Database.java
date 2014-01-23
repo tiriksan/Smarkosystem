@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import static java.util.UUID.randomUUID;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 import spring.ov13.domene.Plassering;
@@ -25,7 +26,7 @@ public class Database {
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
     private final String sqlSelectBrukerPaNavn = "SELECT concat(fornavn,' ',etternavn) AS navn, bruker.* FROM bruker WHERE concat(fornavn,' ',etternavn) LIKE ?";
-    private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
+    private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
@@ -273,6 +274,7 @@ public class Database {
             psInsertBruker.setInt(3, bruker.getBrukertype());
             psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
             psInsertBruker.setString(5, bruker.getBrukernavn());
+            psInsertBruker.setString(6, bruker.md5(randomUUID().toString().substring(0, 10)));
             psInsertBruker.executeUpdate();
 
             for (int i = 0; i < bruker.getFagene().size(); i++) {
@@ -342,6 +344,7 @@ public class Database {
                 psInsertBrukere.setString(3, brukere.get(i).getEtternavn());
                 psInsertBrukere.setString(4, brukere.get(i).md5(brukere.get(i).getPassord()));
                 psInsertBrukere.setInt(5, brukere.get(i).getBrukertype());
+                psInsertBrukere.setString(6, brukere.get(i).md5(randomUUID().toString().substring(0, 10)));
 
                 int j = psInsertBrukere.executeUpdate();
                 if (j > 0) {
