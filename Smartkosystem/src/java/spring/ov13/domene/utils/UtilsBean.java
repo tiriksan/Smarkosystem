@@ -173,7 +173,13 @@ public class UtilsBean {
     public int getBrukertypeiEmne(String brukernavn, String emnekode) {
         return db.getBrukertypeiEmne(brukernavn, emnekode);
     }
-    
+    public Øving getØvingIEmnet(int nr, String emnekode){
+        return db.getØvingIEmnet(nr, emnekode);
+    }
+
+public int getMaxGruppeIDIEmne(){
+        return db.getMaxGruppeIDIEmnet();
+    }
     public ArrayList<Boolean> getBrukerGodkjentArbeidskrabIEmne(String brukernavn, String emnekode){
         return db.getBrukerGodkjentArbeidskravIEmne(brukernavn, emnekode);
     }
