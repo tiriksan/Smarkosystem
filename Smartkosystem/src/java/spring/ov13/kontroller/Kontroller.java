@@ -657,7 +657,7 @@ public class Kontroller {
         
         
         
-        returnen += "<table><thead><tr><th>&Oslash;ving</th><th>Obligatorisk</th></tr>"
+        returnen += "<table><tr><td><table><thead><tr><th>&Oslash;ving</th><th>Obligatorisk</th></tr>"
                 + "<tbody>";
         
         
@@ -678,22 +678,22 @@ public class Kontroller {
         
         returnen += "                    <tr><td> <input type=\"submit\" value=\"G&aring; videre\" name=\"oppdater\" /></td>\n" +
 "                        \n" +
-"                        <td>   \n" +
-"                            <select name=\"valget\" id=\"valget\" onchange=\"submitform()\">";
+"                        <td><td>&nbsp;</td></table></td><td valign=top>   \n" +
+"                            <table>";
         
         
         
         if(liste2.size() > 0){
             
             for(int i = 0; i < liste2.size(); i++){
-                                                        returnen += "                                        <option value=\"${antall}\">" + liste2.get(i) + "</option>";
+                                                        returnen += "                                       <tr><td> " + liste2.get(i) + " </td><td>Oblig</td></tr>";
             }
             
             
             
         }
         
-        returnen += "</select>\n" +
+        returnen += "</table></td></tr></table>\n" +
 "                            \n" +
 "                        </td>  \n" +
 "                    </tr>\n" +
