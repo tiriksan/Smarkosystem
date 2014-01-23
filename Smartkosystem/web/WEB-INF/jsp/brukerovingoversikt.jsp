@@ -74,10 +74,10 @@
             <tr>
                 <td width="40%">Navn</td>
                 <td width="30%">Øvinger</td>
-                <td width="30%">Krav</td>
+                <td id="tdKrav" width="30%">Krav</td>
             </tr>
         </table>
-        <table id="ovingoversikttabell" width="100%" cellpadding="0" cellspacing="0">
+        <table id="ovingoversikttabell" width="100%" cellpadding="0" cellspacing="0" border="1">
 
             <c:forEach begin="0" end="${studenter.size()-1}" var="student">
                 <tr id="ovingoversiktrad">
@@ -89,7 +89,7 @@
                         <td class="tdoving<c:if test="${aGO[student][i-1]==1}"> godkjent</c:if>">${i}</td> 
                     </c:forEach>
 
-                    <td id="gkOvingSpace"></td>
+                        <td><div id="gkOvingSpace"></div></td>
                     <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
                         <td class="tdoving<c:if test="${gkKravBruker}"> kravgk</c:if><c:if test="${!gkKravBruker}"> kravikkgk</c:if>">&nbsp;</td>
                     </c:forEach>

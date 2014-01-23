@@ -82,7 +82,8 @@ public class Database {
     private final String sqlInsertBrukereIInnlegg = "INSERT INTO brukere_i_innlegg VALUES(?,?)";
     private final String sqlInsertOvingerIInnlegg = "INSERT INTO øvinger_i_innlegg VALUES(?,?, ?, ?)";
     private final String sqlSelectGodkjenteØvingerKravgruppeBruker = "select kravgruppe.gruppeid, A.antallfullført,kravgruppe.antall from kravgruppe left outer join (select gruppeid,count(gruppeid) as antallfullført from godkjente_øvinger natural join øving where brukernavn=? group by gruppeid) as A on(kravgruppe.gruppeid=A.gruppeid) where emnekode=? ORDER BY kravgruppe.gruppeid;";
-
+    private final String sqlSelectEndrePassordMD5 = "SELECT bruker.glemt_passord FROM bruker WHERE brukernavn=?";
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -1171,6 +1172,34 @@ public class Database {
      * lukkForbindelse(); return ok; }
      *
      */
+    public String getEndrePassordMD5(String brukernavn){
+        System.out.println("getEndrePassordMD5");
+        PreparedStatement psSelectMD5 = null;
+        ResultSet res;
+        String passordMD5 =null;
+        try{
+            åpneForbindelse();
+            psSelectMD5 = forbindelse.prepareStatement(sqlSelectEndrePassordMD5);
+            psSelectMD5.setString(1, brukernavn);
+            res = psSelectMD5.executeQuery();
+            if(res.next()){
+                passordMD5 = res.getString("glemt_passord");
+            }
+        
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getEndrePassordMD5()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getEndrePassordMD5 - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psSelectMD5);
+        }
+        lukkForbindelse();
+        
+        return passordMD5;
+    }
+    
     public ArrayList<String> getInfoTilBruker(String brukernavn) {
         System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;

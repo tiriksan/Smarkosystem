@@ -32,8 +32,8 @@ public class GlemtEndrePassordKontroller {
      //       System.out.println("feil");
      //       return "glemtpassord";
      //  }
-        UtilsBean utilsBean = new UtilsBean();
-        if(utilsBean.get(bruker.getBrukernavn()) == null){
+        UtilsBean ub = new UtilsBean();
+        if(ub.get(bruker.getBrukernavn()) == null){
             modell.addAttribute("errorMelding", "Brukeren med dette brukernavnet eksisterer ikke. Sjekk om brukernavnet stemmer");
             System.out.println("Finner ikke i databasen");
             return "glemtpassord";
@@ -41,6 +41,8 @@ public class GlemtEndrePassordKontroller {
             System.out.println("Sender epost?");
             SendEpost epost = new SendEpost();
             String brukernavn = bruker.getBrukernavn();
+            
+            String endrePassordMD5 = ub.getEndrePassordMD5(brukernavn);
             brukernavn = krypterRot13(brukernavn);
             //TODO endre dersom man endrer server 
             epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8080/Smartkosystem/endrepassord.htm?bruker="+brukernavn);

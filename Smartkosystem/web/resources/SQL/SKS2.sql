@@ -34,6 +34,7 @@ fornavn VARCHAR(64) NOT NULL,
 etternavn VARCHAR(64) NOT NULL,
 passord VARCHAR(64) NOT NULL,
 hovedbrukertype INT DEFAULT 1 NOT NULL,
+glemt_passord VARCHAR(64) NOT NULL,
 INDEX(brukernavn)
 ) ENGINE=innoDB;
 
@@ -142,3 +143,4 @@ ALTER TABLE øving MODIFY COLUMN gruppeid INT;
 ALTER TABLE kravgruppe ADD PRIMARY KEY(gruppeid);
 ALTER TABLE øving DROP FOREIGN KEY øving_fk2;
 ALTER TABLE øving ADD CONSTRAINT øving_fk2 FOREIGN KEY(gruppeid) REFERENCES kravgruppe(gruppeid) ON DELETE SET NULL;
+ALTER TABLE bruker ADD COLUMN glemt_passord VARCHAR(64) NOT NULL;

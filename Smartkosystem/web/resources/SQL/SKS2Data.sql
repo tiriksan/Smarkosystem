@@ -1,18 +1,10 @@
-INSERT INTO emne VALUES('TDAT3003', '3D-programmering', 'Må ha godkjent 5 av 10 øvinger.');
-INSERT INTO emne VALUES('TDAT3008', 'Java EE og distribuerte systemer', 'Må ha godtkjent 3 av de første fem øvingene, og minst 2 av de 4 siste.');
-INSERT INTO emne VALUES('IFUD1043', 'Applikasjonsutvikling på .NET-plattformen', '');
-INSERT INTO emne VALUES('IFUD1020', 'Opensource-utvikling', '');
-INSERT INTO emne VALUES('IFUD1042', 'Applikasjonsutvikling for Android', '');
-INSERT INTO emne VALUES('IFUD1048', 'C++ for programmerere', '');
-INSERT INTO emne VALUES('IFUD1337', 'Navn kommer snart', '');
+INSERT INTO emne VALUES('TDAT3003', '3D-programmering', 'Alt er i 3D!');
+INSERT INTO emne VALUES('TDAT3008', 'Java EE og distribuerte systemer', 'Dette faget er nogenlunde kjedelig');
+INSERT INTO emne VALUES('IFUD1043', 'Applikasjonsutvikling på .NET-plattformen', '.NET bitches');
+INSERT INTO emne VALUES('IFUD1020', 'Opensource-utvikling', 'Opensource or bust!');
+INSERT INTO emne VALUES('IFUD1042', 'Applikasjonsutvikling for Android', 'Istanbul next liksom.');
+INSERT INTO emne VALUES('IFUD1048', 'C++ for programmerere', 'C++, the real language, the best language');
 
-INSERT INTO bruker VALUES('anasky@hist.no', 'Anakin', 'Skywalker', 3, '46251479872872459f5e4ce64a7d883d');
-INSERT INTO bruker VALUES('hansol@hist.no', 'Han', 'Solo', 1, '46251479872872459f5e4ce64a7d883d');
-
-INSERT INTO emne_bruker VALUES('TDAT3003', 'anasky@hist.no', 1);
-INSERT INTO emne_bruker VALUES('TDAT3003', 'hansol@hist.no', 1);
-INSERT INTO emne_bruker VALUES('TDAT3008', 'hansol@hist.no', 1);
-INSERT INTO emne_bruker VALUES('IFUD1042', 'anasky@hist.no', 2);
 INSERT INTO emne_bruker VALUES('IFUD1043', 'sksmailsender@gmail.com', 3);
 INSERT INTO emne_bruker VALUES('IFUD1043', 'haakon.jarle.hassel@gmail.com', 1);
 INSERT INTO emne_bruker VALUES('IFUD1043', 'petterlu@stud.hist.no', 3);
@@ -50,3 +42,14 @@ INSERT INTO kø VALUES(3, 'TDAT2002', DEFAULT);
 INSERT INTO køinnlegg VALUES(1, DEFAULT, 1, 'haakon.jarle.hassel@gmail.com', 'AITeL', 1, 'KA124', 8, 'IFUD1043', '', 'Trenger HJELP huehuehue...');
 INSERT INTO køinnlegg VALUES(2, DEFAULT, 1, 'sksmailsender@gmail.com', 'AITeL', 1, 'KA124', 9, 'IFUD1043', '', 'Godkjenning på Mail pl0x..');
 INSERT INTO køinnlegg VALUES(3, DEFAULT, 2, 'petterlu@stud.hist.no', 'AITeL', 2, 'KA205', 11, 'TDAT1001', '', 'Godkjenning');
+
+INSERT INTO brukere_i_innlegg VALUES(1, 'haakon.jarle.hassel@gmail.com');
+INSERT INTO brukere_i_innlegg VALUES(2, 'sksmailsender@gmail.com');
+INSERT INTO brukere_i_innlegg VALUES(3, 'petterlu@stud.hist.no');
+INSERT INTO brukere_i_innlegg VALUES(3, 'haakon.jarle.hassel@gmail.com');
+
+INSERT INTO øvinger_i_innlegg VALUES(1, 'haakon.jarle.hassel@gmail.com', 1, 'IFUD1043');
+INSERT INTO øvinger_i_innlegg VALUES(1, 'haakon.jarle.hassel@gmail.com', 2, 'IFUD1043');
+INSERT INTO øvinger_i_innlegg VALUES(1, 'haakon.jarle.hassel@gmail.com', 3, 'IFUD1043');
+INSERT INTO øvinger_i_innlegg VALUES(2, 'sksmailsender@gmail.com', 2, 'IFUD1043');
+INSERT INTO øvinger_i_innlegg VALUES(3, 'petterlu@stud.hist.no', 1, 'TDAT1001');
