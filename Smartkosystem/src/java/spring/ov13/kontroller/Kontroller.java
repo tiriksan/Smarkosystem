@@ -148,11 +148,11 @@ public class Kontroller {
         String[] values = request.getParameterValues("laerer");
         System.out.println("Her skal det komme opp noe nå " + values[0]);
         String[] tabell = values[0].split(" ");
-        String forn = tabell[0];
-        String ettern = tabell[1];
-        System.out.println("fornavn " + forn + " etternavn " + ettern);
+        String fornavn = tabell[0];
+        String etternavn = tabell[1];
+        System.out.println("fornavn " + fornavn + " etternavn " + etternavn);
         UtilsBean utilsBean = new UtilsBean();
-        ArrayList<Bruker> returnen = utilsBean.getFaglærerBruker(forn, ettern, 3);
+        ArrayList<Bruker> returnen = utilsBean.getFaglærerBruker(fornavn, etternavn, 3);
 
         /*
          if(error.hasErrors()){
