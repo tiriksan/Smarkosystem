@@ -181,13 +181,13 @@ public class Kontroller {
 
   //************* sjekker inputten på endre bruker søkemotor *************
     @RequestMapping(value = "endrebruker2")
-    public String Søkeboks(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String endrebruker, @ModelAttribute(value = "valgtBruker") Bruker valgtBruker) {
+    public String Søkeboks(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String brukersøk, @ModelAttribute(value = "valgtBruker") Bruker valgtBruker) {
 
         String navnet = null;
        // String values = request.getParameterValue("zoom_query");
-        System.out.println(endrebruker);
+        System.out.println(brukersøk);
         UtilsBean ub = new UtilsBean();
-        ArrayList<Bruker> bruk = ub.getBrukerePåBokstav(endrebruker);
+        ArrayList<Bruker> bruk = ub.getBrukerePåBokstav(brukersøk);
         System.out.println(bruk.size() + " jerherhheruhre");
         model.addAttribute("sokeresultat", bruk);
         for (int i = 0; i < bruk.size(); i++) {
@@ -268,14 +268,14 @@ public class Kontroller {
 
     }
     @RequestMapping(value = "endreEmne4")
-    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtEmne") Emne emnet ){
+    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtEmne") Emne endretEmne ){
        System.out.println("STILL GOINNGGGG");
        UtilsBean ub = new UtilsBean();
-       Emne em = ub.getEmne(emnet.getEmnenavn());
-       em.setEmnekode(emnet.getEmnenavn());
-       em.setBeskrivelse(emnet.getBeskrivelse());
-       System.out.println(emnet.getEmnenavn());
-       System.out.println(emnet.getEmnekode());
+       Emne em = ub.getEmne(endretEmne.getEmnenavn());
+       em.setEmnekode(endretEmne.getEmnenavn());
+       em.setBeskrivelse(endretEmne.getBeskrivelse());
+       System.out.println(endretEmne.getEmnenavn());
+       System.out.println(endretEmne.getEmnekode());
        
        
        

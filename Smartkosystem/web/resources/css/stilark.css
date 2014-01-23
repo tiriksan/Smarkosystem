@@ -447,11 +447,12 @@ td.admlaerer {
         border: 1px solid black;
         text-align:center;
     }
-        #ovingoversikttd{
+    #ovingoversikttd{
         border: solid;
         border-spacing: 1px;
         border-color: #000000;
-        border-right: none;
+        width: 40%;
+        border-collapse: collapse;
     }
     #ovingoversiktrad{
         background-color: gainsboro;
@@ -459,14 +460,19 @@ td.admlaerer {
     #ovingoversikttabell{
         padding-bottom: 10px;
         padding-top: 10px;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+    td#gkOvingSpace{
+        border: solid;
+        border-collapse: collapse;
     }
     td.tdoving{
-        width: 19px;
+        width: 3%;
         border: solid;
         border-color: #000000;
         border-spacing: 1px;
-        border-right: none;
-            
+        border-collapse: collapse;
         text-align: center;
 
     }

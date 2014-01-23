@@ -70,25 +70,40 @@
                 </tr>
             </c:forEach>
         </table>
+        <table width="100%">
+            <tr>
+                <td width="40%">Navn</td>
+                <td width="30%">Øvinger</td>
+                <td width="30%">Krav</td>
+            </tr>
+        </table>
         <table id="ovingoversikttabell" width="100%" cellpadding="0" cellspacing="0">
+
             <c:forEach begin="0" end="${studenter.size()-1}" var="student">
                 <tr id="ovingoversiktrad">
                     <td id="ovingoversikttd">
                         ${studenter[student].fornavn}&nbsp;${studenter[student].etternavn}
                     </td>
+
                     <c:forEach begin="1" end="${fn:length(aGO[student])}" var = "i">
                         <td class="tdoving<c:if test="${aGO[student][i-1]==1}"> godkjent</c:if>">${i}</td> 
                     </c:forEach>
+
+                    <td id="gkOvingSpace"></td>
                     <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
                         <td class="tdoving<c:if test="${gkKravBruker}"> kravgk</c:if><c:if test="${!gkKravBruker}"> kravikkgk</c:if>">&nbsp;</td>
                     </c:forEach>
 
+
                 </tr>
             </c:forEach>
         </table>
-        
+
         <form action="sendAdvarselMail.htm">
-            <input type="submit" value="Send advarsel mail">;
+            <input type="submit" value="Send advarsel mail">
+        </form>
+        <form action="resepsjonListe.htm">
+            <input type="submit" value="GET THE LIST">
         </form>
     </c:if>
 </c:if>
