@@ -11,6 +11,7 @@
 <%-- <c:when test="${valget eq '2'}"> 
 
 --%>
+
 <form:form action="regov23" method="post" modelAttribute="øving" >
     <table>
         <tr><td>ØvingsNr: </td><td><form:input path="øvingsnr" /></td><td><form:errors path="øvingsnr" /></td></tr>
@@ -27,14 +28,6 @@
                                     </select>
                                     
                                     
-                                   
-        
-        <tr>
-                    <td>Obligatorisk:</td>
-                    <td><input for="obligatorisk" type=checkbox name="obliga" /></br>
-                    <td><errors path="obligatorisk" /></td>
-                    
-                </tr>
         
         
       

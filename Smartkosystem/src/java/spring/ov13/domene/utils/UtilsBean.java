@@ -134,8 +134,8 @@ public class UtilsBean {
         return db.getFag(emnekode);
     }
 
-    public boolean oppdaterEmne(Emne emne, String emnekode) {
-        return db.oppdaterEmne(emne, emnekode);
+    public boolean oppdaterEmne(Emne emne) {
+        return db.oppdaterEmne(emne);
     }
 
     public ArrayList<Emne> getEmnePåBokstav(String bokstav) {
@@ -175,7 +175,7 @@ public class UtilsBean {
     }
     
     public ArrayList<Boolean> getBrukerGodkjentArbeidskrabIEmne(String brukernavn, String emnekode){
-        return db.getBrukerGodkjentArbeidskrabIEmne(brukernavn, emnekode);
+        return db.getBrukerGodkjentArbeidskravIEmne(brukernavn, emnekode);
     }
 
     public boolean updateFagKoAktiv(String emnekode, boolean aktiv) {

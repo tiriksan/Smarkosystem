@@ -253,7 +253,7 @@ public class TestDB {
     @Test
     public void registrerKravgruppe() {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Kravgruppe kg = new Kravgruppe("TDAT3003", 2);
+        Kravgruppe kg = new Kravgruppe(5, "TDAT3003", 2, "2 Må være godkjent");
         boolean registrert = database.registrerKravgruppe(kg);
         assert (registrert);
     }

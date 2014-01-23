@@ -52,14 +52,14 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 </c:if>
 
    
-    <c:if test="${not empty brukerTilEndring}">
-    <form:form action="endreEmne4.htm" modelAttribute="valgtemne" method="POST">
+    <c:if test="${not empty emneTilEndring}">
+    <form:form action="endreEmne4.htm" modelAttribute="valgtEmne" method="POST">
         <table>
             <tr>  
                 <td> 
                     <form:input type ="text" name="emneendres" path="emnekode" value="${emneTilEndring.getEmnenavn()}"/>
                     <form:input type = "text" name="emneendres" path = "emnenavn" value="${emneTilEndring.getEmnekode()} "/>
-                    <form:input type ="text" name="emneendres" path= "øvingsbeskrivelse" value="${emneTilEndring.getØvingsbeskrivelse()}"/>
+                    <form:input type ="text" name="emneendres" path= "beskrivelse" value="${emneTilEndring.getBeskrivelse()}"/>
                     <input type="submit" name="emneendres" value="Lagre endringer">
 
                 </td>

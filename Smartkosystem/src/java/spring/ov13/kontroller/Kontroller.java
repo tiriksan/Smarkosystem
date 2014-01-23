@@ -267,7 +267,7 @@ public class Kontroller {
 
     }
     @RequestMapping(value = "endreEmne4")
-    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtemne") Emne emnet ){
+    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtEmne") Emne emnet ){
        System.out.println("STILL GOINNGGGG");
        UtilsBean ub = new UtilsBean();
        Emne em = ub.getEmne(emnet.getEmnenavn());
@@ -278,7 +278,7 @@ public class Kontroller {
        
        
        
-       if(ub.oppdaterEmne(em,em.getBeskrivelse())){
+       if(ub.oppdaterEmne(em)){
            System.out.println("funka med emne også");
            model.addAttribute("funkafint", true);
        }
@@ -317,7 +317,7 @@ public class Kontroller {
 
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23", method = RequestMethod.POST)
-    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String[] Emner) {
+    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving,@ModelAttribute(value ="brukerinnlogg")Bruker bruker, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String[] Emner) {
 
         String[] values = request.getParameterValues("Emner");
         System.out.println("Her skal det komme opp noe nå" + values[0]);
@@ -331,7 +331,8 @@ public class Kontroller {
         UtilsBean utilsBean = new UtilsBean();
 
         øving.setEmnekode(values[0]);
-        øving.setGruppeid(1);
+        øving.setGruppeid(-1);
+        øving.setObligatorisk(false);
         String hentekode = øving.getEmnekode();
 
         if (utilsBean.registrerØving(øving)) {

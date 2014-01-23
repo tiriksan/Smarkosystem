@@ -16,10 +16,10 @@ INSERT INTO emne_bruker VALUES('TDAT3008', 'hansol@hist.no', 1);
 INSERT INTO emne_bruker VALUES('IFUD1042', 'anasky@hist.no', 2);
 INSERT INTO emne_bruker VALUES('TDAT3003', 'laerer@hist.no', 3);
 
-INSERT INTO kravgruppe VALUES(DEFAULT, 'TDAT3003', 5);
-INSERT INTO kravgruppe VALUES(DEFAULT, 'TDAT3008', 3);
-INSERT INTO kravgruppe VALUES(DEFAULT, 'TDAT3008', 2);
-INSERT INTO kravgruppe VALUES(DEFAULT, 'IFUD1020', 1);
+INSERT INTO kravgruppe VALUES(1, 'TDAT3003', 5, 'Du må ha 5 av 8 godkjent');
+INSERT INTO kravgruppe VALUES(2, 'TDAT3008', 3, 'Minst tre av disse må være gjort');
+INSERT INTO kravgruppe VALUES(3, 'TDAT3008', 2, 'To øvinger må være godkjent');
+INSERT INTO kravgruppe VALUES(4, 'IFUD1020', 1, 'Du må ha minst en av disse godkjent');
 
 INSERT INTO oving VALUES(1, 'TDAT3003', 1, DEFAULT), (2, 'TDAT3003', 1, DEFAULT), (3, 'TDAT3003', 1, DEFAULT),
 (4, 'TDAT3003', 1, TRUE), (5, 'TDAT3003', 1, DEFAULT), (6, 'TDAT3003', 1, TRUE), (7, 'TDAT3003', 1, DEFAULT),

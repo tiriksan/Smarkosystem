@@ -41,11 +41,12 @@ public class Database {
     private final String sqlInsertBrukerIEmne = "INSERT INTO emne_bruker VALUES(?,?,?)";
     private final String sqlSelectØving = "SELECT * FROM øving WHERE øvingsnummer=? AND emnekode =?";
     private final String sqlInsertØving = "INSERT INTO øving VALUES(?,?,?,?)";
+    private final String sqlInsertØvingNull = "INSERT INTO øving VALUES(?,?,null,?)";
     private final String sqlUpdateØving = "UPDATE øving SET øvingsnr =?, emnekode =?, gruppeid=?, obligatorisk=? WHERE øvingsnr =? AND emnekode=?";
     private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
     private final String sqlCountØvinger = "SELECT COUNT(øvingsnummer) as telling FROM øving WHERE emnekode =?";
     private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
-    private final String sqlInsertKravgruppe = "INSERT INTO arbeidskrav VALUES(?,?,?)";
+    private final String sqlInsertKravgruppe = "INSERT INTO arbeidskrav VALUES(?,?,?,?)";
     private final String sqlgetKravGruppe = "Select * from kravgruppe where emnekode =?";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
@@ -571,8 +572,7 @@ public class Database {
         return fagListe;
     }
 
-    // er det heldig å oppdatere en primarykey? 
-    public synchronized boolean oppdaterEmne(Emne emne, String beskrivelse) {
+    public synchronized boolean oppdaterEmne(Emne emne) {
         boolean ok = false;
         System.out.println("oppdaterFag()");
         PreparedStatement psUpdateFag = null;
@@ -581,7 +581,7 @@ public class Database {
             åpneForbindelse();
             psUpdateFag = forbindelse.prepareStatement(sqlUpdateFag);
             psUpdateFag.setString(1, emne.getEmnenavn());
-            psUpdateFag.setString(2, beskrivelse);
+            psUpdateFag.setString(2, emne.getBeskrivelse());
             psUpdateFag.setString(3, emne.getEmnekode());
             int i = psUpdateFag.executeUpdate();
             if (i > 0) {
@@ -609,14 +609,19 @@ public class Database {
         try {
 
             åpneForbindelse();
+            if (øving.getGruppeid() < 0) {
+                psInsertØving = forbindelse.prepareStatement(sqlInsertØvingNull);
+                psInsertØving.setInt(1, øving.getØvingsnr());
+                psInsertØving.setString(2, øving.getEmnekode());
+                psInsertØving.setBoolean(3, øving.getObligatorisk());
+            } else {
+                psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
 
-            psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
-
-            psInsertØving.setInt(1, øving.getØvingsnr());
-            psInsertØving.setString(2, øving.getEmnekode());
-            psInsertØving.setInt(3, øving.getGruppeid());
-            psInsertØving.setBoolean(4, øving.getObligatorisk());
-
+                psInsertØving.setInt(1, øving.getØvingsnr());
+                psInsertØving.setString(2, øving.getEmnekode());
+                psInsertØving.setInt(3, øving.getGruppeid());
+                psInsertØving.setBoolean(4, øving.getObligatorisk());
+            }
             int i = psInsertØving.executeUpdate();
             if (i > 0) {
                 ok = true;
@@ -1087,6 +1092,7 @@ public class Database {
             psInsertKravgruppe.setInt(1, kg.getGruppeID());
             psInsertKravgruppe.setString(2, kg.getEmnekode());
             psInsertKravgruppe.setInt(3, kg.getAntallgodkj());
+            psInsertKravgruppe.setString(4, kg.getBeskrivelse());
 
             int i = psInsertKravgruppe.executeUpdate();
             if (i > 0) {
@@ -1850,21 +1856,21 @@ public class Database {
 
         return returnen;
     }
-    
-    public ArrayList<Boolean> getBrukerGodkjentArbeidskrabIEmne(String brukernavn, String emnekode){
+
+    public ArrayList<Boolean> getBrukerGodkjentArbeidskravIEmne(String brukernavn, String emnekode) {
         PreparedStatement psSelectBGAIE = null;
         ArrayList<Boolean> lista = null;
-        try{
+        try {
             åpneForbindelse();
             psSelectBGAIE = forbindelse.prepareStatement(sqlSelectGodkjenteØvingerKravgruppeBruker);
             psSelectBGAIE.setString(1, brukernavn);
             psSelectBGAIE.setString(2, emnekode);
             ResultSet res = psSelectBGAIE.executeQuery();
             lista = new ArrayList();
-            while(res.next()){
+            while (res.next()) {
                 int antØving = res.getInt("antallfullført");
                 int antØvingIKrav = res.getInt("antall");
-                if(antØving < antØvingIKrav){
+                if (antØving < antØvingIKrav) {
                     lista.add(Boolean.FALSE);
                 } else {
                     lista.add(Boolean.TRUE);
@@ -1880,12 +1886,10 @@ public class Database {
             Opprydder.lukkSetning(psSelectBGAIE);
         }
         lukkForbindelse();
-        
+
         return lista;
-        
+
     }
-    
-    
 
     public boolean mekkeinnlegg(Plassering plass, ArrayList<Bruker> brukerne, String emnekode, String beskrivelse) {
 
