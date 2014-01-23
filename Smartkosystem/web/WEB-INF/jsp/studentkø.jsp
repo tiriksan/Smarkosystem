@@ -23,10 +23,10 @@ ${feilmelding}
                     <c:if test="${brukerinnlogg.brukertype == 3}">
                         <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
                             <c:if test = "${aktiv}">
-                                <input type ="submit" value ="Aktiver kø!">
+                                <input type ="submit" value ="Steng kø!">
                             </c:if>
                             <c:if test = "${!aktiv}">
-                                <input type ="submit" value ="Steng kø!">
+                                <input type ="submit" value ="Aktiver kø!">
                             </c:if>
                         </form:form>
                     </c:if>
