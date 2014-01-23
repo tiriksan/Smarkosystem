@@ -297,7 +297,6 @@ public class Kontroller {
 
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
-
         }
         model.addAttribute("allefagene", emnetabell);
 
