@@ -7,6 +7,8 @@ import spring.ov13.domene.Innlegg;
 import spring.ov13.domene.Kravgruppe;
 import spring.ov13.domene.Plassering;
 import spring.ov13.domene.Øving;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UtilsBean {
 
@@ -262,15 +264,52 @@ public ArrayList<Bruker> getBrukereIEmnet(String emnekode){
     return db.getBrukereIEmnet(emnekode);
 }
 
+public ArrayList<Bruker> getBrukereAlleredeIKo(){
+    return db.getBrukereAlleredeIKo();
+}
 
 
-private ArrayList<Character> ulovlig = new ArrayList<Character>();
 
 
 
-public boolean sjekkString(String sjekk){
-    
-    ulovlig.add('!');
+public boolean sjekkString(String sjekk, int level, int makslengde){
+  ArrayList<Character> ulovlig = new ArrayList<Character>();  
+  
+  
+  if(level == 2 || level == 4){
+  if(makslengde != -1){
+      if(sjekk.length() > makslengde){
+          return false;
+      }
+  }
+  }
+  
+  // Level 1: integers, må være et tall
+  // Level 2: Brukernavn, må være et brukernavn
+  // Level 3: Boolean
+  // Level 4: En tekst, fjerner det værste
+  
+  
+  if(level == 1){
+      try{
+          int tall = Integer.parseInt(sjekk);
+      } catch(NumberFormatException e){return false;}
+      int tall = Integer.parseInt(sjekk);
+      if(makslengde != -1){
+          if(tall > makslengde){
+              return false;
+          }
+      }
+      if(tall < 0){
+          return false;
+      }
+      
+      
+      
+  } else if(level == 2){
+      
+      
+        ulovlig.add('!');
     ulovlig.add('"');
     ulovlig.add('<');
     ulovlig.add('>');
@@ -292,6 +331,67 @@ public boolean sjekkString(String sjekk){
         }
         
     }
+      
+      
+      
+      
+      
+      	Pattern pattern;
+	Matcher matcher;
+ 
+	String EMAIL_PATTERN = 
+		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        
+        pattern = Pattern.compile(EMAIL_PATTERN);
+        
+        matcher = pattern.matcher(sjekk);
+        if(matcher.matches() == false){
+            return false;
+        }
+      
+  } else if(level == 3){
+      if(!sjekk.equalsIgnoreCase("true") || !sjekk.equalsIgnoreCase("false")){
+          return false;
+      }
+      
+  } else if(level == 4){
+      
+      
+             ulovlig.add('!');
+    ulovlig.add('"');
+    ulovlig.add('<');
+    ulovlig.add('>');
+    ulovlig.add('/');
+    ulovlig.add('\'');
+    ulovlig.add('?');
+    ulovlig.add('%');
+    ulovlig.add('\\');
+    ulovlig.add(':');
+    ulovlig.add(';');
+    
+    
+    for(int i = 0; i < sjekk.length(); i++){
+        
+        
+        if(ulovlig.contains(sjekk.charAt(i))){
+            return false;
+            
+        }
+        
+    }
+      
+      
+      
+      
+  } else {
+   return true;   
+  }
+  
+  
+  
+  
+
     
     
 return true;    

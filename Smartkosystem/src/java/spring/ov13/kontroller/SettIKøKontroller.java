@@ -39,7 +39,24 @@ public class SettIKøKontroller {
                 ArrayList<Bruker> brukerne = new ArrayList<Bruker>();
                 
                 brukerne.add(bruker);
-                ArrayList<Bruker> mid = ub.getBrukereIEmnet(emnekode);
+                ArrayList<Bruker> mid2 = ub.getBrukereIEmnet(emnekode);
+                ArrayList<Bruker> alleredeiko = ub.getBrukereAlleredeIKo();
+                System.out.println(alleredeiko.size() + " - " + mid2.size());
+                ArrayList<Bruker> mid = new ArrayList<Bruker>();
+                for(int i = 0; i < mid2.size(); i++){
+                    boolean funnet = false;
+                    for(int a = 0; a < alleredeiko.size(); a++){
+                        if(mid2.get(i).getBrukernavn().equals(alleredeiko.get(a).getBrukernavn())){
+                            funnet = true;
+                        }
+                    }
+                    if(funnet == false){
+                        mid.add(mid2.get(i));
+                    }
+                }
+                System.out.println(mid.size() + "");
+                
+                
                 ArrayList<Bruker> brukerneiliste = new ArrayList<Bruker>();
                 for(int i = 0; i < mid.size(); i++){
                     for(int a = 0; a < brukerne.size(); a++){
@@ -126,7 +143,7 @@ public class SettIKøKontroller {
     public String leggtilstud(@RequestParam(value = "brukernavn") String brukernavn,@RequestParam(value = "emnekode") String emnekode){
         
         UtilsBean ub = new UtilsBean();
-        if(ub.sjekkString(brukernavn)){
+        if(ub.sjekkString(brukernavn, 2, 64)){
             
         ArrayList<String> brukernavnene = new ArrayList<String>();
         String[] splitten = brukernavn.split(",");
@@ -146,8 +163,33 @@ public class SettIKøKontroller {
         
 
         
-     ArrayList<Bruker> brukerne2 = ub.getBrukereIEmnet(emnekode);
+     ArrayList<Bruker> brukerne3 = ub.getBrukereIEmnet(emnekode);
+     ArrayList<Bruker> alleredeiko = ub.getBrukereAlleredeIKo();
      ArrayList<Bruker> brukerne = new ArrayList<Bruker>();
+     ArrayList<Bruker> brukerne2 = new ArrayList<Bruker>();
+     
+     
+ 
+     
+     
+     
+     for(int i = 0; i < brukerne3.size(); i++){
+                    boolean funnet = false;
+                    for(int a = 0; a < alleredeiko.size(); a++){
+                        if(brukerne3.get(i).getBrukernavn().equals(alleredeiko.get(a).getBrukernavn())){
+                            funnet = true;
+                        }
+                    }
+                    if(funnet == false){
+                        brukerne2.add(brukerne3.get(i));
+                    }
+                }
+     
+     
+     
+     
+     
+     
      for(int i = 0; i < brukerne2.size(); i++){
          boolean funnet = false;
          for(int a = 0; a < brukernavnene.size(); a++){

@@ -36,6 +36,8 @@ public class Kontroller {
 
         return new Bruker();
     }
+    
+    
 
     @RequestMapping(value = "/*")
     public String visIndex(@ModelAttribute("brukerinnlogg") Bruker bruker) {

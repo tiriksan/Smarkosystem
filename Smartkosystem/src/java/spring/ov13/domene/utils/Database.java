@@ -67,6 +67,7 @@ public class Database {
     private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
     private final String sqlSelectDistinctBord = "SELECT DISTINCT bord FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ? AND rom = ?";
     private final String sqlSelectBrukereiFag = "Select * from emne_bruker, bruker where emnekode =? AND bruker.brukernavn = emne_bruker.brukernavn ORDER by bruker.etternavn ASC";
+    private final String sqlSelectBrukereAlleredeIKo = "SELECT * FROM brukere_i_innlegg a, bruker b WHERE a.brukernavn = b.brukernavn";
     private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_øvinger VALUES(?,?,?,?)";
     private final String sqlDeleteOvingerGodkjent = "DELETE From godkjente_øvinger WHERE emnekode = ? AND brukernavn = ? AND øvingsnummer = ?";
     private final String sqlSelectInnleggFraID = "SELECT * FROM køinnlegg WHERE innleggsid = ?";
@@ -258,6 +259,42 @@ public class Database {
         return BrukereIFaget;
 
     }
+    
+    
+    public ArrayList<Bruker> getBrukereAlleredeIKo() {
+        Bruker b = null;
+        ResultSet res;
+        System.out.println("getBrukerIFag()");
+        PreparedStatement psSelectBruker = null;
+        ArrayList<Bruker> BrukereIFaget = new ArrayList<Bruker>();
+
+        try {
+            åpneForbindelse();
+            psSelectBruker = forbindelse.prepareStatement(sqlSelectBrukereAlleredeIKo);
+            
+            res = psSelectBruker.executeQuery();
+            while (res.next()) {
+                b = new Bruker(res.getString("brukernavn"), res.getString("fornavn"), res.getString("etternavn"), res.getInt("hovedbrukertype"), res.getString("passord"));
+                BrukereIFaget.add(b);
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectBruker);
+        }
+        lukkForbindelse();
+        return BrukereIFaget;
+
+    }
+    
+    
+    
+    
+    
 
     public synchronized boolean registrerBruker(Bruker bruker) {
         boolean ok = false;
