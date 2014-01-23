@@ -305,32 +305,20 @@ public class Kontroller {
 
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23", method = RequestMethod.POST)
-    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, /*@ModelAttribute(value ="brukerinnlogg") Bruker bruker,*/ BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String[] Emner) {
+    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, /*@ModelAttribute(value ="brukerinnlogg") Bruker bruker,*/ BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "Emner") String[] Emner) {
 
         String[] values = request.getParameterValues("Emner");
-        System.out.println("Her skal det komme opp noe nå" + values[0]);
-
-        /*  if (error.hasErrors()) {
-         System.out.println("--------------kommerinniERROOOOOOOOOOOOOOOOOOOOOOOOOOOR-----------");
-         //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-         //  return "regov2";
-         return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
-         }*/
         UtilsBean utilsBean = new UtilsBean();
 
         øving.setEmnekode(values[0]);
         øving.setGruppeid(-1);
         øving.setObligatorisk(false);
-        String hentekode = øving.getEmnekode();
 
         if (utilsBean.registrerØving(øving)) {
             model.addAttribute("melding", "Øving " + øving + " er registrert");
-
         }
-
         // return "regov2";
         return new ModelAndView("redirect:/regov2.htm?x=3", "modell", model);
-
     }
 
 //*************************** Viser administrer lærer siden*************************
