@@ -306,29 +306,19 @@ public class Database {
         boolean ok = false;
         System.out.println("registrerBruker()");
         PreparedStatement psInsertBruker = null;
-        PreparedStatement psInsertBrukerifag = null;
         bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0, 10));
 
         try {
             åpneForbindelse();
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
-            psInsertBruker.setString(1, bruker.getFornavn());
-            psInsertBruker.setString(2, bruker.getEtternavn());
-            psInsertBruker.setInt(3, bruker.getBrukertype());
+            psInsertBruker.setString(1, bruker.getBrukernavn());
+            psInsertBruker.setString(2, bruker.getFornavn());
+            psInsertBruker.setString(3, bruker.getBrukernavn());
             psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
-            psInsertBruker.setString(5, bruker.getBrukernavn());
+            psInsertBruker.setInt(5, bruker.getBrukertype());
             psInsertBruker.setString(6, bruker.md5(randomUUID().toString().substring(0, 10)));
-            psInsertBruker.executeUpdate();
 
-            for (int i = 0; i < bruker.getFagene().size(); i++) {
-                psInsertBrukerifag = forbindelse.prepareStatement(sqlInsertBrukerIEmne);
-                psInsertBrukerifag.setString(1, bruker.getFagene().get(i).getEmnekode());
-                psInsertBrukerifag.setString(2, bruker.getBrukernavn());
-                psInsertBrukerifag.setInt(3, bruker.getBrukertype());
-                psInsertBrukerifag.executeUpdate();
-            }
-
-            int i = psInsertBrukerifag.executeUpdate();
+            int i = psInsertBruker.executeUpdate();
             if (i > 0) {
                 ok = true;
             }

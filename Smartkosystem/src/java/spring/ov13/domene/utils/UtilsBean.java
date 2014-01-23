@@ -28,7 +28,13 @@ public class UtilsBean {
     }
 
     public boolean registrerBruker(Bruker bruker) {
-        return db.registrerBruker(bruker);
+        boolean brukerRegistrert = db.registrerBruker(bruker);
+        ArrayList<Emne> emner = bruker.getFagene();
+        boolean brukerLagtTilIEmne = false;
+        for (int i = 0; i < emner.size(); i++) {
+            brukerLagtTilIEmne = db.leggTilBrukerIEmne(emner.get(i), bruker, bruker.getBrukertype());
+        }
+        return (brukerRegistrert && brukerLagtTilIEmne);
     }
 
     public boolean registrerBrukere(ArrayList<Bruker> brukere) {
