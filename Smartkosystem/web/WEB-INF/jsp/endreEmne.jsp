@@ -72,9 +72,7 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 
 </c:if>
     
-     <c:if test="${empty brukerTilEndring}">
-        Den er tom
-    </c:if>
+     
 
 <td class="tdko">
 
