@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 import spring.ov13.domene.Kravgruppe;
+import spring.ov13.domene.utils.SendEpost;
 import spring.ov13.domene.utils.UtilsBean;
 
 /**
@@ -66,6 +67,23 @@ public class BrukerOversiktKontroller {
             model.addAttribute("aGO", alleBrukereGodkjenteOvinger);
         }
         return "velgEmne";
+    }
+    
+    @RequestMapping(value = "/sendAdvarselMail.htm")
+    public String eksamensListe(Bruker bruker, HttpServletRequest request){
+        
+        boolean[] brukerEksamen = (boolean[])request.getSession().getAttribute("eksamenTabell");
+        ArrayList<Bruker> studenter = (ArrayList<Bruker>)request.getSession().getAttribute("studenterIFaget");
+        String emnekode = (String)request.getSession().getAttribute("emnekode");
+        
+        String melding = "Du har ikke oppfylt kravene for " + emnekode;
+        SendEpost epost = new SendEpost();
+        for(int r = 0; r < brukerEksamen.length; r++){
+            if(brukerEksamen[r] == false){
+                epost.sendEpost(studenter.get(r).getBrukernavn(), "Advarsel", melding);
+            }
+        }
+        return null;
     }
 
 }
