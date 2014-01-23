@@ -96,8 +96,8 @@ public class UtilsBean {
         return db.getAntOvingerIEmne(emnekode);
     }
 
-    public ArrayList<Bruker> getBrukerePåBokstav(String sokeboksnavn) {
-        return db.getBrukerepaabokstav(sokeboksnavn);
+    public ArrayList<Bruker> getBrukerePåBokstav(String brukersøk) {
+        return db.getBrukerepaabokstav(brukersøk);
     }
 
     /*
