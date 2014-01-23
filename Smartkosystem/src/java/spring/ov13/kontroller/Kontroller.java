@@ -414,10 +414,12 @@ public class Kontroller {
         
         ArrayList<String> emnetabell = new ArrayList<String>();
             emnetabell.add(getValg);
+            if(em != null){
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
             emnekoden = em.get(i).getEmnenavn();
         }
+            }
         model.addAttribute("allefagene", emnetabell);
 
           
@@ -591,10 +593,7 @@ public class Kontroller {
         String returnen = "";
         UtilsBean ub = new UtilsBean();
         ArrayList<Øving> øvinger = ub.getØvingerIEmnet(emnekode);
-        
-        ArrayList<Øving> fordel1 = new ArrayList<Øving>();
-        ArrayList<Øving> fordel2 = new ArrayList<Øving>();
-        
+         
         System.out.println(alle);
                 ArrayList<String> alleovingsnr = new ArrayList<String>();
         String[] splitten = alle.split(",");
@@ -614,29 +613,35 @@ public class Kontroller {
         System.out.println("Størrelse på øvinger fra db: " + øvinger.size() + ", Størrelse på antall hentet ut fra js: " + alleovingsnr.size());
         
         
+        System.out.println("Fra db:");
+        for(int i = 0; i < øvinger.size(); i++){
+            System.out.println(øvinger.get(i).getØvingsnr());
+        }
+        
+        System.out.println("Fra js:");
+        for(int i = 0; i < alleovingsnr.size(); i++){
+            System.out.println(alleovingsnr.get(i));
+        }
+        
+        
+        
+        ArrayList<Integer> liste1 = new ArrayList<Integer>();
+        ArrayList<Integer> liste2 = new ArrayList<Integer>();
+        
+        
         for(int i = 0; i < øvinger.size(); i++){
             boolean funnet = false;
-            int hvor = 0;
             for(int a = 0; a < alleovingsnr.size(); a++){
-                System.out.println("Her kom jeg, er jeg i loop?");
-                if(øvinger.get(i).getØvingsnr() == Integer.parseInt(alleovingsnr.get(a))){
-                    funnet = true;
-                    hvor = a;
-                    
-                    
-                    
-                }
+            if(øvinger.get(i).getØvingsnr() == Integer.parseInt(alleovingsnr.get(a))){
+                funnet = true;
+                break;
+            }    
+                
             }
-            if(funnet == false){
-               Øving ov = new Øving();
-               ov.setØvingsnr(hvor+1);
-               fordel2.add(ov);
-               System.out.println("Jeg la til i fordel2 - " + funnet);
+            if(funnet == true){
+                liste2.add(øvinger.get(i).getØvingsnr());
             } else {
-                Øving ov = new Øving();
-                    ov.setØvingsnr(øvinger.get(i).getØvingsnr());
-                    fordel1.add(ov);
-                    System.out.println("Jeg la til i fordel1 - " + alleovingsnr.get(hvor));
+                liste1.add(øvinger.get(i).getØvingsnr());
             }
             
         }
@@ -648,22 +653,16 @@ public class Kontroller {
                 + "<tbody>";
         
         
-        returnen += "Alle i fordel1: ";
-        for(int i = 0; i < fordel1.size(); i++){
-            returnen += fordel1.get(i).getØvingsnr() + ", ";
-        }
+     
         
         
         
-        returnen += "Alle i fordel2: ";
-        for(int i = 0; i < fordel2.size(); i++){
-            returnen += fordel2.get(i).getØvingsnr() + ", ";
-        }
+      
         
         
-        for(int i = 0; i < fordel2.size(); i++){
-            returnen += "<tr><td class=\"admlaerer\">" + fordel2.get(i) + "</td>"
-                    + "<td class=\"admlaerer\"><input type=\"checkbox\" value=\"" + fordel2.get(i) + "\" name=\"obliga\" id=\"oblig\" onchange=\"endreselect(this.value, '" + emnekode + "');\"></td></tr>";
+        for(int i = 0; i < liste1.size(); i++){
+            returnen += "<tr><td class=\"admlaerer\">" + liste1.get(i) + "</td>"
+                    + "<td class=\"admlaerer\"><input type=\"checkbox\" value=\"" + liste1.get(i) + "\" name=\"obliga\" id=\"oblig\" onchange=\"endreselect(this.value, '" + emnekode + "');\"></td></tr>";
             
             
         }
@@ -676,10 +675,10 @@ public class Kontroller {
         
         
         
-        if(fordel1.size() > 0){
+        if(liste2.size() > 0){
             
-            for(int i = 0; i < fordel1.size(); i++){
-                                                        returnen += "                                        <option value=\"${antall}\">" + fordel1.get(i) + "</option>";
+            for(int i = 0; i < liste2.size(); i++){
+                                                        returnen += "                                        <option value=\"${antall}\">" + liste2.get(i) + "</option>";
             }
             
             
