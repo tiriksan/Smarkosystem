@@ -108,8 +108,8 @@ public class UtilsBean {
      return db.slettBruker(v);
      }
      */
-    public boolean oppdaterBruker(Bruker b) {
-        return db.oppdaterBruker(b);
+    public boolean oppdaterBruker(Bruker endretBruker) {
+        return db.oppdaterBruker(endretBruker);
     }
 
     @Override
