@@ -10,6 +10,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 ${melding}
+<c:if test="${melding == null}">
     <form:form action="endrepassordsvar.htm" method="post" modelAttribute="endrepassordbruker">
     <table>
         <c:set var="endrepassordbruker.brukernavn" value="${endrepassordbrukernavn}" />
@@ -21,3 +22,4 @@ ${melding}
     
 </form:form>
 
+</c:if>

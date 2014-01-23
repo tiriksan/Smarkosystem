@@ -53,15 +53,15 @@ public class GlemtEndrePassordKontroller {
     public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletResponse response){
         //System.out.println("Endrepassordbruker: " + bruker);
         UtilsBean ub = new UtilsBean();
-        String brukernavn = ub.getBrukernavnFraGlemtPassord(getValg);
-
-        
-        System.out.println(brukernavn);
-        response.addCookie(new Cookie("brukernavn", brukernavn));
-        model.addAttribute("endrepassordbrukernavn", brukernavn);
-        Bruker bruker = new Bruker();
-        model.addAttribute("endrepassordbruker", bruker);
-        
+        if(ub.getBrukernavnFraGlemtPassord(getValg) == null){
+            model.addAttribute("melding", "Denne linken er ikke gyldig. Prøv å trykk på 'glemt passord' igjen på innloggingssiden for å få tilsendt en ny mail.");
+        }else {
+            String brukernavn = ub.getBrukernavnFraGlemtPassord(getValg);
+            response.addCookie(new Cookie("brukernavn", brukernavn));
+            model.addAttribute("endrepassordbrukernavn", brukernavn);
+            Bruker bruker = new Bruker();
+            model.addAttribute("endrepassordbruker", bruker);
+        }
         
         return "endrepassord";
         
@@ -92,6 +92,9 @@ public class GlemtEndrePassordKontroller {
         
         if(ub.endrePassord(bruker)){
             modell.addAttribute("melding", "Passordet er endret. Du kan nå logge inn");
+            String nyMD5 = java.util.UUID.randomUUID().toString().substring(0, 10);
+            nyMD5 = bruker.md5(nyMD5);
+            ub.setEndrePassordMD5(bruker.getBrukernavn(), nyMD5);
         } else {
             modell.addAttribute("melding", "Feil oppstått ved endring av passord");
         }
