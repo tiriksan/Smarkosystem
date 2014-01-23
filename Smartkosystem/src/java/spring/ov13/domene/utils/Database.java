@@ -22,18 +22,22 @@ public class Database {
     private String dbPswrd;
     private Connection forbindelse;
 
+    private final String sqlSelectØvingIEmne = "SELECT * FROM øving WHERE øvingsnummer =? AND emnekode=? ";
+    private final String sqlgetMaxGruppeIDIEmne = ("SELECT MAX(gruppeid) AS siste FROM kravgruppe");
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
     private final String sqlSelectBrukerPaNavn = "SELECT concat(fornavn,' ',etternavn) AS navn, bruker.* FROM bruker WHERE concat(fornavn,' ',etternavn) LIKE ?";
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
+    private final String sqlDeleteBruker = "DELETE FROM bruker WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
     private final String sqlUpdageOvingsbeskrivelse = "UPDATE emne set beskrivelse=? where emnekode=?";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
     private final String sqlInsertFag = "INSERT INTO emne VALUES(?,?,?)";
     private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, beskrivelse=? WHERE emnekode=?";
+    private final String sqlDeleteFag = "DELETE FROM emne WHERE emnekode=?";
     private final String sqlSelectEmnePaabokstav = "SELECT concat(emnekode,'-',emnenavn) AS navn, emne.* FROM emne WHERE concat(emnekode,'-',emnenavn) LIKE ?";
     private final String sqlSelectBrukereIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? ORDER BY etternavn";
@@ -43,10 +47,10 @@ public class Database {
     private final String sqlSelectØving = "SELECT * FROM øving WHERE øvingsnummer=? AND emnekode =?";
     private final String sqlInsertØving = "INSERT INTO øving VALUES(?,?,?,?)";
     private final String sqlInsertØvingNull = "INSERT INTO øving VALUES(?,?,null,?)";
-    private final String sqlUpdateØving = "UPDATE øving SET øvingsnr =?, emnekode =?, gruppeid=?, obligatorisk=? WHERE øvingsnr =? AND emnekode=?";
+    private final String sqlUpdateØving = "UPDATE øving SET gruppeid=?, obligatorisk=? WHERE øvingsnr =? AND emnekode=?";
     private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
     private final String sqlCountØvinger = "SELECT COUNT(øvingsnummer) as telling FROM øving WHERE emnekode =?";
-    private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
+    private final String sqlDeleteØvinger = "DELETE FROM øving WHERE id < ? AND id > ?";
     private final String sqlInsertKravgruppe = "INSERT INTO arbeidskrav VALUES(?,?,?,?)";
     private final String sqlgetKravGruppe = "Select * from kravgruppe where emnekode =?";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
@@ -85,7 +89,9 @@ public class Database {
     private final String sqlInsertOvingerIInnlegg = "INSERT INTO øvinger_i_innlegg VALUES(?,?, ?, ?)";
     private final String sqlSelectGodkjenteØvingerKravgruppeBruker = "select kravgruppe.gruppeid, A.antallfullført,kravgruppe.antall from kravgruppe left outer join (select gruppeid,count(gruppeid) as antallfullført from godkjente_øvinger natural join øving where brukernavn=? group by gruppeid) as A on(kravgruppe.gruppeid=A.gruppeid) where emnekode=? ORDER BY kravgruppe.gruppeid;";
     private final String sqlSelectEndrePassordMD5 = "SELECT bruker.glemt_passord FROM bruker WHERE brukernavn=?";
-    
+    private final String sqlSelectBrukerFraMD5 = "SELECT bruker.brukernavn FROM bruker WHERE glemt_passord=?";
+    private final String sqlUpdateEndrePassordMD5 = "UPDATE bruker SET glemt_passord=? WHERE brukernavn=?";
+
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -491,6 +497,33 @@ public class Database {
         return ok;
     }
 
+    public synchronized boolean slettBruker(Bruker bruker) {
+        boolean ok = false;
+        System.out.println("slettBruker()");
+        PreparedStatement psSlettBruker = null;
+
+        try {
+            åpneForbindelse();
+            psSlettBruker = forbindelse.prepareStatement(sqlDeleteBruker);
+            psSlettBruker.setString(1, bruker.getBrukernavn());
+            int i = psSlettBruker.executeUpdate();
+            if (i == 1) {
+                ok = true;
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "slettBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "slettBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSlettBruker);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+
     public synchronized boolean endrePassord(Bruker bruker) {
         boolean ok = false;
         System.out.println("endrePassord()");
@@ -532,9 +565,8 @@ public class Database {
             psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
             psInsertFag.setString(1, fag.getEmnekode());
             psInsertFag.setString(2, fag.getEmnenavn());
-            
-            psInsertFag.setString(3, "");
 
+            psInsertFag.setString(3, "");
 
             int i = psInsertFag.executeUpdate();
             if (i > 0) {
@@ -550,19 +582,43 @@ public class Database {
             // Opprydder.lukkSetning(psInsertKravgruppe);
         }
         lukkForbindelse();
-        
+
         boolean okok = registrerEmne(fag.getEmnekode(), fag.getFaglærer());
-        if(okok == true){
-        return ok;
+        if (okok == true) {
+            return ok;
         } else {
             return false;
         }
     }
-    
-    
-    
-    
-        public synchronized boolean registrerEmne(String emnekode, ArrayList<Bruker> laerer) {
+
+    public synchronized boolean slettEmne(Emne emne) {
+        boolean ok = false;
+        System.out.println("slettEmne()");
+        PreparedStatement psUpdateFag = null;
+
+        try {
+            åpneForbindelse();
+            psUpdateFag = forbindelse.prepareStatement(sqlDeleteFag);
+            psUpdateFag.setString(1, emne.getEmnekode());
+            int i = psUpdateFag.executeUpdate();
+            if (i == 1) {
+                ok = true;
+            }
+
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "slettEmne()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "slettEmne - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psUpdateFag);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+
+    public synchronized boolean registrerEmne(String emnekode, ArrayList<Bruker> laerer) {
         boolean ok = false;
         System.out.println("registrerEmne()");
         PreparedStatement psInsertFag = null;
@@ -570,19 +626,18 @@ public class Database {
 
         try {
             åpneForbindelse();
- int a = 0;
+            int a = 0;
             for (int i = 0; i < laerer.size(); i++) {
                 psInsertLaerer = forbindelse.prepareStatement(sqlInsertFagLaerer);
                 psInsertLaerer.setString(1, emnekode);
                 psInsertLaerer.setString(2, laerer.get(i).getBrukernavn());
                 psInsertLaerer.setInt(3, 2);
-           a = psInsertLaerer.executeUpdate();
-           if(a <= 0){
-               break;
-           }
+                a = psInsertLaerer.executeUpdate();
+                if (a <= 0) {
+                    break;
+                }
             }
 
-            
             if (a > 0) {
                 ok = true;
             }
@@ -598,10 +653,6 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
-    
-    
-    
 
     public synchronized Emne getFag(String fagkode) {
         Emne f = null;
@@ -732,7 +783,7 @@ public class Database {
         return ok;
     }
 
-    public synchronized boolean oppdaterØving(Øving øving, int øvingsnr, String emnekode) {
+    public synchronized boolean oppdaterØving(Øving øving) {
         boolean ok = false;
         System.out.println("oppdaterØving()");
         PreparedStatement psUpdateØving = null;
@@ -740,12 +791,10 @@ public class Database {
         try {
             åpneForbindelse();
             psUpdateØving = forbindelse.prepareStatement(sqlUpdateØving);
-            psUpdateØving.setInt(1, øving.getØvingsnr());
-            psUpdateØving.setString(2, øving.getEmnekode());
-            psUpdateØving.setInt(3, øving.getGruppeid());
-            psUpdateØving.setBoolean(4, øving.getObligatorisk());
-            psUpdateØving.setInt(5, øvingsnr);
-            psUpdateØving.setString(6, emnekode);
+            psUpdateØving.setInt(1, øving.getGruppeid());
+            psUpdateØving.setBoolean(2, øving.getObligatorisk());
+            psUpdateØving.setInt(3, øving.getØvingsnr());
+            psUpdateØving.setString(4, øving.getEmnekode());
 
             int i = psUpdateØving.executeUpdate();
             if (i > 0) {
@@ -1257,20 +1306,73 @@ public class Database {
      * lukkForbindelse(); return ok; }
      *
      */
-    public String getEndrePassordMD5(String brukernavn){
+    public String getBrukernavnFraGlemtPassord(String md5) {
+        System.out.println("getBrukernavnFraGlemtPassord");
+        PreparedStatement psSelectBrukerFraMD5 = null;
+        ResultSet res;
+        String brukernavn = null;
+        try {
+            åpneForbindelse();
+            psSelectBrukerFraMD5 = forbindelse.prepareStatement(sqlSelectBrukerFraMD5);
+            psSelectBrukerFraMD5.setString(1, md5);
+            res = psSelectBrukerFraMD5.executeQuery();
+            if (res.next()) {
+                brukernavn = res.getString("brukernavn");
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getBrukernavnFraGlemtPassord()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getBrukernavnFraGlemtPassord - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psSelectBrukerFraMD5);
+        }
+        lukkForbindelse();
+        return brukernavn;
+    }
+
+    public boolean setEndrePassordMD5(String brukernavn, String MD5) {
+        boolean ok = false;
+        PreparedStatement psEndrePassordMD5 = null;
+
+        try {
+            åpneForbindelse();
+            psEndrePassordMD5 = forbindelse.prepareStatement(sqlUpdateEndrePassordMD5);
+            psEndrePassordMD5.setString(1, MD5);
+            psEndrePassordMD5.setString(2, brukernavn);
+            int res = psEndrePassordMD5.executeUpdate();
+            if (res > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "setEndrePassordMD5()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "setEndrePassordMD5 - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psEndrePassordMD5);
+        }
+        lukkForbindelse();
+
+        return ok;
+    }
+
+    public String getEndrePassordMD5(String brukernavn) {
         System.out.println("getEndrePassordMD5");
         PreparedStatement psSelectMD5 = null;
         ResultSet res;
-        String passordMD5 =null;
-        try{
+        String passordMD5 = null;
+        try {
             åpneForbindelse();
             psSelectMD5 = forbindelse.prepareStatement(sqlSelectEndrePassordMD5);
             psSelectMD5.setString(1, brukernavn);
             res = psSelectMD5.executeQuery();
-            if(res.next()){
+            if (res.next()) {
                 passordMD5 = res.getString("glemt_passord");
             }
-        
+
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
             Opprydder.skrivMelding(e, "getEndrePassordMD5()");
@@ -1281,10 +1383,10 @@ public class Database {
             Opprydder.lukkSetning(psSelectMD5);
         }
         lukkForbindelse();
-        
+
         return passordMD5;
     }
-    
+
     public ArrayList<String> getInfoTilBruker(String brukernavn) {
         System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;
@@ -1415,8 +1517,8 @@ public class Database {
         lukkForbindelse();
         return ok;
     }
-    
-        public synchronized boolean oppdaterKøInnlegg(int id, Plassering lokasjon, String kommentar) {
+
+    public synchronized boolean oppdaterKøInnlegg(int id, Plassering lokasjon, String kommentar) {
         boolean ok = false;
         System.out.println("oppdaterKøInnlegg()");
         PreparedStatement psInsertKø = null;
@@ -1616,6 +1718,60 @@ public class Database {
         }
         lukkForbindelse();
         return brukere;
+    }
+
+        public Øving getØvingIEmnet(int nr, String emnekode) {
+        Øving øv = null;
+        ResultSet res;
+        System.out.println("getØvingerIEmnet()");
+        PreparedStatement psSelectØving = null;
+        try {
+            åpneForbindelse();
+            psSelectØving = forbindelse.prepareStatement(sqlSelectØvingIEmne);
+            psSelectØving.setInt(1, nr);
+            psSelectØving.setString(2, emnekode);
+            res = psSelectØving.executeQuery();
+            res.next();
+            øv = new Øving(res.getInt("øvingsnummer"), res.getString("emnekode"), res.getInt("gruppeid"), res.getBoolean("obligatorisk"));
+             
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectBruker);
+        }
+        lukkForbindelse();
+        return øv;
+
+    }
+
+      public int getMaxGruppeIDIEmnet() {
+        int ut = 0;
+        ResultSet res;
+        System.out.println("getMaxGruppeIDIEmnet()");
+        PreparedStatement psgetMaxGruppeIDIEmnet = null;
+        try {
+            åpneForbindelse();
+            psgetMaxGruppeIDIEmnet = forbindelse.prepareStatement(sqlgetMaxGruppeIDIEmne);
+            
+            res = psgetMaxGruppeIDIEmnet.executeQuery();
+            res.next();
+            ut = res.getInt("siste");
+            
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getMaxGruppeIDIEmnet)");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getMaxGruppeIDIEmnet - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psgetMaxGruppeIDIEmnet);
+        }
+        lukkForbindelse();
+        return ut;
 
     }
 

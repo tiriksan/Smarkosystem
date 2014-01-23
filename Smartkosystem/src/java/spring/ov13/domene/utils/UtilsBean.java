@@ -164,8 +164,8 @@ public class UtilsBean {
         return db.registrerØving(o);
     }
 
-    public boolean oppdaterØving(Øving o, int øvingsnr, String emnekode) {
-        return db.oppdaterØving(o, øvingsnr, emnekode);
+    public boolean oppdaterØving(Øving o) {
+        return db.oppdaterØving(o);
     }
 
     public boolean erBrukerIFag(String brukernavn, String emnekode) {
@@ -175,7 +175,13 @@ public class UtilsBean {
     public int getBrukertypeiEmne(String brukernavn, String emnekode) {
         return db.getBrukertypeiEmne(brukernavn, emnekode);
     }
-    
+    public Øving getØvingIEmnet(int nr, String emnekode){
+        return db.getØvingIEmnet(nr, emnekode);
+    }
+
+public int getMaxGruppeIDIEmne(){
+        return db.getMaxGruppeIDIEmnet();
+    }
     public ArrayList<Boolean> getBrukerGodkjentArbeidskrabIEmne(String brukernavn, String emnekode){
         return db.getBrukerGodkjentArbeidskravIEmne(brukernavn, emnekode);
     }
@@ -250,6 +256,12 @@ public class UtilsBean {
     
     public String getEndrePassordMD5(String brukernavn){
         return db.getEndrePassordMD5(brukernavn);
+    }
+    public String getBrukernavnFraGlemtPassord(String md5){
+        return db.getBrukernavnFraGlemtPassord(md5);
+    }
+    public boolean setEndrePassordMD5(String brukernavn, String md5){
+        return db.setEndrePassordMD5(brukernavn, md5);
     }
     
 public ArrayList<Øving> getUgjorteØvinger(String emnekode, String brukernavn){

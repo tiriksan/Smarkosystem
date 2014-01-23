@@ -30,6 +30,8 @@ import spring.ov13.domene.Øving;
 @SessionAttributes("brukerinnlogg")
 @Controller
 public class Kontroller {
+    
+    private ArrayList<Integer> valgteOvinger = new ArrayList<Integer>();
 
     @ModelAttribute(value = "brukerinnlogg")
     public Bruker lage2() {
@@ -81,8 +83,6 @@ public class Kontroller {
 
         return "bruker";
     }
-    
-    
 
 //*******************************Registerer bruker fra fil**********************************
     @RequestMapping(value = "/registrerBrukereFraFil.htm", method = RequestMethod.POST)
@@ -181,137 +181,126 @@ public class Kontroller {
 
     }
 
-  //************* sjekker inputten på endre bruker søkemotor *************
+    //************* sjekker inputten på endre bruker søkemotor *************
     @RequestMapping(value = "endrebruker2")
     public String Søkeboks(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String brukersøk, @ModelAttribute(value = "valgtBruker") Bruker valgtBruker) {
 
         String navnet = null;
-       // String values = request.getParameterValue("zoom_query");
+        // String values = request.getParameterValue("zoom_query");
         System.out.println(brukersøk);
         UtilsBean ub = new UtilsBean();
         ArrayList<Bruker> bruk = ub.getBrukerePåBokstav(brukersøk);
         System.out.println(bruk.size() + " jerherhheruhre");
         model.addAttribute("sokeresultat", bruk);
         for (int i = 0; i < bruk.size(); i++) {
-               //brukertabell.add(faget.get(i).getFornavn() + " " + faget.get(i).getEtternavn());
-           System.out.println("Du søkte på følgende navn " + bruk.get(i).getFornavn());
-                }
-        
+            //brukertabell.add(faget.get(i).getFornavn() + " " + faget.get(i).getEtternavn());
+            System.out.println("Du søkte på følgende navn " + bruk.get(i).getFornavn());
+        }
+
         // model.addAttribute("navn", fornavn);
-
         return "endreBruker";
 
     }
+
     @RequestMapping(value = "endreBruker3")
-    public String endreBruker(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtBruker") Bruker brukeren){
-       UtilsBean ub = new UtilsBean();
-       Bruker br = ub.getBruker(brukeren.getBrukernavn());
-       model.addAttribute("brukerTilEndring", br);
-       
+    public String endreBruker(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtBruker") Bruker brukeren) {
+        UtilsBean ub = new UtilsBean();
+        Bruker br = ub.getBruker(brukeren.getBrukernavn());
+        model.addAttribute("brukerTilEndring", br);
+
         return "endreBruker";
 
     }
+
     @RequestMapping(value = "endreBruker4")
-    public String endreBrukeroppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtBruker")Bruker endretBruker ){
-       UtilsBean ub = new UtilsBean();
-       Bruker br = ub.getBruker(endretBruker.getBrukernavn());
-       br.setFornavn(endretBruker.getFornavn());
-       br.setEtternavn(endretBruker.getEtternavn());
-       System.out.println(br.getFornavn());
-       System.out.println(endretBruker.getFornavn());
-       
-       if(ub.oppdaterBruker(br)){
-           System.out.println("funka");
-           model.addAttribute("funkafint", true);
-       }
-       System.out.println(br.getFornavn());
-       
+    public String endreBrukeroppl(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtBruker") Bruker endretBruker) {
+        UtilsBean ub = new UtilsBean();
+        Bruker br = ub.getBruker(endretBruker.getBrukernavn());
+        br.setFornavn(endretBruker.getFornavn());
+        br.setEtternavn(endretBruker.getEtternavn());
+        System.out.println(br.getFornavn());
+        System.out.println(endretBruker.getFornavn());
+
+        if (ub.oppdaterBruker(br)) {
+            System.out.println("funka");
+            model.addAttribute("funkafint", true);
+        }
+        System.out.println(br.getFornavn());
+
         return "endreBruker";
 
     }
-    
+
     //************ Viser siden for ENDRE emne som har en søkeboks ***************************
-    
-     @RequestMapping(value = "/endreEmne.htm")
+    @RequestMapping(value = "/endreEmne.htm")
     public String visSøkeboksEmne(Model model) {
-        Emne valgtEmne= new Emne();
+        Emne valgtEmne = new Emne();
         model.addAttribute("valgtEmne", valgtEmne);
         return "endreEmne";
 
     }
 
-  //************* sjekker inputten på endre emne søkemotor *************
+    //************* sjekker inputten på endre emne søkemotor *************
     @RequestMapping(value = "endreemne2")
     public String SøkeboksEmne(Model model, HttpServletRequest request, @RequestParam(value = "zoom_query") String soketekst, @ModelAttribute(value = "valgtEmne") Emne valgtEmne) {
 
         String emnenavnet = null;
-       
+
         System.out.println(soketekst);
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> emn = ub.getEmnePåBokstav(soketekst);
         System.out.println(emn.size() + " jabbadabba");
         model.addAttribute("sokeresultat", emn);
         for (int i = 0; i < emn.size(); i++) {
-               
-           System.out.println("Du søkte på følgende emne " + emn.get(i).getEmnekode());
-                }
-        
+
+            System.out.println("Du søkte på følgende emne " + emn.get(i).getEmnekode());
+        }
 
         return "endreEmne";
 
     }
+
     @RequestMapping(value = "endreEmne3")
-    public String endreEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Emne emnet){
-       UtilsBean ub = new UtilsBean();
-       Emne em = ub.getEmne(emnet.getEmnenavn());
-       model.addAttribute("emneTilEndring", em);
-       System.out.println("KOMMER HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIT");
+    public String endreEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Emne emnet) {
+        UtilsBean ub = new UtilsBean();
+        Emne em = ub.getEmne(emnet.getEmnenavn());
+        model.addAttribute("emneTilEndring", em);
+        System.out.println("KOMMER HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIT");
         return "endreEmne";
 
     }
+
     @RequestMapping(value = "endreEmne4")
-    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtEmne") Emne endretEmne ){
-       System.out.println("STILL GOINNGGGG");
-       UtilsBean ub = new UtilsBean();
-       Emne em = ub.getEmne(endretEmne.getEmnenavn());
-       em.setEmnekode(endretEmne.getEmnenavn());
-       em.setBeskrivelse(endretEmne.getBeskrivelse());
-       System.out.println(endretEmne.getEmnenavn());
-       System.out.println(endretEmne.getEmnekode());
-       
-       
-       
-       if(ub.oppdaterEmne(em)){
-           System.out.println("funka med emne også");
-           model.addAttribute("funkafint", true);
-       }
-       
-       System.out.println(em.getEmnenavn());
-       
+    public String endreEmneoppl(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Emne endretEmne) {
+        System.out.println("STILL GOINNGGGG");
+        UtilsBean ub = new UtilsBean();
+        Emne em = ub.getEmne(endretEmne.getEmnenavn());
+        em.setEmnekode(endretEmne.getEmnenavn());
+        em.setBeskrivelse(endretEmne.getBeskrivelse());
+        System.out.println(endretEmne.getEmnenavn());
+        System.out.println(endretEmne.getEmnekode());
+
+        if (ub.oppdaterEmne(em)) {
+            System.out.println("funka med emne også");
+            model.addAttribute("funkafint", true);
+        }
+
+        System.out.println(em.getEmnenavn());
+
         return "endreEmne";
 
     }
-    
 
     //******************* viser registreringen av en ny øving*****************************************************
     @RequestMapping(value = "regov2")
     public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error) {
 
-        Bruker bruker = new Bruker();
-        Emne emne = new Emne();
-
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
-        String emnekoden = null;
-
         ArrayList<String> emnetabell = new ArrayList<String>();
 
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
-            emnekoden = em.get(i).getEmnenavn();
-            System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden);
-            model.addAttribute("emnekode", emnekoden);
-
         }
         model.addAttribute("allefagene", emnetabell);
 
@@ -320,38 +309,35 @@ public class Kontroller {
 
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23", method = RequestMethod.POST)
-    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, /*@ModelAttribute(value ="brukerinnlogg") Bruker bruker,*/ BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String[] Emner) {
+    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, /*@ModelAttribute(value ="brukerinnlogg") Bruker bruker,*/ BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "Emner") String[] Emner) {
 
         String[] values = request.getParameterValues("Emner");
-        System.out.println("Her skal det komme opp noe nå" + values[0]);
-
-        /*  if (error.hasErrors()) {
-         System.out.println("--------------kommerinniERROOOOOOOOOOOOOOOOOOOOOOOOOOOR-----------");
-         //javax.swing.JOptionPane.showMessageDialog(null, "Feil ved registrering av bruker.", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE, null);
-         //  return "regov2";
-         return new ModelAndView("redirect:/regov2.htm?x=3","modell",model);
-         }*/
         UtilsBean utilsBean = new UtilsBean();
 
         øving.setEmnekode(values[0]);
         øving.setGruppeid(-1);
         øving.setObligatorisk(false);
-        String hentekode = øving.getEmnekode();
 
         if (utilsBean.registrerØving(øving)) {
             model.addAttribute("melding", "Øving " + øving + " er registrert");
-
         }
-
         // return "regov2";
         return new ModelAndView("redirect:/regov2.htm?x=3", "modell", model);
-
     }
 
 //*************************** Viser administrer lærer siden*************************
-        @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAntall, HttpServletRequest request ) {
-
+    @RequestMapping(value = "/adminlaerer.htm")
+    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAntall, HttpServletRequest request) {
+        System.out.println("JEG VISER visLaerer!!!!");
+        System.out.println("getAntall eeeeeer: "+getAntall);
+        if (!valgteOvinger.isEmpty()) {
+        
+        for (int i = 0; i < valgteOvinger.size(); i++) {
+            System.out.println("visLarer() har snappet opp: "+valgteOvinger.get(i)+" fra valgtOvinger");
+        }
+        }else{
+            System.out.println("valgteOvinger er tom for meg, hilsen visLaerer()");
+        }
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
         Emne valgtEmne = new Emne();
@@ -361,157 +347,147 @@ public class Kontroller {
         String oppdater2 = request.getParameter("oppdater2");
         String oppdaterbeskrivelse = request.getParameter("beskrivelseinput");
         ArrayList<Øving> øvingtabell1 = new ArrayList<Øving>();
-       
-      model.addAttribute("øving",øving);
-       model.addAttribute("emne", emne);
-       model.addAttribute("valg", getValg);
-          
-       
-       ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
+        ArrayList<Øving> valgteØvinger = new ArrayList<Øving>();
+
+        model.addAttribute("øving", øving);
+        model.addAttribute("emne", emne);
+        model.addAttribute("valg", getValg);
+
+        ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
         Emne valgtemne = new Emne();
 
-        
-      
-      
-                  
-  if (getValg != null) {
-      /*
-        if(oppdater !=null){
-            ArrayList<Øving> øvingsliste = ub.getØvingerIEmnet(getValg);
-            if(øvingsliste!=null){
-                for(Øving ø: øvingsliste){
-                    System.out.println("oppdatering av " + ø + ":" + ub.oppdaterØving(ø, øvingsnrpåendretcheckbox, emnekoden));
-                }
-            }
-        }
-      */
-       String emnesendt = getValg;
-        if(oppdater2 != null){
-            System.out.println("--------------------------- KNAPPEN FOR BESKRIVELSE ER TRYKKET INN");
-            
-            ub.oppdaterØvingsBeskrivelse(emnesendt,oppdaterbeskrivelse);
-        }
+        if (getValg != null) {
+            /*
+             if(oppdater !=null){
+             ArrayList<Øving> øvingsliste = ub.getØvingerIEmnet(getValg);
+             if(øvingsliste!=null){
+             for(Øving ø: øvingsliste){
+             System.out.println("oppdatering av " + ø + ":" + ub.oppdaterØving(ø, øvingsnrpåendretcheckbox, emnekoden));
+             }
+             }
+             }
+             */
+            String emnesendt = getValg;
+            if (oppdater2 != null) {
+                System.out.println("--------------------------- KNAPPEN FOR BESKRIVELSE ER TRYKKET INN");
 
-      
-                valgtEmne = ub.getEmne(getValg);
-                model.addAttribute("emnevalg", valgtEmne);
-                
-                ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
-                
-                
-                for (int i = 0; i < øv.size(); i++) {
-                   øvingtabell1.add(øv.get(i));
-                    
-                }
-                model.addAttribute("alleovinger", øvingtabell1);
-                 
-                
-        }
-/*
-        ArrayList<Emne> emnet = new ArrayList<Emne>();
-        for(int i=0; i<em.size();i++){
-            emnet.add(em.get(i));
-        }
-        model.addAttribute("beskrivelse",emnet);
-  */      
-        
-        ArrayList<String> emnetabell = new ArrayList<String>();
-            emnetabell.add(getValg);
-            if(em != null){
-        for (int i = 0; i < em.size(); i++) {
-            emnetabell.add(em.get(i).getEmnenavn());
-            emnekoden = em.get(i).getEmnenavn();
-        }
+                ub.oppdaterØvingsBeskrivelse(emnesendt, oppdaterbeskrivelse);
             }
+
+            valgtEmne = ub.getEmne(getValg);
+            model.addAttribute("emnevalg", valgtEmne);
+
+            ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
+
+            for (int i = 0; i < øv.size(); i++) {
+                øvingtabell1.add(øv.get(i));
+
+            }
+            model.addAttribute("alleovinger", øvingtabell1);
+
+        }
+        /*
+         ArrayList<Emne> emnet = new ArrayList<Emne>();
+         for(int i=0; i<em.size();i++){
+         emnet.add(em.get(i));
+         }
+         model.addAttribute("beskrivelse",emnet);
+         */
+
+        ArrayList<String> emnetabell = new ArrayList<String>();
+        emnetabell.add(getValg);
+        if (em != null) {
+            for (int i = 0; i < em.size(); i++) {
+                emnetabell.add(em.get(i).getEmnenavn());
+                emnekoden = em.get(i).getEmnenavn();
+            }
+        }
         model.addAttribute("allefagene", emnetabell);
 
-          
-           
-           
-           if (oppdater != null) {
+        if (oppdater != null || getAntall != null) {
             System.out.println("Han tytjepelk han kom inj");
             ArrayList<String> antallet = new ArrayList();
             antallet.add("Velg antall");
-            String[] ob = request.getParameterValues("obliga");
 
-          
-            for (int i = 1; i < ob.length + 1; i++) {
-                String a = String.valueOf(i);
-                antallet.add(a);
-                System.out.println("HENTYER GETVALGANTALLET___________________________________" + getAntall);
-
-            }
-
-            int a = antallet.size();
-            model.addAttribute("iftest", a);
-            model.addAttribute("alleAntall", antallet);
-
-            
-            if (getAntall != null) {
-                Kravgruppe kr = new Kravgruppe();
-            kr.setAntallgodkj(Integer.parseInt(getAntall));
-             kr.setGruppeID(4);
-                for (int i = 1; i < ob.length + 1; i++) {
-                    ub.registrerKravGruppe(kr);
-                   
-                    øvingtabell1.get(i - 1).setGruppeid(4);
-                    ub.oppdaterØving(øvingtabell1.get(Integer.parseInt(ob[i - 1])), Integer.parseInt(ob[i - 1]), emnekoden);
-                }
-            }
-
-        }
-                return "adminlaerer";
-    }
-            /*
-                        int r = ub.getØvingerIEmnet(emnekoden).size();
-            int mid[] = new int[r];
-            for(int k=0; k<ub.getØvingerIEmnet(emnekoden).size(); k++){
-                if(k<Integer.parseInt(ob[k])){
-                    mid[k]=k;
-                    System.out.println("Greit " + k);
-                }else{
-                    mid[k]= Integer.parseInt(ob[k]);
-                    System.out.println("Greit2 " + mid[k]);
-                }
+            if (!valgteOvinger.isEmpty()) {
                
+                for (int i = 1; i < valgteOvinger.size() + 1; i++) {
+                    String a = String.valueOf(i);
+                    antallet.add(a);
+                    System.out.println("Valgte øvinger................................................"+valgteOvinger.get(i-1));
+
+                }
+
+                int a = antallet.size();
+                model.addAttribute("iftest", a);
+                model.addAttribute("alleAntall", antallet);
+
+                if (getAntall != null) {
+                    
+                    int gruppeID = ub.getMaxGruppeIDIEmne()+1;
+                    Kravgruppe kr = new Kravgruppe();
+                    kr.setAntallgodkj(Integer.parseInt(getAntall));
+                    kr.setGruppeID(gruppeID);
+                    kr.setEmnekode(valgtEmne.getEmnekode());
+                    kr.setBeskrivelse("Beskrivelse ikke lagt inn");
+
+                    ub.registrerKravGruppe(kr);
+                    
+                    for (int i = 0; i < valgteOvinger.size(); i++) {
+                        valgteØvinger.add(ub.getØvingIEmnet(valgteOvinger.get(i), valgtEmne.getEmnekode()));
+                    }
+                    for (int i = 0; i < valgteØvinger.size(); i++) {
+                      
+                    valgteØvinger.get(i).setGruppeid(gruppeID);
+                    ub.oppdaterØving(valgteØvinger.get(i));
+                    }
+                }
+
             }
+        }
+        return "adminlaerer";
+    }
+    /*
+     int r = ub.getØvingerIEmnet(emnekoden).size();
+     int mid[] = new int[r];
+     for(int k=0; k<ub.getØvingerIEmnet(emnekoden).size(); k++){
+     if(k<Integer.parseInt(ob[k])){
+     mid[k]=k;
+     System.out.println("Greit " + k);
+     }else{
+     mid[k]= Integer.parseInt(ob[k]);
+     System.out.println("Greit2 " + mid[k]);
+     }
+               
+     }
             
             
-            Kravgruppe krav = new Kravgruppe();
-            krav.setEmnekode(emnekoden);
-            krav.setAntallgodkj(1); ////////////////// fiks dette etter
-            ub.getØvingerIEmnet(emnekoden);
-            for (int i = 1; i < ub.getØvingerIEmnet(emnekoden).size(); i++) {
-                if (ub.getØvingerIEmnet(emnekoden).get(i).getØvingsnr() == Integer.parseInt(ob[i-1])) {
-                    krav.setGruppeID(i);
-                    ub.registrerKravGruppe(krav);
-                    ub.getØvingerIEmnet(emnekoden).get(i).setGruppeid(i);
-                    ub.oppdaterØving(ub.getØvingerIEmnet(emnekoden).get(i),Integer.parseInt(ob[i]) , emnekoden);
+     Kravgruppe krav = new Kravgruppe();
+     krav.setEmnekode(emnekoden);
+     krav.setAntallgodkj(1); ////////////////// fiks dette etter
+     ub.getØvingerIEmnet(emnekoden);
+     for (int i = 1; i < ub.getØvingerIEmnet(emnekoden).size(); i++) {
+     if (ub.getØvingerIEmnet(emnekoden).get(i).getØvingsnr() == Integer.parseInt(ob[i-1])) {
+     krav.setGruppeID(i);
+     ub.registrerKravGruppe(krav);
+     ub.getØvingerIEmnet(emnekoden).get(i).setGruppeid(i);
+     ub.oppdaterØving(ub.getØvingerIEmnet(emnekoden).get(i),Integer.parseInt(ob[i]) , emnekoden);
                     
 
-                }
-            }
-                 }
+     }
+     }
+     }
         
-             //    System.out.println(ob[1]);
-              //  System.out.println(ob[2]);      
+     //    System.out.println(ob[1]);
+     //  System.out.println(ob[2]);      
              
-           // ob = request.getParameter("obliga");
+     // ob = request.getParameter("obliga");
              
              
-          /*  System.out.println(ob[0]);
-            System.out.println(ob[1]);
-            System.out.println(ob[2]);*/
-            
-           
-        
-        
-        
-        
-       
-      
-   
-    
+     /*  System.out.println(ob[0]);
+     System.out.println(ob[1]);
+     System.out.println(ob[2]);*/
+
     /*
      @RequestMapping(value = "/bruker.htm")
      public String visVare(Model model) {
@@ -588,121 +564,99 @@ public class Kontroller {
      }
      return "vare";
      }*/
-    
-    
+
     @RequestMapping(value = "/oppdaterselect.htm")
     @ResponseBody
-    public String oppdater(@RequestParam(value = "x") String alle, @RequestParam(value = "emnekode") String emnekode,HttpServletRequest request,HttpServletResponse response){
-        response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
-        response.setHeader("Pragma","no-cache");
+    public String oppdater(Model model, @RequestParam(value = "x") String alle, @RequestParam(value = "emnekode") String emnekode, HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("Cache-Control", "no-cache,no-store,must-revalidate");
+        response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
         response.setHeader("Content-Type", "text/html; charset=utf-8");
         response.setCharacterEncoding("UTF-8");
         
-        
+      
         String returnen = "";
         UtilsBean ub = new UtilsBean();
         ArrayList<Øving> øvinger = ub.getØvingerIEmnet(emnekode);
-         
+
         System.out.println(alle);
-                ArrayList<String> alleovingsnr = new ArrayList<String>();
+        ArrayList<String> alleovingsnr = new ArrayList<String>();
         String[] splitten = alle.split(",");
-        if(splitten.length > 0){
-        for(int i = 0; i < splitten.length; i++){
-         if(!splitten[i].equals(",")){
-             alleovingsnr.add(splitten[i]);
-         }
-     
-        }
-        } else{ 
+        if (splitten.length > 0) {
+            for (int i = 0; i < splitten.length; i++) {
+                if (!splitten[i].equals(",")) {
+                    alleovingsnr.add(splitten[i]);
+                }
+
+            }
+        } else {
             System.out.println("Her kom jeg");
             alleovingsnr.add(alle);
         }
-        
-        
+        System.out.println("LEGGER TIL "+alleovingsnr.get(alleovingsnr.size() - 1)+" i valgteOvinger");
+        valgteOvinger.add(Integer.parseInt(alleovingsnr.get(alleovingsnr.size() - 1)));
+        System.out.println("LA TIL "+alleovingsnr.get(alleovingsnr.size() - 1)+" i valgteOvinger");
         System.out.println("Størrelse på øvinger fra db: " + øvinger.size() + ", Størrelse på antall hentet ut fra js: " + alleovingsnr.size());
-        
-        
+
         System.out.println("Fra db:");
-        for(int i = 0; i < øvinger.size(); i++){
+        for (int i = 0; i < øvinger.size(); i++) {
             System.out.println(øvinger.get(i).getØvingsnr());
         }
-        
+
         System.out.println("Fra js:");
-        for(int i = 0; i < alleovingsnr.size(); i++){
+        for (int i = 0; i < alleovingsnr.size(); i++) {
             System.out.println(alleovingsnr.get(i));
         }
-        
-        
-        
+
         ArrayList<Integer> liste1 = new ArrayList<Integer>();
         ArrayList<Integer> liste2 = new ArrayList<Integer>();
-        
-        
-        for(int i = 0; i < øvinger.size(); i++){
+
+        for (int i = 0; i < øvinger.size(); i++) {
             boolean funnet = false;
-            for(int a = 0; a < alleovingsnr.size(); a++){
-            if(øvinger.get(i).getØvingsnr() == Integer.parseInt(alleovingsnr.get(a))){
-                funnet = true;
-                break;
-            }    
-                
+            for (int a = 0; a < alleovingsnr.size(); a++) {
+                if (øvinger.get(i).getØvingsnr() == Integer.parseInt(alleovingsnr.get(a))) {
+                    funnet = true;
+                    break;
+                }
+
             }
-            if(funnet == true){
+            if (funnet == true) {
                 liste2.add(øvinger.get(i).getØvingsnr());
             } else {
                 liste1.add(øvinger.get(i).getØvingsnr());
             }
-            
-        }
-        
-        
-        
-        
-        returnen += "<table><tr><td><table><thead><tr><th>&Oslash;ving</th><th>Obligatorisk</th></tr>"
-                + "<tbody>";
-        
-        
-     
-        
-        
-        
-      
-        
-        
-        for(int i = 0; i < liste1.size(); i++){
-            returnen += "<tr><td class=\"admlaerer\">" + liste1.get(i) + "</td>"
-                    + "<td class=\"admlaerer\"><input type=\"checkbox\" value=\"" + liste1.get(i) + "\" name=\"obliga\" id=\"oblig\" onchange=\"endreselect(this.value, '" + emnekode + "');\"></td></tr>";
-            
-            
+
         }
 
-        
-        returnen += "                    <tr><td> <input type=\"submit\" value=\"G&aring; videre\" name=\"oppdater\" /></td>\n" +
-"                        \n" +
-"                        <td><td>&nbsp;</td></table></td><td valign=top>   \n" +
-"                            <table>";
-        
-        
-        
-        if(liste2.size() > 0){
-            
-            for(int i = 0; i < liste2.size(); i++){
-                                                        returnen += "                                       <tr><td> " + liste2.get(i) + " </td><td>Oblig</td></tr>";
-            }
-            
-            
-            
+        returnen += "<table><tr><td><table><thead><tr><th>&Oslash;ving</th><th>Obligatorisk</th></tr>"
+                + "<tbody>";
+
+        for (int i = 0; i < liste1.size(); i++) {
+            returnen += "<tr><td class=\"admlaerer\">" + liste1.get(i) + "</td>"
+                    + "<td class=\"admlaerer\"><input type=\"checkbox\" value=\"" + liste1.get(i) + "\" name=\"obliga\" id=\"oblig\" onchange=\"endreselect(this.value, '" + emnekode + "');\"></td></tr>";
+
         }
-        
-        returnen += "</table></td></tr></table>\n" +
-"                            \n" +
-"                        </td>  \n" +
-"                    </tr>\n" +
-"                    </tbody>\n" +
-"                </table>";
-        
-      
+
+        returnen += "                    <tr><td> <input type=\"submit\" value=\"G&aring; videre\" name=\"oppdater\" /></td>\n"
+                + "                        \n"
+                + "                        <td><td>&nbsp;</td></table></td><td valign=top>   \n"
+                + "                            <table>";
+
+        if (liste2.size() > 0) {
+
+            for (int i = 0; i < liste2.size(); i++) {
+                returnen += "                                       <tr><td>Nr.: " + liste2.get(i) + " </td><td>er valgt.</td></tr>";
+            }
+
+        }
+
+        returnen += "</table></td></tr></table>\n"
+                + "                            \n"
+                + "                        </td>  \n"
+                + "                    </tr>\n"
+                + "                    </tbody>\n"
+                + "                </table>";
+
         return returnen;
     }
 

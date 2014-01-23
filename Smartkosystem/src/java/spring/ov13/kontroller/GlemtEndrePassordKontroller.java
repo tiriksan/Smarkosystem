@@ -43,25 +43,25 @@ public class GlemtEndrePassordKontroller {
             String brukernavn = bruker.getBrukernavn();
             
             String endrePassordMD5 = ub.getEndrePassordMD5(brukernavn);
-            brukernavn = krypterRot13(brukernavn);
             //TODO endre dersom man endrer server 
-            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8080/Smartkosystem/endrepassord.htm?bruker="+brukernavn);
+            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8080/Smartkosystem/endrepassord.htm?bruker="+endrePassordMD5);
             modell.addAttribute("sendMelding", "Epost med passordendring er blitt sendt til din epost");
-            bruker.setBrukernavn("");
             return "glemtpassord";
         }
     }    
     @RequestMapping(value = "/endrepassord.htm")
     public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletResponse response){
         //System.out.println("Endrepassordbruker: " + bruker);
-        String brukernavn = getValg;
-        brukernavn =dekrypterRot13(brukernavn);
-        System.out.println(brukernavn);
-        response.addCookie(new Cookie("brukernavn", brukernavn));
-        model.addAttribute("endrepassordbrukernavn", brukernavn);
-        Bruker bruker = new Bruker();
-        model.addAttribute("endrepassordbruker", bruker);
-        
+        UtilsBean ub = new UtilsBean();
+        if(ub.getBrukernavnFraGlemtPassord(getValg) == null){
+            model.addAttribute("melding", "Denne linken er ikke gyldig. Prøv å trykk på 'glemt passord' igjen på innloggingssiden for å få tilsendt en ny mail.");
+        }else {
+            String brukernavn = ub.getBrukernavnFraGlemtPassord(getValg);
+            response.addCookie(new Cookie("brukernavn", brukernavn));
+            model.addAttribute("endrepassordbrukernavn", brukernavn);
+            Bruker bruker = new Bruker();
+            model.addAttribute("endrepassordbruker", bruker);
+        }
         
         return "endrepassord";
         
@@ -90,7 +90,14 @@ public class GlemtEndrePassordKontroller {
         bruker.setPassord(bruker.md5(bruker.getPassord()));
         UtilsBean ub = new UtilsBean();
         
-        ub.endrePassord(bruker);
+        if(ub.endrePassord(bruker)){
+            modell.addAttribute("melding", "Passordet er endret. Du kan nå logge inn");
+            String nyMD5 = java.util.UUID.randomUUID().toString().substring(0, 10);
+            nyMD5 = bruker.md5(nyMD5);
+            ub.setEndrePassordMD5(bruker.getBrukernavn(), nyMD5);
+        } else {
+            modell.addAttribute("melding", "Feil oppstått ved endring av passord");
+        }
         
         //bruker.setBrukernavn();
         return "endrepassord";

@@ -25,11 +25,11 @@ public class Bruker {
     private String brukernavn;
 
     @NotNull()
-    @Pattern(regexp = "\\b[A-z]*+[ ]{0,1}+[A-z]*")
+    @Pattern(regexp = "\\b([A-z]*+[ ]{0,1})*")
     private String fornavn;
 
     @NotNull()
-    @Pattern(regexp = "\\b[A-z]*")
+    @Pattern(regexp = "\\b([A-z]*+[ ]{0,1})*")
     private String etternavn;
     @Min(1)
     @Max(4)
