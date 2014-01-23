@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -121,22 +122,26 @@ public class BrukerOversiktKontroller {
         ArrayList<Bruker> studenter = (ArrayList<Bruker>)request.getSession().getAttribute("studenterIFaget");
         String emnekode = (String)request.getSession().getAttribute("emnekode");
         
-        File f = new File("ListeOver" + emnekode + ".txt");
-        if (!f.exists()){
-            System.out.println("not exist");
-            f.createNewFile();
+        File f = new File("/ListeOver"+emnekode+".txt");
+        System.out.println(f.exists());
+        if(!f.exists()){
+            System.out.println(f.createNewFile());
         }
-        
-        BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+        PrintWriter writer = new PrintWriter(f, "UTF-8");
         for(int a = 0; a < brukerEksamen.length; a++){
             if(brukerEksamen[a] == false){
-                bw.write("" + studenter.get(a).getFornavn() + " " + studenter.get(a).getEtternavn() + ", " + studenter.get(a).getBrukernavn() + "\n");
+                writer.println("" + studenter.get(a).getFornavn() + " " + studenter.get(a).getEtternavn() + ", " + studenter.get(a).getBrukernavn());
             }
         }
         System.out.println("here?");
+        writer.close();
         
-        bw.close();
+        SendEpost se = new SendEpost();
+        //TODO:
+        se.sendEpost("kristian.aabrekk@gmail.com", "Eksamen info i " + emnekode, "Her kommer en liste med studenter som får gå opp til eksamen i emnet " +emnekode , f);
         
+        System.out.println(f.exists());
+        System.out.println(f.getPath());
         ra.addFlashAttribute("emnekode", emnekode);
         return "redirect:valgtBrukeroversikt.htm";
         
