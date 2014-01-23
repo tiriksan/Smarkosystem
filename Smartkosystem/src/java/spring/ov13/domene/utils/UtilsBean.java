@@ -246,7 +246,9 @@ public class UtilsBean {
         return db.oppdaterØvingsBeskrivelse(emnekode, beskrivelse);
     }
     
-    
+    public String getEndrePassordMD5(String brukernavn){
+        return db.getEndrePassordMD5(brukernavn);
+    }
     
 public ArrayList<Øving> getUgjorteØvinger(String emnekode, String brukernavn){
 return db.getUgjorteØvinger(emnekode, brukernavn);
