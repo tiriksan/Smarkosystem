@@ -136,6 +136,38 @@ background-color: white;
 
 }
 
+#sokeboks1{
+    
+    border-style:solid none solid solid;
+    border-color:#4B7B9F;
+    border-width:1px;
+}
+
+#soke2{
+    width:100px; 
+    border:0px solid; 
+    height:17px; 
+    padding:0px 3px;
+    position:relative;
+}
+
+#soke3{
+    
+    border-style:solid;
+    border-color:#4B7B9F;
+    border-width:1px;
+}
+
+#sokeknapp{
+    
+    border-style: none; 
+    background: url('resources/bilder/searchbutton3.gif') no-repeat; 
+    width: 24px; 
+    height: 20px;
+}
+
+
+
 td.load{
     padding: 10px;
 
