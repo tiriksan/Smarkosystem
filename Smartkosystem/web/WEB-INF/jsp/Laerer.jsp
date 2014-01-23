@@ -19,6 +19,43 @@
         document.minform.submit();
     }
 
+
+
+
+
+
+var hvem = new Array();
+
+    function endreselect(hvilke, emnekode) {
+hvem.push(hvilke);
+alert(5);
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+
+        document.getElementById("admlaer").innerHTML = xmlhttp.responseText;
+    }
+  }
+  //alert(xmlhttp.responseText + " og hei");
+xmlhttp.open("POST","oppdaterselect.htm?emnekode=" + emnekode + "&x=" + hvem,true);
+xmlhttp.send();
+}
+
+
+
+
+
+
 </script>
 
 <c:choose>
@@ -98,7 +135,7 @@
                             <tr>
                                 <td class="admlaerer"><!--<a href="admlaerer.htm?y={admin.øvingsnr}">-->${admin.øvingsnr} </td>
 
-                                <td class="admlaerer"><input type="checkbox" value="${admin.øvingsnr}"  name="obliga" id="oblig" <c:if test="${admin.obligatorisk eq true}">checked</c:if>></td>
+                                <td class="admlaerer"><input type="checkbox" value="${admin.øvingsnr}"  name="obliga" id="oblig" <c:if test="${admin.obligatorisk eq true}">checked</c:if> onchange="endreselect(this.value, '${valg}');"></td>
 
 
                                     <!--    <td class="admlaerer"><input type="checkbox"  value="$"{admin.øvingsnr}" name ="valget" id="valget" onchange="fnctcheckbox()"></td> -->
@@ -111,13 +148,15 @@
                     <tr><td> <input type="submit" value="Gå videre" name="oppdater" /></td>
                         
                         <td>   
+                            <select name="valget" id="valget" onchange="submitform()">
                             <c:if test="${iftest > 0}"> 
-                                <select name="valget" id="valget" onchange="submitform()"> 
+                                 
                                     <c:forEach items="${alleAntall}" var="antall">
                                         <option value="${antall}">${antall}</option>
                                     </c:forEach>
-                                </select>
                             </c:if>
+                            </select>
+                            
                         </td>  
                     </tr>
                     </tbody>
