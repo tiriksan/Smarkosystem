@@ -201,7 +201,11 @@ public class SettIKøKontroller {
                                                 if(i != 0){
                                                     returnen += ekstra;
                                                 }
-                                                returnen += brukernavnene2.get(i).getFornavn() + " " + brukernavnene2.get(i).getEtternavn() + "</td><td><table class=\"ovingene\" cellspacing=0 cellpadding=0><tr>";
+                                                String fornavnet = brukernavnene2.get(i).getFornavn();
+                                                String etternavnet = brukernavnene2.get(i).getEtternavn();
+                                                
+                                                
+                                                returnen += fornavnet + " " + etternavnet + "</td><td><table class=\"ovingene\" cellspacing=0 cellpadding=0><tr>";
                                         
                                         for(int a = 0; a < antallovinger; a++){
                                             boolean funnet = false;
