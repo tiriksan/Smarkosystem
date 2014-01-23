@@ -249,6 +249,12 @@ public class UtilsBean {
     public String getEndrePassordMD5(String brukernavn){
         return db.getEndrePassordMD5(brukernavn);
     }
+    public String getBrukernavnFraGlemtPassord(String md5){
+        return db.getBrukernavnFraGlemtPassord(md5);
+    }
+    public boolean setEndrePassordMD5(String brukernavn, String md5){
+        return db.setEndrePassordMD5(brukernavn, md5);
+    }
     
 public ArrayList<Øving> getUgjorteØvinger(String emnekode, String brukernavn){
 return db.getUgjorteØvinger(emnekode, brukernavn);
