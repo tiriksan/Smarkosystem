@@ -76,17 +76,21 @@
                     <td id="ovingoversikttd">
                         ${studenter[student].fornavn}&nbsp;${studenter[student].etternavn}
                     </td>
-                    <c:forEach begin="1" end="${fn:length(aGO[student])}" var = "i">
+                    <td>
+                        <c:forEach begin="1" end="${fn:length(aGO[student])}" var = "i">
                         <td class="tdoving<c:if test="${aGO[student][i-1]==1}"> godkjent</c:if>">${i}</td> 
                     </c:forEach>
-                    <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
+                    </td>
+                    <td>
+                        <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
                         <td class="tdoving<c:if test="${gkKravBruker}"> kravgk</c:if><c:if test="${!gkKravBruker}"> kravikkgk</c:if>">&nbsp;</td>
                     </c:forEach>
+                    </td>
 
                 </tr>
             </c:forEach>
         </table>
-        
+
         <form action="sendAdvarselMail.htm">
             <input type="submit" value="Send advarsel mail">;
         </form>
