@@ -98,19 +98,34 @@ public class BrukerOversiktKontroller {
     }
     
     @RequestMapping(value = "/sendAdvarselMail.htm")
-    public String eksamensListe(Bruker bruker, HttpServletRequest request, RedirectAttributes ra){
+    public String eksamensListe(Bruker bruker, HttpServletRequest request, RedirectAttributes ra)throws IOException{
         
         boolean[] brukerEksamen = (boolean[])request.getSession().getAttribute("eksamenTabell");
         ArrayList<Bruker> studenter = (ArrayList<Bruker>)request.getSession().getAttribute("studenterIFaget");
         String emnekode = (String)request.getSession().getAttribute("emnekode");
+        
+        File fi = new File("Varsel for " + emnekode + ".txt");
+        if(!fi.exists()){
+            fi.createNewFile();
+        }
+
+        PrintWriter pw = new PrintWriter(fi, "UTF-8");
+        
+        String advarsel = "";
         
         String melding = "Du har ikke oppfylt kravene for " + emnekode;
         SendEpost epost = new SendEpost();
         for(int r = 0; r < brukerEksamen.length; r++){
             if(brukerEksamen[r] == false){
                 epost.sendEpost(studenter.get(r).getBrukernavn(), "Advarsel", melding);
+                pw.println("" + studenter.get(r).getFornavn() + " " + studenter.get(r).getEtternavn() + ", " + studenter.get(r).getBrukernavn());
             }
         }
+        pw.close();
+        
+        SendEpost se = new SendEpost();
+        se.sendEpost("msnorc@gmail.com", "Varsel liste for " + emnekode, "Elever som ikke har godkjente arbeidskrav i " + emnekode, fi);
+        
         ra.addFlashAttribute("emnekode", emnekode);
         return "redirect:valgtBrukeroversikt.htm";
     }
@@ -125,7 +140,7 @@ public class BrukerOversiktKontroller {
         File f = new File("/ListeOver"+emnekode+".txt");
         System.out.println(f.exists());
         if(!f.exists()){
-            System.out.println(f.createNewFile());
+            f.createNewFile();
         }
         PrintWriter writer = new PrintWriter(f, "UTF-8");
         for(int a = 0; a < brukerEksamen.length; a++){
