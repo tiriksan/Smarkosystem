@@ -48,7 +48,7 @@ public class Database {
     private final String sqlUpdateØving = "UPDATE øving SET øvingsnr =?, emnekode =?, gruppeid=?, obligatorisk=? WHERE øvingsnr =? AND emnekode=?";
     private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
     private final String sqlCountØvinger = "SELECT COUNT(øvingsnummer) as telling FROM øving WHERE emnekode =?";
-    private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
+    private final String sqlDeleteØvinger = "DELETE FROM øving WHERE id < ? AND id > ?";
     private final String sqlInsertKravgruppe = "INSERT INTO arbeidskrav VALUES(?,?,?,?)";
     private final String sqlgetKravGruppe = "Select * from kravgruppe where emnekode =?";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
