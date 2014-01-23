@@ -162,8 +162,8 @@ public class UtilsBean {
         return db.registrerØving(o);
     }
 
-    public boolean oppdaterØving(Øving o, int øvingsnr, String emnekode) {
-        return db.oppdaterØving(o, øvingsnr, emnekode);
+    public boolean oppdaterØving(Øving o) {
+        return db.oppdaterØving(o);
     }
 
     public boolean erBrukerIFag(String brukernavn, String emnekode) {

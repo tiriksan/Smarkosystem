@@ -45,7 +45,7 @@ public class Database {
     private final String sqlSelectØving = "SELECT * FROM øving WHERE øvingsnummer=? AND emnekode =?";
     private final String sqlInsertØving = "INSERT INTO øving VALUES(?,?,?,?)";
     private final String sqlInsertØvingNull = "INSERT INTO øving VALUES(?,?,null,?)";
-    private final String sqlUpdateØving = "UPDATE øving SET øvingsnr =?, emnekode =?, gruppeid=?, obligatorisk=? WHERE øvingsnr =? AND emnekode=?";
+    private final String sqlUpdateØving = "UPDATE øving SET gruppeid=?, obligatorisk=? WHERE øvingsnr =? AND emnekode=?";
     private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
     private final String sqlCountØvinger = "SELECT COUNT(øvingsnummer) as telling FROM øving WHERE emnekode =?";
     private final String sqlDeleteØvinger = "DELETE FROM øving WHERE id < ? AND id > ?";
@@ -744,7 +744,7 @@ public class Database {
         return ok;
     }
 
-    public synchronized boolean oppdaterØving(Øving øving, int øvingsnr, String emnekode) {
+    public synchronized boolean oppdaterØving(Øving øving) {
         boolean ok = false;
         System.out.println("oppdaterØving()");
         PreparedStatement psUpdateØving = null;
@@ -752,12 +752,10 @@ public class Database {
         try {
             åpneForbindelse();
             psUpdateØving = forbindelse.prepareStatement(sqlUpdateØving);
-            psUpdateØving.setInt(1, øving.getØvingsnr());
-            psUpdateØving.setString(2, øving.getEmnekode());
-            psUpdateØving.setInt(3, øving.getGruppeid());
-            psUpdateØving.setBoolean(4, øving.getObligatorisk());
-            psUpdateØving.setInt(5, øvingsnr);
-            psUpdateØving.setString(6, emnekode);
+            psUpdateØving.setInt(1, øving.getGruppeid());
+            psUpdateØving.setBoolean(2, øving.getObligatorisk());
+            psUpdateØving.setInt(3, øving.getØvingsnr());
+            psUpdateØving.setString(4, øving.getEmnekode());
 
             int i = psUpdateØving.executeUpdate();
             if (i > 0) {
