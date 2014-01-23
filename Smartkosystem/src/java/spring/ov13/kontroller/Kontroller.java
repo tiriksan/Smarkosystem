@@ -2,6 +2,7 @@ package spring.ov13.kontroller;
 
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.naming.factory.SendMailFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -589,7 +590,14 @@ public class Kontroller {
     
     @RequestMapping(value = "/oppdaterselect.htm")
     @ResponseBody
-    public String oppdater(@RequestParam(value = "x") String alle, @RequestParam(value = "emnekode") String emnekode){
+    public String oppdater(@RequestParam(value = "x") String alle, @RequestParam(value = "emnekode") String emnekode,HttpServletRequest request,HttpServletResponse response){
+        response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
+        response.setHeader("Pragma","no-cache");
+        response.setDateHeader("Expires", 0);
+        response.setHeader("Content-Type", "text/html; charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
+        
+        
         String returnen = "";
         UtilsBean ub = new UtilsBean();
         ArrayList<Øving> øvinger = ub.getØvingerIEmnet(emnekode);
@@ -649,7 +657,7 @@ public class Kontroller {
         
         
         
-        returnen += "<table><thead><tr><th>Øving</th><th>Obligatorisk</th></tr>"
+        returnen += "<table><thead><tr><th>&Oslash;ving</th><th>Obligatorisk</th></tr>"
                 + "<tbody>";
         
         
@@ -668,7 +676,7 @@ public class Kontroller {
         }
 
         
-        returnen += "                    <tr><td> <input type=\"submit\" value=\"Gå videre\" name=\"oppdater\" /></td>\n" +
+        returnen += "                    <tr><td> <input type=\"submit\" value=\"G&aring; videre\" name=\"oppdater\" /></td>\n" +
 "                        \n" +
 "                        <td>   \n" +
 "                            <select name=\"valget\" id=\"valget\" onchange=\"submitform()\">";
@@ -692,7 +700,7 @@ public class Kontroller {
 "                    </tbody>\n" +
 "                </table>";
         
-      returnen.replace("Ø", "oooo");  
+      
         return returnen;
     }
 
