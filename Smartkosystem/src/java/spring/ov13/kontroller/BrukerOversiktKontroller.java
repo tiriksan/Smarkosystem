@@ -144,7 +144,7 @@ public class BrukerOversiktKontroller {
         }
         PrintWriter writer = new PrintWriter(f, "UTF-8");
         for(int a = 0; a < brukerEksamen.length; a++){
-            if(brukerEksamen[a] == false){
+            if(brukerEksamen[a] == true){
                 writer.println("" + studenter.get(a).getFornavn() + " " + studenter.get(a).getEtternavn() + ", " + studenter.get(a).getBrukernavn());
             }
         }
