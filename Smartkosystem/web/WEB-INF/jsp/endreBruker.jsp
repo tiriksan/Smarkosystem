@@ -61,7 +61,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
                 <form:input type ="text" name="brukerendres" path="etternavn" value="${brukerTilEndring.getEtternavn()}"/>
                 <form:input type ="text" readonly="true" name="brukerendres" path= "brukernavn" value="${brukerTilEndring.getBrukernavn()}"/>
                 <input type="submit" name="brukerendres" value="Lagre endringer">
-                
+                <input type="submit" name="brukerSlettes" value="Slett bruker">
             </td>
         </tr>
 

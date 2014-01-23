@@ -113,6 +113,10 @@ public class UtilsBean {
     public boolean oppdaterBruker(Bruker endretBruker) {
         return db.oppdaterBruker(endretBruker);
     }
+    
+    public boolean slettBruker(Bruker slettBruker){
+        return db.slettBruker(slettBruker);
+    }
 
     @Override
     public String toString() {
@@ -138,6 +142,10 @@ public class UtilsBean {
 
     public boolean oppdaterEmne(Emne emne) {
         return db.oppdaterEmne(emne);
+    }
+    
+    public boolean slettEmne(Emne emne){
+        return db.slettEmne(emne);
     }
 
     public ArrayList<Emne> getEmnePåBokstav(String bokstav) {

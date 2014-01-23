@@ -230,6 +230,14 @@ public class Kontroller {
         return "endreBruker";
 
     }
+    
+    @RequestMapping(value = "endreBruker4.htm")
+    public String slettBruker(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Bruker slettBruker){
+        System.out.println("hull" +slettBruker.getBrukernavn());
+        UtilsBean ub = new UtilsBean();
+        ub.slettBruker(slettBruker);
+        return "endreBruker";
+    }
 
     //************ Viser siden for ENDRE emne som har en søkeboks ***************************
     @RequestMapping(value = "/endreEmne.htm")
@@ -289,6 +297,17 @@ public class Kontroller {
 
         return "endreEmne";
 
+    }
+    
+    
+    /*-- SLETT EMNE --*/
+    
+    @RequestMapping(value = "endreEmne4.htm")
+    public String slettEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Emne slettEmne){
+        System.out.println("hull" +slettEmne.getEmnekode());
+        UtilsBean ub = new UtilsBean();
+        ub.slettEmne(slettEmne);
+        return "endreEmne";
     }
 
     //******************* viser registreringen av en ny øving*****************************************************

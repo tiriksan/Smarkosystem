@@ -28,31 +28,34 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
                 <input type="submit" value="" style="border-style: none; background: url('resources/bilder/searchbutton3.gif') no-repeat; width: 24px; height: 20px;">
 
             </td>
+           
+            
         </tr>
     </table></br>
-    <table cellspacing="0" cellpadding="0">
 </form>
-<ul class ="sokeresultat">
-    <form:form action="endreEmne3.htm" modelAttribute="valgtEmne" method="POST">
-        <c:forEach items="${sokeresultat}" var="hvertemne" varStatus="k">
-            <tr>        <td class="tdko">
+<table cellspacing="0" cellpadding="0">
+    <ul class ="sokeresultat">
+        <form:form action="endreEmne3.htm" modelAttribute="valgtEmne" method="POST">
+            <c:forEach items="${sokeresultat}" var="hvertemne" varStatus="k">
+                <tr><td class="tdko">
 
-                    <form:radiobutton  value="${hvertemne.getEmnekode()}" path="emnenavn" /> ${hvertemne.getEmnenavn()} &nbsp; 
+                        <form:radiobutton  value="${hvertemne.getEmnekode()}" path="emnenavn" /> ${hvertemne.getEmnenavn()} &nbsp; 
 
-                </td><td class="tdko"><c:out value="${k.index}"/></td></tr>
+                    </td><td class="tdko"><c:out value="${k.index}"/></td>
+                </tr>
 
-        </c:forEach>
-        <c:if test="${not empty sokeresultat}">
-            <input type="submit" value="Velg emne"/></c:if>
-    </form:form>
+            </c:forEach>
+            <c:if test="${not empty sokeresultat}">
+                <input type="submit" value="Velg emne"/></c:if>
+        </form:form>
 </table>
 </ul>
 <c:if test="${funkafint eq true}">
     Oppdatering vellykket!
 </c:if>
 
-   
-    <c:if test="${not empty emneTilEndring}">
+
+<c:if test="${not empty emneTilEndring}">
     <form:form action="endreEmne4.htm" modelAttribute="valgtEmne" method="POST">
         <table>
             <tr>  
@@ -61,7 +64,7 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
                     <form:input type = "text" name="emneendres" path = "emnenavn" value="${emneTilEndring.getEmnekode()} "/>
                     <form:input type ="text" name="emneendres" path= "beskrivelse" value="${emneTilEndring.getBeskrivelse()}"/>
                     <input type="submit" name="emneendres" value="Lagre endringer">
-
+                    <input type="submit" name="emneSlettes" value="Slett emne">
                 </td>
             </tr>
 
@@ -71,8 +74,8 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
     </form:form>
 
 </c:if>
-    
-     
+
+
 
 <td class="tdko">
 
