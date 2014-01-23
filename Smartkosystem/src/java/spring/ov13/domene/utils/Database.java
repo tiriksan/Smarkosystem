@@ -60,6 +60,7 @@ public class Database {
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
     private final String sqlSelectpaabrukertype = "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
     private final String sqlUpdateKøinnleggHjelpBruker = "UPDATE køinnlegg SET hjelp=? WHERE innleggsid=?";
+    private final String sqlUpdateKøinnlegg = "UPDATE køinnlegg SET bygg=?, etasje=?, rom=?, bord=?, kommentar=? WHERE innleggsid=?";
     private final String sqlSelectDistinctBygg = "SELECT DISTINCT bygg FROM lokasjon WHERE emnekode = ?";
     private final String sqlSelectDistinctEtasje = "SELECT DISTINCT etasje FROM lokasjon WHERE emnekode = ? AND bygg = ?";
     private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
@@ -81,7 +82,8 @@ public class Database {
     private final String sqlInsertBrukereIInnlegg = "INSERT INTO brukere_i_innlegg VALUES(?,?)";
     private final String sqlInsertOvingerIInnlegg = "INSERT INTO øvinger_i_innlegg VALUES(?,?, ?, ?)";
     private final String sqlSelectGodkjenteØvingerKravgruppeBruker = "select kravgruppe.gruppeid, A.antallfullført,kravgruppe.antall from kravgruppe left outer join (select gruppeid,count(gruppeid) as antallfullført from godkjente_øvinger natural join øving where brukernavn=? group by gruppeid) as A on(kravgruppe.gruppeid=A.gruppeid) where emnekode=? ORDER BY kravgruppe.gruppeid;";
-
+    private final String sqlSelectEndrePassordMD5 = "SELECT bruker.glemt_passord FROM bruker WHERE brukernavn=?";
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -612,7 +614,7 @@ public class Database {
             if (øving.getGruppeid() < 0) {
                 System.out.println("-------HEI-------");
                 psInsertØving = forbindelse.prepareStatement(sqlInsertØvingNull);
-                
+
                 psInsertØving.setInt(1, øving.getØvingsnr());
                 psInsertØving.setString(2, øving.getEmnekode());
                 psInsertØving.setBoolean(3, øving.getObligatorisk());
@@ -1170,6 +1172,34 @@ public class Database {
      * lukkForbindelse(); return ok; }
      *
      */
+    public String getEndrePassordMD5(String brukernavn){
+        System.out.println("getEndrePassordMD5");
+        PreparedStatement psSelectMD5 = null;
+        ResultSet res;
+        String passordMD5 =null;
+        try{
+            åpneForbindelse();
+            psSelectMD5 = forbindelse.prepareStatement(sqlSelectEndrePassordMD5);
+            psSelectMD5.setString(1, brukernavn);
+            res = psSelectMD5.executeQuery();
+            if(res.next()){
+                passordMD5 = res.getString("glemt_passord");
+            }
+        
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getEndrePassordMD5()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getEndrePassordMD5 - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psSelectMD5);
+        }
+        lukkForbindelse();
+        
+        return passordMD5;
+    }
+    
     public ArrayList<String> getInfoTilBruker(String brukernavn) {
         System.out.println("getAlleFag()");
         PreparedStatement psSelectAlle = null;
@@ -1293,6 +1323,38 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerKø()");
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "registrerKø - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertKravgruppe);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+        public synchronized boolean oppdaterKøInnlegg(int id, Plassering lokasjon, String kommentar) {
+        boolean ok = false;
+        System.out.println("oppdaterKøInnlegg()");
+        PreparedStatement psInsertKø = null;
+
+        try {
+            åpneForbindelse();
+            psInsertKø = forbindelse.prepareStatement(sqlUpdateKøinnlegg);
+            psInsertKø.setString(1, lokasjon.getBygning());
+            psInsertKø.setInt(2, lokasjon.getEtasje());
+            psInsertKø.setString(3, lokasjon.getRom());
+            psInsertKø.setInt(4, lokasjon.getBord());
+            psInsertKø.setString(5, kommentar);
+            psInsertKø.setInt(6, id);
+
+            int i = psInsertKø.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "oppdaterKøInnlegg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "oppdaterKøInnlegg() - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertKravgruppe);
