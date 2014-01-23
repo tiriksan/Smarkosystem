@@ -267,14 +267,14 @@ public class Kontroller {
 
     }
     @RequestMapping(value = "endreEmne4")
-    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtEmne") Emne emnet ){
+    public String endreEmneoppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtEmne") Emne endretEmne ){
        System.out.println("STILL GOINNGGGG");
        UtilsBean ub = new UtilsBean();
-       Emne em = ub.getEmne(emnet.getEmnenavn());
-       em.setEmnekode(emnet.getEmnenavn());
-       em.setBeskrivelse(emnet.getBeskrivelse());
-       System.out.println(emnet.getEmnenavn());
-       System.out.println(emnet.getEmnekode());
+       Emne em = ub.getEmne(endretEmne.getEmnenavn());
+       em.setEmnekode(endretEmne.getEmnenavn());
+       em.setBeskrivelse(endretEmne.getBeskrivelse());
+       System.out.println(endretEmne.getEmnenavn());
+       System.out.println(endretEmne.getEmnekode());
        
        
        
