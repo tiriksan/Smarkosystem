@@ -209,13 +209,13 @@ public class Kontroller {
 
     }
     @RequestMapping(value = "endreBruker4")
-    public String endreBrukeroppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtBruker")Bruker bruker ){
+    public String endreBrukeroppl(Model model, HttpServletRequest request,@ModelAttribute(value = "valgtBruker")Bruker endretBruker ){
        UtilsBean ub = new UtilsBean();
-       Bruker br = ub.getBruker(bruker.getBrukernavn());
-       br.setFornavn(bruker.getFornavn());
-       br.setEtternavn(bruker.getEtternavn());
+       Bruker br = ub.getBruker(endretBruker.getBrukernavn());
+       br.setFornavn(endretBruker.getFornavn());
+       br.setEtternavn(endretBruker.getEtternavn());
        System.out.println(br.getFornavn());
-       System.out.println(bruker.getFornavn());
+       System.out.println(endretBruker.getFornavn());
        
        if(ub.oppdaterBruker(br)){
            System.out.println("funka");
