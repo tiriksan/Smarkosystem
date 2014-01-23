@@ -65,6 +65,7 @@ ${feilmelding}
                         </c:when>
                         <c:otherwise>
                             <c:set var="hvorlangt" value="0"/>
+                            <c:if test="${not empty innleggene}">
                             <c:forEach items="${innleggene}" var="innlegg" varStatus="hvorlangt">
                                 <tr <c:if test="${innlegg.hjelp != null}"> class="hjelp"</c:if>><td class="tdko">
                                         Bygning: ${innlegg.getPlass().getBygning()}</br>
@@ -93,6 +94,7 @@ ${feilmelding}
                                     </td><td class="tdko"><c:out value="${ovingtekster.get(hvorlangt.index)}"/></td></tr>
 
                             </c:forEach>
+                                </c:if>
 
                         </c:otherwise>
                     </c:choose>
