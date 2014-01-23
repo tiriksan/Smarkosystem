@@ -22,6 +22,8 @@ public class Database {
     private String dbPswrd;
     private Connection forbindelse;
 
+    private final String sqlSelectØvingIEmne = "SELECT * FROM øving WHERE øvingsnummer =? AND emnekode=? ";
+    private final String sqlgetMaxGruppeIDIEmne = ("SELECT MAX(gruppeid) AS siste FROM kravgruppe");
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
@@ -1679,6 +1681,60 @@ public class Database {
         }
         lukkForbindelse();
         return brukere;
+    }
+
+        public Øving getØvingIEmnet(int nr, String emnekode) {
+        Øving øv = null;
+        ResultSet res;
+        System.out.println("getØvingerIEmnet()");
+        PreparedStatement psSelectØving = null;
+        try {
+            åpneForbindelse();
+            psSelectØving = forbindelse.prepareStatement(sqlSelectØvingIEmne);
+            psSelectØving.setInt(1, nr);
+            psSelectØving.setString(2, emnekode);
+            res = psSelectØving.executeQuery();
+            res.next();
+            øv = new Øving(res.getInt("øvingsnummer"), res.getString("emnekode"), res.getInt("gruppeid"), res.getBoolean("obligatorisk"));
+             
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getBruker()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getBruker - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psSelectBruker);
+        }
+        lukkForbindelse();
+        return øv;
+
+    }
+
+      public int getMaxGruppeIDIEmnet() {
+        int ut = 0;
+        ResultSet res;
+        System.out.println("getMaxGruppeIDIEmnet()");
+        PreparedStatement psgetMaxGruppeIDIEmnet = null;
+        try {
+            åpneForbindelse();
+            psgetMaxGruppeIDIEmnet = forbindelse.prepareStatement(sqlgetMaxGruppeIDIEmne);
+            
+            res = psgetMaxGruppeIDIEmnet.executeQuery();
+            res.next();
+            ut = res.getInt("siste");
+            
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "getMaxGruppeIDIEmnet)");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "getMaxGruppeIDIEmnet - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            //Opprydder.lukkSetning(psgetMaxGruppeIDIEmnet);
+        }
+        lukkForbindelse();
+        return ut;
 
     }
 

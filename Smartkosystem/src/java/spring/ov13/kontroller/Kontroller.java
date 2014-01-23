@@ -30,6 +30,8 @@ import spring.ov13.domene.Øving;
 @SessionAttributes("brukerinnlogg")
 @Controller
 public class Kontroller {
+    
+    private ArrayList<Integer> valgteOvinger = new ArrayList<Integer>();
 
     @ModelAttribute(value = "brukerinnlogg")
     public Bruker lage2() {
@@ -324,7 +326,16 @@ public class Kontroller {
 //*************************** Viser administrer lærer siden*************************
     @RequestMapping(value = "/adminlaerer.htm")
     public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAntall, HttpServletRequest request) {
-
+        System.out.println("JEG VISER visLaerer!!!!");
+        System.out.println("getAntall eeeeeer: "+getAntall);
+        if (!valgteOvinger.isEmpty()) {
+        
+        for (int i = 0; i < valgteOvinger.size(); i++) {
+            System.out.println("visLarer() har snappet opp: "+valgteOvinger.get(i)+" fra valgtOvinger");
+        }
+        }else{
+            System.out.println("valgteOvinger er tom for meg, hilsen visLaerer()");
+        }
         UtilsBean ub = new UtilsBean();
         Emne emne = new Emne();
         Emne valgtEmne = new Emne();
@@ -334,6 +345,7 @@ public class Kontroller {
         String oppdater2 = request.getParameter("oppdater2");
         String oppdaterbeskrivelse = request.getParameter("beskrivelseinput");
         ArrayList<Øving> øvingtabell1 = new ArrayList<Øving>();
+        ArrayList<Øving> valgteØvinger = new ArrayList<Øving>();
 
         model.addAttribute("øving", øving);
         model.addAttribute("emne", emne);
@@ -390,35 +402,46 @@ public class Kontroller {
         }
         model.addAttribute("allefagene", emnetabell);
 
-        if (oppdater != null) {
+        if (oppdater != null || getAntall != null) {
             System.out.println("Han tytjepelk han kom inj");
             ArrayList<String> antallet = new ArrayList();
             antallet.add("Velg antall");
-            String[] ob = request.getParameterValues("obliga");
 
-            for (int i = 1; i < ob.length + 1; i++) {
-                String a = String.valueOf(i);
-                antallet.add(a);
-                System.out.println("HENTYER GETVALGANTALLET___________________________________" + getAntall);
+            if (!valgteOvinger.isEmpty()) {
+               
+                for (int i = 1; i < valgteOvinger.size() + 1; i++) {
+                    String a = String.valueOf(i);
+                    antallet.add(a);
+                    System.out.println("Valgte øvinger................................................"+valgteOvinger.get(i-1));
 
-            }
-
-            int a = antallet.size();
-            model.addAttribute("iftest", a);
-            model.addAttribute("alleAntall", antallet);
-
-            if (getAntall != null) {
-                Kravgruppe kr = new Kravgruppe();
-                kr.setAntallgodkj(Integer.parseInt(getAntall));
-                kr.setGruppeID(4);
-                for (int i = 1; i < ob.length + 1; i++) {
-                    ub.registrerKravGruppe(kr);
-
-                    øvingtabell1.get(i - 1).setGruppeid(4);
-                    ub.oppdaterØving(øvingtabell1.get(Integer.parseInt(ob[i - 1])), Integer.parseInt(ob[i - 1]), emnekoden);
                 }
-            }
 
+                int a = antallet.size();
+                model.addAttribute("iftest", a);
+                model.addAttribute("alleAntall", antallet);
+
+                if (getAntall != null) {
+                    
+                    int gruppeID = ub.getMaxGruppeIDIEmne()+1;
+                    Kravgruppe kr = new Kravgruppe();
+                    kr.setAntallgodkj(Integer.parseInt(getAntall));
+                    kr.setGruppeID(gruppeID);
+                    kr.setEmnekode(valgtEmne.getEmnekode());
+                    kr.setBeskrivelse("Beskrivelse ikke lagt inn");
+
+                    ub.registrerKravGruppe(kr);
+                    
+                    for (int i = 0; i < valgteOvinger.size(); i++) {
+                        valgteØvinger.add(ub.getØvingIEmnet(valgteOvinger.get(i), valgtEmne.getEmnekode()));
+                    }
+                    for (int i = 0; i < valgteØvinger.size(); i++) {
+                      
+                    valgteØvinger.get(i).setGruppeid(gruppeID);
+                    ub.oppdaterØving(valgteØvinger.get(i));
+                    }
+                }
+
+            }
         }
         return "adminlaerer";
     }
@@ -542,13 +565,14 @@ public class Kontroller {
 
     @RequestMapping(value = "/oppdaterselect.htm")
     @ResponseBody
-    public String oppdater(@RequestParam(value = "x") String alle, @RequestParam(value = "emnekode") String emnekode, HttpServletRequest request, HttpServletResponse response) {
+    public String oppdater(Model model, @RequestParam(value = "x") String alle, @RequestParam(value = "emnekode") String emnekode, HttpServletRequest request, HttpServletResponse response) {
         response.setHeader("Cache-Control", "no-cache,no-store,must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
         response.setHeader("Content-Type", "text/html; charset=utf-8");
         response.setCharacterEncoding("UTF-8");
-
+        
+      
         String returnen = "";
         UtilsBean ub = new UtilsBean();
         ArrayList<Øving> øvinger = ub.getØvingerIEmnet(emnekode);
@@ -567,7 +591,9 @@ public class Kontroller {
             System.out.println("Her kom jeg");
             alleovingsnr.add(alle);
         }
-
+        System.out.println("LEGGER TIL "+alleovingsnr.get(alleovingsnr.size() - 1)+" i valgteOvinger");
+        valgteOvinger.add(Integer.parseInt(alleovingsnr.get(alleovingsnr.size() - 1)));
+        System.out.println("LA TIL "+alleovingsnr.get(alleovingsnr.size() - 1)+" i valgteOvinger");
         System.out.println("Størrelse på øvinger fra db: " + øvinger.size() + ", Størrelse på antall hentet ut fra js: " + alleovingsnr.size());
 
         System.out.println("Fra db:");
@@ -617,7 +643,7 @@ public class Kontroller {
         if (liste2.size() > 0) {
 
             for (int i = 0; i < liste2.size(); i++) {
-                returnen += "                                       <tr><td> " + liste2.get(i) + " </td><td>Oblig</td></tr>";
+                returnen += "                                       <tr><td>Nr.: " + liste2.get(i) + " </td><td>er valgt.</td></tr>";
             }
 
         }
