@@ -100,7 +100,10 @@
         </table>
 
         <form action="sendAdvarselMail.htm">
-            <input type="submit" value="Send advarsel mail">;
+            <input type="submit" value="Send advarsel mail">
+        </form>
+        <form action="resepsjonsListe.htm">
+            <input type="submit" value="GET THE LIST">
         </form>
     </c:if>
 </c:if>
