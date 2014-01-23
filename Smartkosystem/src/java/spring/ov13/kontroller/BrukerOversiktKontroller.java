@@ -49,7 +49,7 @@ public class BrukerOversiktKontroller {
         int antØvinger = ub.getAntOvingerIEmne(emnekode);
         request.getSession().setAttribute("emne", ub.getEmne(emnekode));
         ArrayList<Kravgruppe> kravgrupper = ub.getKravGruppetilEmne(emnekode);
-        ArrayList<Boolean> godkjenteKrav = ub.getBrukerGodkjentArbeidskrabIEmne(innloggetBruker.getBrukernavn(),  emnekode);
+        ArrayList<Boolean> godkjenteKrav = ub.getBrukerGodkjentArbeidskravIEmne(innloggetBruker.getBrukernavn(),  emnekode);
         model.addAttribute("kravgrupper", kravgrupper);
         model.addAttribute("godkjentKrav", godkjenteKrav);
         if (innloggetBruker.getBrukertype() == 1) {
@@ -75,7 +75,7 @@ public class BrukerOversiktKontroller {
             Boolean[][] alleBrukereGodkjenteKrav = new Boolean[studenter.size()][kravgrupper.size()];
             Boolean[] currBrukerGkKrav;
             for(int i = 0; i< studenter.size(); i++){
-                currBrukerGkKrav = (Boolean[])(ub.getBrukerGodkjentArbeidskrabIEmne(studenter.get(i).getBrukernavn(), emnekode).toArray(new Boolean[kravgrupper.size()]));
+                currBrukerGkKrav = (Boolean[])(ub.getBrukerGodkjentArbeidskravIEmne(studenter.get(i).getBrukernavn(), emnekode).toArray(new Boolean[kravgrupper.size()]));
                 alleBrukereGodkjenteKrav[i] = currBrukerGkKrav;
             }
             boolean[] kanBrukereTilEksamen = new boolean[studenter.size()];
@@ -144,7 +144,7 @@ public class BrukerOversiktKontroller {
         }
         PrintWriter writer = new PrintWriter(f, "UTF-8");
         for(int a = 0; a < brukerEksamen.length; a++){
-            if(brukerEksamen[a] == false){
+            if(brukerEksamen[a] == true){
                 writer.println("" + studenter.get(a).getFornavn() + " " + studenter.get(a).getEtternavn() + ", " + studenter.get(a).getBrukernavn());
             }
         }

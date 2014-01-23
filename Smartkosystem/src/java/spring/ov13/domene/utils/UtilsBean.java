@@ -174,7 +174,7 @@ public class UtilsBean {
         return db.getBrukertypeiEmne(brukernavn, emnekode);
     }
     
-    public ArrayList<Boolean> getBrukerGodkjentArbeidskrabIEmne(String brukernavn, String emnekode){
+    public ArrayList<Boolean> getBrukerGodkjentArbeidskravIEmne(String brukernavn, String emnekode){
         return db.getBrukerGodkjentArbeidskravIEmne(brukernavn, emnekode);
     }
 

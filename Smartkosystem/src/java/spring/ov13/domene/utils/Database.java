@@ -84,7 +84,7 @@ public class Database {
     private final String sqlSelectSisteKo = "SELECT * FROM kø WHERE emnekode = ? ORDER BY kønummer DESC limit 1";
     private final String sqlInsertBrukereIInnlegg = "INSERT INTO brukere_i_innlegg VALUES(?,?)";
     private final String sqlInsertOvingerIInnlegg = "INSERT INTO øvinger_i_innlegg VALUES(?,?, ?, ?)";
-    private final String sqlSelectGodkjenteØvingerKravgruppeBruker = "select kravgruppe.gruppeid, A.antallfullført,kravgruppe.antall from kravgruppe left outer join (select gruppeid,count(gruppeid) as antallfullført from godkjente_øvinger natural join øving where brukernavn=? group by gruppeid) as A on(kravgruppe.gruppeid=A.gruppeid) where emnekode=? ORDER BY kravgruppe.gruppeid;";
+    private final String sqlSelectGodkjenteØvingerKravgruppeBruker = "select kravgruppe.gruppeid, A.antallfullført,kravgruppe.antall from kravgruppe left outer join (select gruppeid,count(gruppeid) as antallfullført from godkjente_øvinger natural join øving where brukernavn=? group by gruppeid) as A on(kravgruppe.gruppeid=A.gruppeid) where emnekode=? ORDER BY kravgruppe.gruppeid";
     private final String sqlSelectEndrePassordMD5 = "SELECT bruker.glemt_passord FROM bruker WHERE brukernavn=?";
     private final String sqlSelectBrukerFraMD5 = "SELECT bruker.brukernavn FROM bruker WHERE glemt_passord=?";
     private final String sqlUpdateEndrePassordMD5 = "UPDATE bruker SET glemt_passord=? WHERE brukernavn=?";
@@ -2088,7 +2088,7 @@ public class Database {
                 int antØving = res.getInt("antallfullført");
                 int antØvingIKrav = res.getInt("antall");
                 if (antØving < antØvingIKrav) {
-                    lista.add(Boolean.FALSE);
+                    lista.add(false);
                 } else {
                     lista.add(Boolean.TRUE);
                 }
