@@ -60,6 +60,7 @@ public class Database {
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
     private final String sqlSelectpaabrukertype = "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
     private final String sqlUpdateKøinnleggHjelpBruker = "UPDATE køinnlegg SET hjelp=? WHERE innleggsid=?";
+    private final String sqlUpdateKøinnlegg = "UPDATE køinnlegg SET bygg=?, etasje=?, rom=?, bord=?, kommentar=? WHERE innleggsid=?";
     private final String sqlSelectDistinctBygg = "SELECT DISTINCT bygg FROM lokasjon WHERE emnekode = ?";
     private final String sqlSelectDistinctEtasje = "SELECT DISTINCT etasje FROM lokasjon WHERE emnekode = ? AND bygg = ?";
     private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
@@ -612,7 +613,7 @@ public class Database {
             if (øving.getGruppeid() < 0) {
                 System.out.println("-------HEI-------");
                 psInsertØving = forbindelse.prepareStatement(sqlInsertØvingNull);
-                
+
                 psInsertØving.setInt(1, øving.getØvingsnr());
                 psInsertØving.setString(2, øving.getEmnekode());
                 psInsertØving.setBoolean(3, øving.getObligatorisk());
@@ -1293,6 +1294,38 @@ public class Database {
             Opprydder.skrivMelding(e, "registrerKø()");
         } catch (Exception e) {
             Opprydder.skrivMelding(e, "registrerKø - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertKravgruppe);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+        public synchronized boolean oppdaterKøInnlegg(int id, Plassering lokasjon, String kommentar) {
+        boolean ok = false;
+        System.out.println("oppdaterKøInnlegg()");
+        PreparedStatement psInsertKø = null;
+
+        try {
+            åpneForbindelse();
+            psInsertKø = forbindelse.prepareStatement(sqlUpdateKøinnlegg);
+            psInsertKø.setString(1, lokasjon.getBygning());
+            psInsertKø.setInt(2, lokasjon.getEtasje());
+            psInsertKø.setString(3, lokasjon.getRom());
+            psInsertKø.setInt(4, lokasjon.getBord());
+            psInsertKø.setString(5, kommentar);
+            psInsertKø.setInt(6, id);
+
+            int i = psInsertKø.executeUpdate();
+            if (i > 0) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "oppdaterKøInnlegg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "oppdaterKøInnlegg() - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertKravgruppe);
