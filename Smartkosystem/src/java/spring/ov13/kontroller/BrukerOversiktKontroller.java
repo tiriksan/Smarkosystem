@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spring.ov13.domene.Bruker;
 import spring.ov13.domene.Emne;
 import spring.ov13.domene.Kravgruppe;
@@ -32,9 +33,11 @@ public class BrukerOversiktKontroller {
         return "velgEmne";
     }
 
-    @RequestMapping(value = "/valgtBrukeroversikt.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/valgtBrukeroversikt.htm")
     public String sendVidereTilBrukerOversikt(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker innloggetBruker, HttpServletRequest request, @RequestParam(value = "emnekode", required = false) String emnekode) {
-
+        if(emnekode == null){
+            emnekode = (String)request.getSession().getAttribute("emnekode");
+        }
         UtilsBean ub = new UtilsBean();
         ArrayList<Bruker> studenter = new ArrayList<Bruker>();
         innloggetBruker.setBrukertype(ub.getBrukertypeiEmne(innloggetBruker.getBrukernavn(), emnekode));
@@ -60,17 +63,37 @@ public class BrukerOversiktKontroller {
 
             for (int i = 0; i < studenter.size(); i++) {
                 godkjenteOvinger = ub.getGodkjentOvingerForBrukerIEmne(studenter.get(i).getBrukernavn(), emnekode, antØvinger);
-                for (int j = 0; j < antØvinger; j++) {
-                    alleBrukereGodkjenteOvinger[i][j] = godkjenteOvinger[j];
-                }
+                                System.arraycopy(godkjenteOvinger, 0, alleBrukereGodkjenteOvinger[i], 0, antØvinger);
             }
             model.addAttribute("aGO", alleBrukereGodkjenteOvinger);
+            
+            Boolean[][] alleBrukereGodkjenteKrav = new Boolean[studenter.size()][kravgrupper.size()];
+            Boolean[] currBrukerGkKrav;
+            for(int i = 0; i< studenter.size(); i++){
+                currBrukerGkKrav = (Boolean[])(ub.getBrukerGodkjentArbeidskrabIEmne(studenter.get(i).getBrukernavn(), emnekode).toArray(new Boolean[kravgrupper.size()]));
+                alleBrukereGodkjenteKrav[i] = currBrukerGkKrav;
+            }
+            boolean[] kanBrukereTilEksamen = new boolean[studenter.size()];
+            for(int i = 0; i< studenter.size(); i++){
+                boolean kanGåOppTilEksamen = true;
+                for(int j = 0; j<kravgrupper.size();j++){
+                    if(alleBrukereGodkjenteKrav[i][j] == false){
+                        kanGåOppTilEksamen = false;
+                    }
+                }
+                kanBrukereTilEksamen[i] = kanGåOppTilEksamen;
+            }
+            request.getSession().setAttribute("eksamenTabell", kanBrukereTilEksamen);
+            request.getSession().setAttribute("studenterIFaget", studenter);
+            request.getSession().setAttribute("emnekode", emnekode);
+            model.addAttribute("kravgruppeBruker", alleBrukereGodkjenteKrav);
+            
         }
         return "velgEmne";
     }
     
     @RequestMapping(value = "/sendAdvarselMail.htm")
-    public String eksamensListe(Bruker bruker, HttpServletRequest request){
+    public String eksamensListe(Bruker bruker, HttpServletRequest request, RedirectAttributes ra){
         
         boolean[] brukerEksamen = (boolean[])request.getSession().getAttribute("eksamenTabell");
         ArrayList<Bruker> studenter = (ArrayList<Bruker>)request.getSession().getAttribute("studenterIFaget");
@@ -83,7 +106,8 @@ public class BrukerOversiktKontroller {
                 epost.sendEpost(studenter.get(r).getBrukernavn(), "Advarsel", melding);
             }
         }
-        return null;
+        ra.addFlashAttribute("emnekode", emnekode);
+        return "redirect:valgtBrukeroversikt.htm";
     }
 
 }

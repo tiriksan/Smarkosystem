@@ -28,7 +28,7 @@ var hvem = new Array();
 
     function endreselect(hvilke, emnekode) {
 hvem.push(hvilke);
-alert(5);
+
 var xmlhttp;
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
