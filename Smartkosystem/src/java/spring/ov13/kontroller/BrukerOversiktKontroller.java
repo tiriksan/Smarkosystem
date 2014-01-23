@@ -121,8 +121,9 @@ public class BrukerOversiktKontroller {
         ArrayList<Bruker> studenter = (ArrayList<Bruker>)request.getSession().getAttribute("studenterIFaget");
         String emnekode = (String)request.getSession().getAttribute("emnekode");
         
-        File f = new File("Liste over " + emnekode + ".txt");
+        File f = new File("ListeOver" + emnekode + ".txt");
         if (!f.exists()){
+            System.out.println("not exist");
             f.createNewFile();
         }
         
@@ -132,6 +133,7 @@ public class BrukerOversiktKontroller {
                 bw.write("" + studenter.get(a).getFornavn() + " " + studenter.get(a).getEtternavn() + ", " + studenter.get(a).getBrukernavn() + "\n");
             }
         }
+        System.out.println("here?");
         
         bw.close();
         
