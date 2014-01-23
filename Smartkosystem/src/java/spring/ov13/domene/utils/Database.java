@@ -610,11 +610,14 @@ public class Database {
 
             åpneForbindelse();
             if (øving.getGruppeid() < 0) {
+                System.out.println("-------HEI-------");
                 psInsertØving = forbindelse.prepareStatement(sqlInsertØvingNull);
+                
                 psInsertØving.setInt(1, øving.getØvingsnr());
                 psInsertØving.setString(2, øving.getEmnekode());
                 psInsertØving.setBoolean(3, øving.getObligatorisk());
             } else {
+                System.out.println("------HEI2-------");
                 psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
 
                 psInsertØving.setInt(1, øving.getØvingsnr());
@@ -622,6 +625,7 @@ public class Database {
                 psInsertØving.setInt(3, øving.getGruppeid());
                 psInsertØving.setBoolean(4, øving.getObligatorisk());
             }
+            System.out.println("-------HEI3-------");
             int i = psInsertØving.executeUpdate();
             if (i > 0) {
                 ok = true;

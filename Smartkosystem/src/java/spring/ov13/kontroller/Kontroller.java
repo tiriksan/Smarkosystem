@@ -304,7 +304,7 @@ public class Kontroller {
         ArrayList<String> emnetabell = new ArrayList<String>();
 
         for (int i = 0; i < em.size(); i++) {
-            emnetabell.add("Emne " + i + ": " + em.get(i).getEmnenavn());
+            emnetabell.add(em.get(i).getEmnenavn());
             emnekoden = em.get(i).getEmnenavn();
             System.out.println("----------Skrives emnekode ut her? ser ut som emnenavn  " + emnekoden);
             model.addAttribute("emnekode", emnekoden);
@@ -317,7 +317,7 @@ public class Kontroller {
 
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23", method = RequestMethod.POST)
-    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving,@ModelAttribute(value ="brukerinnlogg")Bruker bruker, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String[] Emner) {
+    public ModelAndView regØv(@Validated @ModelAttribute(value = "øving") Øving øving, /*@ModelAttribute(value ="brukerinnlogg") Bruker bruker,*/ BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "obliga", required = false) boolean obliga, @RequestParam(value = "Emner") String[] Emner) {
 
         String[] values = request.getParameterValues("Emner");
         System.out.println("Her skal det komme opp noe nå" + values[0]);
