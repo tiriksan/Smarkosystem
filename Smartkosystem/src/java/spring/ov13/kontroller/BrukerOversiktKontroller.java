@@ -1,5 +1,9 @@
 package spring.ov13.kontroller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -108,6 +112,32 @@ public class BrukerOversiktKontroller {
         }
         ra.addFlashAttribute("emnekode", emnekode);
         return "redirect:valgtBrukeroversikt.htm";
+    }
+    
+    @RequestMapping(value = "/resepsjonListe.htm")
+    public String listeResepsjon(Bruker bruker, HttpServletRequest request, RedirectAttributes ra) throws IOException{
+        
+        boolean[] brukerEksamen = (boolean[])request.getSession().getAttribute("eksamenTabell");
+        ArrayList<Bruker> studenter = (ArrayList<Bruker>)request.getSession().getAttribute("studenterIFaget");
+        String emnekode = (String)request.getSession().getAttribute("emnekode");
+        
+        File f = new File("Liste over " + emnekode + ".txt");
+        if (!f.exists()){
+            f.createNewFile();
+        }
+        
+        BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+        for(int a = 0; a < brukerEksamen.length; a++){
+            if(brukerEksamen[a] == false){
+                bw.write("" + studenter.get(a).getFornavn() + " " + studenter.get(a).getEtternavn() + ", " + studenter.get(a).getBrukernavn() + "\n");
+            }
+        }
+        
+        bw.close();
+        
+        ra.addFlashAttribute("emnekode", emnekode);
+        return "redirect:valgtBrukeroversikt.htm";
+        
     }
 
 }
