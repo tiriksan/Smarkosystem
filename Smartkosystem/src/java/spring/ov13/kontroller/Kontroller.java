@@ -692,7 +692,7 @@ public class Kontroller {
 "                    </tbody>\n" +
 "                </table>";
         
-        
+      returnen.replace("Ø", "oooo");  
         return returnen;
     }
 
