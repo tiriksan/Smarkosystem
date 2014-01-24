@@ -294,6 +294,14 @@ public ArrayList<Bruker> getBrukereAlleredeIKo(){
     return db.getBrukereAlleredeIKo();
 }
 
+public boolean leggTilBrukereIEmne(ArrayList<Bruker> b, Emne e) {
+    return db.leggTilBrukereIEmner(e, b);
+}
+
+public boolean leggTilBrukerIEmne(Bruker b, Emne e, int brukertype) {
+    return db.leggTilBrukerIEmne(e, b, brukertype);
+}
+
 
 
 

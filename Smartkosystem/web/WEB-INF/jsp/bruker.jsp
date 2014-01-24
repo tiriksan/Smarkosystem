@@ -57,7 +57,7 @@
                         <table>
                             <p>Skriv inn emnekode og emnenavn du ønsker å registrere brukere i:</p>
                             <tr><td>Emnekoder(adskill med komma(,): </td><td><form:input path="emner" /></td><td><form:errors path="emner" /></tr>
-                            
+
                             <input type="file" id="fileinput" />
                             <script>
                                 function readMultipleFiles(evt) {
@@ -69,11 +69,11 @@
                                             r.onload = (function(f) {
                                                 return function(e) {
                                                     var contents = e.target.result;
-                                                    document.getElementById('filInnhold').value= contents;
-                                                    
+                                                    document.getElementById('filInnhold').value = contents;
+
                                                 };
                                             })(f);
-                                            r.readAsText(f,"ISO-8859-1");
+                                            r.readAsText(f, "ISO-8859-1");
                                         }
                                     } else {
                                         alert("Feil ved lesning av filen.");
@@ -96,26 +96,38 @@
                     <form:form action="innsettemne.htm" method="post" modelAttribute="emne" >
                         <table>
                             <tr><td>Fagnavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
-                            <tr><td>Emnekode:   </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></tr>
-                            <tr><td><label for="lærer">Faglærer: </label></td><td>
-
-
-                                    <select name="laerer" id="laerer">
+                            <tr><td>Emnekode: </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></td></tr>
+                            <tr><td>Beskrivelse: </td><td><form:input path="beskrivelse" /></td><td><form:errors path="beskrivelse" /></td></tr>
+                            <tr><td><label id="fagLabel" for="lærer" hidden>Faglærer: </label></td>
+                                <td>
+                                    <select name="laerer" id="laerer" hidden>
                                         <c:forEach items="${allelaerere}" var="fagen">
                                             <option value="${fagen}">${fagen}</option>
                                         </c:forEach>
                                     </select>
-
-                                    <br>
-                            <tr><td colspan="2"><input type="submit" value="Registrer fag"></td></tr>
+                                </td>
+                            </tr>
+                            <tr><td><input id="velgLaerer" type="checkbox" name="leggtil" /><label for="leggtil">Legg til faglærer </label></td></tr>
+                            <script type="text/javascript">
+                                function toggleFaglaerer() {
+                                    var label = document.getElementById('fagLabel');
+                                    var select = document.getElementById('laerer');
+                                    if (select.hasAttribute('hidden') && label.hasAttribute('hidden')) {
+                                        select.removeAttribute('hidden');
+                                        label.removeAttribute('hidden');
+                                    } else {
+                                        select.setAttribute('hidden');
+                                        label.setAttribute('hidden');
+                                    }
+                                }
+                                document.getElementById('velgLaerer').addEventListener('change', toggleFaglaerer, false);
+                            </script>
+                            <br>
+                            <tr><td><input type="submit" value="Registrer fag"></td></tr>
                         </table>
                     </form:form>
                 </c:when>
                 <c:otherwise>
-
-
-
-
 
                     <form:form action="brukerinnsetning.htm" method="post" modelAttribute="bruker" >
                         <table class="forminputs">

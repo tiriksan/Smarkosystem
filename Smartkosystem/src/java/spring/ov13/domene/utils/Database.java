@@ -1283,7 +1283,7 @@ public class Database {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertKravgruppe);
         }
-
+        lukkForbindelse();
         return krav;
     }
 
@@ -1807,7 +1807,7 @@ public class Database {
             Opprydder.settAutoCommit(forbindelse);
             //Opprydder.lukkSetning(psUpdateBruker);
         }
-
+        lukkForbindelse();
         return øvinger;
     }
 
