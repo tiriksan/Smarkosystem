@@ -246,11 +246,12 @@ public class Kontroller {
     }
 
     @RequestMapping(value = "/endreBruker6.htm")
-    public String visAlleBrukerneIEmnet(Model model, @ModelAttribute(value = "emne") Emne emne) {
+    public String visAlleBrukerneIEmnet(Model model, @ModelAttribute(value = "emne") String emne) {
 
         UtilsBean ub = new UtilsBean();
-        ArrayList<Bruker> brukerne = ub.getBrukereIEmnet(emne.getEmnenavn());
-        System.out.println("aa"+brukerne);
+        System.out.println(emne);
+        ArrayList<Bruker> brukerne = ub.getBrukereIEmnet(emne);
+        System.out.println("aa"+brukerne.size());
         model.addAttribute("brukereIEmnet", true);
         model.addAttribute("valgtEmneBrukere", brukerne);
         return "endreBruker";

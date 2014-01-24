@@ -97,11 +97,13 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
     <c:if test="${brukereIEmnet}">
         <table>
             test!=??#
-            <tr>
+            
                 <c:forEach items="${valgtEmneBrukere}" var="hverBruker">
-                    <td>brukerne yo  ${hverbruker}</td>
+                    <tr>
+                        <td>${hverBruker.brukernavn}</td>
+                    </tr>
                 </c:forEach>
-            </tr>
+            
         </c:if>
 </body>
 
