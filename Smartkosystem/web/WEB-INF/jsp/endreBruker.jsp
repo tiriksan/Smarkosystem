@@ -24,7 +24,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
 
         <h3>Endre Bruker</h3>
 
-        <c:if test="${!emneliste && !brukereIemnet}">
+        <c:if test="${!emneliste && !brukereIEmnet}">
 
             <form action="endrebruker2" method="POST">
                 <table cellpadding="0px" cellspacing="0px"> 
@@ -94,12 +94,12 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
             </table>
         </form>
     </c:if>
-    <c:if test="${brukereIemnet}">
+    <c:if test="${brukereIEmnet}">
         <table>
             test!=??#
             <tr>
                 <c:forEach items="${valgtEmneBrukere}" var="hverBruker">
-                    <td>${hverbruker}</td>
+                    <td>brukerne yo  ${hverbruker}</td>
                 </c:forEach>
             </tr>
         </c:if>
