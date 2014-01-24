@@ -100,14 +100,21 @@
         </table>
 
         <table width="100%">
-            <tr>
-                <form action="sendAdvarselMail.htm">
-                    <td>  <input title="Send mail til alle elever som ikke har godkjent arbeidskravene" type="submit" value="Send advarsel mail"></td>
-                </form>
-                <form action="resepsjonListe.htm">
-                    <td>  <input title="Send mail til faglærere som inneholder alle elevene som kan gå opp til eksamen" type="submit" value="Send godkjent mail"></td>
-                </form>
-            </tr>
-        </table>
-    </c:if>
+            <form action="resepsjonListe.htm" method="POST">
+                <tr>
+                    <td>
+                        Epost: 
+                        <input type="text" name="epost"> 
+                        ${epostfeil}
+                    </td>
+                </tr>
+                <tr>
+                    <td>  <input title="Send mail til valgt epost som inneholder alle elevene som kan gå opp til eksamen" type="submit" value="Send godkjent mail"></td>
+            </form>
+            <form action="sendAdvarselMail.htm">
+                <td>  <input title="Send mail til alle elever som ikke har godkjent arbeidskravene" type="submit" value="Send advarsel mail"></td>
+            </form>
+        </tr>
+    </table>
+</c:if>
 </c:if>
