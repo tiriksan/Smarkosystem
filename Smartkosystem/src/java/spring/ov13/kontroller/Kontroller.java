@@ -163,7 +163,9 @@ public class Kontroller {
          return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
          }
          */
-        emne.setFaglærer(returnen);
+        if (returnen != null) {
+            emne.setFaglærer(returnen);
+        }
 
         if (utilsBean.registrerEmne(emne)) {
             System.out.println("----------------------kommer inn i registrerEmne() i db-----------------");
