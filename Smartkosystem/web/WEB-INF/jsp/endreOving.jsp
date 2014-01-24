@@ -81,7 +81,7 @@
            
         <c:if test="${valg2 >0}">      
             
-            <form:form action="endreOving.htm" modelAttribute="valgtOving" method="get">
+            <form:form action="endreOving2.htm" modelAttribute="valgtOving" method="get">
         
          <table>
            
