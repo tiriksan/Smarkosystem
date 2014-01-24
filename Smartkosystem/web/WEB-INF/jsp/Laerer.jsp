@@ -136,15 +136,6 @@ function slett(nr, emnekode){
             
             
             
-            <div id="labeladmlaerer">
-                <table>
-                    <tr>
-                        <td>Beskrivelse: </td>
-                        <td><form:input path="${emne.beskrivelse}" value="${emne.beskrivelse}" name="beskrivelseinput" /></td>
-
-                        <td> <input type="submit" value="Oppdater" name="oppdater2" /></td> </tr>
-                </table>
-            </div>
 
             <div class="admlaererdiv" id="admlaer">
                 <table>
@@ -190,6 +181,20 @@ function slett(nr, emnekode){
             </div>
 
         </form:form>
+        <form:form action="adminlaerer.htm" method="post" modelAttribute="emne">
+            <div id="labeladmlaerer">
+                <table>
+                    <tr>
+                        <td>Emnebeskrivelse: </td>
+                        <td><form:input path="beskrivelse" value="${emne.beskrivelse}" name="beskrivelseinput" />
+                            <form:hidden path="emnekode" value="${emne.emnekode}"/>
+                        </td>
+
+                        <td> <input type="submit" value="Oppdater" name="oppdater2" /></td> </tr>
+                </table>
+            </div>
+        </form:form>
+        <img id="hjelpbilde" src="resources\bilder\question_mark_blue.png" width="25" height="25" title="På denne siden kan gjøre: <br> 1. Legge til arbeidskrav. <br> 2. Fjerne arbeidskrav">
     </c:otherwise>
 
 </c:choose>
