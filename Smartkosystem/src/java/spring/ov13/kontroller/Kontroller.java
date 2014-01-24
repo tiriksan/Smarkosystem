@@ -161,7 +161,6 @@ public class Kontroller {
          return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
          }
          */
-
         if (utilsBean.registrerEmne(emne) && emne.getHaMedLaerer()) {
             utilsBean.leggTilBrukereIEmne(returnen, emne);
             System.out.println("----------------------kommer inn i registrerEmne() i db-----------------");
@@ -236,8 +235,8 @@ public class Kontroller {
         ub.slettBruker(slettBruker);
         return "endreBruker";
     }
-    
-     @RequestMapping(value = "/endreBruker5.htm")
+
+    @RequestMapping(value = "/endreBruker5.htm")
     public String visAlleFag(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker) {
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> lis = ub.getFageneTilBruker(bruker.getBrukernavn());
@@ -247,11 +246,12 @@ public class Kontroller {
     }
 
     @RequestMapping(value = "/endreBruker6.htm")
-    public String visAlleBrukerneIEmnet(Model model, @ModelAttribute(value = "emne") Emne emne) {
+    public String visAlleBrukerneIEmnet(Model model, @ModelAttribute(value = "emne") String emne) {
 
         UtilsBean ub = new UtilsBean();
-        ArrayList brukerne = ub.getBrukereIEmnet(emne.getEmnenavn());
-        
+        System.out.println(emne);
+        ArrayList<Bruker> brukerne = ub.getBrukereIEmnet(emne);
+        System.out.println("aa"+brukerne.size());
         model.addAttribute("brukereIEmnet", true);
         model.addAttribute("valgtEmneBrukere", brukerne);
         return "endreBruker";
@@ -328,14 +328,14 @@ public class Kontroller {
 
     //******************* viser registreringen av en ny øving*****************************************************
     @RequestMapping(value = "regov2.htm")
-    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error, @RequestParam(value = "emnevalgt", required = false) String emnevalgt, HttpServletRequest request,@RequestParam(value = "submitted", required = false) String submitted) {
-System.out.println("KOmmer inn i visOv--------------------------------"+ request.getParameter("submitted"));
-String svaret = request.getParameter("submitted");
+    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error, @RequestParam(value = "emnevalgt", required = false) String emnevalgt, HttpServletRequest request, @RequestParam(value = "submitted", required = false) String submitted) {
+        System.out.println("KOmmer inn i visOv--------------------------------" + request.getParameter("submitted"));
+        String svaret = request.getParameter("submitted");
 
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
         ArrayList<String> emnetabell = new ArrayList<String>();
-        
+
         model.addAttribute("valg", emnevalgt);
         emnetabell.add(emnevalgt);
         for (int i = 0; i < em.size(); i++) {
@@ -346,109 +346,124 @@ String svaret = request.getParameter("submitted");
         if (emnevalgt != null) {
             int antallOv = ub.getAntallOvingerIFag(emnevalgt);
             model.addAttribute("ovinger", antallOv);
-            System.out.println("KOmmer inn i if(emnevalgt != null--------------------------------");  
+            System.out.println("KOmmer inn i if(emnevalgt != null--------------------------------");
         }
-        
-        if(svaret != null){
-        if(svaret.equals("Registrer "+emnevalgt)){
-            System.out.println("KOmmer inn i regØv--------------------------------");
-        UtilsBean utilsBean = new UtilsBean();
 
-        øving.setEmnekode(emnevalgt);
-        øving.setGruppeid(-1);
-        øving.setObligatorisk(false);
-        int øvnr = utilsBean.getAntOvingerIEmne(emnevalgt);
-        øvnr+=1;
-        øving.setØvingsnr(øvnr);
-        System.out.println("henter ut det øvingsnr som skal bli lagt til i databasen: "+øvnr);
+        if (svaret != null) {
+            if (svaret.equals("Registrer " + emnevalgt)) {
+                System.out.println("KOmmer inn i regØv--------------------------------");
+                UtilsBean utilsBean = new UtilsBean();
 
-        if (utilsBean.registrerØving(øving)) {
-            model.addAttribute("melding", "Øving " + øving + " er registrert");
+                øving.setEmnekode(emnevalgt);
+                øving.setGruppeid(-1);
+                øving.setObligatorisk(false);
+                int øvnr = utilsBean.getAntOvingerIEmne(emnevalgt);
+                øvnr += 1;
+                øving.setØvingsnr(øvnr);
+                System.out.println("henter ut det øvingsnr som skal bli lagt til i databasen: " + øvnr);
+
+                if (utilsBean.registrerØving(øving)) {
+                    model.addAttribute("melding", "Øving " + øving + " er registrert");
+                }
+            }
+
         }
-        }
-        
-        }
-return "regov2";
+        return "regov2";
     }
-    
-     @RequestMapping(value = "/emnetilbruker.htm")
-         
-    public String visEmnetilbruker(Model model){
+
+    @RequestMapping(value = "/emnetilbruker.htm")
+
+    public String visEmnetilbruker(Model model) {
         UtilsBean ub = new UtilsBean();
-        
+
                //<form:forEach items="${brukerne}" var="bruker">
-                       
-                       ArrayList<Bruker> brukere= ub.getAlleBrukere();
-                       ArrayList<Emne> emner = ub.getAlleFag();
+        ArrayList<Bruker> brukere = ub.getAlleBrukere();
+        ArrayList<Emne> emner = ub.getAlleFag();
         model.addAttribute("brukerne", brukere);
-        model.addAttribute("emnene",emner);
-        for(int k=0; k<emner.size(); k++){
+        model.addAttribute("emnene", emner);
+        for (int k = 0; k < emner.size(); k++) {
             System.out.println(emner.get(k).getEmnekode());
         }
         return "emnetilbruker";
     }
-    
-     @RequestMapping(value = "/emnetilbruker2.htm")
-    public String visEmnetilbruker2(Model model,@RequestParam(value = "brukerne2") Bruker bruker,@ModelAttribute(value="brukerhentet")String[] brukervalgt){
+
+    @RequestMapping(value = "/emnetilbruker2.htm")
+    public String visEmnetilbruker2(Model model, @RequestParam(value = "brukerne2") Bruker bruker, @ModelAttribute(value = "brukerhentet") String[] brukervalgt) {
         UtilsBean ub = new UtilsBean();
-       
-        System.out.println("brukeren som er valgt" +brukervalgt[0]);
-          
+
+        System.out.println("brukeren som er valgt" + brukervalgt[0]);
+
         return "emnetilbruker";
     }
-/*
-    //*************************Registrerer en ny øving*****************************
-    @RequestMapping(value = "regov23.htm", method = RequestMethod.POST)
-    public String regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "emnevalgt") String[] emnevalgt) {
-System.out.println("KOmmer inn i regØv--------------------------------");
-        String[] values = request.getParameterValues("emnene");
-        UtilsBean utilsBean = new UtilsBean();
+    /*
+     //*************************Registrerer en ny øving*****************************
+     @RequestMapping(value = "regov23.htm", method = RequestMethod.POST)
+     public String regØv(@Validated @ModelAttribute(value = "øving") Øving øving, BindingResult error, Model model, HttpServletRequest request, @RequestParam(value = "emnevalgt") String[] emnevalgt) {
+     System.out.println("KOmmer inn i regØv--------------------------------");
+     String[] values = request.getParameterValues("emnene");
+     UtilsBean utilsBean = new UtilsBean();
 
-        øving.setEmnekode(values[0]);
-        øving.setGruppeid(-1);
-        øving.setObligatorisk(false);
-        øving.setØvingsnr(utilsBean.getAntallOvingerIFag(values[0])+1);
-        System.out.println("henter ut det øvingsnr som skal bli lagt til i databasen: "+utilsBean.getAntallOvingerIFag(values[0])+1);
+     øving.setEmnekode(values[0]);
+     øving.setGruppeid(-1);
+     øving.setObligatorisk(false);
+     øving.setØvingsnr(utilsBean.getAntallOvingerIFag(values[0])+1);
+     System.out.println("henter ut det øvingsnr som skal bli lagt til i databasen: "+utilsBean.getAntallOvingerIFag(values[0])+1);
 
-        if (utilsBean.registrerØving(øving)) {
-            model.addAttribute("melding", "Øving " + øving + " er registrert");
-        }
-        return "regov2";
+     if (utilsBean.registrerØving(øving)) {
+     model.addAttribute("melding", "Øving " + øving + " er registrert");
+     }
+     return "regov2";
         
-    }
-*/
+     }
+     */
 //*************************** Viser administrer lærer siden*************************
-    @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAntall, HttpServletRequest request) {
-        System.out.println("JEG VISER visLaerer!!!!");
-        System.out.println("getAntall eeeeeer: " + getAntall);
-        if (!valgteOvinger.isEmpty()) {
 
-            for (int i = 0; i < valgteOvinger.size(); i++) {
-                System.out.println("visLarer() har snappet opp: " + valgteOvinger.get(i) + " fra valgtOvinger");
-            }
-        } else {
+    @RequestMapping(value = "/adminlaerer.htm")
+    public String visLaerer(Model model,@ModelAttribute(value="emne")Emne emne, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAntall,@RequestParam(value = "kravbeskrivelse", required = false) String kravbeskrivelse, HttpServletRequest request) {
+        System.out.println("JEG VISER visLaerer!!!!");
+        System.out.println("getAntall eeeeeer: "+getAntall);
+        System.out.println("getValg= "+getValg);
+        System.out.println("emne= "+emne.getEmnekode());
+        if(emne == null){
+            valgteOvinger = new ArrayList();
+        }
+        if (!valgteOvinger.isEmpty()) {
+        
+        for (int i = 0; i < valgteOvinger.size(); i++) {
+            System.out.println("visLarer() har snappet opp: "+valgteOvinger.get(i)+" fra valgtOvinger");
+        }
+        }else{
             System.out.println("valgteOvinger er tom for meg, hilsen visLaerer()");
         }
         UtilsBean ub = new UtilsBean();
-        Emne emne = new Emne();
+        if (emne == null) {
+            emne = new Emne();
+        }
         Emne valgtEmne = new Emne();
         Øving øving = new Øving();
         String emnekoden = null;
         String oppdater = request.getParameter("oppdater");
         String oppdater2 = request.getParameter("oppdater2");
-        String oppdaterbeskrivelse = request.getParameter("beskrivelseinput");
         ArrayList<Øving> øvingtabell1 = new ArrayList<Øving>();
         ArrayList<Øving> valgteØvinger = new ArrayList<Øving>();
 
         model.addAttribute("øving", øving);
-        model.addAttribute("emne", emne);
+        
         model.addAttribute("valg", getValg);
 
         ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
         Emne valgtemne = new Emne();
+        
+        if (oppdater2 != null) {
+                System.out.println("--------------------------- KNAPPEN FOR BESKRIVELSE ER TRYKKET INN");
+                System.out.println(emne.getEmnekode());
+                ub.oppdaterØvingsBeskrivelse(emne.getEmnekode(), emne.getBeskrivelse());
+            }
 
         if (getValg != null) {
+            emne = ub.getEmne(getValg);
+            model.addAttribute("emne", emne);
+            
             /*
              if(oppdater !=null){
              ArrayList<Øving> øvingsliste = ub.getØvingerIEmnet(getValg);
@@ -459,12 +474,8 @@ System.out.println("KOmmer inn i regØv--------------------------------");
              }
              }
              */
-            String emnesendt = getValg;
-            if (oppdater2 != null) {
-                System.out.println("--------------------------- KNAPPEN FOR BESKRIVELSE ER TRYKKET INN");
-
-                ub.oppdaterØvingsBeskrivelse(emnesendt, oppdaterbeskrivelse);
-            }
+            
+            
 
             valgtEmne = ub.getEmne(getValg);
             model.addAttribute("emnevalg", valgtEmne);
@@ -502,11 +513,11 @@ System.out.println("KOmmer inn i regØv--------------------------------");
             antallet.add("Velg antall");
 
             if (!valgteOvinger.isEmpty()) {
-
+               
                 for (int i = 1; i < valgteOvinger.size() + 1; i++) {
                     String a = String.valueOf(i);
                     antallet.add(a);
-                    System.out.println("Valgte øvinger................................................" + valgteOvinger.get(i - 1));
+                    System.out.println("Valgte øvinger................................................"+valgteOvinger.get(i-1));
 
                 }
 
@@ -515,93 +526,88 @@ System.out.println("KOmmer inn i regØv--------------------------------");
                 model.addAttribute("alleAntall", antallet);
 
                 if (getAntall != null) {
-
-                    int gruppeID = ub.getMaxGruppeIDIEmne() + 1;
+                    
+                    int gruppeID = ub.getMaxGruppeIDIEmne()+1;
                     Kravgruppe kr = new Kravgruppe();
                     kr.setAntallgodkj(Integer.parseInt(getAntall));
                     kr.setGruppeID(gruppeID);
                     kr.setEmnekode(valgtEmne.getEmnekode());
-                    kr.setBeskrivelse("Beskrivelse ikke lagt inn");
+                    kr.setBeskrivelse(kravbeskrivelse);
 
                     ub.registrerKravGruppe(kr);
-
+                    
                     for (int i = 0; i < valgteOvinger.size(); i++) {
                         valgteØvinger.add(ub.getØvingIEmnet(valgteOvinger.get(i), valgtEmne.getEmnekode()));
                     }
                     for (int i = 0; i < valgteØvinger.size(); i++) {
-
-                        valgteØvinger.get(i).setGruppeid(gruppeID);
-                        ub.oppdaterØving(valgteØvinger.get(i));
+                      
+                    valgteØvinger.get(i).setGruppeid(gruppeID);
+                    ub.oppdaterØving(valgteØvinger.get(i));
                     }
+                    valgteOvinger = new ArrayList();
+                    getAntall = null;
                 }
 
             }
         }
         return "adminlaerer";
     }
-    
-    
+
     //*** siden for å velge et emne i en nedtrekksliste for så å få opp øvinger i emnet som man kan velge å slette *** 
     @RequestMapping(value = "/endreOving.htm")
-    public String visendreOv(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker,@ModelAttribute(value = "valgtOving") Øving øving, BindingResult error, @RequestParam(value = "x", required = false) String getValg,@RequestParam(value = "y", required = false) String getValg2,HttpServletRequest request){
-            
-        
-            Emne valgtEmne = new Emne();
-            Øving valgtØving = new Øving();
-            UtilsBean ub = new UtilsBean();
-            ArrayList<Emne> em = ub.getAlleFag();
-            ArrayList<String> emnetabell1= new ArrayList<String>();
-            emnetabell1.add(getValg);
-             for (int i = 0; i < em.size(); i++) {
-                emnetabell1.add(em.get(i).getEmnenavn());
-             }
-            
-            model.addAttribute("emnetabell", emnetabell1);
-            valgtEmne = ub.getEmne(getValg);
-            model.addAttribute("emnevalg", getValg);
-            
-            model.addAttribute("valg2", getValg2);
-            
+    public String visendreOv(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, @ModelAttribute(value = "valgtOving") Øving øving, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getValg2, HttpServletRequest request) {
 
-            ArrayList<String> øvingtabell1 = new ArrayList<String>();
-            
-            
-           int øvenr2 = 0; 
-      if(getValg!=null){      
-            String øvenr= null;
+        Emne valgtEmne = new Emne();
+        Øving valgtØving = new Øving();
+        UtilsBean ub = new UtilsBean();
+        ArrayList<Emne> em = ub.getAlleFag();
+        ArrayList<String> emnetabell1 = new ArrayList<String>();
+        emnetabell1.add(getValg);
+        for (int i = 0; i < em.size(); i++) {
+            emnetabell1.add(em.get(i).getEmnenavn());
+        }
+
+        model.addAttribute("emnetabell", emnetabell1);
+        valgtEmne = ub.getEmne(getValg);
+        model.addAttribute("emnevalg", getValg);
+
+        model.addAttribute("valg2", getValg2);
+
+        ArrayList<String> øvingtabell1 = new ArrayList<String>();
+
+        int øvenr2 = 0;
+        if (getValg != null) {
+            String øvenr = null;
             ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
-             for (int i = 0; i < øv.size(); i++) {
+            for (int i = 0; i < øv.size(); i++) {
                 øvenr = Integer.toString(øv.get(i).getØvingsnr());
-                øvenr2= øv.get(i).getØvingsnr();
+                øvenr2 = øv.get(i).getØvingsnr();
                 øvingtabell1.add(øvenr);
-               
-      
+
             }
             model.addAttribute("ovingtabell", øvingtabell1);
-            
-      }
-            System.out.println("øvenr2 her: " +øvenr2);
-            String valgtØv = getValg2;
-            valgtØving = ub.getØvingIEmnet(øvenr2, getValg);
-            
-            model.addAttribute("ovinger", valgtØving);
-            System.out.println("getvalg 2 er her: " + getValg2);
-            System.out.println("getvalg 1 er her: " + getValg);
-        
-            return "endreOving";
+
+        }
+        System.out.println("øvenr2 her: " + øvenr2);
+        String valgtØv = getValg2;
+        valgtØving = ub.getØvingIEmnet(øvenr2, getValg);
+
+        model.addAttribute("ovinger", valgtØving);
+        System.out.println("getvalg 2 er her: " + getValg2);
+        System.out.println("getvalg 1 er her: " + getValg);
+
+        return "endreOving";
     }
-    
+
     //**** metoden for å slette den valgte øvinga i emnet *********************
     @RequestMapping(value = "endreOving2.htm")
-    public String slettOving(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtOving") Øving slettØving){
-        System.out.println("sletter" +slettØving.getØvingsnr());
+    public String slettOving(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtOving") Øving slettØving) {
+        System.out.println("sletter" + slettØving.getØvingsnr());
         UtilsBean ub = new UtilsBean();
         ub.slettØving(slettØving);
         return "endreOving";
     }
 
-    
-    
     /*
      int r = ub.getØvingerIEmnet(emnekoden).size();
      int mid[] = new int[r];
@@ -747,13 +753,13 @@ System.out.println("KOmmer inn i regØv--------------------------------");
             System.out.println("Her kom jeg");
             alleovingsnr.add(alle);
         }
-        if(alleovingsnr.size() > 0){
-        System.out.println("LEGGER TIL " + alleovingsnr.get(alleovingsnr.size() - 1) + " i valgteOvinger");
-        
-        valgteOvinger.add(Integer.parseInt(alleovingsnr.get(alleovingsnr.size() - 1)));
-        
-        System.out.println("LA TIL " + alleovingsnr.get(alleovingsnr.size() - 1) + " i valgteOvinger");
-        System.out.println("Størrelse på øvinger fra db: " + øvinger.size() + ", Størrelse på antall hentet ut fra js: " + alleovingsnr.size());
+        if (alleovingsnr.size() > 0) {
+            System.out.println("LEGGER TIL " + alleovingsnr.get(alleovingsnr.size() - 1) + " i valgteOvinger");
+
+            valgteOvinger.add(Integer.parseInt(alleovingsnr.get(alleovingsnr.size() - 1)));
+
+            System.out.println("LA TIL " + alleovingsnr.get(alleovingsnr.size() - 1) + " i valgteOvinger");
+            System.out.println("Størrelse på øvinger fra db: " + øvinger.size() + ", Størrelse på antall hentet ut fra js: " + alleovingsnr.size());
         }
         System.out.println("Fra db:");
         for (int i = 0; i < øvinger.size(); i++) {
@@ -798,23 +804,21 @@ System.out.println("KOmmer inn i regØv--------------------------------");
                 + "                        \n"
                 + "                        <td><td>&nbsp;</td></table>"
                 + "<td valign=top>&nbsp;";
-        
-        if(liste2.size() > 0){
-               returnen += "<table><tr><td class=\"tdoveradmin\"> &Oslash;ving</td><td class=\"tdoveradmin\">Obligatorisk</td></tr>";
-                
 
         if (liste2.size() > 0) {
+            returnen += "<table><tr><td class=\"tdoveradmin\"> &Oslash;ving</td><td class=\"tdoveradmin\">Obligatorisk</td></tr>";
 
-            for (int i = 0; i < liste2.size(); i++) {
-                returnen += "                                       <tr><td class=\"tdadmin\" onclick=\"slett('" + liste2.get(i) + "', '" + emnekode + "');\">Nr.: " + liste2.get(i) + " er valgt.</td><td class=\"tdadmin\"><input type=checkbox name=check></td></tr>";
+            if (liste2.size() > 0) {
+
+                for (int i = 0; i < liste2.size(); i++) {
+                    returnen += "                                       <tr><td class=\"tdadmin\" onclick=\"slett('" + liste2.get(i) + "', '" + emnekode + "');\">Nr.: " + liste2.get(i) + " er valgt.</td><td class=\"tdadmin\"><input type=checkbox name=check></td></tr>";
+                }
+
             }
 
+            returnen += "</table>";
         }
-
-        returnen += "</table>";
-                }
-               returnen  += "</td></tr></table>\n";
-             
+        returnen += "</td></tr></table>\n";
 
         return returnen;
     }

@@ -24,7 +24,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
 
         <h3>Endre Bruker</h3>
 
-        <c:if test="${!emneliste}">
+        <c:if test="${!emneliste && !brukereIEmnet}">
 
             <form action="endrebruker2" method="POST">
                 <table cellpadding="0px" cellspacing="0px"> 
@@ -82,16 +82,29 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
         </form:form>
     </c:if>
     <c:if test="${emneliste}">
-        <table>
-            <c:out value="${valgtEmneListe}"></c:out>
-            <c:forEach items="${valgtEmneListe}" var="hvertFag">
-                <tr>
-                    agoj
-                    <%--  <td><form:radiobutton value="${hvertFag.getEmnenavn()}" path="emner" /></td>; --%>
-                </tr>
-            </c:forEach>
-        </table>
+
+        <form action="endreBruker6.htm" method="POST">
+            <table>
+                <c:forEach items="${valgtEmneListe}" var="hvertFag">
+                    <tr>
+                        <td><input type="radio" name="emne" value="${hvertFag.getEmnenavn()}">${hvertFag.getEmnenavn()}</td>
+                    </tr>
+                </c:forEach>
+                <input type="submit" value="G til brukerne i faget">
+            </table>
+        </form>
     </c:if>
+    <c:if test="${brukereIEmnet}">
+        <table>
+            test!=??#
+            
+                <c:forEach items="${valgtEmneBrukere}" var="hverBruker">
+                    <tr>
+                        <td>${hverBruker.brukernavn}</td>
+                    </tr>
+                </c:forEach>
+            
+        </c:if>
 </body>
 
 </html>
