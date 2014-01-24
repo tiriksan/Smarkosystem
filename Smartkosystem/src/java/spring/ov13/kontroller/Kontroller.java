@@ -560,10 +560,12 @@ public class Kontroller {
 
     //*** siden for å velge et emne i en nedtrekksliste for så å få opp øvinger i emnet som man kan velge å slette *** 
     @RequestMapping(value = "/endreOving.htm")
+
     public String visendreOv(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, @ModelAttribute(value = "valgtOving") Øving øving, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getValg2, HttpServletRequest request) {
 
         Emne valgtEmne = new Emne();
         Øving valgtØving = new Øving();
+
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
         ArrayList<String> emnetabell1 = new ArrayList<String>();
@@ -593,25 +595,31 @@ public class Kontroller {
             model.addAttribute("ovingtabell", øvingtabell1);
 
         }
-        System.out.println("øvenr2 her: " + øvenr2);
-        String valgtØv = getValg2;
-        valgtØving = ub.getØvingIEmnet(øvenr2, getValg);
 
-        model.addAttribute("ovinger", valgtØving);
-        System.out.println("getvalg 2 er her: " + getValg2);
-        System.out.println("getvalg 1 er her: " + getValg);
+         model.addAttribute("ovinger", valgtØving);
+        
+        System.out.println("kommer inn her her er valg1= "+getValg);
+        System.out.println("kommer inn her her er valg1= "+getValg2);
 
-        return "endreOving";
-    }
-
-    //**** metoden for å slette den valgte øvinga i emnet *********************
-    @RequestMapping(value = "endreOving2.htm")
-    public String slettOving(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtOving") Øving slettØving) {
-        System.out.println("sletter" + slettØving.getØvingsnr());
-        UtilsBean ub = new UtilsBean();
+      
+            
+if(getValg2 != null){
+                
+           
+        Øving slettØving = ub.getØvingIEmnet(Integer.parseInt(getValg2), getValg);
+        slettØving.setEmnekode(getValg);
+        slettØving.setØvingsnr(Integer.parseInt(getValg2));
+        System.out.println("sletter--------------------------------------sletter" + slettØving.getØvingsnr());
         ub.slettØving(slettØving);
+            
+            
+        
+}
+
         return "endreOving";
     }
+
+ 
 
     /*
      int r = ub.getØvingerIEmnet(emnekoden).size();
