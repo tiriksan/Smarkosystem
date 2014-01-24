@@ -80,9 +80,9 @@ public class KøKontroller {
                 boolean open = ub.getFagKoAktiv(emnekode);
                 model.addAttribute("aktiv", open);
                 model.addAttribute("emnenavnvalgt", emnekode);
-                if (open == false) {
-                    model.addAttribute("IngenAktiv", "Det er ingen aktiv kø for dette faget");
-                } else {
+        //        if (open == false) {
+        //            model.addAttribute("IngenAktiv", "Det er ingen aktiv kø for dette faget");
+        //    } else {
                     ArrayList<Innlegg> innleggene = new ArrayList<Innlegg>();
                     innleggene = ub.getFulleInnleggTilKo(emnekode);  //henter ut alle innlegene til køen med valgt emnekode
                     System.out.println(innleggene.size() + "er størrelsen på tabellen");
@@ -121,7 +121,7 @@ public class KøKontroller {
                     }
                     model.addAttribute("ovingtekster", ovingtekster);
                     model.addAttribute("innleggene", innleggene);
-                }
+     //           }
             }
             return "studentko";
         }

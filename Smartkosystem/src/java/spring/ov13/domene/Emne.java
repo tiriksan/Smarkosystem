@@ -23,6 +23,7 @@ public class Emne {
     ArrayList<Øving> øvinger = new ArrayList<Øving>();
     ArrayList<Bruker> student = new ArrayList<Bruker>();
     ArrayList<Bruker> studentassistent = new ArrayList<Bruker>();
+    @NotNull
     private String beskrivelse;
 
     public String getBeskrivelse() {

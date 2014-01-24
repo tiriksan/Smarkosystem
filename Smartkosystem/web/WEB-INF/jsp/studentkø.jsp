@@ -20,6 +20,9 @@ ${feilmelding}
                 <c:if test ="${!hjelp}">
                     <c:out value="Du ser nå køen for faget ${emnenavnvalgt}"/>
 
+                    <meta http-equiv="refresh" content="10; studentko.htm?x=${emnenavnvalgt}">
+                    
+                    
                     <c:if test="${brukerinnlogg.brukertype == 3}">
                         <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
                             <c:if test = "${aktiv}">

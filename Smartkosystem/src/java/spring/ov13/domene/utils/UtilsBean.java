@@ -120,6 +120,10 @@ public class UtilsBean {
         return db.oppdaterBruker(endretBruker);
     }
     
+    public boolean slettBrukerFraEmne(Bruker slettBruker){
+        return db.slettBrukerFraEmne(slettBruker);
+    }
+    
     public boolean slettBruker(Bruker slettBruker){
         return db.slettBruker(slettBruker);
     }
@@ -292,6 +296,14 @@ public ArrayList<Bruker> getBrukereIEmnet(String emnekode){
 
 public ArrayList<Bruker> getBrukereAlleredeIKo(){
     return db.getBrukereAlleredeIKo();
+}
+
+public boolean leggTilBrukereIEmne(ArrayList<Bruker> b, Emne e) {
+    return db.leggTilBrukereIEmne(b, e);
+}
+
+public boolean leggTilBrukerIEmne(Bruker b, Emne e, int brukertype) {
+    return db.leggTilBrukerIEmne(e, b, brukertype);
 }
 
 

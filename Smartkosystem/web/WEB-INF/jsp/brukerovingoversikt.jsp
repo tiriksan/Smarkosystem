@@ -89,8 +89,8 @@
                         <td class="tdoving<c:if test="${aGO[student][i-1]==1}"> godkjent</c:if>">${i}</td> 
                     </c:forEach>
 
-                        <td><div id="gkOvingSpace"></div></td>
-                    <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
+                    <td><div id="gkOvingSpace"></div></td>
+                        <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
                         <td class="tdoving<c:if test="${gkKravBruker}"> kravgk</c:if><c:if test="${!gkKravBruker}"> kravikkgk</c:if>">&nbsp;</td>
                     </c:forEach>
 
@@ -99,11 +99,22 @@
             </c:forEach>
         </table>
 
-        <form action="sendAdvarselMail.htm">
-            <input type="submit" value="Send advarsel mail">
-        </form>
-        <form action="resepsjonListe.htm">
-            <input type="submit" value="GET THE LIST">
-        </form>
-    </c:if>
+        <table width="100%">
+            <form action="resepsjonListe.htm" method="POST">
+                <tr>
+                    <td>
+                        Epost: 
+                        <input type="text" name="epost"> 
+                        ${epostfeil}
+                    </td>
+                </tr>
+                <tr>
+                    <td>  <input title="Send mail til valgt epost som inneholder alle elevene som kan gå opp til eksamen" type="submit" value="Send godkjent mail"></td>
+            </form>
+            <form action="sendAdvarselMail.htm">
+                <td>  <input title="Send mail til alle elever som ikke har godkjent arbeidskravene" type="submit" value="Send advarsel mail"></td>
+            </form>
+        </tr>
+    </table>
+</c:if>
 </c:if>
