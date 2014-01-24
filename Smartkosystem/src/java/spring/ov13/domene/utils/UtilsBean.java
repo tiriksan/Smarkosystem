@@ -120,6 +120,10 @@ public class UtilsBean {
         return db.oppdaterBruker(endretBruker);
     }
     
+    public boolean slettBrukerFraEmne(Bruker slettBruker){
+        return db.slettBrukerFraEmne(slettBruker);
+    }
+    
     public boolean slettBruker(Bruker slettBruker){
         return db.slettBruker(slettBruker);
     }
@@ -251,6 +255,9 @@ public int getMaxGruppeIDIEmne(){
     public boolean fjernKoInnleggFraID(int koID) {
         return db.fjernKoInnlegg(koID);
     }
+    public boolean fjernAlleKoinnleggIEmne(String emnekode) {
+        return db.fjernAlleKoinnleggIEmne(emnekode);
+    }
 
     public String[] getUnikeBygg(String emnekode) {
         return db.getUnikeBygg(emnekode);
@@ -296,6 +303,14 @@ public ArrayList<Bruker> getBrukereIEmnet(String emnekode){
 
 public ArrayList<Bruker> getBrukereAlleredeIKo(){
     return db.getBrukereAlleredeIKo();
+}
+
+public boolean leggTilBrukereIEmne(ArrayList<Bruker> b, Emne e) {
+    return db.leggTilBrukereIEmne(b, e);
+}
+
+public boolean leggTilBrukerIEmne(Bruker b, Emne e, int brukertype) {
+    return db.leggTilBrukerIEmne(e, b, brukertype);
 }
 
 

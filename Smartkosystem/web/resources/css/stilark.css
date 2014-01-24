@@ -504,7 +504,18 @@ td.admlaerer {
         text-align: center;
 
     }
-
+    .buttonParent{
+        display: table;
+        width: 100%;
+    }
+    .venstreTabellKnapp{
+        display: table-cell;
+        float: left;
+    }
+    .høgreTabellKnapp{
+        display: table-cell;
+        float:right;
+    }
     
     
 #bygg {
@@ -591,4 +602,46 @@ td.mainbrukeroversikt {
     text-align: left;
     font-family: verdana, Arial, Helvetica, sans-serif;
     font-size: 14px;
+}
+td.tdadmin{
+    background-color: #CCCCCC;
+    border: 1px solid black;
+    text-align: center;
+    
+}
+td.tdoveradmin {
+    background-color: #333333;
+    color: #FFFFFF;
+    border: 1px solid gray;
+    text-align: center;
+} 
+td.kravikkegodkjent {
+    background-color: #CCCCCC;
+    padding-left: 20px;
+}
+
+td.kravgodkjent {
+    background-color: #00CC00;
+    padding-left: 20px;
+}
+td.maingodkjentkrav {
+    background-color: #CCCCCC;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-top: 5px;
+}
+td.tdovinggodkjent {
+    background-color: #00CC00;
+    text-align: center;
+    width: 3%;
+}
+td.tdoving {
+    text-align: center;
+    width: 3%;
+}
+footer {
+    font-size: 10px;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid black;
 }

@@ -147,7 +147,7 @@ public class TestDB {
         while (res.next()) {
             emnekode = res.getString("emnekode");
             emnenavn = res.getString("emnenavn");
-            øvingsbeskrivelse = res.getString("ovingsbeskrivelse");
+            øvingsbeskrivelse = res.getString("beskrivelse");
         }
         assertEquals(emne.getEmnekode(), emnekode);
         assertEquals(emne.getEmnenavn(), emnenavn);
@@ -290,8 +290,8 @@ public class TestDB {
     @Test
     public void test_oppdaterØving() {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Øving o = new Øving(10, "TDAT3008", 2, false);
-        boolean oppdatert = database.oppdaterØving(o, 9, "TDAT3008");
+        Øving o = new Øving(9, "TDAT3008", 2, false);
+        boolean oppdatert = database.oppdaterØving(o);
         assert (oppdatert);
     }
 
@@ -309,14 +309,14 @@ public class TestDB {
             assertEquals(b.getBrukertype(), res.getInt("hovedbrukertype"));
             assert (avbrudd);
         }
-        assert (brukere.size() == 2);
+        assert (brukere.size() == 3);
     }
 
     @Test
     public void test_hjelpGruppe() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
         Bruker b = new Bruker("laerer@hist.no", "Kjell Toft", "Hansen", 3, "");
-        boolean oppdatert = database.setKøinnleggHjelpBruker(b, 1);
+        boolean oppdatert = database.setKoinnleggHjelpBruker(b, 1);
         assert(oppdatert);
 
         Connection con = database.getForbindelse();
@@ -361,7 +361,7 @@ public class TestDB {
     @Test
     public void test_registrerKø() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        boolean registrert = database.registrerKø(6, "TDAT3003", false);
+        boolean registrert = database.registrerKo(6, "TDAT3003", false);
         assert (registrert);
 
         Connection con = database.getForbindelse();
@@ -385,7 +385,7 @@ public class TestDB {
     @Test
     public void test_registrerKøPåIkkeEksisterendeEmne() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        boolean registrert = database.registrerKø(6, "MAIN", false);
+        boolean registrert = database.registrerKo(6, "MAIN", false);
         assert (!registrert);
     }
 
@@ -450,7 +450,7 @@ public class TestDB {
     public void test_registrerKøInnlegg() throws SQLException {
         DatabaseForTesting database = new DatabaseForTesting(db);
         Plassering lok = new Plassering("AITeL", 1, "KA124",  8, "TDAT3003");
-        boolean registrert = database.registrerKøInnlegg(4, 1, "hansol@hist.no", lok, "Hallo? Noen her?");
+        boolean registrert = database.registrerKoInnlegg(4, 1, "hansol@hist.no", lok, "Hallo? Noen her?");
         assert(registrert);
         
         Connection con = database.getForbindelse();
@@ -488,7 +488,7 @@ public class TestDB {
         assertEquals("TDAT3003", emnekode);
         assertEquals("Hallo? Noen her?", kommentar);
     }
-
+    
     @After
     public void rivNed() {
         if (db != null) {

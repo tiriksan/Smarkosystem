@@ -11,31 +11,66 @@
 <%-- <c:when test="${valget eq '2'}"> 
 
 --%>
+<script type="text/javascript">
+    function submitform() {
+        document.minform.submit();
+    }
+</script>
 
-<form:form action="regov23" method="post" modelAttribute="øving" >
-    <table>
-        <tr><td>ØvingsNr: </td><td><form:input path="øvingsnr" /></td><td><form:errors path="øvingsnr" /></td></tr>
-        
+<c:choose>
+    <c:when test="${valg eq null}">
+        <form:form action="regov2.htm" method="get" modelAttribute="øving" name="minform">
+            <table>
+                <tr><td>ØvingsNr: </td><td><form:input path="øvingsnr" value="${ovinger}" readonly="true" /></td>
+                    <td><form:errors path="øvingsnr" /></td></tr>
 
-                                    
-                            <tr><td><label for="emnekode"> Emne: </label></td><td>
-                
 
-                                    <select name="Emner">
-                                        <c:forEach items="${allefagene}" var="fagen">
-                                            <option value="${fagen}">${fagen}</option>
-                                        </c:forEach>
-                                    </select>
-                                    
-                                    
+
+                <tr><td><label for="emnekode"> Emne: </label></td><td>
+
+
+                        <select name="emnevalgt" id="emnevalgt" onchange="submitform()">
+                            <c:forEach items="${allefagene}" var="fagen">
+                                <option value="${fagen}">${fagen}</option>
+                            </c:forEach>
+                        </select>
+            </table>
+        </form:form>
+    </c:when>
+
+    <c:otherwise>
+        <form:form action="regov2.htm" method="get" modelAttribute="øving" name="minform">
+            <table>
+                <tr><td>ØvingsNr: </td><td>
+                        
+                        <form:input path="øvingsnr" value="${ovinger}" readonly="true" /></td>
+                    <td><form:errors path="øvingsnr" /></td></tr>
+
+
+
+                <tr><td><label for="emnekode"> Emne: </label></td><td>
+
+
+                        <select name="emnevalgt" id="emnevalgt" onchange="submitform()">
+                            <c:forEach items="${allefagene}" var="fagen">
+                                <option value="${fagen}">${fagen}</option>
+                            </c:forEach>
+                        </select>
+           
+       
+        <tr><td colspan="2"><input type="submit" name="submitted" value="Registrer ${valg}"></td></tr>
         
-        
-      
-        <tr><td colspan="2"><input type="submit" value="regoving"></td></tr>
     </table>
-</form:form>
-    
-   
+ </form:form>
+
+</c:otherwise>
+</c:choose>
+
+
+
+
+
+
 
 
 

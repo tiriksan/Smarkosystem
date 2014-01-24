@@ -1,7 +1,7 @@
 CREATE TABLE emne(
 emnekode VARCHAR(8) PRIMARY KEY NOT NULL,
 emnenavn VARCHAR(64) NOT NULL,
-ovingsbeskrivelse VARCHAR(256) NOT NULL
+beskrivelse VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE lokasjon(
@@ -19,7 +19,8 @@ brukernavn VARCHAR(64) PRIMARY KEY NOT NULL,
 fornavn VARCHAR(64) NOT NULL,
 etternavn VARCHAR(64) NOT NULL,
 passord VARCHAR(64) NOT NULL,
-hovedbrukertype INT DEFAULT 1 NOT NULL
+hovedbrukertype INT DEFAULT 1 NOT NULL,
+glemt_passord VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE emne_bruker(

@@ -21,14 +21,17 @@
 
 
 
-
-
-
 var hvem = new Array();
 
-    function endreselect(hvilke, emnekode) {
-hvem.push(hvilke);
 
+
+
+    function endreselect(hvilke, emnekode) {
+        if(hvilke.length >= 1){
+            if(hvem.indexOf(hvilke) == -1){
+hvem.push(hvilke);
+            }
+        }
 var xmlhttp;
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -49,9 +52,32 @@ xmlhttp.onreadystatechange=function()
   //alert(xmlhttp.responseText + " og hei");
 xmlhttp.open("POST","oppdaterselect.htm?emnekode=" + emnekode + "&x=" + hvem,true);
 xmlhttp.send();
+
 }
 
 
+
+
+
+
+
+
+
+function slett(nr, emnekode){
+    
+    var index = hvem.indexOf(nr);
+    
+    if(index != -1){
+        hvem.splice(index, 1);
+        
+    }
+    
+    
+        endreselect('', emnekode);
+    
+    
+    
+}
 
 
 
@@ -125,17 +151,17 @@ xmlhttp.send();
                     <thead>
                         <tr>
                             <th>Øving</th>
-                            <th>Obligatorisk</th>
+                            
 
                         </tr>
                     <tbody>
 
-                        <c:forEach begin="0" items="${alleovinger}" var="admin">
+                        <c:forEach begin="0" items="${alleovinger}" var="admin" varStatus="tell">
 
                             <tr>
-                                <td class="admlaerer"><!--<a href="admlaerer.htm?y={admin.øvingsnr}">-->${admin.øvingsnr} </td>
+                                <td class="admlaerer" onclick="endreselect('${admin.getØvingsnr()}', '${valg}');"><!--<a href="admlaerer.htm?y={admin.øvingsnr}">-->${admin.øvingsnr} </td>
 
-                                <td class="admlaerer"><input type="checkbox" value="${admin.øvingsnr}"  name="obliga" id="oblig" <c:if test="${admin.obligatorisk eq true}">checked</c:if> onchange="endreselect(this.value, '${valg}');"></td>
+                                
 
 
                                     <!--    <td class="admlaerer"><input type="checkbox"  value="$"{admin.øvingsnr}" name ="valget" id="valget" onchange="fnctcheckbox()"></td> -->

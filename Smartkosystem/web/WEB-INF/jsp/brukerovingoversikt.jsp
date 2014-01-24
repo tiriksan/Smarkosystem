@@ -27,30 +27,35 @@
 
 <c:if test="${emne != null}">
     <div>
-        ${emne.emnekode}&nbsp;${emne.emnenavn}
+        
+        <table width="100%" cellspacing="0" cellpadding="0"><tr><td class="overtdko" colspan="2">
+                    ${emne.emnekode}  -  ${emne.emnenavn}<hr>
+                </td></tr>
+            <tr><td class="overtdko">Navn</td><td class="overtdko">Øvinger</td></tr>
 
         <c:if test="${brukerinnlogg.brukertype == 1}">
-            <table width="100%" cellspacing="0" cellpadding="0" id="ovingoversikttabell">
-                <tr id="ovingoversiktrad">
-                    <td id="ovingoversikttd">
+           
+               
+            <tr><td class="maingodkjentkrav">
                         ${brukerinnlogg.fornavn}&nbsp;${brukerinnlogg.etternavn}
-                    </td>
+                </td><td class="maingodkjentkrav"><table><tr>
                     <c:forEach begin="1" end="${fn:length(ovinger)}" var="oving">
-                        <td class="tdoving<c:if test="${ovinger[oving-1]==1}"> godkjent</c:if>">${oving}</td>
+                        <td class="tdoving<c:if test="${ovinger[oving-1]==1}">godkjent</c:if>">${oving}</td>
                     </c:forEach>
-                </tr>
+                        </tr></table></td></tr>
             </table>
-            <div>Arbeidskrav i dette faget</div>
-            <table width="100%">
+                </br>
+                <table width="100%" cellspacing="0" cellpadding="0"><tr><td class="overtdko" colspan="2">Arbeidskrav for faget</td></tr>
                 <c:forEach begin="0" end="${fn:length(kravgrupper)-1}" var="krav">
                     <tr>
-                        <td>${kravgrupper.get(krav).beskrivelse}</td>
-                        <td>
+                       
                             <c:if test="${godkjentKrav.get(krav)}">
-                                Krav oppnådd
+                               <td class="kravgodkjent">${kravgrupper.get(krav).beskrivelse}</td>
+                        <td class="kravgodkjent">  Krav oppnådd
                             </c:if>
                             <c:if test="${!godkjentKrav.get(krav)}">
-                                Krav ikke oppnådd
+                               <td class="kravikkegodkjent">${kravgrupper.get(krav).beskrivelse}</td>
+                        <td class="kravikkegodkjent">  Krav ikke oppnådd
                             </c:if>
                         </td>
                     </tr>
@@ -78,32 +83,47 @@
             </tr>
         </table>
         <table id="ovingoversikttabell" width="100%" cellpadding="0" cellspacing="0" border="1">
+            <c:if test="${studenter.size() > 0}">
+                <c:forEach begin="0" end="${studenter.size()-1}" var="student">
+                    <tr id="ovingoversiktrad">
+                        <td id="ovingoversikttd">
+                            ${studenter[student].fornavn}&nbsp;${studenter[student].etternavn}
+                        </td>
 
-            <c:forEach begin="0" end="${studenter.size()-1}" var="student">
-                <tr id="ovingoversiktrad">
-                    <td id="ovingoversikttd">
-                        ${studenter[student].fornavn}&nbsp;${studenter[student].etternavn}
-                    </td>
-
-                    <c:forEach begin="1" end="${fn:length(aGO[student])}" var = "i">
-                        <td class="tdoving<c:if test="${aGO[student][i-1]==1}"> godkjent</c:if>">${i}</td> 
-                    </c:forEach>
+                        <c:forEach begin="1" end="${fn:length(aGO[student])}" var = "i">
+                            <td class="tdoving<c:if test="${aGO[student][i-1]==1}"> godkjent</c:if>">${i}</td> 
+                        </c:forEach>
 
                         <td><div id="gkOvingSpace"></div></td>
-                    <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
-                        <td class="tdoving<c:if test="${gkKravBruker}"> kravgk</c:if><c:if test="${!gkKravBruker}"> kravikkgk</c:if>">&nbsp;</td>
-                    </c:forEach>
+                            <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
+                            <td class="tdoving<c:if test="${gkKravBruker}"> kravgk</c:if><c:if test="${!gkKravBruker}"> kravikkgk</c:if>">&nbsp;</td>
+                        </c:forEach>
 
 
-                </tr>
-            </c:forEach>
+                    </tr>
+                </c:forEach>
+            </c:if>
+            <c:if test="${studenter.size() <= 0}">
+                <tr>Ingen elever i dette emnet</tr>
+            </c:if>
         </table>
-
-        <form action="sendAdvarselMail.htm">
-            <input type="submit" value="Send advarsel mail">
-        </form>
-        <form action="resepsjonListe.htm">
-            <input type="submit" value="GET THE LIST">
-        </form>
-    </c:if>
+        <br>
+        <table width="100%">
+            <form action="resepsjonListe.htm" method="POST">
+                <tr>
+                    <td>
+                        Epost: 
+                        <input type="text" name="epost"> 
+                        ${epostfeil}
+                    </td>
+                </tr>
+                <tr>
+                    <td>  <input title="Send mail til valgt epost som inneholder alle elevene som kan gå opp til eksamen" type="submit" value="Send godkjent mail"></td>
+            </form>
+            <form action="sendAdvarselMail.htm">
+                <td>  <input title="Send mail til alle elever som ikke har godkjent arbeidskravene" type="submit" value="Send advarsel mail"></td>
+            </form>
+        </tr>
+    </table>
+</c:if>
 </c:if>

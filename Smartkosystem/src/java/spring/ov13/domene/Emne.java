@@ -23,7 +23,9 @@ public class Emne {
     ArrayList<Øving> øvinger = new ArrayList<Øving>();
     ArrayList<Bruker> student = new ArrayList<Bruker>();
     ArrayList<Bruker> studentassistent = new ArrayList<Bruker>();
+    @NotNull
     private String beskrivelse;
+    private boolean haMedLaerer;
 
     public String getBeskrivelse() {
         return beskrivelse;
@@ -78,6 +80,14 @@ public class Emne {
 
     public void setFaglærer(ArrayList<Bruker> nye) {
         this.faglærer = nye;
+    }
+
+    public boolean getHaMedLaerer() {
+        return haMedLaerer;
+    }
+
+    public void setHaMedLaerer(boolean haMedLaerer) {
+        this.haMedLaerer = haMedLaerer;
     }
 
 }

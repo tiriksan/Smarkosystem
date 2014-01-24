@@ -90,5 +90,9 @@
         <put-attribute name="title"  value="Admin laerer"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/Laerer.jsp"/>      
     </definition>
+        <definition name="emnetilbruker" extends="baseLayout">
+        <put-attribute name="title"  value="emne paa bruker"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/emnetilbruker.jsp"/>      
+    </definition>
 
 </tiles-definitions>
