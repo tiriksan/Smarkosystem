@@ -375,6 +375,15 @@ return "regov2";
         }
         return "emnetilbruker";
     }
+    
+     @RequestMapping(value = "/emnetilbruker2.htm")
+    public String visEmnetilbruker2(Model model,@RequestParam(value = "brukerne2") Bruker bruker,@ModelAttribute(value="brukerhentet")String[] brukervalgt){
+        UtilsBean ub = new UtilsBean();
+       
+        System.out.println("brukeren som er valgt" +brukervalgt[0]);
+          
+        return "emnetilbruker";
+    }
 /*
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23.htm", method = RequestMethod.POST)
