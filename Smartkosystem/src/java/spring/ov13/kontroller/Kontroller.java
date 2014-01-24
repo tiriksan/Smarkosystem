@@ -250,6 +250,7 @@ public class Kontroller {
 
         UtilsBean ub = new UtilsBean();
         ArrayList<Bruker> brukerne = ub.getBrukereIEmnet(emne.getEmnenavn());
+        System.out.println("aa"+brukerne);
         model.addAttribute("brukereIEmnet", true);
         model.addAttribute("valgtEmneBrukere", brukerne);
         return "endreBruker";
