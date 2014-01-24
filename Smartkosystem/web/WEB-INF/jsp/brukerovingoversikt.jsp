@@ -83,27 +83,31 @@
             </tr>
         </table>
         <table id="ovingoversikttabell" width="100%" cellpadding="0" cellspacing="0" border="1">
+            <c:if test="${studenter.size() > 0}">
+                <c:forEach begin="0" end="${studenter.size()-1}" var="student">
+                    <tr id="ovingoversiktrad">
+                        <td id="ovingoversikttd">
+                            ${studenter[student].fornavn}&nbsp;${studenter[student].etternavn}
+                        </td>
 
-            <c:forEach begin="0" end="${studenter.size()-1}" var="student">
-                <tr id="ovingoversiktrad">
-                    <td id="ovingoversikttd">
-                        ${studenter[student].fornavn}&nbsp;${studenter[student].etternavn}
-                    </td>
+                        <c:forEach begin="1" end="${fn:length(aGO[student])}" var = "i">
+                            <td class="tdoving<c:if test="${aGO[student][i-1]==1}"> godkjent</c:if>">${i}</td> 
+                        </c:forEach>
 
-                    <c:forEach begin="1" end="${fn:length(aGO[student])}" var = "i">
-                        <td class="tdoving<c:if test="${aGO[student][i-1]==1}"> godkjent</c:if>">${i}</td> 
-                    </c:forEach>
-
-                    <td><div id="gkOvingSpace"></div></td>
-                        <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
-                        <td class="tdoving<c:if test="${gkKravBruker}"> kravgk</c:if><c:if test="${!gkKravBruker}"> kravikkgk</c:if>">&nbsp;</td>
-                    </c:forEach>
+                        <td><div id="gkOvingSpace"></div></td>
+                            <c:forEach items="${kravgruppeBruker[student]}" var="gkKravBruker">
+                            <td class="tdoving<c:if test="${gkKravBruker}"> kravgk</c:if><c:if test="${!gkKravBruker}"> kravikkgk</c:if>">&nbsp;</td>
+                        </c:forEach>
 
 
-                </tr>
-            </c:forEach>
+                    </tr>
+                </c:forEach>
+            </c:if>
+            <c:if test="${studenter.size() <= 0}">
+                <tr>Ingen elever i dette emnet</tr>
+            </c:if>
         </table>
-
+        <br>
         <table width="100%">
             <form action="resepsjonListe.htm" method="POST">
                 <tr>
