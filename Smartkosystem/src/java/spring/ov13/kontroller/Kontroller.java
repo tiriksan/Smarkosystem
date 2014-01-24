@@ -592,7 +592,7 @@ System.out.println("KOmmer inn i regØv--------------------------------");
     }
     
     //**** metoden for å slette den valgte øvinga i emnet *********************
-    @RequestMapping(value = "endreOving.htm")
+    @RequestMapping(value = "endreOving2.htm")
     public String slettOving(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtOving") Øving slettØving){
         System.out.println("sletter" +slettØving.getØvingsnr());
         UtilsBean ub = new UtilsBean();
