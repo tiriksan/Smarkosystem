@@ -140,7 +140,7 @@ public class KøKontroller {
         return "redirect:studentko.htm?x=" + emne;
     }
 
-    @RequestMapping(value = "tømKø")
+    @RequestMapping(value = "tømKø.htm")
     public String tømKø(@RequestParam(value = "x") String emne) {
         UtilsBean ub = new UtilsBean();
         ub.fjernAlleKoinnleggIEmne(emne);
