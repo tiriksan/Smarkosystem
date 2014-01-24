@@ -240,6 +240,15 @@ public class Kontroller {
         ub.slettBruker(slettBruker);
         return "endreBruker";
     }
+    
+    @RequestMapping(value = "/endreBruker5.htm")
+    public String visAlleFag(Model model){
+        UtilsBean ub = new UtilsBean();
+        ArrayList <Emne> lis = ub.getAlleFag();
+        model.addAttribute("emneliste", true);
+        model.addAttribute("valgtEmneListe", lis);
+        return "endreBruker";
+    }
 
     //************ Viser siden for ENDRE emne som har en søkeboks ***************************
     @RequestMapping(value = "/endreEmne.htm")

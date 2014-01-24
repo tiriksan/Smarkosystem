@@ -120,6 +120,10 @@ public class UtilsBean {
         return db.oppdaterBruker(endretBruker);
     }
     
+    public boolean slettBrukerFraEmne(Bruker slettBruker){
+        return db.slettBrukerFraEmne(slettBruker);
+    }
+    
     public boolean slettBruker(Bruker slettBruker){
         return db.slettBruker(slettBruker);
     }
