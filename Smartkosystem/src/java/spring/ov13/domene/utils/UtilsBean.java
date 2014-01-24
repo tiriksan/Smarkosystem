@@ -299,7 +299,7 @@ public ArrayList<Bruker> getBrukereAlleredeIKo(){
 }
 
 public boolean leggTilBrukereIEmne(ArrayList<Bruker> b, Emne e) {
-    return db.leggTilBrukereIEmner(e, b);
+    return db.leggTilBrukereIEmne(b, e);
 }
 
 public boolean leggTilBrukerIEmne(Bruker b, Emne e, int brukertype) {

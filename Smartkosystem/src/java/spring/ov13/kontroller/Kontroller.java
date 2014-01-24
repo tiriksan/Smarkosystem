@@ -164,7 +164,7 @@ public class Kontroller {
          }
          */
         if (returnen != null) {
-            emne.setFaglærer(returnen);
+            utilsBean.leggTilBrukereIEmne(returnen, emne);
         }
 
         if (utilsBean.registrerEmne(emne)) {
