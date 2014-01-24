@@ -181,6 +181,10 @@ public class UtilsBean {
     public boolean oppdaterØving(Øving o) {
         return db.oppdaterØving(o);
     }
+    
+    public boolean slettØving(Øving o){
+        return db.slettØving(o);
+    }
 
     public boolean erBrukerIFag(String brukernavn, String emnekode) {
         return db.erBrukerIFag(brukernavn, emnekode);
