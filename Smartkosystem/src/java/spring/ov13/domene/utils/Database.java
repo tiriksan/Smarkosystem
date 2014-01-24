@@ -483,7 +483,7 @@ public class Database {
         return ok;
     }
     
-    public synchronized boolean slettBrukerFraEmne(Bruker bruker){
+    public synchronized boolean slettBrukerFraEmne(String brukernavn){
         boolean ok = false;
         System.out.println("slettBrukerFraEmne");
         PreparedStatement psSlettBrukerFraEmne = null;
@@ -491,7 +491,7 @@ public class Database {
         try{
             åpneForbindelse();
             psSlettBrukerFraEmne = forbindelse.prepareStatement(sqlDeleteBrukerFraEmne);
-            psSlettBrukerFraEmne.setString(1, bruker.getBrukernavn());
+            psSlettBrukerFraEmne.setString(1, brukernavn);
             int i = psSlettBrukerFraEmne.executeUpdate();
             if(i==1){
                 ok = true;
