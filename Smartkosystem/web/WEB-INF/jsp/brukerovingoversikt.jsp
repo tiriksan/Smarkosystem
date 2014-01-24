@@ -27,30 +27,35 @@
 
 <c:if test="${emne != null}">
     <div>
-        ${emne.emnekode}&nbsp;${emne.emnenavn}
+        
+        <table width="100%" cellspacing="0" cellpadding="0"><tr><td class="overtdko" colspan="2">
+                    ${emne.emnekode}  -  ${emne.emnenavn}<hr>
+                </td></tr>
+            <tr><td class="overtdko">Navn</td><td class="overtdko">Øvinger</td></tr>
 
         <c:if test="${brukerinnlogg.brukertype == 1}">
-            <table width="100%" cellspacing="0" cellpadding="0" id="ovingoversikttabell">
-                <tr id="ovingoversiktrad">
-                    <td id="ovingoversikttd">
+           
+               
+            <tr><td class="maingodkjentkrav">
                         ${brukerinnlogg.fornavn}&nbsp;${brukerinnlogg.etternavn}
-                    </td>
+                </td><td class="maingodkjentkrav"><table><tr>
                     <c:forEach begin="1" end="${fn:length(ovinger)}" var="oving">
-                        <td class="tdoving<c:if test="${ovinger[oving-1]==1}"> godkjent</c:if>">${oving}</td>
+                        <td class="tdoving<c:if test="${ovinger[oving-1]==1}">godkjent</c:if>">${oving}</td>
                     </c:forEach>
-                </tr>
+                        </tr></table></td></tr>
             </table>
-            <div>Arbeidskrav i dette faget</div>
-            <table width="100%">
+                </br>
+                <table width="100%" cellspacing="0" cellpadding="0"><tr><td class="overtdko" colspan="2">Arbeidskrav for faget</td></tr>
                 <c:forEach begin="0" end="${fn:length(kravgrupper)-1}" var="krav">
                     <tr>
-                        <td>${kravgrupper.get(krav).beskrivelse}</td>
-                        <td>
+                       
                             <c:if test="${godkjentKrav.get(krav)}">
-                                Krav oppnådd
+                               <td class="kravgodkjent">${kravgrupper.get(krav).beskrivelse}</td>
+                        <td class="kravgodkjent">  Krav oppnådd
                             </c:if>
                             <c:if test="${!godkjentKrav.get(krav)}">
-                                Krav ikke oppnådd
+                               <td class="kravikkegodkjent">${kravgrupper.get(krav).beskrivelse}</td>
+                        <td class="kravikkegodkjent">  Krav ikke oppnådd
                             </c:if>
                         </td>
                     </tr>
