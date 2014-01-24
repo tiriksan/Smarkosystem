@@ -592,3 +592,15 @@ td.mainbrukeroversikt {
     font-family: verdana, Arial, Helvetica, sans-serif;
     font-size: 14px;
 }
+td.tdadmin{
+    background-color: #CCCCCC;
+    border: 1px solid black;
+    text-align: center;
+    
+}
+td.tdoveradmin {
+    background-color: #333333;
+    color: #FFFFFF;
+    border: 1px solid gray;
+    text-align: center;
+}

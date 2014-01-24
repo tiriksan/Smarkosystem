@@ -649,34 +649,31 @@ public class Kontroller {
 
         }
 
-        returnen += "<table><tr><td><table><thead><tr><th>&Oslash;ving</th><th>Obligatorisk</th></tr>"
+        returnen += "<table><tr><td valign=top><table><thead><tr><th>&Oslash;ving</th></tr>"
                 + "<tbody>";
 
         for (int i = 0; i < liste1.size(); i++) {
-            returnen += "<tr><td class=\"admlaerer\">" + liste1.get(i) + "</td>"
-                    + "<td class=\"admlaerer\"><input type=\"checkbox\" value=\"" + liste1.get(i) + "\" name=\"obliga\" id=\"oblig\" onchange=\"endreselect(this.value, '" + emnekode + "');\"></td></tr>";
+            returnen += "<tr><td class=\"admlaerer\" onclick=\"endreselect('" + liste1.get(i) + "', '" + emnekode + "');\">" + liste1.get(i) + "</td>"
+                    + "</tr>";
 
         }
 
         returnen += "                    <tr><td> <input type=\"submit\" value=\"G&aring; videre\" name=\"oppdater\" /></td>\n"
                 + "                        \n"
-                + "                        <td><td>&nbsp;</td></table></td><td valign=top>   \n"
-                + "                            <table>";
+                + "                        <td><td>&nbsp;</td></table>"
+                + "<td valign=top><table><tr><td class=\"tdoveradmin\"> &Oslash;ving</td><td class=\"tdoveradmin\">Obligatorisk</td></tr>";
+                
 
         if (liste2.size() > 0) {
 
             for (int i = 0; i < liste2.size(); i++) {
-                returnen += "                                       <tr><td>Nr.: " + liste2.get(i) + " </td><td>er valgt.</td></tr>";
+                returnen += "                                       <tr><td class=\"tdadmin\" onclick=\"slett('" + liste2.get(i) + "', '" + emnekode + "');\">Nr.: " + liste2.get(i) + " er valgt.</td><td class=\"tdadmin\"><input type=checkbox name=check></td></tr>";
             }
 
         }
 
-        returnen += "</table></td></tr></table>\n"
-                + "                            \n"
-                + "                        </td>  \n"
-                + "                    </tr>\n"
-                + "                    </tbody>\n"
-                + "                </table>";
+        returnen += "</table></td></tr></table>\n";
+             
 
         return returnen;
     }
