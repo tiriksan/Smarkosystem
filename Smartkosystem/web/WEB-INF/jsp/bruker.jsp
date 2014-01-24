@@ -95,7 +95,7 @@
                     </c:if>
                     <form:form action="innsettemne.htm" method="post" modelAttribute="emne" >
                         <table>
-                            <tr><td>Fagnavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
+                            <tr><td>Emnenavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
                             <tr><td>Emnekode: </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></td></tr>
                             <tr><td>Beskrivelse: </td><td><form:input path="beskrivelse" /></td><td><form:errors path="beskrivelse" /></td></tr>
                             <tr><td><label id="fagLabel" for="laerer">Faglærer: </label></td>

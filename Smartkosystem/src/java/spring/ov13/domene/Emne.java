@@ -15,10 +15,10 @@ import javax.validation.constraints.Pattern;
 public class Emne {
 
     @NotNull
-    private String emnenavn;
     @Pattern(regexp = "\\b[A-z]{4}[0-9]{4}")
-    @NotNull
     private String emnekode;
+    @NotNull
+    private String emnenavn;
     ArrayList<Bruker> faglærer = new ArrayList<Bruker>();
     ArrayList<Øving> øvinger = new ArrayList<Øving>();
     ArrayList<Bruker> student = new ArrayList<Bruker>();
