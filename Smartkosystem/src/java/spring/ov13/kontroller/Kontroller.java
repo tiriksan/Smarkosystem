@@ -638,7 +638,7 @@ System.out.println("KOmmer inn i regØv--------------------------------");
         String[] splitten = alle.split(",");
         if (splitten.length > 0) {
             for (int i = 0; i < splitten.length; i++) {
-                if (!splitten[i].equals(",")) {
+                if (!splitten[i].equals(",") && !splitten[i].equals("") && !splitten[i].equals(" ")) {
                     alleovingsnr.add(splitten[i]);
                 }
 
@@ -647,11 +647,14 @@ System.out.println("KOmmer inn i regØv--------------------------------");
             System.out.println("Her kom jeg");
             alleovingsnr.add(alle);
         }
+        if(alleovingsnr.size() > 0){
         System.out.println("LEGGER TIL " + alleovingsnr.get(alleovingsnr.size() - 1) + " i valgteOvinger");
+        
         valgteOvinger.add(Integer.parseInt(alleovingsnr.get(alleovingsnr.size() - 1)));
+        
         System.out.println("LA TIL " + alleovingsnr.get(alleovingsnr.size() - 1) + " i valgteOvinger");
         System.out.println("Størrelse på øvinger fra db: " + øvinger.size() + ", Størrelse på antall hentet ut fra js: " + alleovingsnr.size());
-
+        }
         System.out.println("Fra db:");
         for (int i = 0; i < øvinger.size(); i++) {
             System.out.println(øvinger.get(i).getØvingsnr());
@@ -694,7 +697,10 @@ System.out.println("KOmmer inn i regØv--------------------------------");
         returnen += "                    <tr><td> <input type=\"submit\" value=\"G&aring; videre\" name=\"oppdater\" /></td>\n"
                 + "                        \n"
                 + "                        <td><td>&nbsp;</td></table>"
-                + "<td valign=top><table><tr><td class=\"tdoveradmin\"> &Oslash;ving</td><td class=\"tdoveradmin\">Obligatorisk</td></tr>";
+                + "<td valign=top>&nbsp;";
+        
+        if(liste2.size() > 0){
+               returnen += "<table><tr><td class=\"tdoveradmin\"> &Oslash;ving</td><td class=\"tdoveradmin\">Obligatorisk</td></tr>";
                 
 
         if (liste2.size() > 0) {
@@ -705,7 +711,9 @@ System.out.println("KOmmer inn i regØv--------------------------------");
 
         }
 
-        returnen += "</table></td></tr></table>\n";
+        returnen += "</table>";
+                }
+               returnen  += "</td></tr></table>\n";
              
 
         return returnen;

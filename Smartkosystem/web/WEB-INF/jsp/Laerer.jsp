@@ -28,7 +28,9 @@ var hvem = new Array();
 
     function endreselect(hvilke, emnekode) {
         if(hvilke.length >= 1){
+            if(hvem.indexOf(hvilke) == -1){
 hvem.push(hvilke);
+            }
         }
 var xmlhttp;
 if (window.XMLHttpRequest)
@@ -67,7 +69,7 @@ function slett(nr, emnekode){
     
     if(index != -1){
         hvem.splice(index, 1);
-        alert(hvem);
+        
     }
     
     
