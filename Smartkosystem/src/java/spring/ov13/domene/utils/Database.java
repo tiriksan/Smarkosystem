@@ -313,7 +313,7 @@ public class Database {
             psInsertBruker = forbindelse.prepareStatement(sqlInsertBruker);
             psInsertBruker.setString(1, bruker.getBrukernavn());
             psInsertBruker.setString(2, bruker.getFornavn());
-            psInsertBruker.setString(3, bruker.getBrukernavn());
+            psInsertBruker.setString(3, bruker.getEtternavn());
             psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
             psInsertBruker.setInt(5, bruker.getBrukertype());
             psInsertBruker.setString(6, bruker.md5(randomUUID().toString().substring(0, 10)));
