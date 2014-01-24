@@ -41,7 +41,11 @@ return new Bruker();
 
     
 @RequestMapping(value = "/logginn.htm")
-    public String visLogginn(@ModelAttribute(value="brukerinnlogg") Bruker bruker, HttpServletRequest request) {
+    public String visLogginn(Model model, @ModelAttribute(value="brukerinnlogg") Bruker bruker, HttpServletRequest request) {
+        UtilsBean ub = new UtilsBean();
+        model.addAttribute("test", ub);
+        
+        
 if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
  return "logginn";
 } else {

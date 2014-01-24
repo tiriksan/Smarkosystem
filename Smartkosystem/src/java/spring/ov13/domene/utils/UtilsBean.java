@@ -396,7 +396,7 @@ public boolean sjekkString(String sjekk, int level, int makslengde){
         }
       
   } else if(level == 3){
-      if(!sjekk.equalsIgnoreCase("true") || !sjekk.equalsIgnoreCase("false")){
+      if(!sjekk.equalsIgnoreCase("true") && !sjekk.equalsIgnoreCase("false")){
           return false;
       }
       

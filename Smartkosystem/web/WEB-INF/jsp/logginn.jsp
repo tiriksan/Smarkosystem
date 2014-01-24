@@ -16,7 +16,7 @@
         <title>Innloggings side</title>
     </head>
     <body>
-        
+        ${test.sjekkString("falselalalalalalalala!\"", 4, -1)}
        
         
         <c:if test="${not empty error}">
