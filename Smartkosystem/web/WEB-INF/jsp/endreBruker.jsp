@@ -95,21 +95,22 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
         </form>
     </c:if>
     <c:if test="${brukereIEmnet}">
-        <table>
-            test!=??#
-            
+        <form action="endreBruker.htm">
+            <table width="100%">
                 <c:forEach items="${valgtEmneBrukere}" var="hverBruker">
                     <tr>
-                        <td>${hverBruker.brukernavn}</td>
+                        <td><input type="checkbox" name="${hverBruker.getBrukernavn()}">${hverBruker.getFornavn()} ${hverBruker.getEtternavn()}</td>
                     </tr>
                 </c:forEach>
-            
-        </c:if>
+                <c:out value="name"></c:out>
+                    <input type="submit" value="Slett valgte">
+            </table>
+        </form>
+    </c:if>
 </body>
 
 </html>
 
 
-<td class="tdko">
 
 
