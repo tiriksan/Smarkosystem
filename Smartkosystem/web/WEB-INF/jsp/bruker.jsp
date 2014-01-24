@@ -98,30 +98,16 @@
                             <tr><td>Fagnavn: </td><td><form:input path="emnenavn" /></td><td><form:errors path="emnenavn" /></td></tr>
                             <tr><td>Emnekode: </td><td><form:input path="emnekode" /></td><td><form:errors path="emnekode" /></td></tr>
                             <tr><td>Beskrivelse: </td><td><form:input path="beskrivelse" /></td><td><form:errors path="beskrivelse" /></td></tr>
-                            <tr><td><label id="fagLabel" for="lærer" hidden>Faglærer: </label></td>
+                            <tr><td><label id="fagLabel" for="laerer">Faglærer: </label></td>
                                 <td>
-                                    <select name="laerer" id="laerer" hidden>
+                                    <select name="laerer" id="laerer">
                                         <c:forEach items="${allelaerere}" var="fagen">
                                             <option value="${fagen}">${fagen}</option>
                                         </c:forEach>
                                     </select>
                                 </td>
                             </tr>
-                            <tr><td><form:checkbox id="leggtil" label="Legg til faglærer" path="haMedLaerer" /><!--input id="velgLaerer" type="checkbox" name="leggtil" /><label for="leggtil">Legg til faglærer </label--></td></tr>
-                            <script type="text/javascript">
-                                function toggleFaglaerer() {
-                                    var label = document.getElementById('fagLabel');
-                                    var select = document.getElementById('laerer');
-                                    if (select.hasAttribute('hidden') && label.hasAttribute('hidden')) {
-                                        select.removeAttribute('hidden');
-                                        label.removeAttribute('hidden');
-                                    } else {
-                                        select.setAttribute('hidden');
-                                        label.setAttribute('hidden');
-                                    }
-                                }
-                                document.getElementById('velgLaerer').addEventListener('change', toggleFaglaerer, false);
-                            </script>
+                            <tr><td><form:checkbox id="leggtil" label="Legg til faglærer" path="haMedLaerer" /></td></tr>
                             <br>
                             <tr><td><input type="submit" value="Registrer fag"></td></tr>
                         </table>
