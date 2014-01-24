@@ -88,23 +88,20 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
                         <td><input type="radio" name="emne" value="${hvertFag.getEmnenavn()}">${hvertFag.getEmnenavn()}</td>
                     </tr>
                 </c:forEach>
-                <input type="submit" value="Go til brukerne i faget">
+                <input type="submit" value="G til brukerne i faget">
             </table>
         </form>
     </c:if>
     <c:if test="${brukereIEmnet}">
-        <form action="endreBruker7.htm" method="POST">
+        <form action="endreBruker.htm">
             <table width="100%">
                 <c:forEach items="${valgtEmneBrukere}" var="hverBruker">
                     <tr>
-                       <%-- <form:checkbox path="bruker" /> --%>
-                            
-                        
-                       <td><input type="checkbox" value="${hverBruker.getBrukernavn()}" name="brukereTilSlett">${hverBruker.getFornavn()} ${hverBruker.getEtternavn()}</td>
+                        <td><input type="checkbox" name="${hverBruker.getBrukernavn()}">${hverBruker.getFornavn()} ${hverBruker.getEtternavn()}</td>
                     </tr>
                 </c:forEach>
-                    <input type="submit" name="" value="Slett valgte">
-                    
+                <c:out value="name"></c:out>
+                    <input type="submit" value="Slett valgte">
             </table>
         </form>
     </c:if>

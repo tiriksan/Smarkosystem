@@ -256,17 +256,6 @@ public class Kontroller {
         model.addAttribute("valgtEmneBrukere", brukerne);
         return "endreBruker";
     }
-    
-    @RequestMapping(value="/endreBruker7.htm")
-    public String slettBrukerFraEmnet(Model model, HttpServletRequest request, @ModelAttribute(value = "brukerinnlogg") Bruker bruker){
-        UtilsBean ub = new UtilsBean();
-        String [] slett = (String[])request.getParameterValues("brukereTilSlett");
-        for(int i = 0; i < slett.length; i++){
-            ub.slettBrukerFraEmne(slett[i]);
-        }
-        
-        return "endreBruker";
-    }
 
     //************ Viser siden for ENDRE emne som har en søkeboks ***************************
     @RequestMapping(value = "/endreEmne.htm")

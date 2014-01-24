@@ -120,8 +120,8 @@ public class UtilsBean {
         return db.oppdaterBruker(endretBruker);
     }
     
-    public boolean slettBrukerFraEmne(String brukernavn){
-        return db.slettBrukerFraEmne(brukernavn);
+    public boolean slettBrukerFraEmne(Bruker slettBruker){
+        return db.slettBrukerFraEmne(slettBruker);
     }
     
     public boolean slettBruker(Bruker slettBruker){
