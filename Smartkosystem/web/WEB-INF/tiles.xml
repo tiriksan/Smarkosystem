@@ -57,6 +57,10 @@
         <put-attribute name="title"  value="reg oving"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/regov2.jsp"/>      
     </definition>
+    <definition name="arbeidskrav" extends="baseLayout">
+        <put-attribute name="title"  value="Legg til arbeidskrav"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/regArbeidskrav.jsp"/>      
+    </definition>
     
     <definition name="endreBruker" extends="baseLayout">
         <put-attribute name="title"  value="endre bruker"/>
