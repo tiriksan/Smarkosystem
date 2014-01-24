@@ -359,6 +359,22 @@ String svaret = request.getParameter("submitted");
         }
 return "regov2";
     }
+    
+     @RequestMapping(value = "/emnetilbruker.htm")
+    public String visEmnetilbruker(Model model){
+        UtilsBean ub = new UtilsBean();
+        
+               //<form:forEach items="${brukerne}" var="bruker">
+                       
+                       ArrayList<Bruker> brukere= ub.getAlleBrukere();
+                       ArrayList<Emne> emner = ub.getAlleFag();
+        model.addAttribute("brukerne", brukere);
+        model.addAttribute("emnene",emner);
+        for(int k=0; k<emner.size(); k++){
+            System.out.println(emner.get(k).getEmnekode());
+        }
+        return "emnetilbruker";
+    }
 /*
     //*************************Registrerer en ny øving*****************************
     @RequestMapping(value = "regov23.htm", method = RequestMethod.POST)
