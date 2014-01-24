@@ -1165,6 +1165,42 @@ public class Database {
         return ok;
     }
 
+    public synchronized boolean leggTilBrukereIEmne(ArrayList<Bruker> bruker, Emne emne) {
+        boolean ok = false;
+        int i = 0;
+
+        System.out.println("leggTilBrukerIEmne()");
+        PreparedStatement psInsertBrukereIEmne = null;
+
+        try {
+            åpneForbindelse();
+            psInsertBrukereIEmne = forbindelse.prepareStatement(sqlInsertBrukerIEmne);
+
+            for (int j = 0; j < bruker.size(); j++) {
+                for (int k = 0; k < bruker.size(); k++) {
+                    psInsertBrukereIEmne.setString(1, emne.getEmnekode());
+                    psInsertBrukereIEmne.setString(2, bruker.get(k).getBrukernavn());
+                    psInsertBrukereIEmne.setInt(3, bruker.get(k).getBrukertype());
+                    i += psInsertBrukereIEmne.executeUpdate();
+                }
+            }
+
+            if (i == bruker.size()) {
+                ok = true;
+            }
+        } catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "leggTilBrukereIEmne()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "leggTilBrukereIEmne - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            // Opprydder.lukkSetning(psInsertBrukereIEmne);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+
     public int getBrukertypeiEmne(String brukernavn, String emnekode) {
         PreparedStatement psSelectBrukerTypeIEmne = null;
         ResultSet res;
