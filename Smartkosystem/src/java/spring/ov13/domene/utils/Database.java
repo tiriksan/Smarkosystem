@@ -92,7 +92,8 @@ public class Database {
     private final String sqlSelectEndrePassordMD5 = "SELECT bruker.glemt_passord FROM bruker WHERE brukernavn=?";
     private final String sqlSelectBrukerFraMD5 = "SELECT bruker.brukernavn FROM bruker WHERE glemt_passord=?";
     private final String sqlUpdateEndrePassordMD5 = "UPDATE bruker SET glemt_passord=? WHERE brukernavn=?";
-
+    private final String sqlDeleteBrukerFraEmne = "DELETE FROM emne_bruker WHERE brukernavn=?";
+    
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
         this.dbUser = dbUser;
@@ -477,6 +478,31 @@ public class Database {
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             //Opprydder.lukkSetning(psUpdateBruker);
+        }
+        lukkForbindelse();
+        return ok;
+    }
+    
+    public synchronized boolean slettBrukerFraEmne(Bruker bruker){
+        boolean ok = false;
+        System.out.println("slettBrukerFraEmne");
+        PreparedStatement psSlettBrukerFraEmne = null;
+        
+        try{
+            åpneForbindelse();
+            psSlettBrukerFraEmne = forbindelse.prepareStatement(sqlDeleteBrukerFraEmne);
+            psSlettBrukerFraEmne.setString(1, bruker.getBrukernavn());
+            int i = psSlettBrukerFraEmne.executeUpdate();
+            if(i==1){
+                ok = true;
+            }
+        } catch (SQLException e){
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "slettBrukerFraEmne");
+        } catch (Exception e){
+            Opprydder.skrivMelding(e, "slettBrukerFraEmne");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
         }
         lukkForbindelse();
         return ok;
@@ -1283,7 +1309,7 @@ public class Database {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertKravgruppe);
         }
-
+        lukkForbindelse();
         return krav;
     }
 
@@ -1807,7 +1833,7 @@ public class Database {
             Opprydder.settAutoCommit(forbindelse);
             //Opprydder.lukkSetning(psUpdateBruker);
         }
-
+        lukkForbindelse();
         return øvinger;
     }
 
