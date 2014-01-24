@@ -371,28 +371,33 @@ public class Kontroller {
         return "regov2";
     }
 
-    @RequestMapping(value = "/emnetilbruker.htm")
-
-    public String visEmnetilbruker(Model model) {
+    @RequestMapping(value = "emnetilbruker.htm")
+    public String visEmnetilbruker(Model model, HttpServletRequest request) {
         UtilsBean ub = new UtilsBean();
-
-               //<form:forEach items="${brukerne}" var="bruker">
         ArrayList<Bruker> brukere = ub.getAlleBrukere();
         ArrayList<Emne> emner = ub.getAlleFag();
-        model.addAttribute("brukerne", brukere);
-        model.addAttribute("emnene", emner);
-        for (int k = 0; k < emner.size(); k++) {
-            System.out.println(emner.get(k).getEmnekode());
-        }
+        request.getSession().setAttribute("brukere", brukere);
+        request.getSession().setAttribute("emner", emner);
         return "emnetilbruker";
     }
 
-    @RequestMapping(value = "/emnetilbruker2.htm")
-    public String visEmnetilbruker2(Model model, @RequestParam(value = "brukerne2") Bruker bruker, @ModelAttribute(value = "brukerhentet") String[] brukervalgt) {
+    @RequestMapping(value = "emnetilbruker2.htm")
+    public String visEmnetilbruker2(Model model, HttpServletRequest request, @RequestParam(value = "bruker") String[] bruker, @RequestParam(value = "emne") String[] emne) {
         UtilsBean ub = new UtilsBean();
-
-        System.out.println("brukeren som er valgt" + brukervalgt[0]);
-
+        ArrayList<Bruker> brukere = new ArrayList<Bruker>();
+        ArrayList<Emne> emner = new ArrayList<Emne>();
+        for (int i = 0; i < request.getParameterValues("bruker").length; i++) {
+            brukere.add(ub.getBruker(request.getParameterValues("bruker")[i]));
+        }
+        for (int i = 0; i < request.getParameterValues("emne").length; i++) {
+            emner.add(ub.getEmne(request.getParameterValues("emne")[i]));
+        }
+        if (!brukere.isEmpty() && !emner.isEmpty()) {
+            boolean registrert = ub.leggTilBrukereIEmner(emner, brukere);
+            if (registrert) {
+                return "emnetilbruker";
+            }
+        }
         return "emnetilbruker";
     }
     /*
