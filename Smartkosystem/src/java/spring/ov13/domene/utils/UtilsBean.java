@@ -320,7 +320,9 @@ public boolean leggTilBrukerIEmne(Bruker b, Emne e, int brukertype) {
 public boolean sjekkString(String sjekk, int level, int makslengde){
   ArrayList<Character> ulovlig = new ArrayList<Character>();  
   
-  
+  if(sjekk == null || sjekk.equals("")){
+      return false;
+  }
   if(level == 2 || level == 4){
   if(makslengde != -1){
       if(sjekk.length() > makslengde){
