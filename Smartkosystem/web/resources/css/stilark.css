@@ -649,3 +649,11 @@ footer {
     float: right;
     margin-right: 2px;
 }
+#sokeboksform{
+    position :absolute;
+    margin-left: 150px;
+}
+#endreoverskrift{
+   
+    margin-left:150px;
+}
