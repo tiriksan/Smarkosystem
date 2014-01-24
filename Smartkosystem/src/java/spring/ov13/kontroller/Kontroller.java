@@ -237,12 +237,23 @@ public class Kontroller {
         return "endreBruker";
     }
     
-    @RequestMapping(value = "/endreBruker5.htm")
-    public String visAlleFag(Model model){
+     @RequestMapping(value = "/endreBruker5.htm")
+    public String visAlleFag(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker) {
         UtilsBean ub = new UtilsBean();
-        ArrayList <Emne> lis = ub.getAlleFag();
+        ArrayList<Emne> lis = ub.getFageneTilBruker(bruker.getBrukernavn());
         model.addAttribute("emneliste", true);
         model.addAttribute("valgtEmneListe", lis);
+        return "endreBruker";
+    }
+
+    @RequestMapping(value = "/endreBruker6.htm")
+    public String visAlleBrukerneIEmnet(Model model, @ModelAttribute(value = "emne") Emne emne) {
+
+        UtilsBean ub = new UtilsBean();
+        ArrayList brukerne = ub.getBrukereIEmnet(emne.getEmnenavn());
+        
+        model.addAttribute("brukereIEmnet", true);
+        model.addAttribute("valgtEmneBrukere", brukerne);
         return "endreBruker";
     }
 
