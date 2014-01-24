@@ -418,36 +418,51 @@ public class Kontroller {
 //*************************** Viser administrer lærer siden*************************
 
     @RequestMapping(value = "/adminlaerer.htm")
-    public String visLaerer(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAntall, HttpServletRequest request) {
+    public String visLaerer(Model model,@ModelAttribute(value="emne")Emne emne, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAntall,@RequestParam(value = "kravbeskrivelse", required = false) String kravbeskrivelse, HttpServletRequest request) {
         System.out.println("JEG VISER visLaerer!!!!");
-        System.out.println("getAntall eeeeeer: " + getAntall);
+        System.out.println("getAntall eeeeeer: "+getAntall);
+        System.out.println("getValg= "+getValg);
+        System.out.println("emne= "+emne.getEmnekode());
+        if(emne == null){
+            valgteOvinger = new ArrayList();
+        }
         if (!valgteOvinger.isEmpty()) {
-
-            for (int i = 0; i < valgteOvinger.size(); i++) {
-                System.out.println("visLarer() har snappet opp: " + valgteOvinger.get(i) + " fra valgtOvinger");
-            }
-        } else {
+        
+        for (int i = 0; i < valgteOvinger.size(); i++) {
+            System.out.println("visLarer() har snappet opp: "+valgteOvinger.get(i)+" fra valgtOvinger");
+        }
+        }else{
             System.out.println("valgteOvinger er tom for meg, hilsen visLaerer()");
         }
         UtilsBean ub = new UtilsBean();
-        Emne emne = new Emne();
+        if (emne == null) {
+            emne = new Emne();
+        }
         Emne valgtEmne = new Emne();
         Øving øving = new Øving();
         String emnekoden = null;
         String oppdater = request.getParameter("oppdater");
         String oppdater2 = request.getParameter("oppdater2");
-        String oppdaterbeskrivelse = request.getParameter("beskrivelseinput");
         ArrayList<Øving> øvingtabell1 = new ArrayList<Øving>();
         ArrayList<Øving> valgteØvinger = new ArrayList<Øving>();
 
         model.addAttribute("øving", øving);
-        model.addAttribute("emne", emne);
+        
         model.addAttribute("valg", getValg);
 
         ArrayList<Emne> em = ub.getFageneTilBruker(bruker.getBrukernavn());
         Emne valgtemne = new Emne();
+        
+        if (oppdater2 != null) {
+                System.out.println("--------------------------- KNAPPEN FOR BESKRIVELSE ER TRYKKET INN");
+                System.out.println(emne.getEmnekode());
+                ub.oppdaterØvingsBeskrivelse(emne.getEmnekode(), emne.getBeskrivelse());
+            }
 
         if (getValg != null) {
+            emne = ub.getEmne(getValg);
+            model.addAttribute("emne", emne);
+            
             /*
              if(oppdater !=null){
              ArrayList<Øving> øvingsliste = ub.getØvingerIEmnet(getValg);
@@ -458,12 +473,8 @@ public class Kontroller {
              }
              }
              */
-            String emnesendt = getValg;
-            if (oppdater2 != null) {
-                System.out.println("--------------------------- KNAPPEN FOR BESKRIVELSE ER TRYKKET INN");
-
-                ub.oppdaterØvingsBeskrivelse(emnesendt, oppdaterbeskrivelse);
-            }
+            
+            
 
             valgtEmne = ub.getEmne(getValg);
             model.addAttribute("emnevalg", valgtEmne);
@@ -501,11 +512,11 @@ public class Kontroller {
             antallet.add("Velg antall");
 
             if (!valgteOvinger.isEmpty()) {
-
+               
                 for (int i = 1; i < valgteOvinger.size() + 1; i++) {
                     String a = String.valueOf(i);
                     antallet.add(a);
-                    System.out.println("Valgte øvinger................................................" + valgteOvinger.get(i - 1));
+                    System.out.println("Valgte øvinger................................................"+valgteOvinger.get(i-1));
 
                 }
 
@@ -514,24 +525,26 @@ public class Kontroller {
                 model.addAttribute("alleAntall", antallet);
 
                 if (getAntall != null) {
-
-                    int gruppeID = ub.getMaxGruppeIDIEmne() + 1;
+                    
+                    int gruppeID = ub.getMaxGruppeIDIEmne()+1;
                     Kravgruppe kr = new Kravgruppe();
                     kr.setAntallgodkj(Integer.parseInt(getAntall));
                     kr.setGruppeID(gruppeID);
                     kr.setEmnekode(valgtEmne.getEmnekode());
-                    kr.setBeskrivelse("Beskrivelse ikke lagt inn");
+                    kr.setBeskrivelse(kravbeskrivelse);
 
                     ub.registrerKravGruppe(kr);
-
+                    
                     for (int i = 0; i < valgteOvinger.size(); i++) {
                         valgteØvinger.add(ub.getØvingIEmnet(valgteOvinger.get(i), valgtEmne.getEmnekode()));
                     }
                     for (int i = 0; i < valgteØvinger.size(); i++) {
-
-                        valgteØvinger.get(i).setGruppeid(gruppeID);
-                        ub.oppdaterØving(valgteØvinger.get(i));
+                      
+                    valgteØvinger.get(i).setGruppeid(gruppeID);
+                    ub.oppdaterØving(valgteØvinger.get(i));
                     }
+                    valgteOvinger = new ArrayList();
+                    getAntall = null;
                 }
 
             }
