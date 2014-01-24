@@ -539,6 +539,69 @@ System.out.println("KOmmer inn i regØv--------------------------------");
         }
         return "adminlaerer";
     }
+    
+    
+    //*** siden for å velge et emne i en nedtrekksliste for så å få opp øvinger i emnet som man kan velge å slette *** 
+    @RequestMapping(value = "/endreOving.htm")
+    public String visendreOv(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker,@ModelAttribute(value = "valgtOving") Øving øving, BindingResult error, @RequestParam(value = "x", required = false) String getValg,@RequestParam(value = "y", required = false) String getValg2,HttpServletRequest request){
+            
+        
+            Emne valgtEmne = new Emne();
+            Øving valgtØving = new Øving();
+            UtilsBean ub = new UtilsBean();
+            ArrayList<Emne> em = ub.getAlleFag();
+            ArrayList<String> emnetabell1= new ArrayList<String>();
+            emnetabell1.add(getValg);
+             for (int i = 0; i < em.size(); i++) {
+                emnetabell1.add(em.get(i).getEmnenavn());
+             }
+            
+            model.addAttribute("emnetabell", emnetabell1);
+            valgtEmne = ub.getEmne(getValg);
+            model.addAttribute("emnevalg", getValg);
+            
+            model.addAttribute("valg2", getValg2);
+            
+
+            ArrayList<String> øvingtabell1 = new ArrayList<String>();
+            
+            
+           int øvenr2 = 0; 
+      if(getValg!=null){      
+            String øvenr= null;
+            ArrayList<Øving> øv = ub.getØvingerIEmnet(getValg);
+             for (int i = 0; i < øv.size(); i++) {
+                øvenr = Integer.toString(øv.get(i).getØvingsnr());
+                øvenr2= øv.get(i).getØvingsnr();
+                øvingtabell1.add(øvenr);
+               
+      
+            }
+            model.addAttribute("ovingtabell", øvingtabell1);
+            
+      }
+            System.out.println("øvenr2 her: " +øvenr2);
+            String valgtØv = getValg2;
+            valgtØving = ub.getØvingIEmnet(øvenr2, getValg);
+            
+            model.addAttribute("ovinger", valgtØving);
+            System.out.println("getvalg 2 er her: " + getValg2);
+            System.out.println("getvalg 1 er her: " + getValg);
+        
+            return "endreOving";
+    }
+    
+    //**** metoden for å slette den valgte øvinga i emnet *********************
+    @RequestMapping(value = "endreOving.htm")
+    public String slettOving(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtOving") Øving slettØving){
+        System.out.println("sletter" +slettØving.getØvingsnr());
+        UtilsBean ub = new UtilsBean();
+        ub.slettØving(slettØving);
+        return "endreOving";
+    }
+
+    
+    
     /*
      int r = ub.getØvingerIEmnet(emnekoden).size();
      int mid[] = new int[r];
