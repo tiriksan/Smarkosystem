@@ -290,8 +290,8 @@ public class TestDB {
     @Test
     public void test_oppdaterØving() {
         DatabaseForTesting database = new DatabaseForTesting(db);
-        Øving o = new Øving(10, "TDAT3008", 2, false);
-        boolean oppdatert = database.oppdaterØving(o, 9, "TDAT3008");
+        Øving o = new Øving(9, "TDAT3008", 2, false);
+        boolean oppdatert = database.oppdaterØving(o);
         assert (oppdatert);
     }
 
@@ -309,7 +309,7 @@ public class TestDB {
             assertEquals(b.getBrukertype(), res.getInt("hovedbrukertype"));
             assert (avbrudd);
         }
-        assert (brukere.size() == 2);
+        assert (brukere.size() == 3);
     }
 
     @Test
@@ -488,7 +488,7 @@ public class TestDB {
         assertEquals("TDAT3003", emnekode);
         assertEquals("Hallo? Noen her?", kommentar);
     }
-
+    
     @After
     public void rivNed() {
         if (db != null) {
