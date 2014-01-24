@@ -38,8 +38,8 @@
 
     
         <table class="logginntable">
-            <tr><td>Brukernavn:</td><td><input type="text" name="brukernavninnlogging" id="brukernavninnlogging"></td></tr>
-            <tr><td>Passord:</td><td><input type="password" name="passordinnlogging" id="passordinnlogging"></td></tr>
+            <tr><td><label for="brukernavninnlogging">Brukernavn:</label></td><td><input type="email" name="brukernavninnlogging" id="brukernavninnlogging"></td></tr>
+            <tr><td><label for="passordinnlogging">Passord:</label></td><td><input type="password" name="passordinnlogging" id="passordinnlogging"></td></tr>
             <tr><td>&nbsp;</td><td><input type="submit" name=login" value="Login"></td></tr></table>
         
         
