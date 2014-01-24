@@ -1875,7 +1875,6 @@ public class Database {
             for (int i = 0; i < returnen.size(); i++) {
                 åpneForbindelse();
                 dobbel = forbindelse.prepareStatement(sqlSelectAlleBrukereIInnlegg);
-                System.out.println("Henter fra ID: " + returnen.get(i).getId());
                 dobbel.setInt(1, returnen.get(i).getId());
                 res2 = dobbel.executeQuery();
                 ArrayList<Bruker> brukerne = new ArrayList<Bruker>();
