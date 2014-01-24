@@ -361,7 +361,7 @@ return "regov2";
     }
     
      @RequestMapping(value = "/emnetilbruker.htm")
-         @RequestMapping(value = "/emnetilbruker.htm")
+         
     public String visEmnetilbruker(Model model){
         UtilsBean ub = new UtilsBean();
         
