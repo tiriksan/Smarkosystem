@@ -6,9 +6,9 @@ INSERT INTO emne VALUES('IFUD1042', 'Applikasjonsutvikling for Android', '');
 INSERT INTO emne VALUES('IFUD1048', 'C++ for programmerere', '');
 INSERT INTO emne VALUES('IFUD1337', 'Navn kommer snart', '');
 
-INSERT INTO bruker VALUES('anasky@hist.no', 'Anakin', 'Skywalker', '46251479872872459f5e4ce64a7d883d', 1);
-INSERT INTO bruker VALUES('hansol@hist.no', 'Han', 'Solo', '46251479872872459f5e4ce64a7d883d', 1);
-INSERT INTO bruker VALUES('laerer@hist.no', 'Kjell Toft', 'Hansen', '46251479872872459f5e4ce64a7d883d', 3);
+INSERT INTO bruker VALUES('anasky@hist.no', 'Anakin', 'Skywalker', '46251479872872459f5e4ce64a7d883d', 1, '5e4ce64');
+INSERT INTO bruker VALUES('hansol@hist.no', 'Han', 'Solo', '46251479872872459f5e4ce64a7d883d', 1, 'a7d883d');
+INSERT INTO bruker VALUES('laerer@hist.no', 'Kjell Toft', 'Hansen', '46251479872872459f5e4ce64a7d883d', 3, '872459f5e');
 
 INSERT INTO emne_bruker VALUES('TDAT3003', 'anasky@hist.no', 1);
 INSERT INTO emne_bruker VALUES('TDAT3003', 'hansol@hist.no', 1);

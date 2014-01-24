@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import static java.util.UUID.randomUUID;
 import javax.sql.DataSource;
 import spring.ov13.domene.*;
 
@@ -22,7 +23,7 @@ public class DatabaseForTesting {
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
-    private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?)";
+    private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
@@ -46,13 +47,13 @@ public class DatabaseForTesting {
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
     private final String sqlSelectFagKoAktiv = "SELECT * FROM ko WHERE emnekode = ?";
     private final String sqlUpdateFagKoAktiv = "UPDATE ko SET aktiv = ? WHERE emnekode = ?";
-    private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg WHERE aktiv = 1";
+    private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM koinnlegg WHERE aktiv = 1";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
-    private final String sqlInsertKø = "INSERT INTO ko VALUES(?,?,?)";
-    private final String sqlInsertKøInnlegg = "INSERT INTO koinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
+    private final String sqlInsertKo = "INSERT INTO ko VALUES(?,?,?)";
+    private final String sqlInsertKoInnlegg = "INSERT INTO koinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
     private final String sqlSelectpaabrukertype = "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
-    private final String sqlUpdateKøinnleggHjelpBruker = "UPDATE koinnlegg SET hjelp=? WHERE innleggsid=?";
+    private final String sqlUpdateKoinnleggHjelpBruker = "UPDATE koinnlegg SET hjelp=? WHERE innleggsid=?";
     private final String sqlSelectDistinctBygg = "SELECT DISTINCT bygg FROM lokasjon WHERE emnekode = ?";
     private final String sqlSelectDistinctEtasje = "SELECT DISTINCT etasje FROM lokasjon WHERE emnekode = ? AND bygg = ?";
     private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
@@ -64,16 +65,16 @@ public class DatabaseForTesting {
     private final String sqlSelectOvingIInnlegg = "SELECT * FROM ovinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
     private final String sqlSelectInnleggFraHjelpEmne = "SELECT * FROM koinnlegg WHERE hjelp = ? AND emnekode = ?";
     private final String sqlDeleteKoInnleggFraID = "DELETE from koinnlegg WHERE innleggsid = ?";
-    private final String sqlSjekkOmOvingErGodkjent = "SELECT * FROM godkjente_øvinger WHERE brukernavn = ? AND emnekode = ? AND øvingsnummer = ?";
+    private final String sqlSjekkOmOvingErGodkjent = "SELECT * FROM godkjente_ovinger WHERE brukernavn = ? AND emnekode = ? AND ovingsnummer = ?";
     private final String sqlSelectStudenterIEmne = "Select * FROM bruker JOIN (emne_bruker) ON (bruker.brukernavn = emne_bruker.brukernavn) WHERE emne_bruker.emnekode = ? AND emne_bruker.brukertype = 1 ORDER BY bruker.etternavn";
     private final String sqlGetGodkjentOvingerForBrukerIEmne = "SELECT B.ovingsnummer, A.ovingsnummer as godkjent from (select * from godkjente_ovinger where brukernavn = ? and emnekode = ?) as A right outer join (select * from `oving` where `oving`.emnekode = ?) AS B on(A.emnekode = B.emnekode and A.ovingsnummer = B.ovingsnummer)";
-    private final String sqlSelectAlleUgjorteOvinger = "SELECT * FROM bruker a, øving b WHERE b.emnekode = ? AND a.brukernavn = ? AND NOT EXISTS (select * from godkjente_øvinger c WHERE b.emnekode = c.emnekode AND b.`øvingsnummer` = c.`øvingsnummer` AND a.brukernavn = c.brukernavn)";
-    private final String sqlSelectCountOvingerIFag = "SELECT count(*) AS tall FROM øving WHERE emnekode = ?";
-    private final String sqlSelectSisteInnleggsid = "SELECT * FROM køinnlegg ORDER BY innleggsid DESC limit 1";
-    private final String sqlSelectSisteKo = "SELECT * FROM kø WHERE emnekode = ? ORDER BY kønummer DESC limit 1";
+    private final String sqlSelectAlleUgjorteOvinger = "SELECT * FROM bruker a, oving b WHERE b.emnekode = ? AND a.brukernavn = ? AND NOT EXISTS (select * from godkjente_ovinger c WHERE b.emnekode = c.emnekode AND b.`ovingsnummer` = c.`ovingsnummer` AND a.brukernavn = c.brukernavn)";
+    private final String sqlSelectCountOvingerIFag = "SELECT count(*) AS tall FROM oving WHERE emnekode = ?";
+    private final String sqlSelectSisteInnleggsid = "SELECT * FROM koinnlegg ORDER BY innleggsid DESC limit 1";
+    private final String sqlSelectSisteKo = "SELECT * FROM ko WHERE emnekode = ? ORDER BY konummer DESC limit 1";
     private final String sqlInsertBrukereIInnlegg = "INSERT INTO brukere_i_innlegg VALUES(?,?)";
-    private final String sqlInsertOvingerIInnlegg = "INSERT INTO øvinger_i_innlegg VALUES(?,?, ?, ?)";
-    private final String sqlSelectGodkjenteØvingerKravgruppeBruker = "select kravgruppe.gruppeid, A.antallfullført,kravgruppe.antall from kravgruppe left outer join (select gruppeid,count(gruppeid) as antallfullført from godkjente_øvinger natural join øving where brukernavn=? group by gruppeid) as A on(kravgruppe.gruppeid=A.gruppeid) where emnekode=? ORDER BY kravgruppe.gruppeid;";
+    private final String sqlInsertOvingerIInnlegg = "INSERT INTO ovinger_i_innlegg VALUES(?,?, ?, ?)";
+    private final String sqlSelectGodkjenteØvingerKravgruppeBruker = "select kravgruppe.gruppeid, A.antallfullfort,kravgruppe.antall from kravgruppe left outer join (select gruppeid,count(gruppeid) as antallfullfort from godkjente_ovinger natural join oving where brukernavn=? group by gruppeid) as A on(kravgruppe.gruppeid=A.gruppeid) where emnekode=? ORDER BY kravgruppe.gruppeid;";
     private final String sqlUpdageOvingsbeskrivelse = "UPDATE emne set beskrivelse=? where emnekode=?";
 
     /*    public DatabaseForTesting(String dbNavn, String dbUser, String dbPswrd) {
@@ -118,7 +119,7 @@ public class DatabaseForTesting {
         boolean ok = false;
         System.out.println("registrerBruker()");
         PreparedStatement psInsertBruker = null;
-        bruker.setPassord(java.util.UUID.randomUUID().toString().substring(0, 10));
+        bruker.setPassord(randomUUID().toString().substring(0, 10));
 
         try {
             åpneForbindelse();
@@ -126,9 +127,9 @@ public class DatabaseForTesting {
             psInsertBruker.setString(1, bruker.getBrukernavn());
             psInsertBruker.setString(2, bruker.getFornavn());
             psInsertBruker.setString(3, bruker.getEtternavn());
-            System.out.println(bruker.getPassord());
             psInsertBruker.setString(4, bruker.md5(bruker.getPassord()));
             psInsertBruker.setInt(5, bruker.getBrukertype());
+            psInsertBruker.setString(6, bruker.md5(randomUUID().toString().substring(0, 10)));
 
             int i = psInsertBruker.executeUpdate();
             if (i > 0) {
@@ -415,8 +416,8 @@ public class DatabaseForTesting {
         return ok;
     }
 
-    // øving //
-    public synchronized boolean registrerØving(Øving øving) {
+    // oving //
+    public synchronized boolean registrerØving(Øving oving) {
         boolean ok = false;
         System.out.println("registrerØving()");
         PreparedStatement psInsertØving = null;
@@ -426,10 +427,10 @@ public class DatabaseForTesting {
 
             psInsertØving = forbindelse.prepareStatement(sqlInsertØving);
 
-            psInsertØving.setInt(1, øving.getØvingsnr());
-            psInsertØving.setString(2, øving.getEmnekode());
-            psInsertØving.setInt(3, øving.getGruppeid());
-            psInsertØving.setBoolean(4, øving.getObligatorisk());
+            psInsertØving.setInt(1, oving.getØvingsnr());
+            psInsertØving.setString(2, oving.getEmnekode());
+            psInsertØving.setInt(3, oving.getGruppeid());
+            psInsertØving.setBoolean(4, oving.getObligatorisk());
 
             int i = psInsertØving.executeUpdate();
             if (i > 0) {
@@ -450,7 +451,7 @@ public class DatabaseForTesting {
         return ok;
     }
 
-    public synchronized boolean oppdaterØving(Øving øving, int øvingsnr, String emnekode) {
+    public synchronized boolean oppdaterØving(Øving oving, int ovingsnr, String emnekode) {
         boolean ok = false;
         System.out.println("oppdaterØving()");
         PreparedStatement psUpdateØving = null;
@@ -458,11 +459,11 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psUpdateØving = forbindelse.prepareStatement(sqlUpdateØving);
-            psUpdateØving.setInt(1, øving.getØvingsnr());
-            psUpdateØving.setString(2, øving.getEmnekode());
-            psUpdateØving.setInt(3, øving.getGruppeid());
-            psUpdateØving.setBoolean(4, øving.getObligatorisk());
-            psUpdateØving.setInt(5, øvingsnr);
+            psUpdateØving.setInt(1, oving.getØvingsnr());
+            psUpdateØving.setString(2, oving.getEmnekode());
+            psUpdateØving.setInt(3, oving.getGruppeid());
+            psUpdateØving.setBoolean(4, oving.getObligatorisk());
+            psUpdateØving.setInt(5, ovingsnr);
             psUpdateØving.setString(6, emnekode);
 
             int i = psUpdateØving.executeUpdate();
@@ -795,27 +796,27 @@ public class DatabaseForTesting {
         return ok;
     }
 
-    public synchronized boolean registrerKø(int køId, String emnekode, boolean aktiv) {
+    public synchronized boolean registrerKo(int koId, String emnekode, boolean aktiv) {
         boolean ok = false;
-        System.out.println("registrerKø()");
-        PreparedStatement psInsertKø = null;
+        System.out.println("registrerKo()");
+        PreparedStatement psInsertKo = null;
 
         try {
             åpneForbindelse();
-            psInsertKø = forbindelse.prepareStatement(sqlInsertKø);
-            psInsertKø.setInt(1, køId);
-            psInsertKø.setString(2, emnekode);
-            psInsertKø.setBoolean(3, aktiv);
+            psInsertKo = forbindelse.prepareStatement(sqlInsertKo);
+            psInsertKo.setInt(1, koId);
+            psInsertKo.setString(2, emnekode);
+            psInsertKo.setBoolean(3, aktiv);
 
-            int i = psInsertKø.executeUpdate();
+            int i = psInsertKo.executeUpdate();
             if (i > 0) {
                 ok = true;
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerKø()");
+            Opprydder.skrivMelding(e, "registrerKo()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "registrerKø - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "registrerKo - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertArbeidskrav);
@@ -824,34 +825,34 @@ public class DatabaseForTesting {
         return ok;
     }
 
-    public synchronized boolean registrerKøInnlegg(int id, int kønummer, String brukernavn, Plassering lokasjon, String kommentar) {
+    public synchronized boolean registrerKoInnlegg(int id, int konummer, String brukernavn, Plassering lokasjon, String kommentar) {
         boolean ok = false;
-        System.out.println("registrerKøInnlegg()");
-        PreparedStatement psInsertKø = null;
+        System.out.println("registrerKoInnlegg()");
+        PreparedStatement psInsertKo = null;
 
         try {
             åpneForbindelse();
-            psInsertKø = forbindelse.prepareStatement(sqlInsertKøInnlegg);
-            psInsertKø.setInt(1, id);
-            psInsertKø.setInt(2, kønummer);
-            psInsertKø.setString(3, brukernavn);
-            psInsertKø.setString(4, lokasjon.getBygning());
-            psInsertKø.setInt(5, lokasjon.getEtasje());
-            psInsertKø.setString(6, lokasjon.getRom());
-            psInsertKø.setInt(7, lokasjon.getBord());
-            psInsertKø.setString(8, null);
-            psInsertKø.setString(9, lokasjon.getEmnekode());
-            psInsertKø.setString(10, kommentar);
+            psInsertKo = forbindelse.prepareStatement(sqlInsertKoInnlegg);
+            psInsertKo.setInt(1, id);
+            psInsertKo.setInt(2, konummer);
+            psInsertKo.setString(3, brukernavn);
+            psInsertKo.setString(4, lokasjon.getBygning());
+            psInsertKo.setInt(5, lokasjon.getEtasje());
+            psInsertKo.setString(6, lokasjon.getRom());
+            psInsertKo.setInt(7, lokasjon.getBord());
+            psInsertKo.setString(8, null);
+            psInsertKo.setString(9, lokasjon.getEmnekode());
+            psInsertKo.setString(10, kommentar);
 
-            int i = psInsertKø.executeUpdate();
+            int i = psInsertKo.executeUpdate();
             if (i > 0) {
                 ok = true;
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerKø()");
+            Opprydder.skrivMelding(e, "registrerKo()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "registrerKø - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "registrerKo - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             // Opprydder.lukkSetning(psInsertArbeidskrav);
@@ -932,35 +933,35 @@ public class DatabaseForTesting {
 
                 innlegg.setBrukere(null);
                 innlegg.setHjelp(null);
-                innlegg.setKønummer(res.getInt("kønummer"));
+                innlegg.setKønummer(res.getInt("konummer"));
                 innlegg.setOvinger(null);
                 innlegg.setTid(0);
                 innlegg.setId(res.getInt("innleggsid"));
 
                 // KOMMENTER UT, HENT UT EKTE DIN LATSABB 
                 ArrayList<Øving> ovinger = new ArrayList<Øving>();
-                Øving øving1 = new Øving();
-                øving1.setEmnekode(emnekode);
-                øving1.setØvingsnr(1);
-                ovinger.add(øving1);
+                Øving oving1 = new Øving();
+                oving1.setEmnekode(emnekode);
+                oving1.setØvingsnr(1);
+                ovinger.add(oving1);
 
                 if (res.getString("eier").equals("petterlu@stud.hist.no")) {
 
-                    Øving øving2 = new Øving();
-                    øving2.setEmnekode(emnekode);
-                    øving2.setØvingsnr(2);
-                    ovinger.add(øving2);
+                    Øving oving2 = new Øving();
+                    oving2.setEmnekode(emnekode);
+                    oving2.setØvingsnr(2);
+                    ovinger.add(oving2);
                 }
-                Øving øving3 = new Øving();
-                øving3.setEmnekode(emnekode);
-                øving3.setØvingsnr(3);
-                ovinger.add(øving3);
+                Øving oving3 = new Øving();
+                oving3.setEmnekode(emnekode);
+                oving3.setØvingsnr(3);
+                ovinger.add(oving3);
 
-                Øving øving4 = new Øving();
-                øving4.setEmnekode(emnekode);
-                øving4.setØvingsnr(4);
+                Øving oving4 = new Øving();
+                oving4.setEmnekode(emnekode);
+                oving4.setØvingsnr(4);
 
-                ovinger.add(øving4);
+                ovinger.add(oving4);
                 // KOMMENTER UT, HENT UT EKTE DIN LATSABB - OVER AND OUT 
 
                 innlegg.setEier(null);
@@ -1025,37 +1026,37 @@ public class DatabaseForTesting {
             Opprydder.lukkSetning(psSelectAlle);
         }
         lukkForbindelse();
-        System.out.println("Returnerer liste med størrelse: " + returnen.size());
+        System.out.println("Returnerer liste med storrelse: " + returnen.size());
         return returnen;
     }
 
-    //Endre hvem som hjelper et køinnlegg. Null dersom køinnlegget ikke får hjelp
-    public boolean setKøinnleggHjelpBruker(Bruker bruker, int køinnleggid) {
-        System.out.println("setBrukerHjelperKøinnlegg()");
-        //set hjelp(brukvernavn)= bruker where køinnleggid = køinnleggid
-        PreparedStatement psUpdateKøinleggHjelpBruker = null;
+    //Endre hvem som hjelper et koinnlegg. Null dersom koinnlegget ikke får hjelp
+    public boolean setKoinnleggHjelpBruker(Bruker bruker, int koinnleggid) {
+        System.out.println("setBrukerHjelperKoinnlegg()");
+        //set hjelp(brukvernavn)= bruker where koinnleggid = koinnleggid
+        PreparedStatement psUpdateKoinleggHjelpBruker = null;
         boolean ok = false;
         try {
             åpneForbindelse();
-            psUpdateKøinleggHjelpBruker = forbindelse.prepareStatement(sqlUpdateKøinnleggHjelpBruker);
+            psUpdateKoinleggHjelpBruker = forbindelse.prepareStatement(sqlUpdateKoinnleggHjelpBruker);
             if (bruker != null) {
-                psUpdateKøinleggHjelpBruker.setString(1, bruker.getBrukernavn());
+                psUpdateKoinleggHjelpBruker.setString(1, bruker.getBrukernavn());
             } else {
-                psUpdateKøinleggHjelpBruker.setString(1, null);
+                psUpdateKoinleggHjelpBruker.setString(1, null);
             }
-            psUpdateKøinleggHjelpBruker.setInt(2, køinnleggid);
-            int i = psUpdateKøinleggHjelpBruker.executeUpdate();
+            psUpdateKoinleggHjelpBruker.setInt(2, koinnleggid);
+            int i = psUpdateKoinleggHjelpBruker.executeUpdate();
             if (i > 0) {
                 ok = true;
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "updateKøinnleggHjelpBruker()");
+            Opprydder.skrivMelding(e, "updateKoinnleggHjelpBruker()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "updateKøinnleggHjelpBruker - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "updateKoinnleggHjelpBruker - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
-            Opprydder.lukkSetning(psUpdateKøinleggHjelpBruker);
+            Opprydder.lukkSetning(psUpdateKoinleggHjelpBruker);
         }
         lukkForbindelse();
         return ok;
@@ -1212,7 +1213,7 @@ public class DatabaseForTesting {
     }
 
     public ArrayList<ArrayList<Øving>> getØvingerTilBrukereIInnlegg(int innleggsID, ArrayList<Bruker> brukere) {
-        ArrayList<ArrayList<Øving>> øvinger = new ArrayList();
+        ArrayList<ArrayList<Øving>> ovinger = new ArrayList();
         PreparedStatement psSqlSelectØvingerIInnlegg;
         ResultSet res;
         try {
@@ -1222,28 +1223,28 @@ public class DatabaseForTesting {
             for (int i = 0; i < brukere.size(); i++) {
                 psSqlSelectØvingerIInnlegg.setString(2, brukere.get(i).getBrukernavn());
                 res = psSqlSelectØvingerIInnlegg.executeQuery();
-                øvinger.add(new ArrayList());
+                ovinger.add(new ArrayList());
                 while (res.next()) {
                     Øving ov = new Øving();
                     ov.setEmnekode(res.getString("emnekode"));
-                    ov.setØvingsnr(res.getInt("øvingsnummer"));
-                    øvinger.get(i).add(ov);
+                    ov.setØvingsnr(res.getInt("ovingsnummer"));
+                    ovinger.get(i).add(ov);
                 }
             }
         } catch (SQLException e) {
             Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "øvingerIInnlegg()");
+            Opprydder.skrivMelding(e, "ovingerIInnlegg()");
         } catch (Exception e) {
-            Opprydder.skrivMelding(e, "øvingerIInnlegg - ikke sqlfeil");
+            Opprydder.skrivMelding(e, "ovingerIInnlegg - ikke sqlfeil");
         } finally {
             Opprydder.settAutoCommit(forbindelse);
             //Opprydder.lukkSetning(psUpdateBruker);
         }
 
-        return øvinger;
+        return ovinger;
     }
 
-    public synchronized boolean setInnOvingerGodkjent(String godkjenner, String emnekode, String brukernavn, int øving) {
+    public synchronized boolean setInnOvingerGodkjent(String godkjenner, String emnekode, String brukernavn, int oving) {
         boolean ok = false;
         System.out.println("setOvingerGodkjent()");
         PreparedStatement psSetInnOvingerGodkjent = null;
@@ -1256,7 +1257,7 @@ public class DatabaseForTesting {
             psSetInnOvingerGodkjent.setString(1, godkjenner);
             psSetInnOvingerGodkjent.setString(2, emnekode);
             psSetInnOvingerGodkjent.setString(3, brukernavn);
-            psSetInnOvingerGodkjent.setInt(4, øving);
+            psSetInnOvingerGodkjent.setInt(4, oving);
 
             j += psSetInnOvingerGodkjent.executeUpdate();
             if (j > 0) {
@@ -1275,7 +1276,7 @@ public class DatabaseForTesting {
         return ok;
     }
 
-    public synchronized boolean fjernOvingerGodkjent(String emnekode, String brukernavn, ArrayList<Integer> øvinger) {
+    public synchronized boolean fjernOvingerGodkjent(String emnekode, String brukernavn, ArrayList<Integer> ovinger) {
         boolean ok = false;
         System.out.println("fjernOvingerGodkjent()");
         PreparedStatement psfjernOvingerGodkjent = null;
@@ -1283,16 +1284,16 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             int j = 0;
-            for (int i = 0; i < øvinger.size(); i++) {
+            for (int i = 0; i < ovinger.size(); i++) {
 
                 psfjernOvingerGodkjent = forbindelse.prepareStatement(sqlDeleteOvingerGodkjent);
                 psfjernOvingerGodkjent.setString(1, emnekode);
                 psfjernOvingerGodkjent.setString(2, brukernavn);
-                psfjernOvingerGodkjent.setInt(3, øvinger.get(i));
+                psfjernOvingerGodkjent.setInt(3, ovinger.get(i));
 
                 j += psfjernOvingerGodkjent.executeUpdate();
             }
-            if (j >= øvinger.size()) {
+            if (j >= ovinger.size()) {
                 ok = true;
             }
         } catch (SQLException e) {
@@ -1508,12 +1509,12 @@ public class DatabaseForTesting {
 
             while (res.next()) {
 
-                Øving øving = new Øving();
-                øving.setEmnekode(emnekode);
-                øving.setGruppeid(res.getInt("gruppeid"));
-                øving.setObligatorisk(res.getBoolean("obligatorisk"));
-                øving.setØvingsnr(res.getInt("øvingsnummer"));
-                returnen.add(øving);
+                Øving oving = new Øving();
+                oving.setEmnekode(emnekode);
+                oving.setGruppeid(res.getInt("gruppeid"));
+                oving.setObligatorisk(res.getBoolean("obligatorisk"));
+                oving.setØvingsnr(res.getInt("ovingsnummer"));
+                returnen.add(oving);
             }
 
         } catch (SQLException e) {
@@ -1574,7 +1575,7 @@ public class DatabaseForTesting {
             ResultSet res = psSelectBGAIE.executeQuery();
             lista = new ArrayList();
             while (res.next()) {
-                int antØving = res.getInt("antallfullført");
+                int antØving = res.getInt("antallfullfort");
                 int antØvingIKrav = res.getInt("antall");
                 if (antØving < antØvingIKrav) {
                     lista.add(Boolean.FALSE);
@@ -1620,10 +1621,10 @@ public class DatabaseForTesting {
             psUpdateFagKoAktiv.setString(1, emnekode);
             res = psUpdateFagKoAktiv.executeQuery();
             while (res.next()) {
-                konummer = res.getInt("kønummer");
+                konummer = res.getInt("konummer");
             }
 
-            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlInsertKøInnlegg);
+            psUpdateFagKoAktiv = forbindelse.prepareStatement(sqlInsertKoInnlegg);
 
             psUpdateFagKoAktiv.setInt(1, innleggsid);
             psUpdateFagKoAktiv.setInt(2, konummer);
