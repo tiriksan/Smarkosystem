@@ -161,11 +161,9 @@ public class Kontroller {
          return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
          }
          */
-        if (returnen != null) {
-            utilsBean.leggTilBrukereIEmne(returnen, emne);
-        }
 
-        if (utilsBean.registrerEmne(emne)) {
+        if (utilsBean.registrerEmne(emne) && emne.getHaMedLaerer()) {
+            utilsBean.leggTilBrukereIEmne(returnen, emne);
             System.out.println("----------------------kommer inn i registrerEmne() i db-----------------");
             modell.addAttribute("melding", "Emne " + emne + " er registrert");
         }
