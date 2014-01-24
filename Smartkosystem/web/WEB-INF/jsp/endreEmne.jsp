@@ -14,9 +14,9 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 
 
 
-<h3>Endre Emne</h3>
+<h3 id="endreoverskrift">Endre Emne</h3>
 
-
+<div id="sokeboksform">
 <form action="endreemne2" method="POST">
     <table cellpadding="0px" cellspacing="0px"> 
         <tr> 
@@ -34,6 +34,7 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
         </tr>
     </table></br>
 </form>
+</div>
 <table cellspacing="0" cellpadding="0">
     <ul class ="sokeresultat">
         <form:form action="endreEmne3.htm" modelAttribute="valgtEmne" method="POST">
@@ -76,8 +77,5 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 
 </c:if>
 
-
-
-<td class="tdko">
 
 
