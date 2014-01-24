@@ -13,16 +13,13 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Endre Bruker</title>
-        <link rel="stylesheet" href="resources/css/stilark.css"/>
-    </head>
-    <body>
 
 
-        <h3>Endre Bruker</h3>
+
+
+        <h3 id="endreoverskrift">Endre Bruker</h3>
+
+<div id="sokeboksform">
 
         <c:if test="${!emneliste && !brukereIEmnet}">
 
@@ -40,6 +37,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
                 </table></br>
 
             </form>
+</div>
             <table cellspacing="0" cellpadding="0">
                 <ul class ="sokeresultat">
                     <form:form action="endreBruker3.htm" modelAttribute="valgtBruker" method="POST">
@@ -107,10 +105,3 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
             </table>
         </form>
     </c:if>
-</body>
-
-</html>
-
-
-
-
