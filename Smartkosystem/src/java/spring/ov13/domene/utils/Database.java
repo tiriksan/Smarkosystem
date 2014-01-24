@@ -61,7 +61,6 @@ public class Database {
     private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM køinnlegg WHERE emnekode = ?";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
-    private final String sqlInsertFagLaerer = "INSERT into emne_bruker VALUES(?,?,?)";
     private final String sqlInsertKø = "INSERT INTO kø VALUES(?,?,?)";
     private final String sqlInsertKøInnlegg = "INSERT INTO køinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
     private final String sqlSelectpaabrukertype = "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
@@ -575,8 +574,7 @@ public class Database {
             psInsertFag = forbindelse.prepareStatement(sqlInsertFag);
             psInsertFag.setString(1, fag.getEmnekode());
             psInsertFag.setString(2, fag.getEmnenavn());
-
-            psInsertFag.setString(3, "");
+            psInsertFag.setString(3, fag.getBeskrivelse());
 
             int i = psInsertFag.executeUpdate();
             if (i > 0) {
@@ -622,41 +620,7 @@ public class Database {
         return ok;
     }
 
-    public synchronized boolean registrerEmne(String emnekode, ArrayList<Bruker> laerer) {
-        boolean ok = false;
-        System.out.println("registrerEmne()");
-        PreparedStatement psInsertFag = null;
-        PreparedStatement psInsertLaerer = null;
 
-        try {
-            åpneForbindelse();
-            int a = 0;
-            for (int i = 0; i < laerer.size(); i++) {
-                psInsertLaerer = forbindelse.prepareStatement(sqlInsertFagLaerer);
-                psInsertLaerer.setString(1, emnekode);
-                psInsertLaerer.setString(2, laerer.get(i).getBrukernavn());
-                psInsertLaerer.setInt(3, 2);
-                a = psInsertLaerer.executeUpdate();
-                if (a <= 0) {
-                    break;
-                }
-            }
-
-            if (a > 0) {
-                ok = true;
-            }
-        } catch (SQLException e) {
-            Opprydder.rullTilbake(forbindelse);
-            Opprydder.skrivMelding(e, "registrerEmne()");
-        } catch (Exception e) {
-            Opprydder.skrivMelding(e, "registrerEmne - ikke sqlfeil");
-        } finally {
-            Opprydder.settAutoCommit(forbindelse);
-            // Opprydder.lukkSetning(psInsertKravgruppe);
-        }
-        lukkForbindelse();
-        return ok;
-    }
 
     public synchronized Emne getFag(String fagkode) {
         Emne f = null;

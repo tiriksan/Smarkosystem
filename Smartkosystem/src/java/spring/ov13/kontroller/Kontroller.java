@@ -161,11 +161,9 @@ public class Kontroller {
          return new ModelAndView("redirect:/bruker.htm?x=3","modell",modell);
          }
          */
-        if (returnen != null) {
-            utilsBean.leggTilBrukereIEmne(returnen, emne);
-        }
 
-        if (utilsBean.registrerEmne(emne)) {
+        if (utilsBean.registrerEmne(emne) && emne.getHaMedLaerer()) {
+            utilsBean.leggTilBrukereIEmne(returnen, emne);
             System.out.println("----------------------kommer inn i registrerEmne() i db-----------------");
             modell.addAttribute("melding", "Emne " + emne + " er registrert");
         }
@@ -319,16 +317,15 @@ public class Kontroller {
 
     //******************* viser registreringen av en ny øving*****************************************************
     @RequestMapping(value = "regov2.htm")
-    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error, @RequestParam(value = "emnevalgt", required = false) String emnevalgt, HttpServletRequest request, @RequestParam(value = "emnene", required=false) String[] emnene,@RequestParam(value = "send", required = false) String send) {
-System.out.println("KOmmer inn i visOv--------------------------------"+ request.getParameter("send"));
-String sendt = request.getParameter("send");
-       int svaret = Integer.parseInt("sendt");
+    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error, @RequestParam(value = "emnevalgt", required = false) String emnevalgt, HttpServletRequest request,@RequestParam(value = "submitted", required = false) String submitted) {
+System.out.println("KOmmer inn i visOv--------------------------------"+ request.getParameter("submitted"));
+String svaret = request.getParameter("submitted");
+
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
         ArrayList<String> emnetabell = new ArrayList<String>();
         
         model.addAttribute("valg", emnevalgt);
-       
         emnetabell.add(emnevalgt);
         for (int i = 0; i < em.size(); i++) {
             emnetabell.add(em.get(i).getEmnenavn());
@@ -341,23 +338,26 @@ String sendt = request.getParameter("send");
             System.out.println("KOmmer inn i if(emnevalgt != null--------------------------------");  
         }
         
-        
-          if( svaret >0){
+        if(svaret != null){
+        if(svaret.equals("Registrer "+emnevalgt)){
             System.out.println("KOmmer inn i regØv--------------------------------");
-        String[] values = request.getParameterValues("emnene");
         UtilsBean utilsBean = new UtilsBean();
 
-        øving.setEmnekode(values[0]);
+        øving.setEmnekode(emnevalgt);
         øving.setGruppeid(-1);
         øving.setObligatorisk(false);
-        øving.setØvingsnr(utilsBean.getAntallOvingerIFag(values[0])+1);
-        System.out.println("henter ut det øvingsnr som skal bli lagt til i databasen: "+utilsBean.getAntallOvingerIFag(values[0])+1);
+        int øvnr = utilsBean.getAntOvingerIEmne(emnevalgt);
+        øvnr+=1;
+        øving.setØvingsnr(øvnr);
+        System.out.println("henter ut det øvingsnr som skal bli lagt til i databasen: "+øvnr);
 
         if (utilsBean.registrerØving(øving)) {
             model.addAttribute("melding", "Øving " + øving + " er registrert");
         }
         }
-        return "regov2";
+        
+        }
+return "regov2";
     }
 /*
     //*************************Registrerer en ny øving*****************************

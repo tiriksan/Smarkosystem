@@ -107,7 +107,7 @@
                                     </select>
                                 </td>
                             </tr>
-                            <tr><td><input id="velgLaerer" type="checkbox" name="leggtil" /><label for="leggtil">Legg til faglærer </label></td></tr>
+                            <tr><td><form:checkbox id="leggtil" label="Legg til faglærer" path="haMedLaerer" /><!--input id="velgLaerer" type="checkbox" name="leggtil" /><label for="leggtil">Legg til faglærer </label--></td></tr>
                             <script type="text/javascript">
                                 function toggleFaglaerer() {
                                     var label = document.getElementById('fagLabel');

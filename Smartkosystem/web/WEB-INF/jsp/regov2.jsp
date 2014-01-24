@@ -58,8 +58,8 @@
                         </select>
            
        
-        <tr><td colspan="2"><input type="submit" value="submitted"></td></tr>
-        <input type="hidden" name="send" value="1">
+        <tr><td colspan="2"><input type="submit" name="submitted" value="Registrer ${valg}"></td></tr>
+        
     </table>
  </form:form>
 
