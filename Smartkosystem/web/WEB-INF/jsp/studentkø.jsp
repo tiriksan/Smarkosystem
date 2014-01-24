@@ -20,18 +20,28 @@ ${feilmelding}
                 <c:if test ="${!hjelp}">
                     <c:out value="Du ser nå køen for faget ${emnenavnvalgt}"/>
 
-                    <meta http-equiv="refresh" content="10; studentko.htm?x=${emnenavnvalgt}">
-                    
-                    
+                    <%--            <meta http-equiv="refresh" content="10; studentko.htm?x=${emnenavnvalgt}"> --%>
+
+
                     <c:if test="${brukerinnlogg.brukertype == 3}">
-                        <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
-                            <c:if test = "${aktiv}">
-                                <input type ="submit" value ="Steng kø!">
-                            </c:if>
-                            <c:if test = "${!aktiv}">
-                                <input type ="submit" value ="Aktiver kø!">
-                            </c:if>
-                        </form:form>
+                        <div class="buttonParent">
+                            <div class="venstreTabellKnapp">
+                                <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
+                                    <c:if test = "${aktiv}">
+                                        <input type ="submit" value ="Steng kø!">
+                                    </c:if>
+                                    <c:if test = "${!aktiv}">
+                                        <input type ="submit" value ="Aktiver kø!">
+                                    </c:if>
+                                </form:form>
+                            </div>
+
+                            <form action="tømKø.htm">
+                                <div class="høgreTabellKnapp">
+                                    <input type="submit" value="Tøm kø!">
+                                </div>
+                            </form>
+                        </div>
                     </c:if>
                     <table>
                         <tr>
@@ -69,35 +79,42 @@ ${feilmelding}
                         <c:otherwise>
                             <c:set var="hvorlangt" value="0"/>
                             <c:if test="${not empty innleggene}">
-                            <c:forEach items="${innleggene}" var="innlegg" varStatus="hvorlangt">
-                                <tr <c:if test="${innlegg.hjelp != null}"> class="hjelp"</c:if>><td class="tdko">
-                                        Bygning: ${innlegg.getPlass().getBygning()}</br>
-                                        Etasje: ${innlegg.getPlass().getEtasje()}</br>
-                                        Rom: ${innlegg.getPlass().getRom()}</br>
-                                        Tid i kø: ${innlegg.getTid()} min<br>
-                                        Ekstra informasjon: ${innlegg.getKommentar()}
-                                        <c:if test="${innlegg.hjelp != null}">
-                                            <br>
-                                            <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
-                                        </c:if>
-                                        <c:if test="${brukerinnlogg.brukertype > 1}">
-                                            <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
-                                                <table>
-                                                    <tr>
-                                                        <td><input type="submit" id="hjelp" value="hjelp" <c:if test="${hjelp || innlegg.hjelp != null}">disabled</c:if>></td>
-                                                        </tr>
-                                                    </table>
+                                <c:forEach items="${innleggene}" var="innlegg" varStatus="hvorlangt">
+                                    <tr <c:if test="${innlegg.hjelp != null}"> class="hjelp"</c:if>><td class="tdko">
+                                            Bygning: ${innlegg.getPlass().getBygning()}</br>
+                                            Etasje: ${innlegg.getPlass().getEtasje()}</br>
+                                            Rom: ${innlegg.getPlass().getRom()}</br>
+                                            Tid i kø: ${innlegg.getTid()} min<br>
+                                            Ekstra informasjon: ${innlegg.getKommentar()}
+                                            <c:if test="${innlegg.hjelp != null}">
+                                                <br>
+                                                <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
+                                            </c:if>
+                                            <div class="buttonParent">
+                                                <c:if test="${brukerinnlogg.brukertype > 1}">
+                                                    <div class="venstreTabellKnapp">
+                                                        <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
+                                                            <input type="submit" id="hjelp" value="hjelp" <c:if test="${hjelp || innlegg.hjelp != null}">disabled</c:if>>
+                                                        </form:form>
+                                                    </div>
+                                                </c:if>
 
-                                            </form:form>
-                                        </c:if>
-                                    </td><td class="tdko">
-                                        <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
-                                            - <c:out value="${hverbruker.getFornavn()}"/> <c:out value="${hverbruker.getEtternavn()}"/></br>
-                                        </c:forEach>
-                                    </td><td class="tdko"><c:out value="${ovingtekster.get(hvorlangt.index)}"/></td></tr>
+                                                <c:if test="${brukerinnlogg.brukertype > 1 || innlegg.eier == brukerinnlogg.brukernavn}">
+                                                    <div class="høgreTabellKnapp">
+                                                        <form action="fjernInnlegg.htm??id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
+                                                            <input value="fjern" type="submit" >
+                                                        </form>
+                                                    </div>
+                                                </c:if>
+                                            </div>
+                                        </td><td class="tdko">
+                                            <c:forEach items="${innlegg.getBrukere()}" var="hverbruker">
+                                                - <c:out value="${hverbruker.getFornavn()}"/> <c:out value="${hverbruker.getEtternavn()}"/></br>
+                                            </c:forEach>
+                                        </td><td class="tdko"><c:out value="${ovingtekster.get(hvorlangt.index)}"/></td></tr>
 
-                            </c:forEach>
-                                </c:if>
+                                </c:forEach>
+                            </c:if>
 
                         </c:otherwise>
                     </c:choose>

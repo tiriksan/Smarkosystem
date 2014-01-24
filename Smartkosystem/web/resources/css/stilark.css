@@ -504,7 +504,18 @@ td.admlaerer {
         text-align: center;
 
     }
-
+    .buttonParent{
+        display: table;
+        width: 100%;
+    }
+    .venstreTabellKnapp{
+        display: table-cell;
+        float: left;
+    }
+    .høgreTabellKnapp{
+        display: table-cell;
+        float:right;
+    }
     
     
 #bygg {
