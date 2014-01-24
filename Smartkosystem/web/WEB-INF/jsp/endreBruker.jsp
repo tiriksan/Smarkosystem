@@ -82,16 +82,27 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
         </form:form>
     </c:if>
     <c:if test="${emneliste}">
-        <table>
-            <c:out value="${valgtEmneListe}"></c:out>
-            <c:forEach items="${valgtEmneListe}" var="hvertFag">
-                <tr>
-                    agoj
-                    <%--  <td><form:radiobutton value="${hvertFag.getEmnenavn()}" path="emner" /></td>; --%>
-                </tr>
-            </c:forEach>
-        </table>
+
+        <form action="endreBruker6.htm" method="POST">
+            <table>
+                <c:forEach items="${valgtEmneListe}" var="hvertFag">
+                    <tr>
+                        <td><input type="radio" name="emne" value="${hvertFag.getEmnenavn()}">${hvertFag.getEmnenavn()}</td>
+                    </tr>
+                </c:forEach>
+                <input type="submit" value="G til brukerne i faget">
+            </table>
+        </form>
     </c:if>
+    <c:if test="${brukereIemnet}">
+        <table>
+
+            <tr>
+                <c:forEach items="${valgtEmneBrukere}" var="hverBruker">
+                    <td>${hverbruker}</td>
+                </c:forEach>
+            </tr>
+        </c:if>
 </body>
 
 </html>
