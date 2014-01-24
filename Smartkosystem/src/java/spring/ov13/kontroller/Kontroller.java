@@ -250,7 +250,7 @@ public class Kontroller {
     public String visAlleBrukerneIEmnet(Model model, @ModelAttribute(value = "emne") Emne emne) {
 
         UtilsBean ub = new UtilsBean();
-            ArrayList brukerne = ub.getBrukereIEmnet(emne.getEmnenavn());
+            ArrayList<Bruker> brukerne = ub.getBrukereIEmnet(emne.getEmnenavn());
 
         model.addAttribute("brukereIEmnet", true);
         model.addAttribute("valgtEmneBrukere", brukerne);
