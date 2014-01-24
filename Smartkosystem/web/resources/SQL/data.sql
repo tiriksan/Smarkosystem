@@ -9,12 +9,16 @@ INSERT INTO emne VALUES('IFUD1337', 'Navn kommer snart', '');
 INSERT INTO bruker VALUES('anasky@hist.no', 'Anakin', 'Skywalker', '46251479872872459f5e4ce64a7d883d', 1, '5e4ce64');
 INSERT INTO bruker VALUES('hansol@hist.no', 'Han', 'Solo', '46251479872872459f5e4ce64a7d883d', 1, 'a7d883d');
 INSERT INTO bruker VALUES('laerer@hist.no', 'Kjell Toft', 'Hansen', '46251479872872459f5e4ce64a7d883d', 3, '872459f5e');
+INSERT INTO bruker VALUES('darvad@hist.no', 'Darth', 'Vader', '46251479872872459f5e4ce64a7d883d', 1, '14798728');
 
 INSERT INTO emne_bruker VALUES('TDAT3003', 'anasky@hist.no', 1);
 INSERT INTO emne_bruker VALUES('TDAT3003', 'hansol@hist.no', 1);
 INSERT INTO emne_bruker VALUES('TDAT3008', 'hansol@hist.no', 1);
 INSERT INTO emne_bruker VALUES('IFUD1042', 'anasky@hist.no', 2);
 INSERT INTO emne_bruker VALUES('TDAT3003', 'laerer@hist.no', 3);
+INSERT INTO emne_bruker VALUES('TDAT3008', 'darvad@hist.no', 1);
+INSERT INTO emne_bruker VALUES('TDAT3008', 'laerer@hist.no', 3);
+
 
 INSERT INTO kravgruppe VALUES(1, 'TDAT3003', 5, 'Du må ha 5 av 8 godkjent');
 INSERT INTO kravgruppe VALUES(2, 'TDAT3008', 3, 'Minst tre av disse må være gjort');
@@ -57,3 +61,7 @@ INSERT INTO ovinger_i_innlegg VALUES(1, 'hansol@hist.no', 3, 'TDAT3003');
 INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 1, 'TDAT3008');
 INSERT INTO ovinger_i_innlegg VALUES(2, 'anasky@hist.no', 2, 'TDAT3008');
 INSERT INTO ovinger_i_innlegg VALUES(2, 'hansol@hist.no', 2, 'TDAT3008');
+
+INSERT INTO godkjente_ovinger VALUES('laerer@hist.no', 'TDAT3008', 'darvad@hist.no', 7);
+INSERT INTO godkjente_ovinger VALUES('laerer@hist.no', 'TDAT3008', 'darvad@hist.no', 8);
+INSERT INTO godkjente_ovinger VALUES('laerer@hist.no', 'TDAT3008', 'darvad@hist.no', 9);

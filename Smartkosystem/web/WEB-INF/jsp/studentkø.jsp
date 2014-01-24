@@ -24,14 +24,24 @@ ${feilmelding}
 
 
                     <c:if test="${brukerinnlogg.brukertype == 3}">
-                        <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
-                            <c:if test = "${aktiv}">
-                                <input type ="submit" value ="Steng kø!">
-                            </c:if>
-                            <c:if test = "${!aktiv}">
-                                <input type ="submit" value ="Aktiver kø!">
-                            </c:if>
-                        </form:form>
+                        <div class="buttonParent">
+                            <div class="venstreTabellKnapp">
+                                <form:form method="POST" action="aktiverko.htm?x=${emnenavnvalgt}">
+                                    <c:if test = "${aktiv}">
+                                        <input type ="submit" value ="Steng kø!">
+                                    </c:if>
+                                    <c:if test = "${!aktiv}">
+                                        <input type ="submit" value ="Aktiver kø!">
+                                    </c:if>
+                                </form:form>
+                            </div>
+
+                            <form action="tømKø.htm">
+                                <div class="høgreTabellKnapp">
+                                    <input type="submit" value="Tøm kø!">
+                                </div>
+                            </form>
+                        </div>
                     </c:if>
                     <table>
                         <tr>
@@ -80,9 +90,9 @@ ${feilmelding}
                                                 <br>
                                                 <c:out value="Får hjelp av: ${innlegg.hjelp.getFornavn()}  ${innlegg.hjelp.getEtternavn()}" ></c:out>
                                             </c:if>
-                                            <div id="buttonParent">
+                                            <div class="buttonParent">
                                                 <c:if test="${brukerinnlogg.brukertype > 1}">
-                                                    <div id="hjelpKnapp">
+                                                    <div class="venstreTabellKnapp">
                                                         <form:form action="hjelp.htm?id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
                                                             <input type="submit" id="hjelp" value="hjelp" <c:if test="${hjelp || innlegg.hjelp != null}">disabled</c:if>>
                                                         </form:form>
@@ -90,7 +100,7 @@ ${feilmelding}
                                                 </c:if>
 
                                                 <c:if test="${brukerinnlogg.brukertype > 1 || innlegg.eier == brukerinnlogg.brukernavn}">
-                                                    <div id="fjernKnapp">
+                                                    <div class="høgreTabellKnapp">
                                                         <form action="fjernInnlegg.htm??id=${innlegg.getId()}&x=${emnenavnvalgt}" method="post">
                                                             <input value="fjern" type="submit" >
                                                         </form>

@@ -251,6 +251,9 @@ public int getMaxGruppeIDIEmne(){
     public boolean fjernKoInnleggFraID(int koID) {
         return db.fjernKoInnlegg(koID);
     }
+    public boolean fjernAlleKoinnleggIEmne(String emnekode) {
+        return db.fjernAlleKoinnleggIEmne(emnekode);
+    }
 
     public String[] getUnikeBygg(String emnekode) {
         return db.getUnikeBygg(emnekode);

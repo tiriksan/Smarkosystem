@@ -361,6 +361,7 @@ return "regov2";
     }
     
      @RequestMapping(value = "/emnetilbruker.htm")
+         @RequestMapping(value = "/emnetilbruker.htm")
     public String visEmnetilbruker(Model model){
         UtilsBean ub = new UtilsBean();
         
@@ -373,6 +374,15 @@ return "regov2";
         for(int k=0; k<emner.size(); k++){
             System.out.println(emner.get(k).getEmnekode());
         }
+        return "emnetilbruker";
+    }
+    
+     @RequestMapping(value = "/emnetilbruker2.htm")
+    public String visEmnetilbruker2(Model model,@RequestParam(value = "brukerne2") Bruker bruker,@ModelAttribute(value="brukerhentet")String[] brukervalgt){
+        UtilsBean ub = new UtilsBean();
+       
+        System.out.println("brukeren som er valgt" +brukervalgt[0]);
+          
         return "emnetilbruker";
     }
 /*

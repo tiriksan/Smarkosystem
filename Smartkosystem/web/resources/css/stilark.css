@@ -504,15 +504,15 @@ td.admlaerer {
         text-align: center;
 
     }
-    #buttonParent{
+    .buttonParent{
         display: table;
         width: 100%;
     }
-    #hjelpKnapp{
+    .venstreTabellKnapp{
         display: table-cell;
         float: left;
     }
-    #fjernKnapp{
+    .høgreTabellKnapp{
         display: table-cell;
         float:right;
     }

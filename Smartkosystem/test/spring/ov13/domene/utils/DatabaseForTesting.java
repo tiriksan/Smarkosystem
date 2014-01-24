@@ -20,16 +20,23 @@ public class DatabaseForTesting {
 
     private DataSource datasource;
 
+    private final String sqlSelectØvingIEmne = "SELECT * FROM oving WHERE ovingsnummer =? AND emnekode=? ";
+    private final String sqlgetMaxGruppeIDIEmne = ("SELECT MAX(gruppeid) AS siste FROM kravgruppe");
     private final String sqlSelectAlleBrukere = "SELECT * FROM bruker ORDER BY etternavn";
     private final String sqlSelectAlleHovedbrukertyper = "SELECT * FROM bruker WHERE hovedbrukertype =? ORDER BY etternavn";
     private final String sqlSelectBruker = "SELECT * FROM bruker WHERE brukernavn =?";
+    private final String sqlSelectBrukerPaNavn = "SELECT concat(fornavn,' ',etternavn) AS navn, bruker.* FROM bruker WHERE concat(fornavn,' ',etternavn) LIKE ?";
     private final String sqlInsertBruker = "INSERT INTO bruker values(?,?,?,?,?,?)";
     private final String sqlUpdateBruker = "UPDATE bruker SET fornavn=?, etternavn=?, hovedbrukertype=?, passord=? WHERE brukernavn=?";
+    private final String sqlDeleteBruker = "DELETE FROM bruker WHERE brukernavn=?";
     private final String sqlendrePassord = "UPDATE bruker SET passord=? WHERE brukernavn=?";
     private final String sqlSelectAlleFag = "SELECT * FROM emne ORDER BY emnekode";
+    private final String sqlUpdageOvingsbeskrivelse = "UPDATE emne set beskrivelse=? where emnekode=?";
     private final String sqlSelectFag = "SELECT * FROM emne WHERE emnekode =?";
     private final String sqlInsertFag = "INSERT INTO emne VALUES(?,?,?)";
-    private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, emnekode=? WHERE emnekode=?";
+    private final String sqlUpdateFag = "UPDATE emne SET emnenavn=?, beskrivelse=? WHERE emnekode=?";
+    private final String sqlDeleteFag = "DELETE FROM emne WHERE emnekode=?";
+    private final String sqlSelectEmnePaabokstav = "SELECT concat(emnekode,'-',emnenavn) AS navn, emne.* FROM emne WHERE concat(emnekode,'-',emnenavn) LIKE ?";
     private final String sqlSelectBrukereIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
             + "FROM bruker LEFT JOIN emne_bruker USING (brukernavn) WHERE emnekode =? ORDER BY etternavn";
     private final String sqlSelectBrukertypeIEmne = "SELECT brukernavn, fornavn, etternavn, passord, hovedbrukertype "
@@ -37,30 +44,34 @@ public class DatabaseForTesting {
     private final String sqlInsertBrukerIEmne = "INSERT INTO emne_bruker VALUES(?,?,?)";
     private final String sqlSelectØving = "SELECT * FROM oving WHERE ovingsnummer=? AND emnekode =?";
     private final String sqlInsertØving = "INSERT INTO oving VALUES(?,?,?,?)";
-    private final String sqlUpdateØving = "UPDATE oving SET ovingsnummer =?, emnekode =?, gruppeid=?, obligatorisk=? WHERE ovingsnummer =? AND emnekode=?";
+    private final String sqlInsertØvingNull = "INSERT INTO oving VALUES(?,?,null,?)";
+    private final String sqlUpdateØving = "UPDATE oving SET gruppeid=?, obligatorisk=? WHERE ovingsnummer =? AND emnekode=?";
+    private final String sqlDeleteØving = "DELETE FROM oving WHERE ovingsnummer=? AND emnekode=?";
     private final String sqlSelectØvingerIEmne = "SELECT * FROM oving WHERE emnekode=?";
     private final String sqlCountØvinger = "SELECT COUNT(ovingsnummer) as telling FROM oving WHERE emnekode =?";
-    private final String sqlDeleteØvinger = "DELETE * WHERE id < ? AND id> ?";
+    private final String sqlDeleteØvinger = "DELETE FROM oving WHERE id < ? AND id > ?";
+    private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(?,?,?,?)";
     private final String sqlgetKravGruppe = "Select * from kravgruppe where emnekode =?";
-    private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(?, ?, ?, ?)";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
     private final String sqlSelectFagKoAktiv = "SELECT * FROM ko WHERE emnekode = ?";
     private final String sqlUpdateFagKoAktiv = "UPDATE ko SET aktiv = ? WHERE emnekode = ?";
-    private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM koinnlegg WHERE aktiv = 1";
+    private final String sqlSelectAlleInnleggFraEmnekode = "SELECT * FROM koinnlegg WHERE emnekode = ?";
     private final String sqlSelectAlleBrukereIInnlegg = "SELECT * FROM brukere_i_innlegg WHERE innleggsid = ?";
     private final String sqlErBrukerIFag = "SELECT * FROM emne_bruker WHERE brukernavn= ? AND emnekode= ?";
     private final String sqlInsertKo = "INSERT INTO ko VALUES(?,?,?)";
     private final String sqlInsertKoInnlegg = "INSERT INTO koinnlegg VALUES(?,DEFAULT,?,?,?,?,?,?,?,?,?)";
     private final String sqlSelectpaabrukertype = "SELECT * FROM bruker WHERE fornavn=? AND etternavn =? and hovedbrukertype=?";
     private final String sqlUpdateKoinnleggHjelpBruker = "UPDATE koinnlegg SET hjelp=? WHERE innleggsid=?";
+    private final String sqlUpdateKoinnlegg = "UPDATE koinnlegg SET bygg=?, etasje=?, rom=?, bord=?, kommentar=? WHERE innleggsid=?";
     private final String sqlSelectDistinctBygg = "SELECT DISTINCT bygg FROM lokasjon WHERE emnekode = ?";
     private final String sqlSelectDistinctEtasje = "SELECT DISTINCT etasje FROM lokasjon WHERE emnekode = ? AND bygg = ?";
     private final String sqlSelectDistinctRom = "SELECT DISTINCT rom FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ?";
     private final String sqlSelectDistinctBord = "SELECT DISTINCT bord FROM lokasjon WHERE emnekode = ? AND bygg = ? AND etasje = ? AND rom = ?";
-    private final String sqlSelectBrukereiFag = "Select * from emne_bruker where emnekode =? ORDER by brukertype DESC";
+    private final String sqlSelectBrukereiFag = "Select * from emne_bruker, bruker where emnekode =? AND bruker.brukernavn = emne_bruker.brukernavn ORDER by bruker.etternavn ASC";
+    private final String sqlSelectBrukereAlleredeIKo = "SELECT * FROM brukere_i_innlegg a, bruker b WHERE a.brukernavn = b.brukernavn";
     private final String sqlInsertOvingerGodkjent = "INSERT INTO godkjente_ovinger VALUES(?,?,?,?)";
-    private final String sqlDeleteOvingerGodkjent = "DELETE * WHERE emnekode = ? AND brukernavn = ? AND ovingsnummer = ?";
+    private final String sqlDeleteOvingerGodkjent = "DELETE From godkjente_ovinger WHERE emnekode = ? AND brukernavn = ? AND ovingsnummer = ?";
     private final String sqlSelectInnleggFraID = "SELECT * FROM koinnlegg WHERE innleggsid = ?";
     private final String sqlSelectOvingIInnlegg = "SELECT * FROM ovinger_i_innlegg WHERE innleggsid = ? AND BRUKERNAVN = ?";
     private final String sqlSelectInnleggFraHjelpEmne = "SELECT * FROM koinnlegg WHERE hjelp = ? AND emnekode = ?";
@@ -75,7 +86,10 @@ public class DatabaseForTesting {
     private final String sqlInsertBrukereIInnlegg = "INSERT INTO brukere_i_innlegg VALUES(?,?)";
     private final String sqlInsertOvingerIInnlegg = "INSERT INTO ovinger_i_innlegg VALUES(?,?, ?, ?)";
     private final String sqlSelectGodkjenteØvingerKravgruppeBruker = "select kravgruppe.gruppeid, A.antallfullfort,kravgruppe.antall from kravgruppe left outer join (select gruppeid,count(gruppeid) as antallfullfort from godkjente_ovinger natural join oving where brukernavn=? group by gruppeid) as A on(kravgruppe.gruppeid=A.gruppeid) where emnekode=? ORDER BY kravgruppe.gruppeid;";
-    private final String sqlUpdageOvingsbeskrivelse = "UPDATE emne set beskrivelse=? where emnekode=?";
+    private final String sqlSelectEndrePassordMD5 = "SELECT bruker.glemt_passord FROM bruker WHERE brukernavn=?";
+    private final String sqlSelectBrukerFraMD5 = "SELECT bruker.brukernavn FROM bruker WHERE glemt_passord=?";
+    private final String sqlUpdateEndrePassordMD5 = "UPDATE bruker SET glemt_passord=? WHERE brukernavn=?";
+    private final String sqlDeleteBrukerFraEmne = "DELETE FROM emne_bruker WHERE brukernavn=?";
 
     /*    public DatabaseForTesting(String dbNavn, String dbUser, String dbPswrd) {
      this.dbNavn = dbNavn;
@@ -451,7 +465,7 @@ public class DatabaseForTesting {
         return ok;
     }
 
-    public synchronized boolean oppdaterØving(Øving oving, int ovingsnr, String emnekode) {
+    public synchronized boolean oppdaterØving(Øving oving) {
         boolean ok = false;
         System.out.println("oppdaterØving()");
         PreparedStatement psUpdateØving = null;
@@ -459,12 +473,10 @@ public class DatabaseForTesting {
         try {
             åpneForbindelse();
             psUpdateØving = forbindelse.prepareStatement(sqlUpdateØving);
-            psUpdateØving.setInt(1, oving.getØvingsnr());
-            psUpdateØving.setString(2, oving.getEmnekode());
-            psUpdateØving.setInt(3, oving.getGruppeid());
-            psUpdateØving.setBoolean(4, oving.getObligatorisk());
-            psUpdateØving.setInt(5, ovingsnr);
-            psUpdateØving.setString(6, emnekode);
+            psUpdateØving.setInt(1, oving.getGruppeid());
+            psUpdateØving.setBoolean(2, oving.getObligatorisk());
+            psUpdateØving.setInt(3, oving.getØvingsnr());
+            psUpdateØving.setString(4, oving.getEmnekode());
 
             int i = psUpdateØving.executeUpdate();
             if (i > 0) {

@@ -47,12 +47,12 @@ public class Database {
     private final String sqlSelectØving = "SELECT * FROM øving WHERE øvingsnummer=? AND emnekode =?";
     private final String sqlInsertØving = "INSERT INTO øving VALUES(?,?,?,?)";
     private final String sqlInsertØvingNull = "INSERT INTO øving VALUES(?,?,null,?)";
-    private final String sqlUpdateØving = "UPDATE øving SET gruppeid=?, obligatorisk=? WHERE øvingsnr =? AND emnekode=?";
+    private final String sqlUpdateØving = "UPDATE øving SET gruppeid=?, obligatorisk=? WHERE øvingsnummer =? AND emnekode=?";
     private final String sqlDeleteØving = "DELETE FROM øving WHERE øvingsnummer=? AND emnekode=?";
     private final String sqlSelectØvingerIEmne = "SELECT * FROM øving WHERE emnekode=?";
     private final String sqlCountØvinger = "SELECT COUNT(øvingsnummer) as telling FROM øving WHERE emnekode =?";
     private final String sqlDeleteØvinger = "DELETE FROM øving WHERE id < ? AND id > ?";
-    private final String sqlInsertKravgruppe = "INSERT INTO arbeidskrav VALUES(?,?,?,?)";
+    private final String sqlInsertKravgruppe = "INSERT INTO kravgruppe VALUES(?,?,?,?)";
     private final String sqlgetKravGruppe = "Select * from kravgruppe where emnekode =?";
     private final String sqlSelectBrukerHentPassord = "SELECT * FROM bruker WHERE brukernavn=?";
     private final String sqlSelectFageneTilBruker = "select * from emne a, emne_bruker b WHERE b.brukernavn = ? AND a.emnekode = b.emnekode";
@@ -92,6 +92,7 @@ public class Database {
     private final String sqlSelectBrukerFraMD5 = "SELECT bruker.brukernavn FROM bruker WHERE glemt_passord=?";
     private final String sqlUpdateEndrePassordMD5 = "UPDATE bruker SET glemt_passord=? WHERE brukernavn=?";
     private final String sqlDeleteBrukerFraEmne = "DELETE FROM emne_bruker WHERE brukernavn=?";
+    private final String sqlDeleteAlleKoinnleggIEmne = "DELETE FROM køinnlegg where emnekode=?";
     
     public Database(String dbNavn, String dbUser, String dbPswrd) {
         this.dbNavn = dbNavn;
@@ -1636,6 +1637,30 @@ public class Database {
         }
         lukkForbindelse();
         return returnen;
+    }
+    public boolean fjernAlleKoinnleggIEmne(String emnekode){
+        System.out.println("FjernAlleKoinnleggIEmne");
+        PreparedStatement psFjernAlleKoinnleggIEmne = null;
+        boolean ok = false;
+        try{
+            åpneForbindelse();
+            psFjernAlleKoinnleggIEmne = forbindelse.prepareStatement(sqlDeleteAlleKoinnleggIEmne);
+            psFjernAlleKoinnleggIEmne.setString(1, emnekode);
+            int i = psFjernAlleKoinnleggIEmne.executeUpdate();
+            if(i > 0){
+                ok = true;
+            }
+        }catch (SQLException e) {
+            Opprydder.rullTilbake(forbindelse);
+            Opprydder.skrivMelding(e, "FjernAlleKoinnlegg()");
+        } catch (Exception e) {
+            Opprydder.skrivMelding(e, "FjernAlleKoinnlegg - ikke sqlfeil");
+        } finally {
+            Opprydder.settAutoCommit(forbindelse);
+            Opprydder.lukkSetning(psFjernAlleKoinnleggIEmne);
+        }
+        lukkForbindelse();
+        return ok;
     }
 
     public boolean fjernKoInnlegg(int koID) {
