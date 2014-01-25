@@ -63,16 +63,16 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
                     <form:input type = "text" name="emneendres" readonly="true" path="emnenavn" value="${emneTilEndring.getEmnekode()} "/>
                     <form:input type ="text" name="emneendres" path="emnekode" value="${emneTilEndring.getEmnenavn()}"/>
                     <form:input type ="text" name="emneendres" path= "beskrivelse" value="${emneTilEndring.getBeskrivelse()}"/>
-                    <input type="submit" name="emneendres" value="Lagre endringer">
+                    <input type="submit" name="emneendres" value="Lagre endringer" />
                 </td>
             </tr>
 
 
         </table>
     </form:form>
-    <form action="endreEmne7.htm" modelAttribute="valgtEmn" method="POST">
-        <input type="submit" name="emneSlettes" value="Slett emne">
-    </form>
+    <form:form action="endreEmne7.htm" modelAttribute="valgtEmn" method="POST">
+        <input type="submit" name="emneSlettes" value="Slett emne" />
+    </form:form>
 
 </c:if>
 

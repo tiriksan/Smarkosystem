@@ -228,7 +228,7 @@ public class Kontroller {
 
     }
 
-    @RequestMapping(value = "endreBruker4.htm")
+    @RequestMapping(value = "endreBruker7.htm")
     public String slettBruker(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Bruker slettBruker) {
         System.out.println("hull" + slettBruker.getBrukernavn());
         UtilsBean ub = new UtilsBean();
