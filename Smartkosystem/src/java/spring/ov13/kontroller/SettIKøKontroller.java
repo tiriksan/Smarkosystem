@@ -143,7 +143,7 @@ public class SettIKøKontroller {
     public String leggtilstud(@RequestParam(value = "brukernavn") String brukernavn,@RequestParam(value = "emnekode") String emnekode){
         
         UtilsBean ub = new UtilsBean();
-        if(ub.sjekkString(brukernavn, 2, 64)){
+        if(ub.sjekkString(brukernavn, 4, 64)){
             
         ArrayList<String> brukernavnene = new ArrayList<String>();
         String[] splitten = brukernavn.split(",");
