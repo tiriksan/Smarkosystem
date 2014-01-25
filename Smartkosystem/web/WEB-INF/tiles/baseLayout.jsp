@@ -30,8 +30,8 @@
                 <tr>
                     <td colspan="2">
                         <footer>
-                            Kontaktperson: Something</br>
-                            Telefon: 9393939393
+                            Kontaktperson: Team 5</br>
+                            Telefon: 92881009
                         </footer>
                     </td>
                     <td></td>
