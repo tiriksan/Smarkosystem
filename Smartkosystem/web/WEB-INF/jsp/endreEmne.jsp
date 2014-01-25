@@ -33,7 +33,6 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
     </table></br>
 </form>
 </div>
-</c:if>
 <table cellspacing="0" cellpadding="0">
     <ul class ="sokeresultat">
         <form:form action="endreEmne3.htm" modelAttribute="valgtEmne" method="POST">
