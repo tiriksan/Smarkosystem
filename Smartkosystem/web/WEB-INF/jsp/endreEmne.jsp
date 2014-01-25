@@ -19,10 +19,10 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 <form action="endreemne2" method="POST">
     <table cellpadding="0px" cellspacing="0px"> 
         <tr> 
-            <td style="border-style:solid none solid solid;border-color:#4B7B9F;border-width:1px;">
-                <input type="text" name="zoom_query" id = "1" style="width:100px; border:0px solid; height:17px; padding:0px 3px; position:relative;"> 
+            <td id="sokeboks1">
+                <input type="text" name="zoom_query" id = "soke2"> 
             </td>
-            <td style="border-style:solid;border-color:#4B7B9F;border-width:1px;">
+            <td id="soke3">
 
                 <input type="submit" value="" style="border-style: none; background: url('resources/bilder/searchbutton3.gif') no-repeat; width: 24px; height: 20px;">
             </td>
