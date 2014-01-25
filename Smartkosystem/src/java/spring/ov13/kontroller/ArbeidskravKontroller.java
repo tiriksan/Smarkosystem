@@ -28,6 +28,9 @@ public class ArbeidskravKontroller {
     public String arbeidskravØving(Model model, @RequestParam(value = "emnet") String emnekode, HttpServletRequest request) {
         System.out.println("here=");
         UtilsBean ub = new UtilsBean();
+        if(!ub.sjekkString(emnekode, 4, 8)){
+            return "feil";
+        }
         ArrayList<Øving> øvinger = ub.getØvingerIEmnet(emnekode);
         request.getSession().setAttribute("øvinger", øvinger);
         request.getSession().setAttribute("antØvinger", øvinger.size());
