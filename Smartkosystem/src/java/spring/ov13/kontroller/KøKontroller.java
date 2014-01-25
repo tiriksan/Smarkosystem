@@ -39,6 +39,15 @@ public class KøKontroller {
     @RequestMapping(value = "/aktiverko.htm")
     public String aktiverko(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x", required = false) String emnekode) {
         UtilsBean ub = new UtilsBean();
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+ return "logginn";
+}
+        if(bruker.getBrukertype() < 2){
+            return "index";
+        }
+        if(!ub.sjekkString(emnekode, 4, 8)){
+            return "feil";
+        }
         System.out.println("DB: " + ub.getFagKoAktiv(emnekode));
         ub.updateFagKoAktiv(emnekode, !ub.getFagKoAktiv(emnekode));
         System.out.println("DB2: " + ub.getFagKoAktiv(emnekode));
@@ -51,6 +60,10 @@ public class KøKontroller {
             return "logginn";
         } else {
             UtilsBean ub = new UtilsBean();
+            if(!ub.sjekkString(emnekode, 4, 8)){
+                return "feil";
+            }
+            
             if (request.getAttribute("hjelp") != null) {
                 if(ub.getInnleggFraHjelpEmne(bruker.getBrukernavn(), emnekode) == null){
                     model.addAttribute("hjelp", false);
@@ -133,16 +146,34 @@ public class KøKontroller {
     }
 
     @RequestMapping(value = "fjernInnlegg.htm")
-    public String fjernInnlegg(@RequestParam(value = "x") String emne, @RequestParam(value = "id") int id, HttpServletRequest request) {
+    public String fjernInnlegg(@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x") String emne, @RequestParam(value = "id") int id, HttpServletRequest request) {
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+ return "logginn";
+}
+        if(bruker.getBrukertype() < 2){
+            return "index";
+        }
         UtilsBean ub = new UtilsBean();
+        if(!ub.sjekkString(emne, 4, -1) || !ub.sjekkString(id + "", 4, -1)){
+            return "feil";
+        }
         request.getSession().setAttribute("emne", emne);
         ub.fjernKoInnleggFraID(id);
         return "redirect:studentko.htm?x=" + emne;
     }
 
     @RequestMapping(value = "tømKø.htm")
-    public String tømKø(@RequestParam(value = "x") String emne) {
+    public String tømKø(@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x") String emne) {
         UtilsBean ub = new UtilsBean();
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+ return "logginn";
+}
+        if(bruker.getBrukertype() < 2){
+            return "index";
+        }
+                if(!ub.sjekkString(emne, 4, -1)){
+            return "feil";
+        }
         ub.fjernAlleKoinnleggIEmne(emne);
         return "redirect:studentko.htm?x=" + emne;
     }
@@ -150,7 +181,15 @@ public class KøKontroller {
     @RequestMapping(value = "hjelp.htm")
     public String handlePost(@ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x") String emne, @RequestParam(value = "id") int id, HttpServletRequest request, RedirectAttributes ra) {
         UtilsBean ub = new UtilsBean();
-
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+ return "logginn";
+}
+        if(bruker.getBrukertype() < 2){
+            return "index";
+        }
+        if(!ub.sjekkString(emne, 4, -1) || !ub.sjekkString(id + "", 4, -1)){
+            return "feil";
+        }
         ra.addFlashAttribute("hjelp", true);
         request.getSession().setAttribute("emne", emne);
         request.getSession().setAttribute("id", id);
@@ -164,7 +203,12 @@ public class KøKontroller {
     public String godkjennAlle(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne, @ModelAttribute("brukerinnlogg") Bruker bruker) {
         request.getSession().setAttribute("hjelp", false);
         UtilsBean ub = new UtilsBean();
-
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+ return "logginn";
+}
+        if(!ub.sjekkString(emne, 4, -1)){
+            return "feil";
+        }
         Innlegg innlegg = ub.getInnleggFraID((Integer) request.getSession().getAttribute("id"));
         for (Bruker b : innlegg.getBrukere()) {
             ArrayList<Integer> ovnr = new ArrayList();
@@ -182,6 +226,15 @@ public class KøKontroller {
     @RequestMapping("godkjennValgte.htm")
     public String godkjentValgte(Model modell, HttpServletRequest request, @RequestParam(value = "x") String emne, @ModelAttribute("brukerinnlogg") Bruker bruker) {
         UtilsBean ub = new UtilsBean();
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+ return "logginn";
+}
+        if(bruker.getBrukertype() < 2){
+            return "index";
+        }
+                if(!ub.sjekkString(emne, 4, -1)){
+            return "feil";
+        }
         Enumeration<String> paramNames = request.getParameterNames();
         String brukernavnMedListe = "";
         ArrayList<Integer> liste = new ArrayList();
@@ -209,17 +262,35 @@ public class KøKontroller {
     }
 
     @RequestMapping(value = "utsett.htm")
-    public String utsett(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne) {
+    public String utsett(@ModelAttribute("brukerinnlogg") Bruker bruker, Model model, HttpServletRequest request, @RequestParam(value = "x") String emne) {
         request.getSession().setAttribute("hjelp", false);
         UtilsBean ub = new UtilsBean();
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+ return "logginn";
+}
+        if(bruker.getBrukertype() < 2){
+            return "index";
+        }
+                if(!ub.sjekkString(emne, 4, -1)){
+            return "feil";
+        }
         ub.setKøinnleggHjelpBruker(null, (Integer) request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");
     }
 
     @RequestMapping(value = "fjern.htm")
-    public String fjern(Model model, HttpServletRequest request, @RequestParam(value = "x") String emne) {
+    public String fjern(@ModelAttribute("brukerinnlogg") Bruker bruker, Model model, HttpServletRequest request, @RequestParam(value = "x") String emne) {
         request.getSession().setAttribute("hjelp", false);
         UtilsBean ub = new UtilsBean();
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+ return "logginn";
+}
+        if(bruker.getBrukertype() < 2){
+            return "index";
+        }
+                if(!ub.sjekkString(emne, 4, -1)){
+            return "feil";
+        }
         ub.setKøinnleggHjelpBruker(null, (Integer) request.getSession().getAttribute("id"));
         ub.fjernKoInnleggFraID((Integer) request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");
