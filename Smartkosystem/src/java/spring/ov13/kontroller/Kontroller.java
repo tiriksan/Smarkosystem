@@ -228,7 +228,7 @@ public class Kontroller {
 
     }
 
-    @RequestMapping(value = "endreBruker4.htm")
+    @RequestMapping(value = "endreBruker7.htm")
     public String slettBruker(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Bruker slettBruker) {
         System.out.println("hull" + slettBruker.getBrukernavn());
         UtilsBean ub = new UtilsBean();
@@ -301,7 +301,9 @@ public class Kontroller {
         System.out.println("STILL GOINNGGGG");
         UtilsBean ub = new UtilsBean();
         Emne em = ub.getEmne(endretEmne.getEmnenavn());
+        System.out.println("jaja");
         em.setEmnekode(endretEmne.getEmnenavn());
+        System.out.println("jajaja");
         em.setBeskrivelse(endretEmne.getBeskrivelse());
         System.out.println(endretEmne.getEmnenavn());
         System.out.println(endretEmne.getEmnekode());
@@ -318,11 +320,12 @@ public class Kontroller {
     }
 
     /*-- SLETT EMNE --*/
-    @RequestMapping(value = "endreEmne4.htm")
-    public String slettEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Emne slettEmne) {
-        System.out.println("hull" + slettEmne.getEmnekode());
+    @RequestMapping(value = "endreEmne7.htm")
+    public String slettEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmn") Emne emnet) {
+        System.out.println("hull" + emnet.getEmnekode());
         UtilsBean ub = new UtilsBean();
-        ub.slettEmne(slettEmne);
+        ub.slettEmne(emnet);
+        
         return "endreEmne";
     }
 
@@ -371,28 +374,33 @@ public class Kontroller {
         return "regov2";
     }
 
-    @RequestMapping(value = "/emnetilbruker.htm")
-
-    public String visEmnetilbruker(Model model) {
+    @RequestMapping(value = "emnetilbruker.htm")
+    public String visEmnetilbruker(Model model, HttpServletRequest request) {
         UtilsBean ub = new UtilsBean();
-
-               //<form:forEach items="${brukerne}" var="bruker">
         ArrayList<Bruker> brukere = ub.getAlleBrukere();
         ArrayList<Emne> emner = ub.getAlleFag();
-        model.addAttribute("brukerne", brukere);
-        model.addAttribute("emnene", emner);
-        for (int k = 0; k < emner.size(); k++) {
-            System.out.println(emner.get(k).getEmnekode());
-        }
+        request.getSession().setAttribute("brukere", brukere);
+        request.getSession().setAttribute("emner", emner);
         return "emnetilbruker";
     }
 
-    @RequestMapping(value = "/emnetilbruker2.htm")
-    public String visEmnetilbruker2(Model model, @RequestParam(value = "brukerne2") Bruker bruker, @ModelAttribute(value = "brukerhentet") String[] brukervalgt) {
+    @RequestMapping(value = "emnetilbruker2.htm")
+    public String visEmnetilbruker2(Model model, HttpServletRequest request, @RequestParam(value = "bruker") String[] bruker, @RequestParam(value = "emne") String[] emne) {
         UtilsBean ub = new UtilsBean();
-
-        System.out.println("brukeren som er valgt" + brukervalgt[0]);
-
+        ArrayList<Bruker> brukere = new ArrayList<Bruker>();
+        ArrayList<Emne> emner = new ArrayList<Emne>();
+        for (int i = 0; i < request.getParameterValues("bruker").length; i++) {
+            brukere.add(ub.getBruker(request.getParameterValues("bruker")[i]));
+        }
+        for (int i = 0; i < request.getParameterValues("emne").length; i++) {
+            emner.add(ub.getEmne(request.getParameterValues("emne")[i]));
+        }
+        if (!brukere.isEmpty() && !emner.isEmpty()) {
+            boolean registrert = ub.leggTilBrukereIEmner(emner, brukere);
+            if (registrert) {
+                return "emnetilbruker";
+            }
+        }
         return "emnetilbruker";
     }
     /*
@@ -555,10 +563,12 @@ public class Kontroller {
 
     //*** siden for å velge et emne i en nedtrekksliste for så å få opp øvinger i emnet som man kan velge å slette *** 
     @RequestMapping(value = "/endreOving.htm")
+
     public String visendreOv(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, @ModelAttribute(value = "valgtOving") Øving øving, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getValg2, HttpServletRequest request) {
 
         Emne valgtEmne = new Emne();
         Øving valgtØving = new Øving();
+
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> em = ub.getAlleFag();
         ArrayList<String> emnetabell1 = new ArrayList<String>();
@@ -588,25 +598,31 @@ public class Kontroller {
             model.addAttribute("ovingtabell", øvingtabell1);
 
         }
-        System.out.println("øvenr2 her: " + øvenr2);
-        String valgtØv = getValg2;
-        valgtØving = ub.getØvingIEmnet(øvenr2, getValg);
 
-        model.addAttribute("ovinger", valgtØving);
-        System.out.println("getvalg 2 er her: " + getValg2);
-        System.out.println("getvalg 1 er her: " + getValg);
+         model.addAttribute("ovinger", valgtØving);
+        
+        System.out.println("kommer inn her her er valg1= "+getValg);
+        System.out.println("kommer inn her her er valg1= "+getValg2);
 
-        return "endreOving";
-    }
-
-    //**** metoden for å slette den valgte øvinga i emnet *********************
-    @RequestMapping(value = "endreOving2.htm")
-    public String slettOving(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtOving") Øving slettØving) {
-        System.out.println("sletter" + slettØving.getØvingsnr());
-        UtilsBean ub = new UtilsBean();
+      
+            
+if(getValg2 != null){
+                
+           
+        Øving slettØving = ub.getØvingIEmnet(Integer.parseInt(getValg2), getValg);
+        slettØving.setEmnekode(getValg);
+        slettØving.setØvingsnr(Integer.parseInt(getValg2));
+        System.out.println("sletter--------------------------------------sletter" + slettØving.getØvingsnr());
         ub.slettØving(slettØving);
+            
+            
+        
+}
+
         return "endreOving";
     }
+
+ 
 
     /*
      int r = ub.getØvingerIEmnet(emnekoden).size();

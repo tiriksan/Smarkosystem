@@ -13,16 +13,13 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Endre Bruker</title>
-        <link rel="stylesheet" href="resources/css/stilark.css"/>
-    </head>
-    <body>
 
 
-        <h3>Endre Bruker</h3>
+
+
+        <h3 id="endreoverskrift">Endre Bruker</h3>
+
+<div id="sokeboksform">
 
         <c:if test="${!emneliste && !brukereIEmnet}">
 
@@ -40,6 +37,7 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
                 </table></br>
 
             </form>
+</div>
             <table cellspacing="0" cellpadding="0">
                 <ul class ="sokeresultat">
                     <form:form action="endreBruker3.htm" modelAttribute="valgtBruker" method="POST">
@@ -47,13 +45,15 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
                             <tr>        <td class="tdko">
                                     <%-- <li> <a href =  "endreBruker.htm" >${hverbruker.getFornavn()} ${hverbruker.getEtternavn()}</a> </li> --%>
 
-                                    <form:radiobutton  value="${hverbruker.getBrukernavn()}" path="brukernavn" /> ${hverbruker.getFornavn()} &nbsp; ${hverbruker.getEtternavn()} 
+                                    <form:radiobutton  value="${hverbruker.getBrukernavn()}" path="brukernavn" /> ${hverbruker.getFornavn()} ${hverbruker.getEtternavn()} 
 
-                                </td><td class="tdko"><c:out value="${k.index}"/></td></tr>
-
+                                </td>
+                                <td class="tdko"><c:out value="${k.index}"/></td>
+                            </tr>
                         </c:forEach>
                         <c:if test="${not empty sokeresultat}">
-                            <input type="submit" value="Velg bruker"/></c:if>
+                            <input type="submit" value="Velg bruker"/>
+                        </c:if>
                     </form:form>
             </table>
         </ul>
@@ -95,21 +95,15 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
         </form>
     </c:if>
     <c:if test="${brukereIEmnet}">
-        <table>
-            test!=??#
-            
+        <form action="endreBruker.htm">
+            <table width="100%">
                 <c:forEach items="${valgtEmneBrukere}" var="hverBruker">
                     <tr>
-                        <td>${hverBruker.brukernavn}</td>
+                        <td><input type="checkbox" name="${hverBruker.getBrukernavn()}">${hverBruker.getFornavn()} ${hverBruker.getEtternavn()}</td>
                     </tr>
                 </c:forEach>
-            
-        </c:if>
-</body>
-
-</html>
-
-
-<td class="tdko">
-
-
+                <c:out value="name"></c:out>
+                    <input type="submit" value="Slett valgte">
+            </table>
+        </form>
+    </c:if>

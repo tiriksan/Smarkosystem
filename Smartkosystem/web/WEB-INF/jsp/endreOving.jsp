@@ -63,7 +63,7 @@
                
                 <tr>
                     <td>
-                    Velg Øving: 
+                    Slett øving: 
                     </td>
                     <td>
                         <select name="y" id="y" onchange="submitform()">
@@ -81,8 +81,12 @@
            
         <c:if test="${valg2 >0}">      
             
-            <form:form action="endreOving2.htm" modelAttribute="valgtOving" method="get">
+
+            <form:form action="endreOving.htm" modelAttribute="valgtOving" method="get">
+                <h3> Øving ${valg2} er slettet: </h3>
+
         
+
          <table>
            
               
@@ -96,10 +100,9 @@
        </tr>
        <tr>
             <td> 
-                <form:input type ="text" readonly="true" name="ovingnr" path = "øvingsnr" value="${valg2} "/>
+                <form:input type ="text" readonly="true" name="ovingnr" path = "øvingsnr" value="${valg2}"/>
                 <form:input type ="text" readonly="true" name="gruppeid" path= "gruppeid" value="${ovinger.getGruppeid()}"/>
                 <form:input type ="text" readonly="true" name="obligatorisk" path= "obligatorisk" value="${ovinger.getObligatorisk()}"/>
-                <input type="submit" name="ovingSlettes" value="Slett oving">
             </td>
             </tr>
            
@@ -108,14 +111,3 @@
                    </table>
       </form:form>
 </c:if>
-        
-           
-           
-         
-        
- 
-
-
-
-       
-

@@ -14,9 +14,8 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 
 
 
-<h3>Endre Emne</h3>
-
-
+<h3 id="endreoverskrift">Endre Emne</h3>
+<div id="sokeboksform">
 <form action="endreemne2" method="POST">
     <table cellpadding="0px" cellspacing="0px"> 
         <tr> 
@@ -26,7 +25,6 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
             <td style="border-style:solid;border-color:#4B7B9F;border-width:1px;">
 
                 <input type="submit" value="" style="border-style: none; background: url('resources/bilder/searchbutton3.gif') no-repeat; width: 24px; height: 20px;">
-
             </td>
            
             
@@ -34,6 +32,7 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
         </tr>
     </table></br>
 </form>
+</div>
 <table cellspacing="0" cellpadding="0">
     <ul class ="sokeresultat">
         <form:form action="endreEmne3.htm" modelAttribute="valgtEmne" method="POST">
@@ -52,7 +51,7 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 </table>
 </ul>
 <c:if test="${funkafint eq true}">
-    Oppdatering vellykket!
+    <p>Oppdatering vellykket!</p>
 </c:if>
 
 
@@ -61,23 +60,21 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
         <table>
             <tr>  
                 <td> 
+                    <form:input type = "text" name="emneendres" readonly="true" path="emnenavn" value="${emneTilEndring.getEmnekode()} "/>
                     <form:input type ="text" name="emneendres" path="emnekode" value="${emneTilEndring.getEmnenavn()}"/>
-                    <form:input type = "text" name="emneendres" path = "emnenavn" value="${emneTilEndring.getEmnekode()} "/>
                     <form:input type ="text" name="emneendres" path= "beskrivelse" value="${emneTilEndring.getBeskrivelse()}"/>
-                    <input type="submit" name="emneendres" value="Lagre endringer">
-                    <input type="submit" name="emneSlettes" value="Slett emne">
+                    <input type="submit" name="emneendres" value="Lagre endringer" />
                 </td>
             </tr>
 
 
-
         </table>
+    </form:form>
+    <form:form action="endreEmne7.htm" modelAttribute="valgtEmn" method="POST">
+        <input type="submit" name="emneSlettes" value="Slett emne" />
     </form:form>
 
 </c:if>
 
-
-
-<td class="tdko">
 
 
