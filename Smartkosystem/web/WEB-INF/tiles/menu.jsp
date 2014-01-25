@@ -15,6 +15,7 @@
         <c:if test="${brukerinnlogg.brukertype eq 3 or brukerinnlogg.brukertype eq 4}">
             <tr><td class="menuvalg"><a href="<c:url value="bruker.htm"/>" ><spring:message code="menyvalg3" /></a></td></tr>
             <tr><td class="menuvalg"><a href="<c:url value="endreEmne.htm"/>" ><spring:message code="menyvalg6" /></a></td></tr>
+            <tr><td class="menuvalg"><a href="<c:url value="emnetilbruker.htm"/>" ><spring:message code="menyvalg14" /></td></tr>
         </c:if>
             
         <tr><td class="menuvalg"><a href="<c:url value="velgEmneBrukeroversikt.htm"  />"> <spring:message code = "menyvalg8" /></a></td></tr>
