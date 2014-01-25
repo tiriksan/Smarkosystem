@@ -318,18 +318,26 @@ public class SettIKøKontroller {
     
     
     @RequestMapping(value = "/submitko.htm")
-    public String submiten(@RequestParam(value = "bygget", required = false) String bygget, @RequestParam(value = "etasjene", required = false) String etasje, @RequestParam(value = "rommene", required = false) String rom, @RequestParam(value = "bordene", required = false) String bord, @RequestParam(value = "hidden") String brukernavn, @RequestParam(value = "oving[]") String[] ovinger, @RequestParam(value = "emnekode", required = true) String emnekode, @RequestParam(value = "hjelp") String beskrivelse){
+    public String submiten(@RequestParam(value = "bygget", required = false) String bygget, @RequestParam(value = "etasjene", required = false) String etasje, @RequestParam(value = "rommene", required = false) String rom, @RequestParam(value = "bordene", required = false) String bord, @RequestParam(value = "hidden") String brukernavn, @RequestParam(value = "oving[]", required = false) String[] ovinger, @RequestParam(value = "emnekode", required = true) String emnekode, @RequestParam(value = "hjelp") String beskrivelse){
         
         
         boolean stop = false;
        
        
        UtilsBean ub = new UtilsBean();
+       if(ovinger == null  ||ovinger.length == 0){
+           return "feil";
+       }
        
-       
-               if(!ub.sjekkString(bygget, 4, -1) || !ub.sjekkString(etasje, 4, -1) || !ub.sjekkString(bord, 4, -1) || !ub.sjekkString(rom, 4, -1) || !ub.sjekkString(emnekode, 4, 8)){
+               if(!ub.sjekkString(bygget, 4, -1) || !ub.sjekkString(etasje, 4, -1) || !ub.sjekkString(bord, 4, -1) || !ub.sjekkString(rom, 4, -1) || !ub.sjekkString(emnekode, 4, 8) || ub.sjekkString(brukernavn, 4, -1) || ub.sjekkString(emnekode, 4, 8)){
             return "feil";
         }
+               
+               for(int i = 0; i < ovinger.length; i++){
+                   if(!ub.sjekkString(ovinger[i], 1, -1)){
+                       return "feil";
+                   }
+               }
        
        
        
