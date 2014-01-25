@@ -44,7 +44,7 @@ public class GlemtEndrePassordKontroller {
             
             String endrePassordMD5 = ub.getEndrePassordMD5(brukernavn);
             //TODO endre dersom man endrer server 
-            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8080/Smartkosystem/endrepassord.htm?bruker="+endrePassordMD5);
+            epost.sendEpost(bruker.getBrukernavn(), "http://158.38.57.5:8080/Smartkosystem/endrepassord.htm?bruker="+endrePassordMD5);
             modell.addAttribute("sendMelding", "Epost med passordendring er blitt sendt til din epost");
             return "glemtpassord";
         }
