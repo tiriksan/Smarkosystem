@@ -119,9 +119,8 @@ godkjent_av VARCHAR(50) NOT NULL,
 emnekode VARCHAR(8) NOT NULL,
 brukernavn VARCHAR(64) NOT NULL,
 øvingsnummer INT NOT NULL,
-CONSTRAINT godkjente_øvinger_fk1 FOREIGN KEY(emnekode) REFERENCES emne(emnekode) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT godkjente_øvinger_fk2 FOREIGN KEY(brukernavn) REFERENCES bruker(brukernavn) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT godkjente_øvinger_fk3 FOREIGN KEY(øvingsnummer) REFERENCES øving(øvingsnummer) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT godkjente_øvinger_fk1 FOREIGN KEY(brukernavn) REFERENCES bruker(brukernavn) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT godkjente_øvinger_fk2 FOREIGN KEY(øvingsnummer, emnekode) REFERENCES øving(øvingsnummer, emnekode) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT godkjente_øvinger_pk1 PRIMARY KEY(emnekode, brukernavn, øvingsnummer),
 INDEX(emnekode, brukernavn, øvingsnummer)
 ) ENGINE=innoDB;
