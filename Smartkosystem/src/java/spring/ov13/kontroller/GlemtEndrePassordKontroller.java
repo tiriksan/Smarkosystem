@@ -53,6 +53,9 @@ public class GlemtEndrePassordKontroller {
     public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletResponse response){
         //System.out.println("Endrepassordbruker: " + bruker);
         UtilsBean ub = new UtilsBean();
+        if(!ub.sjekkString(getValg, 2, -1)){
+            return "feil";
+        }
         if(ub.getBrukernavnFraGlemtPassord(getValg) == null){
             model.addAttribute("melding", "Denne linken er ikke gyldig. Prøv å trykk på 'glemt passord' igjen på innloggingssiden for å få tilsendt en ny mail.");
         }else {

@@ -55,10 +55,11 @@ public class Kontroller {
         if(brukeren.getBrukernavn() == null || brukeren.getBrukernavn().equals("")){
             return "logginn";
         }
-        UtilsBean ub = new UtilsBean();
-        if(!ub.sjekkString(getValg, 1, 3)){
-            return "feil";
+        if(brukeren.getBrukertype() < 3){
+            return "index";
         }
+        UtilsBean ub = new UtilsBean();
+
         Bruker bruker = new Bruker();
         Emne emne = new Emne();
         FilOpplasting filOpp = new FilOpplasting();
@@ -91,10 +92,21 @@ public class Kontroller {
 
 //*******************************Registerer bruker fra fil**********************************
     @RequestMapping(value = "/registrerBrukereFraFil.htm", method = RequestMethod.POST)
-    public String regBrukereFraFil(Model model, @RequestParam(value = "filInnhold", required = true) String tekst, @ModelAttribute(value = "filOpplasting") FilOpplasting filOpp, BindingResult error) {
+    public String regBrukereFraFil(@ModelAttribute("brukerinnlogg") Bruker bruker, Model model, @RequestParam(value = "filInnhold", required = true) String tekst, @ModelAttribute(value = "filOpplasting") FilOpplasting filOpp, BindingResult error) {
 
+                if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+            return "logginn";
+        }
+        if(bruker.getBrukertype() < 3){
+            return "index";
+        }
+        
         filOpp.setFilInnhold(tekst);
         UtilsBean ub = new UtilsBean();
+        
+        if(!ub.sjekkString(tekst, 4, -1)){
+        return "feil";
+    }
         boolean emneSjekkOk = true;
         ArrayList<Emne> emnerListe = new ArrayList<Emne>();
         String[] emnekoder = filOpp.getEmner().split(",");
@@ -130,10 +142,20 @@ public class Kontroller {
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value = "fagene") String[] fagene) {
 
+        if(bruker.getBrukertype() < 3){
+            return "index";
+        }
         String[] values = request.getParameterValues("fagene");
         System.out.println("Her skal det komme opp noe nå " + values[0]);
         ArrayList<Emne> emneliste = new ArrayList<Emne>();
         UtilsBean utilsBean = new UtilsBean();
+        
+        for(int i = 0; i < fagene.length; i++){
+            if(!utilsBean.sjekkString(fagene[i], 4, -1)){
+                return "feil";
+            }
+        }
+        
         Emne returnen = utilsBean.getEmne(values[0]);
         emneliste.add(returnen);
 
@@ -150,7 +172,13 @@ public class Kontroller {
 
     //**************************Registerer emner********************************************
     @RequestMapping(value = "/innsettemne.htm")
-    public ModelAndView regEmne(@Validated @ModelAttribute(value = "emne") Emne emne, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value = "laerer") String[] laerer) {
+    public ModelAndView regEmne(@Validated @ModelAttribute(value = "emne") Emne emne, @ModelAttribute("brukerinnlogg") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value = "laerer") String[] laerer) {
+                        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+            return new ModelAndView("logginn", "model", modell);
+        }
+        if(bruker.getBrukertype() < 3){
+            return new ModelAndView("index", "model", modell);
+        }
         System.out.println("-------------------- kommer inn i regEmne---------------");
         String[] values = request.getParameterValues("laerer");
         System.out.println("Her skal det komme opp noe nå " + values[0]);
@@ -346,11 +374,22 @@ public class Kontroller {
 
     //******************* viser registreringen av en ny øving*****************************************************
     @RequestMapping(value = "regov2.htm")
-    public String visØvinginnsetning(Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error, @RequestParam(value = "emnevalgt", required = false) String emnevalgt, HttpServletRequest request, @RequestParam(value = "submitted", required = false) String submitted) {
+    public String visØvinginnsetning(@ModelAttribute("brukerinnlogg") Bruker bruker, Model model, @ModelAttribute(value = "øving") Øving øving, BindingResult error, @RequestParam(value = "emnevalgt", required = false) String emnevalgt, HttpServletRequest request, @RequestParam(value = "submitted", required = false) String submitted) {
+                if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+            return "logginn";
+        }
+        if(bruker.getBrukertype() < 3){
+            return "index";
+        }
         System.out.println("KOmmer inn i visOv--------------------------------" + request.getParameter("submitted"));
         String svaret = request.getParameter("submitted");
 
         UtilsBean ub = new UtilsBean();
+        if(emnevalgt != null){
+        if(!ub.sjekkString(emnevalgt, 4, -1) || !ub.sjekkString(submitted, 4, -1)){
+            return "feil";
+        }
+        }
         ArrayList<Emne> em = ub.getAlleFag();
         ArrayList<String> emnetabell = new ArrayList<String>();
 
@@ -443,6 +482,14 @@ public class Kontroller {
 
     @RequestMapping(value = "/adminlaerer.htm")
     public String visLaerer(Model model,@ModelAttribute(value="emne")Emne emne, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "valget", required = false) String getAntall,@RequestParam(value = "kravbeskrivelse", required = false) String kravbeskrivelse, HttpServletRequest request) {
+                        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+            return "logginn";
+        }
+        if(bruker.getBrukertype() < 3){
+            return "index";
+        }
+        
+        
         System.out.println("JEG VISER visLaerer!!!!");
         System.out.println("getAntall eeeeeer: "+getAntall);
         System.out.println("getValg= "+getValg);
@@ -459,6 +506,12 @@ public class Kontroller {
             System.out.println("valgteOvinger er tom for meg, hilsen visLaerer()");
         }
         UtilsBean ub = new UtilsBean();
+        
+        if(!ub.sjekkString(getValg, 4, -1) || !ub.sjekkString(getAntall, 4, -1) || !ub.sjekkString(kravbeskrivelse, 4, -1)){
+            return "feil";
+        }
+        
+        
         if (emne == null) {
             emne = new Emne();
         }
@@ -580,11 +633,20 @@ public class Kontroller {
     @RequestMapping(value = "/endreOving.htm")
 
     public String visendreOv(Model model, @ModelAttribute(value = "brukerinnlogg") Bruker bruker, @ModelAttribute(value = "valgtOving") Øving øving, BindingResult error, @RequestParam(value = "x", required = false) String getValg, @RequestParam(value = "y", required = false) String getValg2, HttpServletRequest request) {
-
+                        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+            return "logginn";
+        }
+        if(bruker.getBrukertype() < 3){
+            return "index";
+        }
         Emne valgtEmne = new Emne();
         Øving valgtØving = new Øving();
 
         UtilsBean ub = new UtilsBean();
+        
+        if(!ub.sjekkString(getValg, 4, -1) || !ub.sjekkString(getValg2, 4, -1)){
+            return "feil";
+        }
         ArrayList<Emne> em = ub.getAlleFag();
         ArrayList<String> emnetabell1 = new ArrayList<String>();
         emnetabell1.add(getValg);
