@@ -508,7 +508,7 @@ public class Database {
         return ok;
     }
 
-    public synchronized boolean slettBruker(Bruker bruker) {
+    public synchronized boolean slettBruker(String brukernavn) {
         boolean ok = false;
         System.out.println("slettBruker()");
         PreparedStatement psSlettBruker = null;
@@ -516,7 +516,7 @@ public class Database {
         try {
             åpneForbindelse();
             psSlettBruker = forbindelse.prepareStatement(sqlDeleteBruker);
-            psSlettBruker.setString(1, bruker.getBrukernavn());
+            psSlettBruker.setString(1, brukernavn);
             int i = psSlettBruker.executeUpdate();
             if (i == 1) {
                 ok = true;
@@ -594,7 +594,7 @@ public class Database {
         return ok;
     }
 
-    public synchronized boolean slettEmne(Emne emne) {
+    public synchronized boolean slettEmne(String emne) {
         boolean ok = false;
         System.out.println("slettEmne()");
         PreparedStatement psUpdateFag = null;
@@ -602,7 +602,7 @@ public class Database {
         try {
             åpneForbindelse();
             psUpdateFag = forbindelse.prepareStatement(sqlDeleteFag);
-            psUpdateFag.setString(1, emne.getEmnekode());
+            psUpdateFag.setString(1, emne);
             int i = psUpdateFag.executeUpdate();
             if (i == 1) {
                 ok = true;

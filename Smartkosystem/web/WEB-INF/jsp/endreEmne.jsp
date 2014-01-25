@@ -53,6 +53,9 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 <c:if test="${funkafint eq true}">
     <p>Oppdatering vellykket!</p>
 </c:if>
+    <c:if test="${brukerErSlettet eq true}">
+        <p>Brukeren er slettet!</p>
+    </c:if>
 
 
 <c:if test="${not empty emneTilEndring}">
@@ -70,8 +73,8 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 
         </table>
     </form:form>
-    <form:form action="endreEmne7.htm" modelAttribute="valgtEmn" method="POST">
-        <input type="submit" name="emneSlettes" value="Slett emne" />
+    <form:form action="endreEmne7.htm" modelAttribute="valgtEmn" method="GET">
+        <input type="submit" name="emneSlettes" value="Slett ${emneTilEndring.emnekode}" />
     </form:form>
 
 </c:if>

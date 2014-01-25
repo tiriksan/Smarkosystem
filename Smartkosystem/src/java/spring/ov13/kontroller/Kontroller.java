@@ -210,8 +210,9 @@ public class Kontroller {
     }
 
     @RequestMapping(value = "endreBruker4")
-    public String endreBrukeroppl(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtBruker") Bruker endretBruker) {
+    public String endreBrukeroppl(Model model, HttpServletRequest request, @RequestParam(value = "brukerSlettes")String brukerSlettes, @ModelAttribute(value = "valgtBruker") Bruker endretBruker) {
         UtilsBean ub = new UtilsBean();
+        if(brukerSlettes == null){
         Bruker br = ub.getBruker(endretBruker.getBrukernavn());
         br.setFornavn(endretBruker.getFornavn());
         br.setEtternavn(endretBruker.getEtternavn());
@@ -221,8 +222,15 @@ public class Kontroller {
         if (ub.oppdaterBruker(br)) {
             System.out.println("funka");
             model.addAttribute("funkafint", true);
+            
         }
         System.out.println(br.getFornavn());
+        }else {
+            if(ub.slettBruker(endretBruker.getBrukernavn())){
+                model.addAttribute("brukerErSlettet", true);
+            }
+        }
+        
 
         return "endreBruker";
 
@@ -232,7 +240,7 @@ public class Kontroller {
     public String slettBruker(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Bruker slettBruker) {
         System.out.println("hull" + slettBruker.getBrukernavn());
         UtilsBean ub = new UtilsBean();
-        ub.slettBruker(slettBruker);
+        ub.slettBruker(slettBruker.getBrukernavn());
         return "endreBruker";
     }
 
@@ -322,10 +330,10 @@ public class Kontroller {
     /*-- SLETT EMNE --*/
     @RequestMapping(value = "endreEmne7.htm")
     public String slettEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmn") Emne emnet) {
+        String[] res = request.getParameter("emneSlettes").split(" ");
         System.out.println("hull" + emnet.getEmnekode());
         UtilsBean ub = new UtilsBean();
-        ub.slettEmne(emnet);
-        
+        ub.slettEmne(res[1]);
         return "endreEmne";
     }
 
