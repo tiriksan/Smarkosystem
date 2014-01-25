@@ -45,13 +45,15 @@ Denne siden skal vise en side som viser en søkeboks Da skal man kunne søke etter
                             <tr>        <td class="tdko">
                                     <%-- <li> <a href =  "endreBruker.htm" >${hverbruker.getFornavn()} ${hverbruker.getEtternavn()}</a> </li> --%>
 
-                                    <form:radiobutton  value="${hverbruker.getBrukernavn()}" path="brukernavn" /> ${hverbruker.getFornavn()} &nbsp; ${hverbruker.getEtternavn()} 
+                                    <form:radiobutton  value="${hverbruker.getBrukernavn()}" path="brukernavn" /> ${hverbruker.getFornavn()} ${hverbruker.getEtternavn()} 
 
-                                </td><td class="tdko"><c:out value="${k.index}"/></td></tr>
-
+                                </td>
+                                <td class="tdko"><c:out value="${k.index}"/></td>
+                            </tr>
                         </c:forEach>
                         <c:if test="${not empty sokeresultat}">
-                            <input type="submit" value="Velg bruker"/></c:if>
+                            <input type="submit" value="Velg bruker"/>
+                        </c:if>
                     </form:form>
             </table>
         </ul>

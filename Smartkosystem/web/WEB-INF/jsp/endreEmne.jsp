@@ -60,7 +60,7 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
         <table>
             <tr>  
                 <td> 
-                    <form:input type = "text" name="emneendres" disabled="true" path="emnenavn" value="${emneTilEndring.getEmnekode()} "/>
+                    <form:input type = "text" name="emneendres" readonly="true" path="emnenavn" value="${emneTilEndring.getEmnekode()} "/>
                     <form:input type ="text" name="emneendres" path="emnekode" value="${emneTilEndring.getEmnenavn()}"/>
                     <form:input type ="text" name="emneendres" path= "beskrivelse" value="${emneTilEndring.getBeskrivelse()}"/>
                     <input type="submit" name="emneendres" value="Lagre endringer">
