@@ -51,14 +51,21 @@ public class Kontroller {
 
 //************************ Viser innleggingssiden ***********************
     @RequestMapping(value = "/bruker.htm")
-    public String visInnsetting(Model model, @ModelAttribute("feilmelding") String feil, @RequestParam(value = "x", required = false) String getValg) {
+    public String visInnsetting(@ModelAttribute("brukerinnlogg") Bruker brukeren, Model model, @ModelAttribute("feilmelding") String feil, @RequestParam(value = "x", required = false) String getValg) {
+        if(brukeren.getBrukernavn() == null || brukeren.getBrukernavn().equals("")){
+            return "logginn";
+        }
+        UtilsBean ub = new UtilsBean();
+        if(!ub.sjekkString(getValg, 1, 3)){
+            return "feil";
+        }
         Bruker bruker = new Bruker();
         Emne emne = new Emne();
         FilOpplasting filOpp = new FilOpplasting();
         model.addAttribute("bruker", bruker);
         model.addAttribute("emne", emne);
         model.addAttribute("filOpplasting", filOpp);
-        UtilsBean ub = new UtilsBean();
+        
         model.addAttribute("valget", getValg);
         ArrayList<Emne> fag = ub.getAlleFag();
         ArrayList<String> fagtabell = new ArrayList<String>();
