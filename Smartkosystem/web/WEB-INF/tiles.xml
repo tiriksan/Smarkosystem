@@ -98,7 +98,7 @@
         <put-attribute name="title"  value="emne paa bruker"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/emnetilbruker.jsp"/>      
     </definition>
-        </definition>
+        
         <definition name="feil" extends="baseLayout">
         <put-attribute name="title"  value="En feil oppsto"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/feil.jsp"/>      

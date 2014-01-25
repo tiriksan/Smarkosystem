@@ -28,7 +28,9 @@ public class SettIKøKontroller {
     public String metode(Model model, @ModelAttribute("brukerinnlogg") Bruker bruker, @RequestParam(value = "x") String emnekode){
         
         
-        
+        if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
+ return "logginn";
+}
         
         
         
@@ -101,6 +103,12 @@ public class SettIKøKontroller {
         
         
         UtilsBean ub = new UtilsBean();
+        
+        if(!ub.sjekkString(bygg, 4, -1) || !ub.sjekkString(etasje, 4, -1) || !ub.sjekkString(rom, 4, -1) || !ub.sjekkString(bord, 4, -1) || !ub.sjekkString(emnekode, 4, 8)){
+            return "feil";
+        }
+        
+        
         if(!rom.equals("-1") && !etasje.equals("-1") && !bygg.equals("-1")) {
             //Returner ny tabell med bord
             String[] bordene = ub.getUnikeBord(emnekode, bygg, etasje, rom);
