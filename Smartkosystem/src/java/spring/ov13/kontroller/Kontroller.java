@@ -301,7 +301,9 @@ public class Kontroller {
         System.out.println("STILL GOINNGGGG");
         UtilsBean ub = new UtilsBean();
         Emne em = ub.getEmne(endretEmne.getEmnenavn());
+        System.out.println("jaja");
         em.setEmnekode(endretEmne.getEmnenavn());
+        System.out.println("jajaja");
         em.setBeskrivelse(endretEmne.getBeskrivelse());
         System.out.println(endretEmne.getEmnenavn());
         System.out.println(endretEmne.getEmnekode());
@@ -318,11 +320,12 @@ public class Kontroller {
     }
 
     /*-- SLETT EMNE --*/
-    @RequestMapping(value = "endreEmne4.htm")
-    public String slettEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmne") Emne slettEmne) {
-        System.out.println("hull" + slettEmne.getEmnekode());
+    @RequestMapping(value = "endreEmne7.htm")
+    public String slettEmne(Model model, HttpServletRequest request, @ModelAttribute(value = "valgtEmn") Emne emnet) {
+        System.out.println("hull" + emnet.getEmnekode());
         UtilsBean ub = new UtilsBean();
-        ub.slettEmne(slettEmne);
+        ub.slettEmne(emnet);
+        
         return "endreEmne";
     }
 

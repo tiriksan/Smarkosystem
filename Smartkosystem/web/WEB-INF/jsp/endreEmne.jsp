@@ -15,7 +15,6 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
 
 
 <h3 id="endreoverskrift">Endre Emne</h3>
-
 <div id="sokeboksform">
 <form action="endreemne2" method="POST">
     <table cellpadding="0px" cellspacing="0px"> 
@@ -26,7 +25,6 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
             <td style="border-style:solid;border-color:#4B7B9F;border-width:1px;">
 
                 <input type="submit" value="" style="border-style: none; background: url('resources/bilder/searchbutton3.gif') no-repeat; width: 24px; height: 20px;">
-
             </td>
            
             
@@ -35,6 +33,7 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
     </table></br>
 </form>
 </div>
+</c:if>
 <table cellspacing="0" cellpadding="0">
     <ul class ="sokeresultat">
         <form:form action="endreEmne3.htm" modelAttribute="valgtEmne" method="POST">
@@ -66,14 +65,15 @@ Denne siden skal vise en side som viser en søkeboks mer skal man kunne søke ette
                     <form:input type ="text" name="emneendres" path="emnekode" value="${emneTilEndring.getEmnenavn()}"/>
                     <form:input type ="text" name="emneendres" path= "beskrivelse" value="${emneTilEndring.getBeskrivelse()}"/>
                     <input type="submit" name="emneendres" value="Lagre endringer">
-                    <input type="submit" name="emneSlettes" value="Slett emne">
                 </td>
             </tr>
 
 
-
         </table>
     </form:form>
+    <form action="endreEmne7.htm" modelAttribute="valgtEmn" method="POST">
+        <input type="submit" name="emneSlettes" value="Slett emne">
+    </form>
 
 </c:if>
 
