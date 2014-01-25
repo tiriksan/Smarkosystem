@@ -34,6 +34,9 @@ public class SettIKøKontroller {
         
                 UtilsBean ub = new UtilsBean();
                 
+                if(!ub.sjekkString(emnekode, 4, 8)){
+                    return "feil";
+                }
                 
                 
                 ArrayList<Bruker> brukerne = new ArrayList<Bruker>();
