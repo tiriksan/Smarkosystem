@@ -71,12 +71,18 @@ if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
              
     public String Logginn(HttpServletRequest request, @RequestParam("brukernavninnlogging") String bruk, @RequestParam("passordinnlogging") String pass, Model model, @ModelAttribute("brukerinnlogg") Bruker bruker, BindingResult error) {
        
-        
+       UtilsBean ub = new UtilsBean();
+       if(!ub.sjekkString(pass, 4, 100) || !ub.sjekkString(bruk, 2, 64)){
+           model.addAttribute("error", "Feil brukernavn");
+       
+           return "logginn";
+       }
+       
                 if(pass.length() < 1) return "logginn";
       pass = bruker.md5(pass);
        HttpSession session = request.getSession();
        
-       UtilsBean ub = new UtilsBean();
+       
        
        ArrayList<String> infofradb = ub.getInfoTilBruker(bruk); // brukernavn, passord, fornavn, etternavn, brukertype
        
