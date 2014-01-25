@@ -124,8 +124,8 @@ public class UtilsBean {
         return db.slettBrukerFraEmne(slettBruker);
     }
     
-    public boolean slettBruker(Bruker slettBruker){
-        return db.slettBruker(slettBruker);
+    public boolean slettBruker(String brukernavn){
+        return db.slettBruker(brukernavn);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class UtilsBean {
         return db.oppdaterEmne(emne);
     }
     
-    public boolean slettEmne(Emne emne){
+    public boolean slettEmne(String emne){
         return db.slettEmne(emne);
     }
 
