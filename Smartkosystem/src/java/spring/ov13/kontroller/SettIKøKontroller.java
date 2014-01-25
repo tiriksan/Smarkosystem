@@ -104,7 +104,7 @@ public class SettIKøKontroller {
         
         UtilsBean ub = new UtilsBean();
         
-        if(!ub.sjekkString(bygg, 4, -1) || !ub.sjekkString(etasje, 4, -1) || !ub.sjekkString(rom, 4, -1) || !ub.sjekkString(bord, 4, -1) || !ub.sjekkString(emnekode, 4, 8)){
+        if(!ub.sjekkString(bygg, 4, -1) || !ub.sjekkString(etasje, 4, -1) || !ub.sjekkString(rom, 4, -1) || !ub.sjekkString(emnekode, 4, 8)){
             return "feil";
         }
         
@@ -322,9 +322,16 @@ public class SettIKøKontroller {
         
         
         boolean stop = false;
-       System.out.println(bygget + " " + etasje + " " + rom + " " + bord + " " + brukernavn + " " + ovinger.length); 
+       
        
        UtilsBean ub = new UtilsBean();
+       
+       
+               if(!ub.sjekkString(bygget, 4, -1) || !ub.sjekkString(etasje, 4, -1) || !ub.sjekkString(bord, 4, -1) || !ub.sjekkString(rom, 4, -1) || !ub.sjekkString(emnekode, 4, 8)){
+            return "feil";
+        }
+       
+       
        
        int antallovinger = ub.getAntallOvingerIFag(emnekode);
        if(antallovinger == 0){
