@@ -5,6 +5,6 @@
 --%>
 
 
-<h3>Velkommen til Smartkøsystem 2.0! </h3>
-<h4>Naviger i menyen til venstre. </h4>
+<center><h3>Velkommen til Smartkøsystem 2.0! </h3>
+    <h4>Dette er systemet for godkjenning av øvinger, registrering av fag, og sjekke hvilke arbeidskrav man har for hvert fag.</br></br>Naviger i menyen til venstre. </h4></center>
 
