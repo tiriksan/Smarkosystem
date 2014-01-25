@@ -60,9 +60,7 @@ public class KøKontroller {
             return "logginn";
         } else {
             UtilsBean ub = new UtilsBean();
-            if(!ub.sjekkString(emnekode, 4, 8)){
-                return "feil";
-            }
+ 
             
             if (request.getAttribute("hjelp") != null) {
                 if(ub.getInnleggFraHjelpEmne(bruker.getBrukernavn(), emnekode) == null){

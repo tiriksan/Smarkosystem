@@ -329,7 +329,8 @@ public class SettIKøKontroller {
            return "feil";
        }
        
-               if(!ub.sjekkString(bygget, 4, -1) || !ub.sjekkString(etasje, 4, -1) || !ub.sjekkString(bord, 4, -1) || !ub.sjekkString(rom, 4, -1) || !ub.sjekkString(emnekode, 4, 8) || ub.sjekkString(brukernavn, 4, -1) || ub.sjekkString(emnekode, 4, 8)){
+               if(!ub.sjekkString(bygget, 4, -1) || !ub.sjekkString(etasje, 4, -1) || !ub.sjekkString(bord, 4, -1) || !ub.sjekkString(rom, 4, -1) || !ub.sjekkString(emnekode, 4, 8) || !ub.sjekkString(brukernavn, 4, -1) || !ub.sjekkString(emnekode, 4, 8)){
+                  
             return "feil";
         }
                
