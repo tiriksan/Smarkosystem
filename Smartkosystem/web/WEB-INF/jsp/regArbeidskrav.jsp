@@ -11,10 +11,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+
 <c:if test="${!RegistrertArbeidskrav}">
     <h3>Legg til arbeidskrav:</h3>
     <c:if test="${emne==null}">
         <p id="overEmnedrop">Velg emne</p>
+        
         <form method="POST" id="emnedrop" action="arbeidskravOving.htm">
             <select name="emnet">
                 <c:forEach items="${emner}" var="emnet">
@@ -30,11 +32,12 @@
     <c:if test="${emne != null}">
         <form method="POST" action="arbeidskravVelgAnt.htm">
             Velg øvinger:
-
+            <br>
             <c:forEach items="${øvinger}" var="øving">
-                ${øving.øvingsnr}:<input type="checkbox" name="valgteØvinger" value="${øving.øvingsnr}" <c:if test="${erØvingValgt != null && erØvingValgt[øving.øvingsnr-1]}">checked</c:if>>
+                ${øving.øvingsnr}:<input type="checkbox" name="valgteØvinger" value="${øving.øvingsnr}"<c:if test="${gåVidere}">disabled</c:if> <c:if test="${erØvingValgt != null && erØvingValgt[øving.øvingsnr-1]}">checked</c:if>>
             </c:forEach>
-            <input type="submit" value="<c:if test="${!gåVidere}">Velg øvinger</c:if><c:if test="${gåVidere}">Oppdater øvinger</c:if>">
+                <br>
+            <input type="submit" id="ovingsknapp" value="<c:if test="${!gåVidere}">Velg øvinger</c:if><c:if test="${gåVidere}">Oppdater øvinger</c:if>">
             </form>
         <c:if test="${!gåVidere}">antall øvinger og beskrivelse til arbeidskravet kommer opp etter du har valgt øvinger</c:if>
         <c:if test="${gåVidere}">
@@ -55,5 +58,5 @@
     <form action="leggTilNyttArbeidskrav.htm">
         <input type="submit" value="Legg til nytt arbeidskrav">
     </form>
-    
+
 </c:if>

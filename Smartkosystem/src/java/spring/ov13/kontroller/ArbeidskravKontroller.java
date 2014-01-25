@@ -20,7 +20,7 @@ public class ArbeidskravKontroller {
         UtilsBean ub = new UtilsBean();
         ArrayList<Emne> emner = ub.getFageneTilBruker(bruker.getBrukernavn());
         request.getSession().setAttribute("emner", emner);
-
+        request.getSession().setAttribute("emne", null);
         return "arbeidskrav";
     }
 

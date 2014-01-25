@@ -34,7 +34,7 @@
 
         <c:if test="${brukerinnlogg.brukertype eq 3}">
             <tr><td class="menuvalg"><a href="<c:url value="regov2.htm"/>" ><spring:message code="menyvalg5" /></a></td></tr>
-            <tr><td class="menuvalg"><a href="<c:url value="/adminlaerer.htm"/>"><spring:message code="menyvalg7" /></a></td></tr>
+            <tr><td class="menuvalg"><a href="<c:url value="/arbeidskrav.htm"/>"><spring:message code="menyvalg7" /></a></td></tr>
 
 
         </c:if>
