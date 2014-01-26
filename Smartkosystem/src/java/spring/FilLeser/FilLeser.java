@@ -69,10 +69,10 @@ public class FilLeser {
                 }
                 if (!feil) {
                     if (ub.registrerBrukere(brukere)) {
-                        /*SendEpost se = new SendEpost();
+                        SendEpost se = new SendEpost();
                          for(Bruker b : brukere){
                          se.sendEpost(b.getBrukernavn(), "Passord", b.getPassord());
-                         }*/
+                         }
                     }
                     ub.leggTilBrukereIEmner(emner, brukere);
                 }
