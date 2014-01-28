@@ -142,9 +142,7 @@ public class Kontroller {
     @RequestMapping(value = "/brukerinnsetning.htm")
     public String visBrukerinnsetning(@Validated @ModelAttribute(value = "bruker") Bruker bruker, BindingResult error, Model modell, HttpServletRequest request, @RequestParam(value = "fagene") String[] fagene) {
 
-        if(bruker.getBrukertype() < 3){
-            return "index";
-        }
+        
         String[] values = request.getParameterValues("fagene");
         System.out.println("Her skal det komme opp noe nå " + values[0]);
         ArrayList<Emne> emneliste = new ArrayList<Emne>();
