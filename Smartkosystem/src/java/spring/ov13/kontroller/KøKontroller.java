@@ -204,9 +204,9 @@ public class KøKontroller {
         if(bruker.getBrukernavn() == null || bruker.getBrukernavn().equals("")){
  return "logginn";
 }
-        if(!ub.sjekkString(emne, 4, -1)){
-            return "feil";
-        }
+  //      if(!ub.sjekkString(emne, 4, -1)){
+  //          return "feil";
+  //      }
         Innlegg innlegg = ub.getInnleggFraID((Integer) request.getSession().getAttribute("id"));
         for (Bruker b : innlegg.getBrukere()) {
             ArrayList<Integer> ovnr = new ArrayList();
@@ -230,9 +230,9 @@ public class KøKontroller {
         if(bruker.getBrukertype() < 2){
             return "index";
         }
-                if(!ub.sjekkString(emne, 4, -1)){
-            return "feil";
-        }
+ //               if(!ub.sjekkString(emne, 4, -1)){
+ //           return "feil";
+ //       }
         Enumeration<String> paramNames = request.getParameterNames();
         String brukernavnMedListe = "";
         ArrayList<Integer> liste = new ArrayList();
@@ -269,9 +269,9 @@ public class KøKontroller {
         if(bruker.getBrukertype() < 2){
             return "index";
         }
-                if(!ub.sjekkString(emne, 4, -1)){
-            return "feil";
-        }
+//                if(!ub.sjekkString(emne, 4, -1)){
+//            return "feil";
+//        }
         ub.setKøinnleggHjelpBruker(null, (Integer) request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");
     }
@@ -286,9 +286,9 @@ public class KøKontroller {
         if(bruker.getBrukertype() < 2){
             return "index";
         }
-                if(!ub.sjekkString(emne, 4, -1)){
-            return "feil";
-        }
+//                if(!ub.sjekkString(emne, 4, -1)){
+//            return "feil";
+//        }
         ub.setKøinnleggHjelpBruker(null, (Integer) request.getSession().getAttribute("id"));
         ub.fjernKoInnleggFraID((Integer) request.getSession().getAttribute("id"));
         return "redirect:studentko.htm?x=" + request.getSession().getAttribute("emne");

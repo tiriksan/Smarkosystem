@@ -383,11 +383,11 @@ public class Kontroller {
         String svaret = request.getParameter("submitted");
 
         UtilsBean ub = new UtilsBean();
-        if(emnevalgt != null){
-        if(!ub.sjekkString(emnevalgt, 4, -1) || !ub.sjekkString(submitted, 4, -1)){
-            return "feil";
-        }
-        }
+   //     if(emnevalgt != null){
+   //     if(!ub.sjekkString(emnevalgt, 4, -1) || !ub.sjekkString(submitted, 4, -1)){
+   //         return "feil";
+   //     }
+   //     }
         ArrayList<Emne> em = ub.getAlleFag();
         ArrayList<String> emnetabell = new ArrayList<String>();
 
