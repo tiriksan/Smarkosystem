@@ -44,7 +44,7 @@ public class GlemtEndrePassordKontroller {
             
             String endrePassordMD5 = ub.getEndrePassordMD5(brukernavn);
             //TODO endre dersom man endrer server 
-            epost.sendEpost(bruker.getBrukernavn(), "http://localhost:8080/Smartkosystem/endrepassord.htm?bruker="+endrePassordMD5);
+            epost.sendEpost(bruker.getBrukernavn(), "http://158.38.57.5:8080/Smartkosystem/endrepassord.htm?bruker="+endrePassordMD5);
             modell.addAttribute("sendMelding", "Epost med passordendring er blitt sendt til din epost");
             return "glemtpassord";
         }
@@ -53,9 +53,9 @@ public class GlemtEndrePassordKontroller {
     public String endrePassord(Model model, @RequestParam(value = "bruker", required = false) String getValg, HttpServletResponse response){
         //System.out.println("Endrepassordbruker: " + bruker);
         UtilsBean ub = new UtilsBean();
-        if(!ub.sjekkString(getValg, 2, -1)){
-            return "feil";
-        }
+     //   if(!ub.sjekkString(getValg, 2, -1)){
+     //       return "feil";
+     //   }
         if(ub.getBrukernavnFraGlemtPassord(getValg) == null){
             model.addAttribute("melding", "Denne linken er ikke gyldig. Prøv å trykk på 'glemt passord' igjen på innloggingssiden for å få tilsendt en ny mail.");
         }else {
